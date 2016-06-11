@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Hotels">
+    <xs:complexType>
+      <xs:sequence>
+      	<xs:element type="xs:string" name="TravelRequestID"/>
+  		<xs:element type="xs:string" name="ServiceRequestID"/>
+  		<xs:element type="xs:int" name="OptionsCount"/>
+  		<xs:element type="xs:int" name="Currency"/>
+        <xs:element name="Hotel" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="Supplier"/>
+              <xs:element type="xs:string" name="HotelCode"/>
+              <xs:element type="xs:string" name="HotelName"/>
+              <xs:element type="xs:string" name="HotelZone"/>
+              <xs:element type="xs:string" name="DestinationCode"/>
+              <xs:element type="xs:string" name="DestinationName"/>
+              <xs:element type="xs:string" name="Rating"/>
+              <xs:element type="xs:string" name="ImageUrl"/>
+              <xs:element type="xs:string" name="Description"/>
+              <xs:element type="xs:string" name="Remarks"/>
+              <xs:element name="Rooms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Room" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Rate">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Offers">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="Offer">
+                                        <xs:complexType>
+                                          <xs:simpleContent>
+                                            <xs:extension base="xs:string">
+                                              <xs:attribute type="xs:string" name="offerCode"/>
+                                              <xs:attribute type="xs:float" name="discount"/>
+                                              <xs:attribute type="xs:float" name="commission"/>
+                                              <xs:attribute type="xs:float" name="finalPrice"/>
+                                            </xs:extension>
+                                          </xs:simpleContent>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="exist"/>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="uniqueKey"/>
+                              <xs:attribute type="xs:string" name="class"/>
+                              <xs:attribute type="xs:string" name="type"/>
+                              <xs:attribute type="xs:string" name="availability"/>
+                              <xs:attribute type="xs:string" name="boardName"/>
+                              <xs:attribute type="xs:float" name="net"/>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Cancellation">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:float" name="serviceFee"/>
+                                  <xs:attribute type="xs:float" name="serviceDiscount"/>
+                                  <xs:attribute type="xs:string" name="remarks"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:string" name="code"/>
+                        <xs:attribute type="xs:string" name="name"/>
+                        <xs:attribute type="xs:string" name="supplier"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

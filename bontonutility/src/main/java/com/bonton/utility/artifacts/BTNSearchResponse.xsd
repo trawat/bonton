@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.bonton.com/messages" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:tns="http://www.bonton.com/messages">
+  <xs:element name="BTNSearchResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="xs:string" name="TravelRequestID"/>
+        <xs:element type="xs:string" name="ServiceRequestID"/>
+        <xs:element type="xs:int" name="OptionsCount"/>
+        <xs:element type="xs:int" name="MOptionsCount"/>
+        <xs:element name="City">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="CityCode"/>
+              <xs:element type="xs:string" name="CityName"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="HotelOptions">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Hotel" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="HotelCode"/>
+                    <xs:element type="xs:string" name="HotelName"/>
+                    <xs:element type="xs:string" name="Location"/>
+                    <xs:element type="xs:string" name="Supplier"/>
+                    <xs:element type="xs:string" name="StarRating"/>
+                    <xs:element type="xs:string" name="MainImage"/>
+                    <xs:element type="xs:long" name="ImageCount"/>
+                    <xs:element type="xs:string" name="FullAddress"/>
+                    <xs:element type="xs:string" name="Latitude"/>
+                    <xs:element type="xs:string" name="Longitude"/>
+                    <xs:element type="xs:string" name="Description"/>
+                    <xs:element type="xs:string" name="Remarks"/>
+                    <xs:element type="xs:string" name="EssentialInformation"/>
+                    <xs:element name="Amenities">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="Amenity" minOccurs="0" maxOccurs="unbounded" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="RoomOptions">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Room" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType mixed="true">
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="RoomDescription"/>
+                                <xs:element type="xs:string" name="Supplier"/>
+                                <xs:element name="FinalPrice">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:float">
+                                        <xs:attribute type="xs:float" name="supplierPrice"/>
+                                        <xs:attribute type="xs:float" name="otaFee"/>
+                                        <xs:attribute type="xs:float" name="otaDiscountAmount"/>
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element type="xs:string" name="RateKey"/>
+                                <xs:element type="xs:string" name="packaging"/>
+                                <xs:element name="CancellationPolicies">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:float" name="Amount"/>
+                                      <xs:element type="xs:dateTime" name="From"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element type="xs:string" name="Remarks"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="AmountType">
+  <xs:annotation><xs:documentation>Defined to represent currency</xs:documentation></xs:annotation>
+  <xs:restriction base="xs:decimal">
+    <xs:fractionDigits value="2"/>
+  </xs:restriction>
+</xs:simpleType>
+</xs:schema>
