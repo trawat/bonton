@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.bonton.com/messages" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="BTNRepriceRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Supplier" type="xs:string" />
+				<xs:element name="Rooms">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Room">
+								<xs:complexType>
+									<xs:attribute name="uniqueKey" type="xs:string" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BTNRepriceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Hotel">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Rooms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Room">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Rates">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Rate">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:float" name="NetRate"/>
+                                      <xs:element type="xs:string" name="Packaging"/>
+                                      <xs:element type="xs:string" name="RateType"/>
+                                      <xs:element type="xs:string" name="Category"/>
+                                      <xs:element type="xs:byte" name="RoomCount"/>
+                                      <xs:element type="xs:byte" name="AdultCount"/>
+                                      <xs:element type="xs:byte" name="ChildCount"/>
+                                      <xs:element type="xs:byte" name="ChildrenAges"/>
+                                      <xs:element name="CancellationPolicies">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="CancellationPolicy">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute type="xs:float" name="amount"/>
+                                                    <xs:attribute type="xs:dateTime" name="from"/>
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="uniqueKey"/>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:string" name="code"/>
+                        <xs:attribute type="xs:string" name="name"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="CreditCards">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="CreditCard" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="code" use="optional"/>
+                            <xs:attribute type="xs:string" name="name" use="optional"/>
+                            <xs:attribute type="xs:string" name="paymentType" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:date" name="checkIn"/>
+            <xs:attribute type="xs:date" name="checkOut"/>
+            <xs:attribute type="xs:short" name="code"/>
+            <xs:attribute type="xs:string" name="name"/>
+            <xs:attribute type="xs:string" name="categoryCode"/>
+            <xs:attribute type="xs:string" name="categoryName"/>
+            <xs:attribute type="xs:string" name="destinationCode"/>
+            <xs:attribute type="xs:string" name="destinationName"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:string" name="Supplier"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

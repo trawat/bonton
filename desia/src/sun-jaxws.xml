@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints
+    xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+    version="2.0">
+
+    <endpoint
+        name="TGServiceEndPointImplService"
+        interface="com.travelguru.services.endpoints.TGServiceEndPoint"
+        implementation="com.travelguru.services.endpoints.TGServiceEndPointImplService"
+        wsdl="http://stage-api.travelguru.com/services-2.0/tg-services/TGServiceEndPoint?wsdl"    
+        service="{http://tempuri.org/}PingService"
+        port="{http://tempuri.org/}CustomBinding_IPingService"
+        binding="http://www.w3.org/2003/05/soap/bindings/HTTP/" 
+        url-pattern="/simple" />
+</endpoints>

@@ -1,0 +1,4748 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Header />
+	<soap:Body>
+		<OTA_HotelAvailRS xmlns="http://www.opentravel.org/OTA/2003/05"
+			AltLangID="en" PrimaryLangID="en">
+			<Success />
+			<RoomStays>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="4 BHK"
+							RoomTypeCode="0000115818">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="8" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="8" maxChild="0" maxChildAge="12"
+									maxGuest="8" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000430458"
+							RatePlanName="4 BHK" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000430458" RoomID="0000115818">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="9558.0">
+										<Taxes Amount="2208.0">
+											<Tax Amount="2208.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000430458" RoomTypeCode="0000115818"
+											Type="SELL">
+											<Base AmountBeforeTax="12000.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00044510" />
+					<TPA_Extensions LowestRatePlanId="0000430458"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="21">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/staymatrix-service-apartment-defence-colony-315-00044510?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Single Room "
+							RoomTypeCode="0000115825">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="0" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000430476"
+							RatePlanName="Single Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000430476" RoomID="0000115825">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3191.0">
+										<Taxes Amount="828.0">
+											<Tax Amount="828.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="394.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000430476" RoomTypeCode="0000115825"
+											Type="SELL">
+											<Base AmountBeforeTax="4000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="375.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00044514" />
+					<TPA_Extensions LowestRatePlanId="0000430476"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="26">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/staymatrix-service-apartment-defence-colony-316-00044514?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="3 BHK "
+							RoomTypeCode="0000115833">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="6" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="6" maxChild="0" maxChildAge="12"
+									maxGuest="6" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000430493"
+							RatePlanName="3 BHK" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000430493" RoomID="0000115833">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="7169.0">
+										<Taxes Amount="1656.0">
+											<Tax Amount="1656.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000430493" RoomTypeCode="0000115833"
+											Type="SELL">
+											<Base AmountBeforeTax="9000.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00044519" />
+					<TPA_Extensions LowestRatePlanId="0000430493"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="30">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/staymatrix-service-apartment-saket-317-00044519?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Deluxe Single"
+							RoomTypeCode="0000023379">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Single Room Only "
+							RoomTypeCode="0000109572">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Double"
+							RoomTypeCode="0000031653">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Double Room Only"
+							RoomTypeCode="0000109573">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="5" RatePlanCode="0000123211"
+							RatePlanName="Deluxe Double Room With Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="5" RatePlanCode="0000415560"
+							RatePlanName="Deluxe Double Room Only" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000123211" RoomID="0000031653">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1487.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000123211" RoomTypeCode="0000031653"
+											Type="SELL">
+											<Base AmountBeforeTax="1867.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000415560" RoomID="0000109573">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1386.0">
+										<Taxes Amount="0" />
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="368.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000415560" RoomTypeCode="0000109573"
+											Type="SELL">
+											<Base AmountBeforeTax="1734.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="350.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00006258" />
+					<TPA_Extensions LowestRatePlanId="0000415560"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="57">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/vanson-villa-00006258?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Single Room"
+							RoomTypeCode="0000115991">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="0" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="3 BHK"
+							RoomTypeCode="0000115992">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="6" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="6" maxChild="1" maxChildAge="12"
+									maxGuest="6" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000430930"
+							RatePlanName="Single Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000430934"
+							RatePlanName="3 BHK" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000430930" RoomID="0000115991">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="2791.0">
+										<Taxes Amount="699.0">
+											<Tax Amount="699.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="236.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000430930" RoomTypeCode="0000115991"
+											Type="SELL">
+											<Base AmountBeforeTax="3500.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="225.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000430934" RoomID="0000115992">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="9558.0">
+										<Taxes Amount="2208.0">
+											<Tax Amount="2208.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000430934" RoomTypeCode="0000115992"
+											Type="SELL">
+											<Base AmountBeforeTax="12000.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00044588" />
+					<TPA_Extensions LowestRatePlanId="0000430930"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="145">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/staymatrix-service-apartment-connnaught-place-318-00044588?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room with Breakfast"
+							RoomTypeCode="0000067382">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Executive Room with Breakfast"
+							RoomTypeCode="0000067383">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Semi Deluxe Room with Breakfast"
+							RoomTypeCode="0000067384">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Executive Gold Room with Breakfast"
+							RoomTypeCode="0000067385">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Executive Room Only"
+							RoomTypeCode="0000035986">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Executive Gold Only"
+							RoomTypeCode="0000065472">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room Only"
+							RoomTypeCode="0000035985">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Semi Deluxe Room Only"
+							RoomTypeCode="0000040163">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="4" RatePlanCode="0000275207"
+							RatePlanName="Deluxe Room with Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="4" RatePlanCode="0000275208"
+							RatePlanName="Executive Room with Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="4" RatePlanCode="0000275209"
+							RatePlanName="Semi Deluxe Room with Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="4" RatePlanCode="0000275210"
+							RatePlanName="Executive Gold Room with Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000140162"
+							RatePlanName="Executive Room Only" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000260602"
+							RatePlanName="Executive Gold Room Only" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000140161"
+							RatePlanName="Deluxe Room Only" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000162625"
+							RatePlanName="Semi Deluxe Room Only" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000275207" RoomID="0000067382">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1450.0">
+										<Taxes Amount="351.0">
+											<Tax Amount="351.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000275207" RoomTypeCode="0000067382"
+											Type="SELL">
+											<Base AmountBeforeTax="1820.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000275208" RoomID="0000067383">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1633.0">
+										<Taxes Amount="421.0">
+											<Tax Amount="421.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000275208" RoomTypeCode="0000067383"
+											Type="SELL">
+											<Base AmountBeforeTax="2050.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000275209" RoomID="0000067384">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1312.0">
+										<Taxes Amount="281.0">
+											<Tax Amount="281.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000275209" RoomTypeCode="0000067384"
+											Type="SELL">
+											<Base AmountBeforeTax="1647.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000275210" RoomID="0000067385">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1979.0">
+										<Taxes Amount="491.0">
+											<Tax Amount="491.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000275210" RoomTypeCode="0000067385"
+											Type="SELL">
+											<Base AmountBeforeTax="2484.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000140162" RoomID="0000035986">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1434.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000140162" RoomTypeCode="0000035986"
+											Type="SELL">
+											<Base AmountBeforeTax="1800.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000260602" RoomID="0000065472">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1673.0">
+										<Taxes Amount="491.0">
+											<Tax Amount="491.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000260602" RoomTypeCode="0000065472"
+											Type="SELL">
+											<Base AmountBeforeTax="2100.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000140161" RoomID="0000035985">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1195.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000140161" RoomTypeCode="0000035985"
+											Type="SELL">
+											<Base AmountBeforeTax="1500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000162625" RoomID="0000040163">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="956.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000162625" RoomTypeCode="0000040163"
+											Type="SELL">
+											<Base AmountBeforeTax="1200.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00009357" />
+					<TPA_Extensions LowestRatePlanId="0000162625"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="168">
+							<Reviews ReviewCount="3" ReviewRating="4.7" />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/hotel-hari-piorko-00009357?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Business Room"
+							RoomTypeCode="0000008940">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="12" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="12" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Executive Suite"
+							RoomTypeCode="0000008941">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="12" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="12" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="30" RatePlanCode="0000410582"
+							RatePlanName="Business Room With One Major Meal" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Lunch or Dinner, Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="30" RatePlanCode="0000370356"
+							RatePlanName="Business Room With Breakfast and One Major Meal"
+							RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Lunch or Dinner, Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="30" RatePlanCode="0000188038"
+							RatePlanName="Business Room - Room Only" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="30" RatePlanCode="0000212964"
+							RatePlanName="Business Room - With Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000188039"
+							RatePlanName="Executive Suite" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000370359"
+							RatePlanName="Executive Suite With Breakfast and One Major Meal"
+							RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Lunch or Dinner, Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000212965"
+							RatePlanName="Executive Suite - With Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000410582" RoomID="0000008940">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3816.0">
+										<Taxes Amount="0" />
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="945.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<Discount AmountBeforeTax="1.0" AppliesTo="Base">
+										<DiscountReason />
+									</Discount>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000410582" RoomTypeCode="0000008940"
+											Type="SELL">
+											<Base AmountBeforeTax="4776.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="900.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000370356" RoomID="0000008940">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3812.0">
+										<Taxes Amount="0" />
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="669.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000370356" RoomTypeCode="0000008940"
+											Type="SELL">
+											<Base AmountBeforeTax="4776.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="638.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000188038" RoomID="0000008940">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3501.0">
+										<Taxes Amount="0" />
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="525.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000188038" RoomTypeCode="0000008940"
+											Type="SELL">
+											<Base AmountBeforeTax="4387.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="500.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000212964" RoomID="0000008940">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3633.0">
+										<Taxes Amount="0" />
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="512.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000212964" RoomTypeCode="0000008940"
+											Type="SELL">
+											<Base AmountBeforeTax="4554.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="488.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000188039" RoomID="0000008941">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5242.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000188039" RoomTypeCode="0000008941"
+											Type="SELL">
+											<Base AmountBeforeTax="6581.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000370359" RoomID="0000008941">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5556.0">
+										<Taxes Amount="0" />
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="368.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000370359" RoomTypeCode="0000008941"
+											Type="SELL">
+											<Base AmountBeforeTax="6970.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="350.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000212965" RoomID="0000008941">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5377.0">
+										<Taxes Amount="0" />
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="158.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000212965" RoomTypeCode="0000008941"
+											Type="SELL">
+											<Base AmountBeforeTax="6748.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="150.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00002743" />
+					<TPA_Extensions LowestRatePlanId="0000188038"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="195">
+							<Reviews ReviewCount="29" ReviewRating="4.2" />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/lemon-tree-hotel-east-delhi-mall-kaushambi-00002743?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Standard Non A/C Triple"
+							RoomTypeCode="0000039559">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="8" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="0" maxChildAge="12"
+									maxGuest="3" minChildAge="8" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="3" RatePlanCode="0000159163"
+							RatePlanName="Standard Non A/C Triple" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000159163" RoomID="0000039559">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="757.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="3" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000159163" RoomTypeCode="0000039559"
+											Type="SELL">
+											<Base AmountBeforeTax="950.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="3" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00010365" />
+					<TPA_Extensions LowestRatePlanId="0000159163"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="200">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/hotel-neha-inn-00010365?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Romantic Weekend Getaway"
+							RoomTypeCode="0000106486">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="0" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false"
+							RoomType="King Room on Room Only Best Available Rate"
+							RoomTypeCode="0000140238">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="11" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="0" maxChildAge="12"
+									maxGuest="2" minChildAge="11" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false"
+							RoomType="King Room Double Inclusive of Breakfast" RoomTypeCode="0000140239">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="11" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="0" maxChildAge="12"
+									maxGuest="2" minChildAge="11" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Family Holiday Saver Single"
+							RoomTypeCode="0000140236">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="11" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="11" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Suite Saver"
+							RoomTypeCode="0000140237">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="11" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="0" maxChildAge="12"
+									maxGuest="2" minChildAge="11" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false"
+							RoomType="King Room Single Inclusive of Breakfast" RoomTypeCode="0000140235">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="11" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="11" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Family Holiday Saver Double"
+							RoomTypeCode="0000140242">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="11" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="0" maxChildAge="12"
+									maxGuest="2" minChildAge="11" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="15" RatePlanCode="0000487757"
+							RatePlanName="King Room on Room Only Best Available Rate"
+							RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="15" RatePlanCode="0000487758"
+							RatePlanName="King Room on Room Only Advance Package"
+							RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="15" RatePlanCode="0000487763"
+							RatePlanName="King Room Double Inclusive of Breakfast"
+							RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="15" RatePlanCode="0000487767"
+							RatePlanName="Family Holiday Saver Double" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text>Buffet Dinner., </Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000487757" RoomID="0000140238">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5867.0">
+										<Taxes Amount="650.0">
+											<Tax Amount="650.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000487757" RoomTypeCode="0000140238"
+											Type="SELL">
+											<Base AmountBeforeTax="6500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000487758" RoomID="0000140238">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5867.0">
+										<Taxes Amount="650.0">
+											<Tax Amount="650.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000487758" RoomTypeCode="0000140238"
+											Type="SELL">
+											<Base AmountBeforeTax="6500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000487763" RoomID="0000140239">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="6770.0">
+										<Taxes Amount="750.0">
+											<Tax Amount="750.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000487763" RoomTypeCode="0000140239"
+											Type="SELL">
+											<Base AmountBeforeTax="7500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000487767" RoomID="0000140242">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="7673.0">
+										<Taxes Amount="850.0">
+											<Tax Amount="850.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000487767" RoomTypeCode="0000140242"
+											Type="SELL">
+											<Base AmountBeforeTax="8500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00010375" />
+					<TPA_Extensions LowestRatePlanId="0000487757"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="211">
+							<Reviews ReviewCount="2" ReviewRating="4.5" />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/gurgaon/hyatt-regency-gurgaon-00010375?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Super Deluxe Room"
+							RoomTypeCode="0000030902">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room"
+							RoomTypeCode="0000030901">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000184949"
+							RatePlanName="Super Deluxe Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000144559"
+							RatePlanName="Deluxe Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000184949" RoomID="0000030902">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1991.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="1"
+											Bookable="true" RatePlanCode="0000184949" RoomTypeCode="0000030902"
+											Type="SELL">
+											<Base AmountBeforeTax="2500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="1" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000144559" RoomID="0000030901">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1954.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="1"
+											Bookable="true" RatePlanCode="0000144559" RoomTypeCode="0000030901"
+											Type="SELL">
+											<Base AmountBeforeTax="2300.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="1" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00008084" />
+					<TPA_Extensions LowestRatePlanId="0000144559"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="223">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/hotel-paradise-inn-00008084?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Single Deluxe Room"
+							RoomTypeCode="0000082929">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000329590"
+							RatePlanName="Single Deluxe Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests />
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000329590" RoomID="0000082929">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3398.0">
+										<Taxes Amount="697.0">
+											<Tax Amount="697.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000329590" RoomTypeCode="0000082929"
+											Type="SELL">
+											<Base AmountBeforeTax="4000.0" />
+											<AdditionalGuestAmounts />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00027964" />
+					<TPA_Extensions LowestRatePlanId="0000329590"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="233">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/gurgaon/park-deluxe-hotel-00027964?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room"
+							RoomTypeCode="0000079544">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="8" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="8" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000312105"
+							RatePlanName="Deluxe Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Complimentary Wi-Fi Internet, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000448354"
+							RatePlanName="Deluxe Room Smart Gain Rates" RatePlanType="10">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Complimentary Wi-Fi Internet, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000312105" RoomID="0000079544">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1274.0">
+										<Taxes Amount="261.0">
+											<Tax Amount="261.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000312105" RoomTypeCode="0000079544"
+											Type="SELL">
+											<Base AmountBeforeTax="1500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000448354" RoomID="0000079544">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1211.0">
+										<Taxes Amount="248.0">
+											<Tax Amount="248.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000448354" RoomTypeCode="0000079544"
+											Type="SELL">
+											<Base AmountBeforeTax="1425.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00026627" />
+					<TPA_Extensions LowestRatePlanId="0000448354"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="244">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/satwah-29-guest-house-00026627?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room Single"
+							RoomTypeCode="0000083057">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room Double"
+							RoomTypeCode="0000083058">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000330237"
+							RatePlanName="Deluxe Room Double" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000330237" RoomID="0000083058">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5841.0">
+										<Taxes Amount="1266.0">
+											<Tax Amount="1266.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000330237" RoomTypeCode="0000083058"
+											Type="SELL">
+											<Base AmountBeforeTax="6875.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00027992" />
+					<TPA_Extensions LowestRatePlanId="0000330237"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="269">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/gurgaon/dlf-city-club-phase-iv-00027992?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Superior Double Room"
+							RoomTypeCode="0000083064">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Superior Single Room"
+							RoomTypeCode="0000083062">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000330243"
+							RatePlanName="Superior Double Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000330243" RoomID="0000083064">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5310.0">
+										<Taxes Amount="1151.0">
+											<Tax Amount="1151.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000330243" RoomTypeCode="0000083064"
+											Type="SELL">
+											<Base AmountBeforeTax="6250.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00027995" />
+					<TPA_Extensions LowestRatePlanId="0000330243"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="304">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/gurgaon/dlf-city-club-phase-iii-00027995?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Hyatt Guest Room King"
+							RoomTypeCode="0000082408">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Hyatt View Room"
+							RoomTypeCode="0000082409">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Hyatt Guest Room Twin"
+							RoomTypeCode="0000082407">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false"
+							RoomType="Hyatt Guest Room King/Twin with Breakfast on Double"
+							RoomTypeCode="0000105995">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Hyatt Club Room King"
+							RoomTypeCode="0000082411">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false"
+							RoomType="Hyatt View King Room with Breakfast on Double"
+							RoomTypeCode="0000105996">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Regency Suite King"
+							RoomTypeCode="0000082412">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false"
+							RoomType="Hyatt Guest Room King/Twin with Breakfast on Single"
+							RoomTypeCode="0000105964">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false"
+							RoomType="Hyatt View King Room with Breakfast on Single"
+							RoomTypeCode="0000105965">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Hyatt Club Room Twin"
+							RoomTypeCode="0000082410">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Regency Executive Suite"
+							RoomTypeCode="0000082413">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="1" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000319537"
+							RatePlanName="Hyatt Guest Room King" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000319552"
+							RatePlanName="Hyatt Guest Room King" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000319538"
+							RatePlanName="Hyatt View Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000319536"
+							RatePlanName="Hyatt Guest Room Twin" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000319561"
+							RatePlanName="Hyatt Guest Room Twin" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000402793"
+							RatePlanName="Hyatt Guest Room King/Twin with Breakfast on Double"
+							RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000319539"
+							RatePlanName="Hyatt Club Room King" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000402794"
+							RatePlanName="Hyatt View King Room with Breakfast on Double"
+							RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000319541"
+							RatePlanName="Regency Suite King" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000319540"
+							RatePlanName="Hyatt Club Room Twin" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000319542"
+							RatePlanName="Regency Executive Suite" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000319537" RoomID="0000082408">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="8575.0">
+										<Taxes Amount="3081.0">
+											<Tax Amount="3081.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000319537" RoomTypeCode="0000082408"
+											Type="SELL">
+											<Base AmountBeforeTax="9500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000319552" RoomID="0000082408">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="8575.0">
+										<Taxes Amount="3081.0">
+											<Tax Amount="3081.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000319552" RoomTypeCode="0000082408"
+											Type="SELL">
+											<Base AmountBeforeTax="9500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000319538" RoomID="0000082409">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="9478.0">
+										<Taxes Amount="3455.0">
+											<Tax Amount="3455.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000319538" RoomTypeCode="0000082409"
+											Type="SELL">
+											<Base AmountBeforeTax="10500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000319536" RoomID="0000082407">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="8575.0">
+										<Taxes Amount="3081.0">
+											<Tax Amount="3081.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000319536" RoomTypeCode="0000082407"
+											Type="SELL">
+											<Base AmountBeforeTax="9500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000319561" RoomID="0000082407">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="8575.0">
+										<Taxes Amount="3081.0">
+											<Tax Amount="3081.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000319561" RoomTypeCode="0000082407"
+											Type="SELL">
+											<Base AmountBeforeTax="9500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000402793" RoomID="0000105995">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="10155.0">
+										<Taxes Amount="3401.0">
+											<Tax Amount="3401.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000402793" RoomTypeCode="0000105995"
+											Type="SELL">
+											<Base AmountBeforeTax="11250.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000319539" RoomID="0000082411">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="12186.0">
+										<Taxes Amount="4292.0">
+											<Tax Amount="4292.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000319539" RoomTypeCode="0000082411"
+											Type="SELL">
+											<Base AmountBeforeTax="13500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000402794" RoomID="0000105996">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="11058.0">
+										<Taxes Amount="3680.0">
+											<Tax Amount="3680.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000402794" RoomTypeCode="0000105996"
+											Type="SELL">
+											<Base AmountBeforeTax="12250.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000319541" RoomID="0000082412">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="18054.0">
+										<Taxes Amount="6105.0">
+											<Tax Amount="6105.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000319541" RoomTypeCode="0000082412"
+											Type="SELL">
+											<Base AmountBeforeTax="20000.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000319540" RoomID="0000082410">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="12186.0">
+										<Taxes Amount="4292.0">
+											<Tax Amount="4292.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000319540" RoomTypeCode="0000082410"
+											Type="SELL">
+											<Base AmountBeforeTax="13500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000319542" RoomID="0000082413">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="20310.0">
+										<Taxes Amount="6803.0">
+											<Tax Amount="6803.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000319542" RoomTypeCode="0000082413"
+											Type="SELL">
+											<Base AmountBeforeTax="22500.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00005762" />
+					<TPA_Extensions LowestRatePlanId="0000319537"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="315">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/hyatt-regency-delhi-00005762?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room Double"
+							RoomTypeCode="0000121166">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="0" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="4" RatePlanCode="0000443814"
+							RatePlanName="Deluxe Room Double" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="4" RatePlanCode="0000443850"
+							RatePlanName="Deluxe Room Double Smart Gain Rates" RatePlanType="10">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000443814" RoomID="0000121166">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1698.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000443814" RoomTypeCode="0000121166"
+											Type="SELL">
+											<Base AmountBeforeTax="1999.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000443850" RoomID="0000121166">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1529.0">
+										<Taxes Amount="0" />
+									</Base>
+									<Discount AmountBeforeTax="1.0" AppliesTo="Base">
+										<DiscountReason />
+									</Discount>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000443850" RoomTypeCode="0000121166"
+											Type="SELL">
+											<Base AmountBeforeTax="1799.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00042702" />
+					<TPA_Extensions LowestRatePlanId="0000443850"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="364">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/fabhotel-new-delhi-station-00042702?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Suite Room"
+							RoomTypeCode="0000070069">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="4" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Luxury Room"
+							RoomTypeCode="0000070068">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="4" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room"
+							RoomTypeCode="0000070067">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="4" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000288758"
+							RatePlanName="Suite Room - Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text>Welcome drink, Complimentary fruit basket (Seasonal
+										fruits only),
+									</Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000330655"
+							RatePlanName="Suite Room - B/F &amp; Dinner" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Complimentary Wi-Fi Internet, Breakfast and Dinner,
+									</Text>
+									<Text>Welcome drink, Complimentary fruit basket (Seasonal
+										fruits only),
+									</Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000467750"
+							RatePlanName="Suite Room - Breakfast Smart Gain Rate"
+							RatePlanType="10">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text>Welcome drink, Complimentary fruit basket (Seasonal
+										fruits only),
+									</Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000467751"
+							RatePlanName="Suite Room - B/F &amp; Dinner Smart Gain Rate"
+							RatePlanType="10">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Complimentary Wi-Fi Internet, Breakfast and Dinner,
+									</Text>
+									<Text>Welcome drink, Complimentary fruit basket (Seasonal
+										fruits only),
+									</Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000288757"
+							RatePlanName="Luxury Room - Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text>Welcome drink, Complimentary fruit basket (Seasonal
+										fruits only),
+									</Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000330653"
+							RatePlanName="Luxury Room - B/F &amp; Dinner" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Complimentary Wi-Fi Internet, Breakfast and Dinner,
+									</Text>
+									<Text>Welcome drink, Complimentary fruit basket (Seasonal
+										fruits only),
+									</Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000467747"
+							RatePlanName="Luxury Room - Breakfast Smart Gain rate"
+							RatePlanType="10">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text>Welcome drink, Complimentary fruit basket (Seasonal
+										fruits only),
+									</Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000467749"
+							RatePlanName="Luxury Room - B/F &amp; Dinner Smart Gain Rate"
+							RatePlanType="10">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Complimentary Wi-Fi Internet, Breakfast and Dinner,
+									</Text>
+									<Text>Welcome drink, Complimentary fruit basket (Seasonal
+										fruits only),
+									</Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000288756"
+							RatePlanName="Deluxe Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Complimentary Wi-Fi Internet, </Text>
+									<Text>Welcome drink, Complimentary Mineral Water, </Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000330650"
+							RatePlanName="Deluxe Room - Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text>Welcome drink, Complimentary Mineral Water, </Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000467741"
+							RatePlanName="Deluxe Room Smart Gain Rate" RatePlanType="10">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Complimentary Wi-Fi Internet, </Text>
+									<Text>Welcome drink, Complimentary Mineral Water, </Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="1" RatePlanCode="0000467744"
+							RatePlanName="Deluxe Room - Breakfast Smart Gain Rate"
+							RatePlanType="10">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text>Welcome drink, Complimentary Mineral Water, </Text>
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000288758" RoomID="0000070069">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="6324.0">
+										<Taxes Amount="1097.0">
+											<Tax Amount="1097.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="446.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000288758" RoomTypeCode="0000070069"
+											Type="SELL">
+											<Base AmountBeforeTax="7000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="425.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000330655" RoomID="0000070069">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="7232.0">
+										<Taxes Amount="1097.0">
+											<Tax Amount="1097.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="892.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000330655" RoomTypeCode="0000070069"
+											Type="SELL">
+											<Base AmountBeforeTax="8000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="850.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000467750" RoomID="0000070069">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5952.0">
+										<Taxes Amount="1097.0">
+											<Tax Amount="1097.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="420.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000467750" RoomTypeCode="0000070069"
+											Type="SELL">
+											<Base AmountBeforeTax="7000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="400.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000467751" RoomID="0000070069">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="6807.0">
+										<Taxes Amount="1097.0">
+											<Tax Amount="1097.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="840.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000467751" RoomTypeCode="0000070069"
+											Type="SELL">
+											<Base AmountBeforeTax="8000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="800.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000288757" RoomID="0000070068">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="4970.0">
+										<Taxes Amount="823.0">
+											<Tax Amount="823.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="446.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000288757" RoomTypeCode="0000070068"
+											Type="SELL">
+											<Base AmountBeforeTax="5500.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="425.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000330653" RoomID="0000070068">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5427.0">
+										<Taxes Amount="823.0">
+											<Tax Amount="823.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="892.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000330653" RoomTypeCode="0000070068"
+											Type="SELL">
+											<Base AmountBeforeTax="6000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="850.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000467747" RoomID="0000070068">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="4678.0">
+										<Taxes Amount="823.0">
+											<Tax Amount="823.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="420.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000467747" RoomTypeCode="0000070068"
+											Type="SELL">
+											<Base AmountBeforeTax="5500.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="400.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000467749" RoomID="0000070068">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="5108.0">
+										<Taxes Amount="823.0">
+											<Tax Amount="823.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="840.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000467749" RoomTypeCode="0000070068"
+											Type="SELL">
+											<Base AmountBeforeTax="6000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="800.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000288756" RoomID="0000070067">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3617.0">
+										<Taxes Amount="617.0">
+											<Tax Amount="617.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="525.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000288756" RoomTypeCode="0000070067"
+											Type="SELL">
+											<Base AmountBeforeTax="4000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="500.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000330650" RoomID="0000070067">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="4067.0">
+										<Taxes Amount="617.0">
+											<Tax Amount="617.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="446.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000330650" RoomTypeCode="0000070067"
+											Type="SELL">
+											<Base AmountBeforeTax="4500.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="425.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000467741" RoomID="0000070067">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3405.0">
+										<Taxes Amount="617.0">
+											<Tax Amount="617.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="525.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000467741" RoomTypeCode="0000070067"
+											Type="SELL">
+											<Base AmountBeforeTax="4000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="500.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000467744" RoomID="0000070067">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3828.0">
+										<Taxes Amount="617.0">
+											<Tax Amount="617.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="420.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000467744" RoomTypeCode="0000070067"
+											Type="SELL">
+											<Base AmountBeforeTax="4500.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="400.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00021814" />
+					<TPA_Extensions LowestRatePlanId="0000288756"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="417">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/gurgaon/tavisha-villa-00021814?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Classic Suite Room "
+							RoomTypeCode="0000027617">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Executive Room "
+							RoomTypeCode="0000010611">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room"
+							RoomTypeCode="0000010609">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000103498"
+							RatePlanName="Classic Suite Room With Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000073830"
+							RatePlanName="Executive Room With Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000073829"
+							RatePlanName="Deluxe Room With Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="10" RatePlanCode="0000483281"
+							RatePlanName="Deluxe Room Non Refundable Rates" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000103498" RoomID="0000027617">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="2787.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000103498" RoomTypeCode="0000027617"
+											Type="SELL">
+											<Base AmountBeforeTax="3499.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000073830" RoomID="0000010611">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1991.0">
+										<Taxes Amount="0" />
+									</Base>
+									<Discount AmountBeforeTax="1.0" AppliesTo="Base">
+										<DiscountReason />
+									</Discount>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000073830" RoomTypeCode="0000010611"
+											Type="SELL">
+											<Base AmountBeforeTax="2499.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000073829" RoomID="0000010609">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1752.0">
+										<Taxes Amount="0" />
+									</Base>
+									<Discount AmountBeforeTax="1.0" AppliesTo="Base">
+										<DiscountReason />
+									</Discount>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000073829" RoomTypeCode="0000010609"
+											Type="SELL">
+											<Base AmountBeforeTax="2199.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000483281" RoomID="0000010609">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1576.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000483281" RoomTypeCode="0000010609"
+											Type="SELL">
+											<Base AmountBeforeTax="1979.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00003171" />
+					<TPA_Extensions LowestRatePlanId="0000483281"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="419">
+							<Reviews ReviewCount="41" ReviewRating="3.4" />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/hotel-waves-00003171?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Superior Room"
+							RoomTypeCode="0000067799">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="11" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="3" minChildAge="11" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room"
+							RoomTypeCode="0000067800">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="1" MinAge="11" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="1" maxChildAge="12"
+									maxGuest="3" minChildAge="11" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="5" RatePlanCode="0000278697"
+							RatePlanName="Superior Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="5" RatePlanCode="0000278698"
+							RatePlanName="Deluxe Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, Complimentary Wi-Fi Internet, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="1" children="0"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000278697" RoomID="0000067799">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="8506.0">
+										<Taxes Amount="2024.0">
+											<Tax Amount="2024.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="840.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000278697" RoomTypeCode="0000067799"
+											Type="SELL">
+											<Base AmountBeforeTax="10000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="800.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000278698" RoomID="0000067800">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="10205.0">
+										<Taxes Amount="2392.0">
+											<Tax Amount="2392.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="10" RPH="1">
+											<Amount AmountBeforeTax="840.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000278698" RoomTypeCode="0000067800"
+											Type="SELL">
+											<Base AmountBeforeTax="12000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="10" RPH="1">
+													<Amount AmountBeforeTax="800.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00020510" />
+					<TPA_Extensions LowestRatePlanId="0000278697"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="427">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/gurgaon/country-inn-suites-by-carlson-gurgaon-sohna-road-00020510?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Deluxe Room"
+							RoomTypeCode="0000080687">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="10" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="10" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000313878"
+							RatePlanName="Deluxe Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000313878" RoomID="0000080687">
+							<Rates>
+								<Rate EffectiveDate="2016-09-29T00:00:00.000+05:30">
+									<Base AmountBeforeTax="2549.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000313878" RoomTypeCode="0000080687"
+											Type="SELL">
+											<Base AmountBeforeTax="3000.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00027141" />
+					<TPA_Extensions LowestRatePlanId="0000313878"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="462">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/south-delhi-metro-bed-and-breakfast-00027141?checkInDate=29-09-2016&amp;checkOutDate=30-09-2016&amp;numRooms=1&amp;rooms[0].adult=2&amp;rooms[0].children=0&amp;rooms[0].child[0].age=0&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+			</RoomStays>
+			<TPA_Extensions>
+				<HotelsInfo available="251" deals="0" maxPrice="62500.0"
+					minPrice="530.0" total="0" />
+			</TPA_Extensions>
+		</OTA_HotelAvailRS>
+	</soap:Body>
+</soap:Envelope>

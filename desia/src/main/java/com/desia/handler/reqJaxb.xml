@@ -1,0 +1,23 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<S:Body>
+		<OTA_HotelAvailRQ xmlns="http://www.opentravel.org/OTA/2003/05">
+			<AvailRequestSegments>
+				<AvailRequestSegment>
+					<HotelSearchCriteria>
+						<Criterion>
+							<Address>
+								<CityName>DEL</CityName>
+								<CountryName Code="India" />
+							</Address>
+							<StayDateRange End="11 Jun 2016" Start="2016-06-30" />
+							<TPA_Extensions>
+								<UserAuthentication password="test@567"
+									propertyId="1300001210" username="bontonnet" />
+							</TPA_Extensions>
+						</Criterion>
+					</HotelSearchCriteria>
+				</AvailRequestSegment>
+			</AvailRequestSegments>
+		</OTA_HotelAvailRQ>
+	</S:Body>
+</S:Envelope>

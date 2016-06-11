@@ -1,0 +1,34 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<S:Body>
+		<OTA_HotelAvailRQ xmlns="http://www.opentravel.org/OTA/2003/05"
+			PrimaryLangID="en" RequestedCurrency="INR" SearchCacheLevel="VeryRecent"
+			SortOrder="TG_RANKING" Version="0">
+			<AvailRequestSegments>
+				<AvailRequestSegment>
+					<HotelSearchCriteria>
+						<Criterion>
+							<Address>
+								<CityName>Bangalore</CityName>
+								<CountryName Code="India" />
+							</Address>
+							<StayDateRange End="2016-09-30" Start="2016-09-29" />
+							<RoomStayCandidates>
+								<RoomStayCandidate>
+									<GuestCounts>
+										<GuestCount AgeQualifyingCode="10" />
+										<GuestCount Age="10" AgeQualifyingCode="8" />
+									</GuestCounts>
+								</RoomStayCandidate>
+							</RoomStayCandidates>
+							<TPA_Extensions>
+								<Pagination enabled="true" hotelsFrom="2" hotelsTo="5" />
+								<UserAuthentication password="test@567"
+									propertyId="1300001210" username="bontonnet" />
+							</TPA_Extensions>
+						</Criterion>
+					</HotelSearchCriteria>
+				</AvailRequestSegment>
+			</AvailRequestSegments>
+		</OTA_HotelAvailRQ>
+	</S:Body>
+</S:Envelope>

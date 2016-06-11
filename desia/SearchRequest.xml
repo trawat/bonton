@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<BTNSearchRequest>
+  <Source>
+    <RequestorID Client="1819" EMailAddress="XML.TRIYASOFT@BONTONTOURS.COM" Password="PASS"/>
+    <RequestorPreferences>
+      <RequestMode>SYNCHRONOUS</RequestMode>
+    </RequestorPreferences>
+  </Source>
+  <RequestDetails>
+    <SearchHotelPriceRequest>
+      <ItemDestination destinationCode="DEL" destinationType="city"/>
+      <MinStarRating>1</MinStarRating>
+      <MaxStarRating>5</MaxStarRating>
+      <ImmediateConfirmationOnly/>
+      <PeriodOfStay>
+        <CheckOutDate>2016-09-30</CheckOutDate>
+        <CheckInDate>2016-09-29</CheckInDate>
+        <Duration>1</Duration>
+      </PeriodOfStay>
+      <IncludeRecommended/>
+      <IncludePriceBreakdown/>
+      <IncludeChargeConditions/>
+      <Rooms>
+        <Room Code="SB" numberOfCots="0" numberOfRooms="1"/>
+      </Rooms>    
+    </SearchHotelPriceRequest>
+  </RequestDetails>
+</BTNSearchRequest>

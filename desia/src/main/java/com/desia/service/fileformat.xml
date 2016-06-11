@@ -1,0 +1,31 @@
+<Hotels>
+	<TravelRequestID>123</TravelRequestID>
+	<ServiceRequestID>123</ServiceRequestID>
+	<OptionsCount>199</OptionsCount>
+	<Currency>stringdata</Currency>
+	<Hotel>
+		<Supplier>stringdata</Supplier>
+		<HotelCode>stringdata</HotelCode>
+		<HotelName>stringdata</HotelName>
+		<HotelZone>stringdata</HotelZone>
+		<DestinationCode>stringdata</DestinationCode>
+		<DestinationName>stringdata</DestinationName>
+		<Rating>stringdata</Rating>
+		<ImageUrl>stringdata</ImageUrl>
+		<Description>stringdata</Description>
+		<Remarks>stringdata</Remarks>
+		<Rooms>
+			<Room code="stringdata" name="stringdata" supplier="stringdata">
+				<Rate uniqueKey="stringdata" class="stringdata" type="stringdata"
+					availability="stringdata" boardName="stringdata" net="0.0">
+					<Offers exist="true">
+						<Offer offerCode="stringdata" discount="0.0" commission="0.0"
+							finalPrice="0.0" />
+					</Offers>
+				</Rate>
+				<Cancellation serviceFee="0.0" serviceDiscount="0.0"
+					remarks="stringdata" />
+			</Room>
+		</Rooms>
+	</Hotel>
+</Hotels>

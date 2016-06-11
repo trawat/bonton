@@ -1,0 +1,479 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Header />
+	<soap:Body>
+		<OTA_HotelAvailRS xmlns="http://www.opentravel.org/OTA/2003/05"
+			AltLangID="en" PrimaryLangID="en">
+			<Success />
+			<RoomStays>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Business Room Single"
+							RoomTypeCode="0000023284">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="12" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="12" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="30" RatePlanCode="0000087632"
+							RatePlanName="Business Room Single" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000213088" RoomID="0000023284">
+							<Rates>
+								<Rate EffectiveDate="2016-06-11T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1644.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000213088" RoomTypeCode="0000023284"
+											Type="SELL">
+											<Base AmountBeforeTax="1888.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000087632" RoomID="0000023284">
+							<Rates>
+								<Rate EffectiveDate="2016-06-11T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1547.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000087632" RoomTypeCode="0000023284"
+											Type="SELL">
+											<Base AmountBeforeTax="1776.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00006237" />
+					<TPA_Extensions LowestRatePlanId="0000087632"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="25">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/red-fox-hotel-east-delhi-00006237?checkInDate=11-06-2016&amp;checkOutDate=12-06-2016&amp;numRooms=1&amp;rooms[0].adult=1&amp;rooms[0].children=1&amp;rooms[0].child[0].age=10&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Single Room "
+							RoomTypeCode="0000115825">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="2" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="2" maxChild="0" maxChildAge="12"
+									maxGuest="2" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000430476"
+							RatePlanName="Single Room" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="0" children="1"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000430476" RoomID="0000115825">
+							<Rates>
+								<Rate EffectiveDate="2016-06-11T00:00:00.000+05:30">
+									<Base AmountBeforeTax="3199.0">
+										<Taxes Amount="920.0">
+											<Tax Amount="920.0" Code="17" />
+										</Taxes>
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="8" RPH="1">
+											<Amount AmountBeforeTax="1050.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000430476" RoomTypeCode="0000115825"
+											Type="SELL">
+											<Base AmountBeforeTax="4000.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="8" RPH="1">
+													<Amount AmountBeforeTax="1000.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00044514" />
+					<TPA_Extensions LowestRatePlanId="0000430476"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="26">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/staymatrix-service-apartment-defence-colony-316-00044514?checkInDate=11-06-2016&amp;checkOutDate=12-06-2016&amp;numRooms=1&amp;rooms[0].adult=1&amp;rooms[0].children=1&amp;rooms[0].child[0].age=10&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="3 BHK "
+							RoomTypeCode="0000115833">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="6" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="6" maxChild="0" maxChildAge="12"
+									maxGuest="6" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="2" RatePlanCode="0000430493"
+							RatePlanName="3 BHK" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000430493" RoomID="0000115833">
+							<Rates>
+								<Rate EffectiveDate="2016-06-11T00:00:00.000+05:30">
+									<Base AmountBeforeTax="7169.0">
+										<Taxes Amount="1656.0">
+											<Tax Amount="1656.0" Code="17" />
+										</Taxes>
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000430493" RoomTypeCode="0000115833"
+											Type="SELL">
+											<Base AmountBeforeTax="9000.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00044519" />
+					<TPA_Extensions LowestRatePlanId="0000430493"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="30">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/staymatrix-service-apartment-saket-317-00044519?checkInDate=11-06-2016&amp;checkOutDate=12-06-2016&amp;numRooms=1&amp;rooms[0].adult=1&amp;rooms[0].children=1&amp;rooms[0].child[0].age=10&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+				<RoomStay>
+					<RoomTypes>
+						<RoomType NonSmoking="false" RoomType="Deluxe Single"
+							RoomTypeCode="0000023379">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Single Room Only "
+							RoomTypeCode="0000109572">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="1" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="0" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="1" maxChild="0" maxChildAge="12"
+									maxGuest="1" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Double"
+							RoomTypeCode="0000031653">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+						<RoomType NonSmoking="false" RoomType="Deluxe Double Room Only"
+							RoomTypeCode="0000109573">
+							<RoomDescription>
+								<Text />
+								<Image />
+								<Image />
+							</RoomDescription>
+							<AdditionalDetails />
+							<Occupancy AgeQualifyingCode="10" MaxOccupancy="3" />
+							<Occupancy AgeQualifyingCode="8" MaxAge="12"
+								MaxOccupancy="2" MinAge="5" />
+							<TPA_Extensions>
+								<RoomType maxAdult="3" maxChild="2" maxChildAge="12"
+									maxGuest="3" minChildAge="5" propertyLevel="N" smoking="Y" />
+							</TPA_Extensions>
+						</RoomType>
+					</RoomTypes>
+					<RatePlans>
+						<RatePlan AvailableQuantity="5" RatePlanCode="0000123211"
+							RatePlanName="Deluxe Double Room With Breakfast" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text>Breakfast, </Text>
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+								<BestRatePlan>true</BestRatePlan>
+							</TPA_Extensions>
+						</RatePlan>
+						<RatePlan AvailableQuantity="5" RatePlanCode="0000415560"
+							RatePlanName="Deluxe Double Room Only" RatePlanType="24">
+							<CancelPenalties>
+								<CancelPenalty NonRefundable="true">
+									<Deadline />
+									<PenaltyDescription Name="FREE_CANCELLATION">
+										<Text>N</Text>
+									</PenaltyDescription>
+								</CancelPenalty>
+							</CancelPenalties>
+							<RatePlanDescription>
+								<Text />
+								<Text />
+							</RatePlanDescription>
+							<RatePlanInclusions>
+								<RatePlanInclusionDesciption>
+									<Text />
+									<Text />
+								</RatePlanInclusionDesciption>
+							</RatePlanInclusions>
+							<TPA_Extensions>
+								<AdditionalGuests>
+									<AdditionalGuest adults="0" children="1"
+										roomNo="1" />
+								</AdditionalGuests>
+								<DiscountCouponDisplayIndicator
+									Enabled="true" />
+							</TPA_Extensions>
+						</RatePlan>
+					</RatePlans>
+					<RoomRates>
+						<RoomRate RatePlanCode="0000123211" RoomID="0000031653">
+							<Rates>
+								<Rate EffectiveDate="2016-06-11T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1487.0">
+										<Taxes Amount="0" />
+									</Base>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="2" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000123211" RoomTypeCode="0000031653"
+											Type="SELL">
+											<Base AmountBeforeTax="1867.0" />
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="2" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+						<RoomRate RatePlanCode="0000415560" RoomID="0000109573">
+							<Rates>
+								<Rate EffectiveDate="2016-06-11T00:00:00.000+05:30">
+									<Base AmountBeforeTax="1384.0">
+										<Taxes Amount="0" />
+									</Base>
+									<AdditionalGuestAmounts>
+										<AdditionalGuestAmount
+											AgeQualifyingCode="8" RPH="1">
+											<Amount AmountBeforeTax="263.0" />
+										</AdditionalGuestAmount>
+									</AdditionalGuestAmounts>
+									<TPA_Extensions>
+										<Rate BaseAdultOccupancy="1" BaseChildOccupancy="0"
+											Bookable="true" RatePlanCode="0000415560" RoomTypeCode="0000109573"
+											Type="SELL">
+											<Base AmountBeforeTax="1734.0" />
+											<AdditionalGuestAmounts>
+												<AdditionalGuestAmount
+													AgeQualifyingCode="8" RPH="1">
+													<Amount AmountBeforeTax="250.0" />
+												</AdditionalGuestAmount>
+											</AdditionalGuestAmounts>
+										</Rate>
+									</TPA_Extensions>
+								</Rate>
+							</Rates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="1" />
+								<GuestCount AgeQualifyingCode="8" Count="0" />
+							</GuestCounts>
+						</RoomRate>
+					</RoomRates>
+					<BasicPropertyInfo HotelCode="00006258" />
+					<TPA_Extensions LowestRatePlanId="0000415560"
+						StopSell="false">
+						<HotelBasicInformation HotelType="TGU" Rank="57">
+							<Reviews />
+						</HotelBasicInformation>
+						<DeepLinkInformation
+							overviewURL="http://stageui.travelguru.com/hotels/India/new-delhi/vanson-villa-00006258?checkInDate=11-06-2016&amp;checkOutDate=12-06-2016&amp;numRooms=1&amp;rooms[0].adult=1&amp;rooms[0].children=1&amp;rooms[0].child[0].age=10&amp;currencyCode=INR" />
+					</TPA_Extensions>
+				</RoomStay>
+			</RoomStays>
+			<TPA_Extensions>
+				<HotelsInfo available="389" deals="0" maxPrice="62500.0"
+					minPrice="200.0" total="0" />
+			</TPA_Extensions>
+		</OTA_HotelAvailRS>
+	</soap:Body>
+</soap:Envelope>

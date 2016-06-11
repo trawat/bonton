@@ -1,0 +1,267 @@
+<HotelResponse>
+	<TravelRequestID></TravelRequestID>
+	<ServiceRequestID></ServiceRequestID>
+	<OptionsCount>173</OptionsCount>
+	<MOptionsCount>173</MOptionsCount>
+	<City>
+		<CityCode>DEL</CityCode>
+		<CityName>Delhi and NCR</CityName>
+	</City>
+	<HotelOptions>
+		<Hotel>
+			<HotelCode>167427</HotelCode>
+			<HotelName></HotelName>
+			<Location>Delhi</Location>
+			<Supplier>HotelBeds</Supplier>
+			<StarRating>2 STARS</StarRating>
+			<MainImage></MainImage>
+			<ImageCount></ImageCount>
+			<FullAddress></FullAddress>
+			<Longitude></Longitude>
+			<Latitude></Latitude>
+			<TAReviewCount></TAReviewCount>
+			<TALocationId></TALocationId>
+			<TARating></TARating>
+			<TAPropertyURL></TAPropertyURL>
+			<TASubRatingName></TASubRatingName>
+			<TASubRatingValue></TASubRatingValue>
+			<Description></Description>
+			<Remarks></Remarks>
+			<EssentialInformation></EssentialInformation>
+			<Amenities>
+				<Amenity></Amenity>
+			</Amenities>
+			<RoomOptions>
+				<Room>
+					<RoomDescription>Double or Twin DELUXE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='67.80' OTAFee='0'
+						OTADiscountAmount='0'>67.80</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>Double or Twin DELUXE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='77.49' OTAFee='0'
+						OTADiscountAmount='0'>77.49</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE DELUXE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='67.80' OTAFee='0'
+						OTADiscountAmount='0'>67.80</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE DELUXE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='77.49' OTAFee='0'
+						OTADiscountAmount='0'>77.49</FinalPrice>
+				</Room>
+			</RoomOptions>
+		</Hotel>
+		<Hotel>
+			<HotelCode>133376</HotelCode>
+			<HotelName></HotelName>
+			<Location>Delhi</Location>
+			<Supplier>HotelBeds</Supplier>
+			<StarRating>2 STARS</StarRating>
+			<MainImage></MainImage>
+			<ImageCount></ImageCount>
+			<FullAddress></FullAddress>
+			<Longitude></Longitude>
+			<Latitude></Latitude>
+			<TAReviewCount></TAReviewCount>
+			<TALocationId></TALocationId>
+			<TARating></TARating>
+			<TAPropertyURL></TAPropertyURL>
+			<TASubRatingName></TASubRatingName>
+			<TASubRatingValue></TASubRatingValue>
+			<Description></Description>
+			<Remarks></Remarks>
+			<EssentialInformation></EssentialInformation>
+			<Amenities>
+				<Amenity></Amenity>
+			</Amenities>
+			<RoomOptions>
+				<Room>
+					<RoomDescription>DOUBLE DELUXE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='70.14' OTAFee='0'
+						OTADiscountAmount='0'>70.14</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE DELUXE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='70.14' OTAFee='0'
+						OTADiscountAmount='0'>70.14</FinalPrice>
+				</Room>
+			</RoomOptions>
+		</Hotel>
+		<Hotel>
+			<HotelCode>173568</HotelCode>
+			<HotelName></HotelName>
+			<Location>Faridabad</Location>
+			<Supplier>HotelBeds</Supplier>
+			<StarRating>4 STARS</StarRating>
+			<MainImage></MainImage>
+			<ImageCount></ImageCount>
+			<FullAddress></FullAddress>
+			<Longitude></Longitude>
+			<Latitude></Latitude>
+			<TAReviewCount></TAReviewCount>
+			<TALocationId></TALocationId>
+			<TARating></TARating>
+			<TAPropertyURL></TAPropertyURL>
+			<TASubRatingName></TASubRatingName>
+			<TASubRatingValue></TASubRatingValue>
+			<Description></Description>
+			<Remarks></Remarks>
+			<EssentialInformation></EssentialInformation>
+			<Amenities>
+				<Amenity></Amenity>
+			</Amenities>
+			<RoomOptions>
+				<Room>
+					<RoomDescription>SINGLE EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='145.29' OTAFee='0'
+						OTADiscountAmount='0'>145.29</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='149.97' OTAFee='0'
+						OTADiscountAmount='0'>149.97</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='211.86' OTAFee='0'
+						OTADiscountAmount='0'>211.86</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='278.46' OTAFee='0'
+						OTADiscountAmount='0'>278.46</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>Double or Twin EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='169.50' OTAFee='0'
+						OTADiscountAmount='0'>169.50</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>Double or Twin EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='174.96' OTAFee='0'
+						OTADiscountAmount='0'>174.96</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>Double or Twin EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='236.07' OTAFee='0'
+						OTADiscountAmount='0'>236.07</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>Double or Twin EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='302.67' OTAFee='0'
+						OTADiscountAmount='0'>302.67</FinalPrice>
+				</Room>
+			</RoomOptions>
+		</Hotel>
+		<Hotel>
+			<HotelCode>175367</HotelCode>
+			<HotelName></HotelName>
+			<Location>Delhi</Location>
+			<Supplier>HotelBeds</Supplier>
+			<StarRating>2 STARS</StarRating>
+			<MainImage></MainImage>
+			<ImageCount></ImageCount>
+			<FullAddress></FullAddress>
+			<Longitude></Longitude>
+			<Latitude></Latitude>
+			<TAReviewCount></TAReviewCount>
+			<TALocationId></TALocationId>
+			<TARating></TARating>
+			<TAPropertyURL></TAPropertyURL>
+			<TASubRatingName></TASubRatingName>
+			<TASubRatingValue></TASubRatingValue>
+			<Description></Description>
+			<Remarks></Remarks>
+			<EssentialInformation></EssentialInformation>
+			<Amenities>
+				<Amenity></Amenity>
+			</Amenities>
+			<RoomOptions>
+				<Room>
+					<RoomDescription>Double or Twin EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='84.96' OTAFee='0'
+						OTADiscountAmount='0'>84.96</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>Double or Twin EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='94.95' OTAFee='0'
+						OTADiscountAmount='0'>94.95</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>Double or Twin EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='122.43' OTAFee='0'
+						OTADiscountAmount='0'>122.43</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>Double or Twin EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='149.94' OTAFee='0'
+						OTADiscountAmount='0'>149.94</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='84.96' OTAFee='0'
+						OTADiscountAmount='0'>84.96</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='94.95' OTAFee='0'
+						OTADiscountAmount='0'>94.95</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='122.43' OTAFee='0'
+						OTADiscountAmount='0'>122.43</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>SINGLE EXECUTIVE</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='149.94' OTAFee='0'
+						OTADiscountAmount='0'>149.94</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>DOUBLE STANDARD</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='169.98' OTAFee='0'
+						OTADiscountAmount='0'>169.98</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>DOUBLE STANDARD</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='197.46' OTAFee='0'
+						OTADiscountAmount='0'>197.46</FinalPrice>
+				</Room>
+				<Room>
+					<RoomDescription>DOUBLE STANDARD</RoomDescription>
+					<Supplier>HotelBeds</Supplier>
+					<FinalPrice SupplierPrice='224.97' OTAFee='0'
+						OTADiscountAmount='0'>224.97</FinalPrice>
+				</Room>
+			</RoomOptions>
+		</Hotel>
+
+	</HotelOptions>
+</HotelResponse>
