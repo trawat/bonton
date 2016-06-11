@@ -1,5 +1,6 @@
 package com.bonton.utility.processor;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -13,26 +14,32 @@ import javax.xml.bind.Unmarshaller;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
+import com.bonton.utility.hotelbeds.AvailabilityRS;
 
 public class XmlProcessor {
 	//private static final Logger log = LoggerFactory.getLogger(XmlProcessor.class);
 	
 	private XmlProcessor() {}
 	
-	public static BTNSearchRequest getSearchBean(InputStream is) throws Exception {
+	public static BTNSearchRequest getBTNSearchRQBean(InputStream is) throws Exception {
 		return unmarshall(is, BTNSearchRequest.class);
 	}
 	
-	public static BTNConfirmRequest getConfirmBean(InputStream is) throws Exception {
+	public static BTNConfirmRequest getBTNConfirmRQBean(InputStream is) throws Exception {
 		return unmarshall(is, BTNConfirmRequest.class);
 	}
 
-	public static BTNRepriceRequest getRepriceBean(InputStream is) throws Exception {
+	public static BTNRepriceRequest getBTNRepriceRQBean(InputStream is) throws Exception {
 		return unmarshall(is, BTNRepriceRequest.class);
 	}
 	
 	public static <T> String getBeanInXml(T beanType) throws Exception {
 		return marshall(beanType);
+	}
+	
+	public static AvailabilityRS getHBSearchRSBean(String hbSearchResXml) throws Exception {
+		/* Not using the charset. System default is in play. */
+		return unmarshall(new ByteArrayInputStream(hbSearchResXml.getBytes()), AvailabilityRS.class);
 	}
 	
 	private static <T> T unmarshall(InputStream is, Class<T> beanClass) throws Exception {
@@ -52,7 +59,7 @@ public class XmlProcessor {
 		}
 	}
 	
-	public static <T> String marshall(T beanType) throws Exception {
+	private static <T> String marshall(T beanType) throws Exception {
 		JAXBContext jaxbCtx = null;
 		Marshaller marshaller = null;
 		
