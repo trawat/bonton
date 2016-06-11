@@ -8,13 +8,19 @@ import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.processor.XmlProcessor;
+import com.desia.service.DesiaService;
+
 
 public class DesiaServiceProxyAdapter  extends ServiceProxy {
 	private final DesiaService desiaService;
 	
+	public DesiaServiceProxyAdapter() {
+		desiaService = new DesiaService();
+	}
+	
 	@Override
-	public String search(InputStream is) throws Exception {
-		BTNSearchRequest requestBean = XmlProcessor.getSearchBean(is);
+	public String search(InputStream is, String uuid, boolean moreThanOneProvider) throws Exception {
+		BTNSearchRequest requestBean = XmlProcessor.getBTNSearchRQBean(is);
 		if (requestBean == null) {
 			return "<h1>Invalid Request<h1>";
 		}

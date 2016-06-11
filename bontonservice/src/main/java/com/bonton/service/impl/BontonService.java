@@ -1,6 +1,5 @@
 package com.bonton.service.impl;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import com.bonton.config.BontonConfig;
 import com.bonton.service.Service;
 import com.bonton.service.ServiceVisitor;
 import com.bonton.util.BontonProperties;
-import com.hotelbeds.util.BontonConfigImpl;
 
 public class BontonService implements Service {
 	

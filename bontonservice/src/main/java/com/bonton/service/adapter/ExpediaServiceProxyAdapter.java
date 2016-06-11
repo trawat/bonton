@@ -9,11 +9,12 @@ import com.bonton.utility.artifacts.BTNRepriceRequest;
 public class ExpediaServiceProxyAdapter  extends ServiceProxy{
 
 	@Override
-	public String search(InputStream is) throws Exception {
+	public String search(InputStream is, String uuid,
+			boolean moreThanOneProvider) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public String confirmBooking(String supplier, BTNConfirmRequest confirmBean) throws Exception {
 		// TODO Auto-generated method stub

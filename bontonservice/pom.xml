@@ -103,15 +103,20 @@
 			<version>1.19.1</version>
 		</dependency>
 		<dependency>
-			<groupId>bontonutility</groupId>
-			<artifactId>bontonutility</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
 			<groupId>hotelbeds</groupId>
 			<artifactId>hotelbeds</artifactId>
 			<version>1.0.0</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>desia</groupId>
+			<artifactId>desia</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>bontonutility</groupId>
+			<artifactId>bontonutility</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 
