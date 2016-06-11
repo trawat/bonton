@@ -8,6 +8,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +25,10 @@ import com.bonton.utility.artifacts.BTNConfirmRequest.Rooms.Room;
 import com.bonton.utility.artifacts.BTNConfirmRequest.Rooms.Room.Paxes.Pax;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
+import com.bonton.utility.artifacts.BTNSearchResponse;
+import com.bonton.utility.hotelbeds.AvailabilityRQ;
+import com.bonton.utility.hotelbeds.AvailabilityRS;
+import com.bonton.utility.processor.XmlProcessor;
 import com.google.gson.Gson;
 import com.hotelbeds.beans.CancellationBean;
 import com.hotelbeds.beans.HBJsonDataContainer;
@@ -25,19 +37,62 @@ import com.hotelbeds.util.FileProcessor;
 import com.hotelbeds.util.HBProperties;
 import com.hotelbeds.util.RepricingUtil;
 
-import okhttp3.Headers;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
-
 public class HBServiceHelper {
 	
 	private static Logger logger = LoggerFactory.getLogger(HBServiceHelper.class); 
 	
 	public HBServiceHelper() {}
+	
+	public AvailabilityRQ searchBeanRequestMapper(BTNSearchRequest searchBean) {
+		AvailabilityRQ availabilityRQ = new AvailabilityRQ();
+		
+		return availabilityRQ;
+	}
+	
+	public BTNSearchResponse searchBeanResponseMapper(String hbSearchResXml) throws Exception {
+		AvailabilityRS availabilityRS = XmlProcessor.getHBSearchRSBean(hbSearchResXml);
+		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
+		
+		/** do the appropriate mapping*/
+		
+		return btnSearchResponse;
+	}
+	
+	public <T> String sendRequest(T rqObj) throws Exception {
+		BontonConfigImpl.init();//get rid of this later
+		
+		String requestXML = XmlProcessor.getBeanInXml(rqObj);
+		
+		/* should be modified later **/
+		
+		logger.debug("Sending Request to get HB Htel Data");
+        Request.Builder requestBuilder = new Request.Builder().headers(getHeaders("POST")).url(HBProperties.HB_GET_HOTELS_END_POINT);
+        requestBuilder.post(RequestBody.create(HBProperties.JSON, requestXML));
+        
+      //@TODO: this should be moved to HB. Copying temporarily to HB
+        //Also check the response code in order to verify status
+        Response response = BontonConfigImpl.getRestTemplate().newCall(requestBuilder.build()).execute();
+        logger.debug("HB Hotel Data Response Code : "+response.code()+" : Response Message : "+response.message());
+        
+        
+        try (ResponseBody body = response.body()) {
+            BufferedSource source = body.source();
+            source.request(Long.MAX_VALUE);
+            Buffer buffer = source.buffer();
+            Charset charset = HBProperties.UTF8;
+            if (body.contentType() != null) {
+                try {
+                    charset = body.contentType().charset(HBProperties.UTF8);
+                } catch (UnsupportedCharsetException e) {
+                    logger.error("Response body could not be decoded {}", e.getMessage());
+                }
+            }
+            return buffer.readString(charset);
+        } catch (Exception e) {
+        	logger.debug("Error {}", e);
+        	throw e;
+        }
+	}
 	
 	public boolean writeResponseDataInAggregationFormat(String responseJson, String requestId) {
 	

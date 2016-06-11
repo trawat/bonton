@@ -3,29 +3,34 @@ package com.hotelbeds.service;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
+import com.bonton.utility.artifacts.BTNSearchResponse;
+import com.bonton.utility.hotelbeds.AvailabilityRQ;
+import com.bonton.utility.processor.XmlProcessor;
 import com.hotelbeds.beans.CancellationBean;
-import com.hotelbeds.beans.ConfirmBean;
-import com.hotelbeds.beans.SearchBean;
-import com.hotelbeds.threads.HotelBeds;
-import com.hotelbeds.threads.HotelBedsThread;
 import com.hotelbeds.util.BeanUtil;
-import com.hotelbeds.util.FileProcessor;
-import com.hotelbeds.util.HBProperties;
 
 public class HBService {
 	
 	public String search(BTNSearchRequest searchBean, String requestId) throws Exception {
 		//SearchBean searchBean = BeanUtil.getHotelSearchBean(requestXml);
+		HBServiceHelper client = new HBServiceHelper();
+		AvailabilityRQ availabilityRQ = client.searchBeanRequestMapper(searchBean);
 		
-		HotelBeds hbObject = new HotelBeds(searchBean, requestId);
-		HotelBedsThread hbThreadObj = hbObject.getHbThread();
-		if(hbThreadObj != null) {
-			hbThreadObj.join();
-		}
-		String responseXml = 
-				FileProcessor.parseHBDataFileAndGetXMLResponse(HBProperties.FILE_WRITE_DIRECTORY + requestId + ".txt");
+		String hbSearchResXml = client.sendRequest(availabilityRQ);
 		
-		return responseXml;
+		BTNSearchResponse btnSearchResponse = client.searchBeanResponseMapper(hbSearchResXml);
+		return XmlProcessor.getBeanInXml(btnSearchResponse);
+		//return client.sendBookingConfirmationAndGetResult(confirmBean);
+		
+//		HotelBeds hbObject = new HotelBeds(searchBean, requestId);
+//		HotelBedsThread hbThreadObj = hbObject.getHbThread();
+//		if(hbThreadObj != null) {
+//			hbThreadObj.join();
+//		}
+//		responseXml = 
+//				FileProcessor.parseHBDataFileAndGetXMLResponse(HBProperties.FILE_WRITE_DIRECTORY + requestId + ".txt");
+		
+//		return responseXml;
 	}
 	
 	public String confirmBooking(BTNConfirmRequest confirmBean) throws Exception {
