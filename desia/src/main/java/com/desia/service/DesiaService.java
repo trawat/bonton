@@ -18,7 +18,6 @@ import javax.xml.ws.handler.PortInfo;
 
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
-import com.bonton.utility.artifacts.BTNSearchResponse.HotelOptions;
 import com.bonton.utility.desia.Hotels;
 import com.desia.artifacts.AvailRequestSegmentsType.AvailRequestSegment;
 import com.desia.artifacts.AvailRequestSegmentsType.AvailRequestSegment.HotelSearchCriteria;
