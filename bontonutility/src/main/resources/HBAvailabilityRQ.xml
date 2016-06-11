@@ -1,0 +1,15 @@
+<availabilityRQ>
+<stay checkIn="2019-04-04" checkOut="2019-04-04" />
+<occupancies>
+<occupancy rooms="2" adults="3" children="3">
+<paxes>
+<pax type="string" age="4" name="string" surname="" />
+</paxes>
+</occupancy>
+</occupancies>
+<destination code="stringdata" zone="stringdata" />
+<hotels>
+<hotel>1234</hotel>
+</hotels>
+<filter minRate="data" maxRate="data" packaging="data" minCategory="data" maxCategory="data" paymentType="BOTH"></filter>
+</availabilityRQ>
