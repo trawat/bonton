@@ -49,7 +49,15 @@ public class HBServiceHelper {
 		return availabilityRQ;
 	}
 	
-	public BTNSearchResponse searchBeanResponseMapper(String hbSearchResXml) throws Exception {
+	public BTNSearchResponse searchBeanResponseMapper(AvailabilityRS availabilityRS) throws Exception {
+		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
+		
+		/** do the appropriate mapping*/
+		
+		return btnSearchResponse;
+	}
+	
+	private BTNSearchResponse searchBeanResponseMapper(String hbSearchResXml) throws Exception {
 		AvailabilityRS availabilityRS = XmlProcessor.getHBSearchRSBean(hbSearchResXml);
 		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
 		

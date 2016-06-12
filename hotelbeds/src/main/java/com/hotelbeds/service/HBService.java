@@ -1,36 +1,35 @@
 package com.hotelbeds.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.hotelbeds.AvailabilityRQ;
+import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.processor.XmlProcessor;
 import com.hotelbeds.beans.CancellationBean;
 import com.hotelbeds.util.BeanUtil;
 
 public class HBService {
+	/* Holds unique uuid and generated common response object as key-value */
+	private static final Map<String, AvailabilityRS> rqRsMap = new HashMap<>();
 	
-	public String search(BTNSearchRequest searchBean, String requestId) throws Exception {
+	
+	public void search(BTNSearchRequest searchBean, String uuid) throws Exception {
 		//SearchBean searchBean = BeanUtil.getHotelSearchBean(requestXml);
 		HBServiceHelper client = new HBServiceHelper();
 		AvailabilityRQ availabilityRQ = client.searchBeanRequestMapper(searchBean);
 		
 		String hbSearchResXml = client.sendRequest(availabilityRQ);
 		
-		BTNSearchResponse btnSearchResponse = client.searchBeanResponseMapper(hbSearchResXml);
-		return XmlProcessor.getBeanInXml(btnSearchResponse);
-		//return client.sendBookingConfirmationAndGetResult(confirmBean);
+		AvailabilityRS availabilityRS = XmlProcessor.getHBSearchRSBean(hbSearchResXml);
+		rqRsMap.put(uuid, availabilityRS);
+		//BTNSearchResponse btnSearchResponse = client.searchBeanResponseMapper(hbSearchResXml);
+		//return XmlProcessor.getBeanInXml(btnSearchResponse);
 		
-//		HotelBeds hbObject = new HotelBeds(searchBean, requestId);
-//		HotelBedsThread hbThreadObj = hbObject.getHbThread();
-//		if(hbThreadObj != null) {
-//			hbThreadObj.join();
-//		}
-//		responseXml = 
-//				FileProcessor.parseHBDataFileAndGetXMLResponse(HBProperties.FILE_WRITE_DIRECTORY + requestId + ".txt");
-		
-//		return responseXml;
 	}
 	
 	public String confirmBooking(BTNConfirmRequest confirmBean) throws Exception {
@@ -47,5 +46,9 @@ public class HBService {
 	public String repricing(BTNRepriceRequest repricingBean) throws Exception {
 		HBServiceHelper client = new HBServiceHelper();
 		return client.recheckHotelPricingAndGetResult(repricingBean);
+	}
+	
+	public AvailabilityRS getAvailabilityRS(String uuid) {
+		return rqRsMap.get(uuid);
 	}
 }
