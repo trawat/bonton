@@ -7,12 +7,12 @@ import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 
 public class ExpediaServiceProxyAdapter  extends ServiceProxy{
-
+	
 	@Override
-	public String search(InputStream is, String uuid,
-			boolean moreThanOneProvider) throws Exception {
+	public void search(InputStream is, String uuid, boolean moreThanOneProvider)
+			throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 	
 	@Override
@@ -29,6 +29,12 @@ public class ExpediaServiceProxyAdapter  extends ServiceProxy{
 
 	@Override
 	public String repricing(String supplier, BTNRepriceRequest repriceBean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getServiceInstance() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

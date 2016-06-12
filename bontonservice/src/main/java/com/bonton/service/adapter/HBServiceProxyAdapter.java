@@ -19,13 +19,13 @@ public class HBServiceProxyAdapter extends ServiceProxy {
 	}
 
 	@Override
-	public String search(InputStream is, String uuid, boolean moreThanOneProvider) throws Exception {
+	public void search(InputStream is, String uuid, boolean moreThanOneProvider) throws Exception {
 		BTNSearchRequest requestBean = XmlProcessor.getBTNSearchRQBean(is);
-		if (requestBean == null) {
-			return "<h1>Invalid Request<h1>";
-		}
+//		if (requestBean == null) {
+//			return "<h1>Invalid Request<h1>";
+//		}
 		/** To help us with unique key for each request */
-		return hBService.search(requestBean, uuid);
+		hBService.search(requestBean, uuid);
 	}
 
 	@Override
@@ -44,4 +44,7 @@ public class HBServiceProxyAdapter extends ServiceProxy {
 		return hBService.repricing(repricingBean);
 	}
 
+	public HBService getHBServiceInstance() {
+		return hBService;
+	}
 }

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bonton.config.BontonConfig;
 import com.bonton.service.Service;
-import com.bonton.service.ServiceVisitor;
+import com.bonton.service.ServiceActuator;
 import com.bonton.util.BontonProperties;
 
 public class BontonService implements Service {
@@ -25,8 +25,8 @@ public class BontonService implements Service {
 		String responseXml = "";
 
 		try {
-			ServiceVisitor visitor = new ServiceVisitorImpl();
-			responseXml = visitor.search(BontonConfig.getEnabledEndPointsList(), request.getInputStream());
+			ServiceActuator actuator = new ServiceActuatorImpl();
+			responseXml = actuator.search(BontonConfig.getEnabledEndPointsList(), request.getInputStream());
 		} catch(Exception e) {
 			logger.error("Exception in BontonService : {}", e);
 			//TODO: return proper http error
@@ -40,8 +40,8 @@ public class BontonService implements Service {
 		String responseXml = "";
 
 		try {
-			ServiceVisitor visitor = new ServiceVisitorImpl();
-			responseXml = visitor.confirm(request.getInputStream());
+			ServiceActuator actuator = new ServiceActuatorImpl();
+			responseXml = actuator.confirm(request.getInputStream());
 		} catch (Exception exception) {
 			logger.error("Exception while confirm booking {}", exception);
 			return BontonProperties.SERVICE_TEMPORARILY_DOWN;
@@ -56,8 +56,8 @@ public class BontonService implements Service {
 		String responseXml = "";
 
 		try {
-			ServiceVisitor visitor = new ServiceVisitorImpl();
-			responseXml = visitor.cancel(request.getInputStream());
+			ServiceActuator actuator = new ServiceActuatorImpl();
+			responseXml = actuator.cancel(request.getInputStream());
 		} catch(Exception exception) {
 			logger.error("Exception while cancel Booking {}", exception);
 		}
@@ -73,8 +73,8 @@ public class BontonService implements Service {
 		
 		Map<String,String> requestDataMap = null;
 		try {
-			ServiceVisitor visitor = new ServiceVisitorImpl();
-			responseXml = visitor.repricing(request.getInputStream());
+			ServiceActuator actuator = new ServiceActuatorImpl();
+			responseXml = actuator.repricing(request.getInputStream());
 			
 		} catch(Exception e) {
 			logger.error("Exception while checking rate for Key " + rateKey + "   Exception is "+e.getStackTrace());

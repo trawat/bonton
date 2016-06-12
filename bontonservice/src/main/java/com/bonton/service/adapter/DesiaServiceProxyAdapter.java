@@ -19,13 +19,13 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 	}
 	
 	@Override
-	public String search(InputStream is, String uuid, boolean moreThanOneProvider) throws Exception {
+	public void search(InputStream is, String uuid, boolean moreThanOneProvider) throws Exception {
 		BTNSearchRequest requestBean = XmlProcessor.getBTNSearchRQBean(is);
-		if (requestBean == null) {
-			return "<h1>Invalid Request<h1>";
-		}
+//		if (requestBean == null) {
+//			return "<h1>Invalid Request<h1>";
+//		}
 		/** To help us with unique key for each request */
-		return desiaService.search(requestBean, UUID.randomUUID().toString());
+		desiaService.search(requestBean, UUID.randomUUID().toString());
 	}
 
 	@Override
@@ -42,6 +42,12 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 
 	@Override
 	public String repricing(String supplier, BTNRepriceRequest repriceBean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getServiceInstance() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
