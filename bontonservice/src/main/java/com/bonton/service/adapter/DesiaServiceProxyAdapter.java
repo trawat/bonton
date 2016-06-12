@@ -25,7 +25,7 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 //			return "<h1>Invalid Request<h1>";
 //		}
 		/** To help us with unique key for each request */
-		desiaService.search(requestBean, UUID.randomUUID().toString());
+		desiaService.search(requestBean, uuid);
 	}
 
 	@Override
@@ -46,11 +46,4 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 		return null;
 	}
 
-	@Override
-	public Object getServiceInstance() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 }

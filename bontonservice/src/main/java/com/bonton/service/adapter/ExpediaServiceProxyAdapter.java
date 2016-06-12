@@ -33,9 +33,4 @@ public class ExpediaServiceProxyAdapter  extends ServiceProxy{
 		return null;
 	}
 
-	@Override
-	public Object getServiceInstance() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
