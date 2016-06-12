@@ -15,7 +15,7 @@ import com.hotelbeds.util.BeanUtil;
 
 public class HBService {
 	/* Holds unique uuid and generated common response object as key-value */
-	private static final Map<String, AvailabilityRS> rqRsMap = new HashMap<>();
+	private static final Map<String, BTNSearchResponse> rqRsMap = new HashMap<>();
 	
 	
 	public void search(BTNSearchRequest searchBean, String uuid) throws Exception {
@@ -26,8 +26,9 @@ public class HBService {
 		String hbSearchResXml = client.sendRequest(availabilityRQ);
 		
 		AvailabilityRS availabilityRS = XmlProcessor.getHBSearchRSBean(hbSearchResXml);
-		rqRsMap.put(uuid, availabilityRS);
-		//BTNSearchResponse btnSearchResponse = client.searchBeanResponseMapper(hbSearchResXml);
+		//rqRsMap.put(uuid, availabilityRS);
+		BTNSearchResponse btnSearchResponse = client.searchBeanResponseMapper(availabilityRS);
+		rqRsMap.put(uuid, btnSearchResponse);
 		//return XmlProcessor.getBeanInXml(btnSearchResponse);
 		
 	}
@@ -48,7 +49,7 @@ public class HBService {
 		return client.recheckHotelPricingAndGetResult(repricingBean);
 	}
 	
-	public AvailabilityRS getAvailabilityRS(String uuid) {
+	public BTNSearchResponse getAvailabilityRS(String uuid) {
 		return rqRsMap.get(uuid);
 	}
 }
