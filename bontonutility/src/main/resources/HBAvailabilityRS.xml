@@ -9,7 +9,11 @@
 					<rates>
 						<rate paymentType="data" packaging="false" boardCode="data"
 							boardName="data" rooms="1" adults="1" children="0" rateKey="data"
-							rateClass="data" rateType="data" net="104.180" allotment="20" />
+							rateClass="data" rateType="data" net="104.180" allotment="20" >
+							<cancellationPolicies>
+								<cancellationPolicy amount="5.4" from="3.2" hotelAmount="5.2" />
+							</cancellationPolicies>	
+						</rate>
 					</rates>
 				</room>
 			</rooms>
