@@ -11,13 +11,17 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
+import com.bonton.utility.hotelbeds.BookingRS;
 
 public class XmlProcessor {
-	//private static final Logger log = LoggerFactory.getLogger(XmlProcessor.class);
+	private static final Logger log = LoggerFactory.getLogger(XmlProcessor.class);
 	
 	private XmlProcessor() {}
 	
@@ -38,8 +42,11 @@ public class XmlProcessor {
 	}
 	
 	public static AvailabilityRS getHBSearchRSBean(String hbSearchResXml) throws Exception {
-		/* Not using the charset. System default is in play. */
-		return unmarshall(new ByteArrayInputStream(hbSearchResXml.getBytes()), AvailabilityRS.class);
+		return unmarshall(new ByteArrayInputStream(hbSearchResXml.getBytes("UTF-8")), AvailabilityRS.class);
+	}
+	
+	public static BookingRS getHBConfirmRSBean(String hbConfirmResXml) throws Exception {
+		return unmarshall(new ByteArrayInputStream(hbConfirmResXml.getBytes("UTF-8")), BookingRS.class);
 	}
 	
 	private static <T> T unmarshall(InputStream is, Class<T> beanClass) throws Exception {
@@ -54,7 +61,7 @@ public class XmlProcessor {
 			T element = (T) unmarshaller.unmarshal(is);
 			return element;
 		} catch (Exception exception) {
-			//log.debug("Exception while initializing JAXBContext {}", exception.getCause());
+			log.debug("Exception while initializing JAXBContext {}", exception.getCause());
 			throw exception;
 		}
 	}
