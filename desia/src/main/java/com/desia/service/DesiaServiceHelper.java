@@ -88,8 +88,8 @@ public class DesiaServiceHelper {
 
 		DateTimeSpanType dateRange = new DateTimeSpanType();
 		//need to check the date format
-		dateRange.setStart(btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckInDate());
-		dateRange.setEnd(btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckOutDate());
+		dateRange.setStart(btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckInDate().toString());
+		dateRange.setEnd(btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckOutDate().toString());
 
 		TPAExtensionsType extnsn = new TPAExtensionsType();
 
