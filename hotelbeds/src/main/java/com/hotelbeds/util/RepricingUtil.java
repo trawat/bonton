@@ -64,10 +64,10 @@ public class RepricingUtil {
 			sb.append("</Room>");
 		}
 		sb.append("</Rooms>");
-		sb.append("<CreditCards>");
-		sb.append("<CreditCard code=\"\" name=\"\" paymentType=\"\"/>");
-		sb.append("</CreditCards>");
-		sb.append("<Supplier></Supplier>");
+//		sb.append("<CreditCards>");
+//		sb.append("<CreditCard code=\"\" name=\"\" paymentType=\"\"/>");
+//		sb.append("</CreditCards>");
+//		sb.append("<Supplier></Supplier>");
 		sb.append("</Hotel>");
 		sb.append("</RepriceResponse>");
 		
