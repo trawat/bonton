@@ -46,7 +46,7 @@ xmlns:tns="http://www.bonton.com/messages">
                       <xs:complexType>
                         <xs:sequence>
                           <xs:element name="Room" minOccurs="0" maxOccurs="unbounded">
-                            <xs:complexType mixed="true">
+                            <xs:complexType>
                               <xs:sequence>
                                 <xs:element type="xs:string" name="RoomDescription"/>
                                 <xs:element type="xs:string" name="Supplier"/>

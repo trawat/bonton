@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookingRS xmlns="http://www.hotelbeds.com/schemas/messages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="http://www.hotelbeds.com/schemas/messages">
+    <auditData processTime="2324" timestamp="2016-06-13 13:07:41.695" requestHost="23.23.79.233" serverId="sa37AUX3ROLBLIS.env" environment="[int, ignite]" release="d72fd95970efd710ead5638cc0ca2a1734481a57" internal="j7pcwypu6jw6qbax9v82b8ed|IN|null|null|null|null|0|0|0|N||null|null|null|null|null||||1"/>
+    <booking reference="270-131268" clientReference="MY BOOKING REFERENCE" creationDate="2016-06-13" status="CONFIRMED" totalSellingRate="313.89" totalNet="313.89" pendingAmount="313.89" currency="USD">
+        <modificationPolicies cancellation="true" modification="true"/>
+        <holder name="HOLDER NAME" surname="HOLDER SURNAME"/>
+        <hotel checkIn="2016-06-30" checkOut="2016-07-03" code="150877" name="Almondz" categoryCode="2EST" categoryName="2 STARS" destinationCode="DEL" destinationName="Delhi and NCR" zoneCode="1" zoneName="Delhi" latitude="28.64392865" longitude="77.17242838" totalNet="313.89" currency="USD">
+            <rooms>
+                <room status="CONFIRMED" id="1" code="DBT.CB" name="Double or Twin CLUB">
+                    <paxes>
+                        <pax roomId="1" type="AD" age="30" name="ADULT NAME" surname="ADULT SURNAAME"/>
+                    </paxes>
+                    <rates>
+                        <rate rateClass="NOR" net="313.89" rateComments="Extra beds on demand YES (with additional debit notes). Wi-fi YES (with additional debit notes)   . . All the guest is required to provide the identification card or passport when they check in the hotel." paymentType="AT_WEB" packaging="false" boardCode="HB" boardName="HALF BOARD" rooms="1">
+                            <cancellationPolicies>
+                                <cancellationPolicy amount="105.01" from="2016-06-25T23:59:00Z"/>
+                            </cancellationPolicies>
+                            <rateBreakDown>
+                                <rateSupplements>
+                                    <rateSupplement code="SR" name="BOARD SUPPLEMENT" from="2016-06-30" to="2016-07-03" amount="37.00" nights="3" paxNumber="1"/>
+                                    <rateSupplement code="TA" name="CITY TAX" from="2016-06-30" to="2016-07-03" amount="4.09" nights="3" paxNumber="1"/>
+                                    <rateSupplement code="TA" name="CITY TAX" from="2016-06-30" to="2016-07-03" amount="0.54" nights="3" paxNumber="1"/>
+                                </rateSupplements>
+                            </rateBreakDown>
+                        </rate>
+                    </rates>
+                </room>
+            </rooms>
+            <supplier vatNumber="B22257273"/>
+        </hotel>
+    </booking>
+</bookingRS>
