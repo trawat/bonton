@@ -23,11 +23,13 @@ import org.slf4j.LoggerFactory;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmRequest.Rooms.Room;
 import com.bonton.utility.artifacts.BTNConfirmRequest.Rooms.Room.Paxes.Pax;
+import com.bonton.utility.artifacts.BTNConfirmResponse;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.hotelbeds.AvailabilityRQ;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
+import com.bonton.utility.hotelbeds.BookingRS;
 import com.bonton.utility.processor.XmlProcessor;
 import com.google.gson.Gson;
 import com.hotelbeds.beans.CancellationBean;
@@ -43,18 +45,263 @@ public class HBServiceHelper {
 	
 	public HBServiceHelper() {}
 	
-	public AvailabilityRQ searchBeanRequestMapper(BTNSearchRequest searchBean) {
+	public AvailabilityRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRq) {
 		AvailabilityRQ availabilityRQ = new AvailabilityRQ();
+
+		AvailabilityRQ.Destination destination = new AvailabilityRQ.Destination();
+		destination.setCode(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationCode());
+		//destination.setZone(searchBean.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationType());  
+
+		availabilityRQ.setDestination(destination);
+
+		AvailabilityRQ.Filter filter = new AvailabilityRQ.Filter();
+		filter.setMinCategory(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMinStarRating());
+		filter.setMaxCategory(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMaxStarRating());
+
+		availabilityRQ.setFilter(filter);
+
+		AvailabilityRQ.Stay stay = new AvailabilityRQ.Stay();
+		stay.setCheckIn(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckInDate());
+		stay.setCheckOut(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckOutDate());
+
+		availabilityRQ.setStay(stay);
+
+		List<BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.Rooms.Room> roomLst = btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getRooms().getRoom();
 		
+		AvailabilityRQ.Occupancies resOccupancies = new AvailabilityRQ.Occupancies(); 
+		availabilityRQ.setOccupancies(resOccupancies);
+		
+		List<AvailabilityRQ.Occupancies.Occupancy> resOccupancyLst = availabilityRQ.getOccupancies().getOccupancy();
+		
+		for (BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.Rooms.Room room : roomLst) {
+			AvailabilityRQ.Occupancies.Occupancy resOccupancy = new AvailabilityRQ.Occupancies.Occupancy();
+			resOccupancy.setRooms(room.getNoOfRooms());
+			resOccupancy.setAdults(room.getAdults());
+			resOccupancy.setChildren(room.getChildren());
+			
+			AvailabilityRQ.Occupancies.Occupancy.Paxes resPaxes = new AvailabilityRQ.Occupancies.Occupancy.Paxes();
+			resOccupancy.setPaxes(resPaxes);
+			
+			List<AvailabilityRQ.Occupancies.Occupancy.Paxes.Pax> resPaxLst = resOccupancy.getPaxes().getPax();
+			List<BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.Rooms.Room.Occupant> occupantLst = room.getOccupant();
+			for (BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.Rooms.Room.Occupant occupant : occupantLst) {
+				AvailabilityRQ.Occupancies.Occupancy.Paxes.Pax resPax = new AvailabilityRQ.Occupancies.Occupancy.Paxes.Pax();
+				resPax.setType(occupant.getType());
+				resPax.setAge(occupant.getAge());
+				resPax.setName(occupant.getName());
+				resPax.setSurname(occupant.getSurname());
+				
+				resPaxLst.add(resPax);
+			}
+			
+			resOccupancyLst.add(resOccupancy);
+		}
 		return availabilityRQ;
 	}
 	
 	public BTNSearchResponse searchBeanResponseMapper(AvailabilityRS availabilityRS) throws Exception {
+		
 		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
+
+		if (availabilityRS.getError() == null) {
+			
+		}
 		
 		/** do the appropriate mapping*/
+		btnSearchResponse.setServiceRequestID("");
+		btnSearchResponse.setServiceRequestID("");
 		
+		btnSearchResponse.setOptionsCount(availabilityRS.getHotels().getTotal());
+		
+		boolean onlyOnce = true;
+		BTNSearchResponse.HotelOptions resHotelOptions = new  BTNSearchResponse.HotelOptions();
+		btnSearchResponse.setHotelOptions(resHotelOptions);
+		
+		List<BTNSearchResponse.HotelOptions.Hotel> resHotelLst = btnSearchResponse.getHotelOptions().getHotel();
+		List<AvailabilityRS.Hotels.Hotel> hotelLst = availabilityRS.getHotels().getHotel();
+		
+		for (AvailabilityRS.Hotels.Hotel hotel : hotelLst) {
+
+			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
+			resHotel.setHotelCode(hotel.getCode());
+			resHotel.setStarRating(hotel.getCategoryName());
+//			resHotel.setLatitude(hotel.getLatitude().toString());
+//			resHotel.setLongitude(hotel.getLongitude().toString());
+			resHotel.setFullAddress(hotel.getAddress());
+
+			/* As this is common for all the hotels*/
+			if (onlyOnce) {
+				BTNSearchResponse.City city = new BTNSearchResponse.City();
+				city.setCityCode(hotel.getDestinationCode());
+				city.setCityName(hotel.getDestinationName());
+				btnSearchResponse.setCity(city);
+				onlyOnce = false;
+			}
+			
+			BTNSearchResponse.HotelOptions.Hotel.RoomOptions resRoomOptions = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions();
+			resHotel.setRoomOptions(resRoomOptions);
+			
+			List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> resRoomLst = resHotel.getRoomOptions().getRoom();
+			List<AvailabilityRS.Hotels.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
+			
+			for (AvailabilityRS.Hotels.Hotel.Rooms.Room room : roomLst){
+
+				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
+				resRoom.setRoomDescription(room.getName());
+				resRoom.setSupplier("HOTELBEDS");
+				
+				/* check this .. using first index for now*/
+//				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate> rateLst = room.getRates().getRate();
+				AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate rate = room.getRates().getRate();
+				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.FinalPrice resFinalPrice = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.FinalPrice();
+				
+				//resRoom.set (rate.getNet());
+				resRoom.setRateKey(rate.getRateKey());
+				resRoom.setPackaging(rate.getPackaging());
+				
+				resFinalPrice.setSupplierPrice(rate.getNet());
+				resFinalPrice.setOtaFee(0.0f);
+				resFinalPrice.setOtaDiscountAmount(0.0f);
+				
+				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.CancellationPolicies resCancPlcy = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.CancellationPolicies();
+				resCancPlcy.setAmount(rate.getCancellationPolicies().getCancellationPolicy().getAmount());
+				resCancPlcy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom());
+				
+				resRoom.setFinalPrice(resFinalPrice);
+				resRoom.setCancellationPolicies(resCancPlcy);
+				resRoomLst.add(resRoom);
+			}
+			resHotelLst.add(resHotel);
+		}
+
+
+		// availabilityRS.getHotels().getHotel().getDestinationCode();
+		// availabilityRS.getHotels().getHotel().getDestinationName();
+		// availabilityRS.getHotels().getHotel().getCode();
+		// availabilityRS.getHotels().getHotel().getCategoryName();
+		// availabilityRS.getHotels().getHotel().getLongitude();
+		// availabilityRS.getHotels().getHotel().getLatitude();
+		// availabilityRS.getHotels().getHotel().getAddress();  
+		// availabilityRS.getHotels().getHotel().getRooms().getRoom().getName();
+		// availabilityRS.getHotels().getHotel().getRooms().getRoom().getRates().getRate().getNet();
+		// availabilityRS.getHotels().getHotel().getRooms().getRoom().getRates().getRate().getRateKey();
+		// availabilityRS.getHotels().getHotel().getRooms().getRoom().getRates().getRate().getPackaging();
+
 		return btnSearchResponse;
+	}
+	
+	public BTNConfirmResponse confirmBeanResponseMapper(BookingRS bookingRS) throws Exception {
+		BTNConfirmResponse btnConfirmResponse = new BTNConfirmResponse();
+		
+		BTNConfirmResponse.Booking resBooking = new BTNConfirmResponse.Booking();
+		BTNConfirmResponse.Booking.ModificationPolicies resModiPolicies = new BTNConfirmResponse.Booking.ModificationPolicies();
+		BTNConfirmResponse.Booking.PrinciplePax resPrinciplePax = new BTNConfirmResponse.Booking.PrinciplePax();
+		
+		
+		resModiPolicies.setCancellation(bookingRS.getBooking().getModificationPolicies().getCancellation());
+		resModiPolicies.setModification(bookingRS.getBooking().getModificationPolicies().getModification());
+		
+		resPrinciplePax.setName(bookingRS.getBooking().getHolder().getName());
+		resPrinciplePax.setSurname(bookingRS.getBooking().getHolder().getSurname());
+		
+		resBooking.setModificationPolicies(resModiPolicies);
+		resBooking.setPrinciplePax(resPrinciplePax);
+		resBooking.setReference(bookingRS.getBooking().getReference());
+		resBooking.setClientReference(bookingRS.getBooking().getClientReference());
+		resBooking.setCreationDate(bookingRS.getBooking().getCreationDate());
+		resBooking.setTotalSellingRate(bookingRS.getBooking().getTotalNet());
+		resBooking.setStatus(bookingRS.getBooking().getRemark());
+		
+		BTNConfirmResponse.Booking.Hotel resHotel = new BTNConfirmResponse.Booking.Hotel();
+		BookingRS.Booking.Hotel hotel = bookingRS.getBooking().getHotel();
+		resHotel.setCheckIn(hotel.getCheckIn());
+		resHotel.setCheckOut(hotel.getCheckOut());
+		resHotel.setCode(new Integer(hotel.getCode()).toString());
+		resHotel.setName(hotel.getName());
+		resHotel.setCatCode(hotel.getCategoryCode());
+		resHotel.setCatName(hotel.getCategoryName());
+		resHotel.setDestCode(hotel.getDestinationCode());
+		resHotel.setDestName(hotel.getDestinationName());
+		//hotel.getZoneCode() //setters not available
+		//hotel.getZoneName()
+		//hotel.getLatitude()
+		//hotel.getLongitude()
+		//hotel.getTotalNet()
+		//hotel.getCurrency()
+		
+		resHotel.setSupplier("HotelBeds");
+		BTNConfirmResponse.Booking.Hotel.Supplierdetails resSupplierDetails = new BTNConfirmResponse.Booking.Hotel.Supplierdetails(); 
+		resSupplierDetails.setName("HotelBeds");
+		resSupplierDetails.setVatNumber(hotel.getSupplier().getVatNumber());
+		
+		BTNConfirmResponse.Booking.Hotel.Rooms resRooms = new BTNConfirmResponse.Booking.Hotel.Rooms();
+		resHotel.setRooms(resRooms);
+		resHotel.setSupplierdetails(resSupplierDetails);
+		
+		resBooking.setHotel(resHotel);
+		
+		List<BTNConfirmResponse.Booking.Hotel.Rooms.Room> resRoomLst = resRooms.getRoom();
+		List<BookingRS.Booking.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
+		
+		int roomCount = roomLst.size();
+		int adultCount = 0, totalOccupant = 0;
+		for (BookingRS.Booking.Hotel.Rooms.Room room : roomLst) {
+			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes resPaxes = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes();
+			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates resRates = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates();
+			
+			List<BookingRS.Booking.Hotel.Rooms.Room.Paxes.Pax> paxLst = room.getPaxes().getPax();
+			
+			totalOccupant = paxLst.size();
+			for (BookingRS.Booking.Hotel.Rooms.Room.Paxes.Pax pax : paxLst) {
+				BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes.Pax resPax = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes.Pax();
+				resPax.setAge(pax.getAge());
+				resPax.setName(pax.getName());
+				resPax.setRoomId(pax.getRoomId());
+				resPax.setSurname(pax.getSurname());
+				resPax.setType(pax.getType());
+				resPax.setValue(pax.getValue());
+				
+				if ("AD".equals(pax.getType()))
+					adultCount++;
+				
+				resPaxes.getPax().add(resPax);
+			}
+			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate resRate = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate(); 
+			BookingRS.Booking.Hotel.Rooms.Room.Rates.Rate rate = room.getRates().getRate();
+			
+			//rate.getBoardCode()
+			//rate.getBoardName()
+			resRate.setNetRate(rate.getNet());
+			resRate.setPackaging(rate.getPackaging());
+			//rate.getPaymentType()
+			resRate.setRateType(rate.getRateClass());
+			//rate.getRateComments()
+			resRate.setRoomCount(roomCount);
+			resRate.setAdultCount(adultCount);
+			resRate.setChildCount(totalOccupant - adultCount);
+			
+			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies resCplcies = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies();
+			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy resCplcy = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
+			
+			resCplcy.setAmount(rate.getCancellationPolicies().getCancellationPolicy().getAmount());
+			resCplcy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom().toString());
+			resCplcy.setValue(rate.getCancellationPolicies().getCancellationPolicy().getValue());
+			
+			resCplcies.setCancellationPolicy(resCplcy);
+			resRate.setCancellationPolicies(resCplcies);
+			resRates.setRate(resRate);
+			
+			
+			
+			BTNConfirmResponse.Booking.Hotel.Rooms.Room resRoom = new BTNConfirmResponse.Booking.Hotel.Rooms.Room();
+			resRoom.setPaxes(resPaxes);
+			resRoom.setRates(resRates);
+			resRoomLst.add(resRoom);
+		}
+		btnConfirmResponse.setBooking(resBooking);
+		
+		
+		return btnConfirmResponse;
 	}
 	
 	private BTNSearchResponse searchBeanResponseMapper(String hbSearchResXml) throws Exception {
@@ -73,9 +320,10 @@ public class HBServiceHelper {
 		
 		/* should be modified later **/
 		
-		logger.debug("Sending Request to get HB Htel Data");
+		logger.debug("Sending Request to get HB Htel Data {}", requestXML);
         Request.Builder requestBuilder = new Request.Builder().headers(getHeaders("POST")).url(HBProperties.HB_GET_HOTELS_END_POINT);
-        requestBuilder.post(RequestBody.create(HBProperties.JSON, requestXML));
+        requestBuilder.header("Accept", "application/xml");
+        requestBuilder.post(RequestBody.create(HBProperties.XML, requestXML));
         
       //@TODO: this should be moved to HB. Copying temporarily to HB
         //Also check the response code in order to verify status
@@ -176,7 +424,7 @@ public class HBServiceHelper {
 	public String sendBookingConfirmationAndGetResult(BTNConfirmRequest confirmBean) {
 		String responseStr = "";
 		String requestXmlString = getHotelBedsBookingConfirmationRequestXml(confirmBean);
-		
+		BontonConfigImpl.init();//get rid of this
 		//if (BontonConfigImpl.isInitialised()) {
             try {
             	logger.debug("Sending Request to Booking Confirmation");
@@ -278,7 +526,7 @@ public class HBServiceHelper {
 	public String recheckHotelPricingAndGetResult(BTNRepriceRequest repricingBean) {
 		String result = "";
 		String rateKey = repricingBean.getRooms().getRoom().getUniqueKey();
-
+		BontonConfigImpl.init();//get rid of this later
 		try {
 			Request.Builder requestBuilder = new Request.Builder().headers(getHeaders("GET")).url(HBProperties.HB_REPRICING_RATE_KEY_GET_URL+"?rateKey="+rateKey);
 
@@ -320,8 +568,8 @@ public class HBServiceHelper {
 	private String getSearchHotelsJsonRequestString(BTNSearchRequest bean) {
 		String resultStr = "";
 		if(bean != null) {
-			String checkin = bean.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckInDate();
-			String checkout = bean.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckOutDate();
+			String checkin = bean.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckInDate().toString();
+			String checkout = bean.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckOutDate().toString();
 
 			try {
 				Date date1;
@@ -343,7 +591,7 @@ public class HBServiceHelper {
 					logger.error("Dates can't have same values");
 				}
 
-				int numberOfRooms = bean.getRequestDetails().getSearchHotelPriceRequest().getRooms().getRoom().getNumberOfRooms();
+				int numberOfRooms = 0;//bean.getRequestDetails().getSearchHotelPriceRequest().getRooms().getRoom().getNumberOfRooms();
 				String minStarRating = bean.getRequestDetails().getSearchHotelPriceRequest().getMinStarRating();
 				String maxStarRating = bean.getRequestDetails().getSearchHotelPriceRequest().getMaxStarRating();
 				String destination = bean.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationCode();
