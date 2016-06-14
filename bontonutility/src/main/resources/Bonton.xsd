@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://www.bonton.com/messages" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns="http://www.bonton.com/messages" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="http://www.bonton.com/messages">
 	<xs:element name="BTNSearchRequest">
 		<xs:complexType>
 			<xs:sequence>
@@ -130,8 +131,8 @@
 										<xs:element type="xs:string" name="MainImage" />
 										<xs:element type="xs:long" name="ImageCount" />
 										<xs:element type="xs:string" name="FullAddress" />
-										<xs:element type="xs:string" name="Latitude" />
-										<xs:element type="xs:string" name="Longitude" />
+										<xs:element type="xs:float" name="Latitude" />
+										<xs:element type="xs:float" name="Longitude" />
 										<xs:element type="xs:string" name="Description" />
 										<xs:element type="xs:string" name="Remarks" />
 										<xs:element type="xs:string" name="EssentialInformation" />
@@ -185,16 +186,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-			<xs:element name="Error">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-							<xs:element name="message" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element name="Error" type="BTNError" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -308,26 +300,7 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element type="xs:string" name="Supplier" />
-				<xs:element name="error">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-							<xs:element name="message" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="Error">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-							<xs:element name="message" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element name="Error" type="BTNError" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -507,7 +480,6 @@
 												</xs:sequence>
 											</xs:complexType>
 										</xs:element>
-										<xs:element type="xs:string" name="Supplier" />
 										<xs:element name="Supplierdetails">
 											<xs:complexType>
 												<xs:sequence>
@@ -536,17 +508,16 @@
 						<xs:attribute type="xs:float" name="net" />
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="Error">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-							<xs:element name="message" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element name="Error" type="BTNError" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="BTNError">
+	<xs:sequence>
+		<xs:element name="code" type="xs:string" minOccurs="1"
+			maxOccurs="1" />
+		<xs:element name="message" type="xs:string" minOccurs="1"
+			maxOccurs="1" />
+	</xs:sequence>
+</xs:complexType>
 </xs:schema>
