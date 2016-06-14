@@ -176,16 +176,7 @@
 						<xs:attribute type="xs:string" name="checkOut" />
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="error">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-							<xs:element name="message" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element name="error" type="error" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -369,17 +360,16 @@
 						<xs:attribute type="xs:date" name="checkOut" />
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="error">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-							<xs:element name="message" type="xs:string" minOccurs="1"
-								maxOccurs="1" />
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element name="error" type="error" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="error">
+		<xs:sequence>
+			<xs:element name="code" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="message" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
 </xs:schema>
