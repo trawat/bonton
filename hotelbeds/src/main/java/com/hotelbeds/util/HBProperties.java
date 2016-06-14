@@ -9,8 +9,8 @@ public interface HBProperties {
 	public static String SHARED_SECRET = "V8kRcXfhht";
 	public static String HB_GET_HOTELS_END_POINT = "https://api.test.hotelbeds.com/hotel-api/1.0/hotels";
 	public static String HB_REPRICING_RATE_KEY_GET_URL = "https://api.test.hotelbeds.com/hotel-api/1.0/checkrates";
-	public static String HB_CANCEL_BOOKING_URL = "https://api.hotelbeds.com/hotel-api/1.0/bookings";
-	public static String HB_CONFIRM_BOOKING_POST_URL = "https://api.test.hotelbeds.com/hotel-api/0.2/bookings";
+	public static String HB_CANCEL_BOOKING_URL = "https://api.test.hotelbeds.com/hotel-api/1.0/bookings";
+	public static String HB_CONFIRM_BOOKING_POST_URL = "https://api.test.hotelbeds.com/hotel-api/1.0/bookings";
 	
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 	public static final MediaType XML = MediaType.parse("application/xml; charset=utf-8");
