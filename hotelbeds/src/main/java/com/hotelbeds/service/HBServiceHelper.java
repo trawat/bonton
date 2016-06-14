@@ -20,6 +20,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bonton.utility.artifacts.BTNCancelRQ;
+import com.bonton.utility.artifacts.BTNCancelRS;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmRequest.Rooms.Room;
 import com.bonton.utility.artifacts.BTNConfirmRequest.Rooms.Room.Paxes.Pax;
@@ -30,6 +32,7 @@ import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.hotelbeds.AvailabilityRQ;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
+import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRS;
 import com.bonton.utility.processor.XmlProcessor;
 import com.google.gson.Gson;
@@ -316,6 +319,177 @@ public class HBServiceHelper {
 		
 		
 		return btnConfirmResponse;
+	}
+	
+	public BTNCancelRS cancelBeanResponseMapper(BookingCancellationRS cancelRS) throws Exception {
+		BTNCancelRS btnCancelRS = new BTNCancelRS();
+		
+		if (cancelRS.getError() != null) {
+			BTNError errElmnt = new BTNError();
+			errElmnt.setCode(cancelRS.getError().getCode());
+			errElmnt.setMessage(cancelRS.getError().getMessage());
+			
+			btnCancelRS.setError(errElmnt);
+			return btnCancelRS;
+		}
+		
+		BTNCancelRS.Booking resBooking = new BTNCancelRS.Booking();
+		BTNCancelRS.Booking.ModificationPolicies resModiPolicies = new BTNCancelRS.Booking.ModificationPolicies();
+		BTNCancelRS.Booking.PrinciplePax resPrinciplePax = new BTNCancelRS.Booking.PrinciplePax();
+		
+		BookingCancellationRS.Booking booking = cancelRS.getBooking();
+		resModiPolicies.setCancellation(booking.getModificationPolicies().getCancellation());
+		resModiPolicies.setModification(booking.getModificationPolicies().getModification());
+		
+		resPrinciplePax.setName(booking.getHolder().getName());
+		resPrinciplePax.setSurname(booking.getHolder().getSurname());
+		
+		resBooking.setModificationPolicies(resModiPolicies);
+		resBooking.setPrinciplePax(resPrinciplePax);
+		resBooking.setReference(booking.getReference());
+		resBooking.setClientReference(booking.getClientReference());
+		resBooking.setCreationDate(booking.getCreationDate());
+		resBooking.setTotalSellingRate(booking.getTotalNet());
+		resBooking.setStatus(booking.getRemark());
+		resBooking.setCancellationReference(booking.getCancellationReference());
+		
+		BTNCancelRS.Booking.Hotel resHotel = new BTNCancelRS.Booking.Hotel();
+		BookingCancellationRS.Booking.Hotel hotel = booking.getHotel();
+		resHotel.setCheckIn(hotel.getCheckIn());
+		resHotel.setCheckOut(hotel.getCheckOut());
+		resHotel.setCode(new Integer(hotel.getCode()).toString());
+		resHotel.setName(hotel.getName());
+		resHotel.setCatCode(hotel.getCategoryCode());
+		resHotel.setCatName(hotel.getCategoryName());
+		resHotel.setDestCode(hotel.getDestinationCode());
+		resHotel.setDestName(hotel.getDestinationName());
+		resHotel.setCancellationAmount(hotel.getCancellationAmount());
+		//hotel.getZoneCode() //setters not available
+		//hotel.getZoneName()
+		//hotel.getLatitude()
+		//hotel.getLongitude()
+		//hotel.getTotalNet()
+		//hotel.getCurrency()
+		
+		BTNCancelRS.Booking.Hotel.Supplierdetails resSupplierDetails = new BTNCancelRS.Booking.Hotel.Supplierdetails(); 
+		resSupplierDetails.setName("HotelBeds");
+		resSupplierDetails.setVatNumber(hotel.getSupplier().getVatNumber());
+		
+		BTNCancelRS.Booking.Hotel.Rooms resRooms = new BTNCancelRS.Booking.Hotel.Rooms();
+		resHotel.setRooms(resRooms);
+		resHotel.setSupplierdetails(resSupplierDetails);
+		
+		resBooking.setHotel(resHotel);
+		
+		List<BTNCancelRS.Booking.Hotel.Rooms.Room> resRoomLst = resRooms.getRoom();
+		List<BookingCancellationRS.Booking.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
+		
+		int roomCount = roomLst.size();
+		int adultCount = 0, totalOccupant = 0;
+		for (BookingCancellationRS.Booking.Hotel.Rooms.Room room : roomLst) {
+			BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes resPaxes = new BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes();
+			BTNCancelRS.Booking.Hotel.Rooms.Room.Rates resRates = new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates();
+			
+			List<BookingCancellationRS.Booking.Hotel.Rooms.Room.Paxes.Pax> paxLst = room.getPaxes().getPax();
+			
+			totalOccupant = paxLst.size();
+			for (BookingCancellationRS.Booking.Hotel.Rooms.Room.Paxes.Pax pax : paxLst) {
+				BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes.Pax resPax = new BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes.Pax();
+				resPax.setAge(pax.getAge());
+				resPax.setName(pax.getName());
+				resPax.setRoomId(pax.getRoomId());
+				resPax.setSurname(pax.getSurname());
+				resPax.setType(pax.getType());
+				resPax.setValue(pax.getValue());
+				
+				if ("AD".equals(pax.getType()))
+					adultCount++;
+				
+				resPaxes.getPax().add(resPax);
+			}
+			BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate resRate = new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate(); 
+			BookingCancellationRS.Booking.Hotel.Rooms.Room.Rates.Rate rate = room.getRates().getRate();
+			
+			//rate.getBoardCode()
+			//rate.getBoardName()
+			resRate.setNetRate(rate.getNet());
+			resRate.setPackaging(rate.getPackaging());
+			//rate.getPaymentType()
+			resRate.setRateType(rate.getRateClass());
+			//rate.getRateComments()
+			resRate.setRoomCount(roomCount);
+			resRate.setAdultCount(adultCount);
+			resRate.setChildCount(totalOccupant - adultCount);
+			
+			//BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies resCplcies = new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies();
+			//BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy resCplcy = new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
+			
+			//resCplcy.setAmount(rate.getCancellationPolicies().getCancellationPolicy().getAmount());
+			//resCplcy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom().toString());
+			//resCplcy.setValue(rate.getCancellationPolicies().getCancellationPolicy().getValue());
+			
+			//resCplcies.setCancellationPolicy(resCplcy);
+			//resRate.setCancellationPolicies(resCplcies);
+			resRates.setRate(resRate);
+			
+			
+			
+			BTNCancelRS.Booking.Hotel.Rooms.Room resRoom = new BTNCancelRS.Booking.Hotel.Rooms.Room();
+			resRoom.setStatus(room.getStatus());
+			resRoom.setCode(room.getCode());
+			resRoom.setId(room.getId());
+			resRoom.setName(room.getName());
+			resRoom.setPaxes(resPaxes);
+			resRoom.setRates(resRates);
+			resRoomLst.add(resRoom);
+		}
+		btnCancelRS.setBooking(resBooking);
+		
+		
+		return btnCancelRS;
+	}
+	
+	public String sendCancellation (BTNCancelRQ cancelBean) throws Exception {
+		String result = "";
+		String refId = cancelBean.getCancelDetails().getReferenceId();
+		String flag = cancelBean.getCancelDetails().getCancelFlag();
+		
+		BontonConfigImpl.init();//get rid of this later
+		try {
+			Request.Builder requestBuilder = 
+					new Request.Builder().headers(getHeadersForBookingOrCancellation("DELETE")).url(HBProperties.HB_CANCEL_BOOKING_URL + "/" + refId + "?cancellationFlag=" + flag);
+			requestBuilder.delete();
+			
+			Response response = BontonConfigImpl.getRestTemplate().newCall(requestBuilder.build()).execute();
+			try (ResponseBody body = response.body()) {
+				BufferedSource source = body.source();
+				source.request(Long.MAX_VALUE);
+				Buffer buffer = source.buffer();
+				Charset charset = HBProperties.UTF8;
+				if (body.contentType() != null) {
+					try {
+						charset = body.contentType().charset(HBProperties.UTF8);
+					} catch (UnsupportedCharsetException e) {
+						// logger.log("Response body could not be decoded {}", e.getMessage());
+					}
+				}
+				result = buffer.readString(charset);
+//				if (response.headers().get(HBProperties.CONTENT_TYPE_HEADER).toLowerCase().startsWith(HBProperties.APPLICATION_JSON_HEADER)) {
+//					return result;
+//				} else {
+//					//throw new HotelBedsConnectorException("Invalid response", "Wrong content type" + response.headers().get(HotelBedsProperties.CONTENT_TYPE_HEADER));
+//				}
+			} catch (IOException e) {
+				if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
+					//throw new HotelBedsConnectorException("Timeout", e.getCause().getMessage());
+				} else {
+					//throw new HotelBedsConnectorException("Error accessing API", e.getMessage());
+				}
+			}
+		} catch (Exception e) {
+			//throw new HotelBedsConnectorException(e.getClass().getName(), e.getMessage(), e);
+		}
+		return result;
 	}
 	
 	private BTNSearchResponse searchBeanResponseMapper(String hbSearchResXml) throws Exception {
@@ -633,6 +807,9 @@ public class HBServiceHelper {
             case "GET":
             case "POST":
                 headersBuilder.add("Content-Type", HBProperties.APPLICATION_JSON_HEADER);
+                break;
+            case "DELETE":
+                headersBuilder.add("Content-Type", HBProperties.APPLICATION_XML_HEADER);
                 break;
             default:
                 break;
