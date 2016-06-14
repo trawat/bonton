@@ -67,17 +67,14 @@ public class BontonService implements Service {
 
 	@Override
 	public String repricing(HttpServletRequest request) throws Exception {
-		String requestBody = null;
 		String responseXml = null;
-		String rateKey = null;
 		
-		Map<String,String> requestDataMap = null;
 		try {
 			ServiceActuator actuator = new ServiceActuatorImpl();
 			responseXml = actuator.repricing(request.getInputStream());
 			
 		} catch(Exception e) {
-			logger.error("Exception while checking rate for Key " + rateKey + "   Exception is "+e.getStackTrace());
+			logger.error("Exception while checking rate for Key ");
 		}
 		return responseXml;
 	}

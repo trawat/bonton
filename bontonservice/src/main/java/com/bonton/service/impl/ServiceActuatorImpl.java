@@ -17,6 +17,7 @@ import com.bonton.service.ServiceProxy;
 import com.bonton.service.adapter.DesiaServiceProxyAdapter;
 import com.bonton.service.adapter.ExpediaServiceProxyAdapter;
 import com.bonton.service.adapter.HBServiceProxyAdapter;
+import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
@@ -145,6 +146,12 @@ public class ServiceActuatorImpl implements ServiceActuator {
 
 	@Override
 	public String cancel(InputStream is) throws Exception {
+		BTNCancelRQ cancelBean = XmlProcessor.getBTNCancelRQBean(is);
+		String supplier = cancelBean.getSupplier();
+		
+		if ("HotelBeds".equalsIgnoreCase(supplier)) {
+			return new HBServiceProxyAdapter().cancelBooking(supplier, cancelBean);
+		}
 		return null;
 	}
 
