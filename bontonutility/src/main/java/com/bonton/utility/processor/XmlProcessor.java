@@ -14,10 +14,12 @@ import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
+import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRS;
 
 public class XmlProcessor {
@@ -31,6 +33,10 @@ public class XmlProcessor {
 	
 	public static BTNConfirmRequest getBTNConfirmRQBean(InputStream is) throws Exception {
 		return unmarshall(is, BTNConfirmRequest.class);
+	}
+	
+	public static BTNCancelRQ getBTNCancelRQBean(InputStream is) throws Exception {
+		return unmarshall(is, BTNCancelRQ.class);
 	}
 
 	public static BTNRepriceRequest getBTNRepriceRQBean(InputStream is) throws Exception {
@@ -47,6 +53,10 @@ public class XmlProcessor {
 	
 	public static BookingRS getHBConfirmRSBean(String hbConfirmResXml) throws Exception {
 		return unmarshall(new ByteArrayInputStream(hbConfirmResXml.getBytes("UTF-8")), BookingRS.class);
+	}
+	
+	public static BookingCancellationRS getHBCancelRSBean(String hbCancelResXml) throws Exception {
+		return unmarshall(new ByteArrayInputStream(hbCancelResXml.getBytes("UTF-8")), BookingCancellationRS.class);
 	}
 	
 	private static <T> T unmarshall(InputStream is, Class<T> beanClass) throws Exception {
