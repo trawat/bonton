@@ -24,6 +24,7 @@ import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmRequest.Rooms.Room;
 import com.bonton.utility.artifacts.BTNConfirmRequest.Rooms.Room.Paxes.Pax;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
+import com.bonton.utility.artifacts.BTNError;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
@@ -103,8 +104,13 @@ public class HBServiceHelper {
 		
 		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
 
-		if (availabilityRS.getError() == null) {
+		if (availabilityRS.getError() != null) {
+			BTNError errElmnt = new BTNError();
+			errElmnt.setCode(availabilityRS.getError().getCode());
+			errElmnt.setMessage(availabilityRS.getError().getMessage());
 			
+			btnSearchResponse.setError(errElmnt);
+			return btnSearchResponse;
 		}
 		
 		/** do the appropriate mapping*/
@@ -125,8 +131,8 @@ public class HBServiceHelper {
 			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
 			resHotel.setHotelCode(hotel.getCode());
 			resHotel.setStarRating(hotel.getCategoryName());
-//			resHotel.setLatitude(hotel.getLatitude().toString());
-//			resHotel.setLongitude(hotel.getLongitude().toString());
+			resHotel.setLatitude(hotel.getLatitude());
+			resHotel.setLongitude(hotel.getLongitude());
 			resHotel.setFullAddress(hotel.getAddress());
 
 			/* As this is common for all the hotels*/
@@ -193,6 +199,15 @@ public class HBServiceHelper {
 	public BTNConfirmResponse confirmBeanResponseMapper(BookingRS bookingRS) throws Exception {
 		BTNConfirmResponse btnConfirmResponse = new BTNConfirmResponse();
 		
+		if (bookingRS.getError() != null) {
+			BTNError errElmnt = new BTNError();
+			errElmnt.setCode(bookingRS.getError().getCode());
+			errElmnt.setMessage(bookingRS.getError().getMessage());
+			
+			btnConfirmResponse.setError(errElmnt);
+			return btnConfirmResponse;
+		}
+		
 		BTNConfirmResponse.Booking resBooking = new BTNConfirmResponse.Booking();
 		BTNConfirmResponse.Booking.ModificationPolicies resModiPolicies = new BTNConfirmResponse.Booking.ModificationPolicies();
 		BTNConfirmResponse.Booking.PrinciplePax resPrinciplePax = new BTNConfirmResponse.Booking.PrinciplePax();
@@ -229,7 +244,6 @@ public class HBServiceHelper {
 		//hotel.getTotalNet()
 		//hotel.getCurrency()
 		
-		resHotel.setSupplier("HotelBeds");
 		BTNConfirmResponse.Booking.Hotel.Supplierdetails resSupplierDetails = new BTNConfirmResponse.Booking.Hotel.Supplierdetails(); 
 		resSupplierDetails.setName("HotelBeds");
 		resSupplierDetails.setVatNumber(hotel.getSupplier().getVatNumber());
