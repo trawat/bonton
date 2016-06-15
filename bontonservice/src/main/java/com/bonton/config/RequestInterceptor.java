@@ -22,7 +22,7 @@ import okio.Buffer;
 
 import org.slf4j.Logger;
 
-import com.bonton.util.BontonProperties;
+import com.bonton.util.BTNProperties;
 import com.bonton.util.ObjectJoiner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -63,16 +63,16 @@ public final class RequestInterceptor implements Interceptor {
                 // If the request has a body, sometimes these headers are not present, so let's make them explicit
                 if (hasRequestBody) {
                     if (requestBody.contentType() != null) {
-                        logHeader(BontonProperties.CONTENT_TYPE_HEADER, requestBody.contentType().toString());
+                        logHeader(BTNProperties.CONTENT_TYPE_HEADER, requestBody.contentType().toString());
                     }
                     if (requestBodySize != -1) {
-                        logHeader(BontonProperties.CONTENT_LENGTH_HEADER, Long.toString(requestBodySize));
+                        logHeader(BTNProperties.CONTENT_LENGTH_HEADER, Long.toString(requestBodySize));
                     }
                 }
                 // logger the other headers
                 for (String header : request.headers().names()) {
-                    if (!BontonProperties.CONTENT_TYPE_HEADER.equalsIgnoreCase(header)
-                        && !BontonProperties.CONTENT_LENGTH_HEADER.equalsIgnoreCase(header)) {
+                    if (!BTNProperties.CONTENT_TYPE_HEADER.equalsIgnoreCase(header)
+                        && !BTNProperties.CONTENT_LENGTH_HEADER.equalsIgnoreCase(header)) {
                         for (String value : request.headers().values(header)) {
                             logHeader(header, value);
                         }
@@ -98,7 +98,7 @@ public final class RequestInterceptor implements Interceptor {
 
             logger.info("Response: {}", ObjectJoiner.join(" ", response.code(), response.message()));
             if (contentLength >= 0) {
-                logger.info("  {}: {}", BontonProperties.CONTENT_LENGTH_HEADER, contentLength);
+                logger.info("  {}: {}", BTNProperties.CONTENT_LENGTH_HEADER, contentLength);
             }
             logger.info("  Request took {} ms", totalRequestTime);
 
@@ -130,17 +130,17 @@ public final class RequestInterceptor implements Interceptor {
         } else {
         	if(bufferSupplier != null) {
         		Buffer buffer = bufferSupplier.get();
-                Charset charset = BontonProperties.UTF8;
+                Charset charset = BTNProperties.UTF8;
                 if (contentType != null) {
                     try {
-                        charset = contentType.charset(BontonProperties.UTF8);
+                        charset = contentType.charset(BTNProperties.UTF8);
                     } catch (UnsupportedCharsetException e) {
                         logger.error("  Body: Could not be decoded {}", e.getMessage());
                     }
                 }
                 body = buffer.readString(charset);
-                String bodyContentType = headers.get(BontonProperties.CONTENT_TYPE_HEADER);
-                if (bodyContentType != null && bodyContentType.toLowerCase().startsWith(BontonProperties.APPLICATION_JSON_HEADER)) {
+                String bodyContentType = headers.get(BTNProperties.CONTENT_TYPE_HEADER);
+                if (bodyContentType != null && bodyContentType.toLowerCase().startsWith(BTNProperties.APPLICATION_JSON_HEADER)) {
                     logger.trace("  JSON Body: {}", writeJSON(body));
                 } else {
                     logger.trace("  Body: {}", body);
@@ -156,7 +156,7 @@ public final class RequestInterceptor implements Interceptor {
     }
 
     private boolean bodyEncoded(Headers headers) {
-        String contentEncoding = headers.get(BontonProperties.CONTENT_ENCODING_HEADER);
+        String contentEncoding = headers.get(BTNProperties.CONTENT_ENCODING_HEADER);
         return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
     }
 

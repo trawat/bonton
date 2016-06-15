@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.bonton.service.ServiceProxy;
 import com.bonton.service.adapter.DesiaServiceProxyAdapter;
 import com.bonton.service.adapter.HBServiceProxyAdapter;
-import com.bonton.util.BontonProperties;
+import com.bonton.util.BTNProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -24,9 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class BontonConfig {
 	
 	private static OkHttpClient restTemplate = null;
-	private static int readTimeout = BontonProperties.REST_TEMPLATE_READ_TIME_OUT;
-    private static int connectTimeout = BontonProperties.REST_TEMPLATE_READ_TIME_OUT;
-    private static int connectionRequestTimeout = BontonProperties.REST_TEMPLATE_READ_TIME_OUT;
+	private static int readTimeout = BTNProperties.REST_TEMPLATE_READ_TIME_OUT;
+    private static int connectTimeout = BTNProperties.REST_TEMPLATE_READ_TIME_OUT;
+    private static int connectionRequestTimeout = BTNProperties.REST_TEMPLATE_READ_TIME_OUT;
 	private static boolean initialised = false;
 	private static ExecutorService executorService = null;
     private static ObjectMapper mapper = null;
@@ -60,9 +60,9 @@ public class BontonConfig {
 		
     	Map<String,Boolean> enabledApiServiceMap = new HashMap<String,Boolean>();
     	
-    	enabledApiServiceMap.put(BontonProperties.HB_HOTEL_API_SERVICE, new Boolean(true));
-    	enabledApiServiceMap.put(BontonProperties.EXPEDIA_HOTEL_API_SERVICE, new Boolean(false));
-    	enabledApiServiceMap.put(BontonProperties.DESIA_HOTEL_API_SERVICE, new Boolean(false));
+    	enabledApiServiceMap.put(BTNProperties.HB_HOTEL_API_SERVICE, new Boolean(true));
+    	enabledApiServiceMap.put(BTNProperties.EXPEDIA_HOTEL_API_SERVICE, new Boolean(false));
+    	enabledApiServiceMap.put(BTNProperties.DESIA_HOTEL_API_SERVICE, new Boolean(false));
     	
 		return enabledApiServiceMap;
 		
