@@ -3,6 +3,7 @@ package com.desia.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.desia.artifacts.OTAHotelAvailRQ;
@@ -20,6 +21,12 @@ public class DesiaService {
 		
 		BTNSearchResponse btnSearchResponse = desiaHelper.searchBeanResponseMapper(otaHotelAvailRS);
 		rqRsMap.put(uuid, btnSearchResponse);
+	}
+	
+	public String repricing(BTNRepriceRequest repricingBean) throws Exception {
+		DesiaServiceHelper client = new DesiaServiceHelper();
+		//return client.recheckHotelPricingAndGetResult(repricingBean);
+		return null;
 	}
 	
 	public BTNSearchResponse getAvailabilityRS(String uuid) {

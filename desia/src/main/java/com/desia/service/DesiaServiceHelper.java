@@ -18,6 +18,7 @@ import javax.xml.ws.handler.PortInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.desia.Hotels;
@@ -34,6 +35,7 @@ import com.desia.artifacts.OTAHotelAvailRQ;
 import com.desia.artifacts.OTAHotelAvailRQ.AvailRequestSegments;
 import com.desia.artifacts.OTAHotelAvailRS;
 import com.desia.artifacts.OTAHotelAvailRS.RoomStays.RoomStay;
+import com.desia.artifacts.OTAHotelResRQ;
 import com.desia.artifacts.Pagination;
 import com.desia.artifacts.RatePlanType;
 import com.desia.artifacts.RoomStayCandidateType;
@@ -202,7 +204,7 @@ public class DesiaServiceHelper {
 		return btnSearchRS;
 	}
 	
-	private Hotels getHotelList(List<OTAHotelAvailRS.RoomStays.RoomStay> hotelLst) {
+	private Hotels getHotelList(List<OTAHotelAvailRS.RoomStays.RoomStay> hotelLst) throws Exception {
 		Hotels hotels = new Hotels();
 		
 		if (hotelLst.size() != 0) {
@@ -275,6 +277,12 @@ public class DesiaServiceHelper {
 		}
 		
 		return hotels;
+	}
+	
+	public OTAHotelResRQ repriceBeanRequestMapper(BTNRepriceRequest btnRepriceRQ) {
+		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
+		
+		
 	}
 	
 	private static BTNSearchResponse searchBeanResponseMapperTest(OTAHotelAvailRS otaHotelAvailRS) throws Exception {
