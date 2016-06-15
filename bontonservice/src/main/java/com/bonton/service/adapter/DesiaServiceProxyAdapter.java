@@ -29,7 +29,7 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 
 	@Override
 	public String repricing(String supplier, BTNRepriceRequest repriceBean) throws Exception {
-		// TODO Auto-generated method stub
+		//return desiaService.repricing(repricingBean);
 		return null;
 	}
 
