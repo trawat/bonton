@@ -75,7 +75,7 @@ public class BontonConfig {
     	if (true) {
     		enabledApiServiceList.add(new HBServiceProxyAdapter());
     	}
-    	if (false) {
+    	if (true) {
     		enabledApiServiceList.add(new DesiaServiceProxyAdapter());
     	}
     	if (false) {System.out.println();}
