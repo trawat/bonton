@@ -3,9 +3,9 @@ package com.bonton.util;
 import java.nio.charset.Charset;
 
 
-public interface BontonProperties {
+public interface BTNProperties {
 
-	public static final String HOTELBEDS = "HB";
+	public static final String HB = "HOTELBEDS";
 	public static final String EXPEDIA = "EXPEDIA";
 	public static final String DESIA = "DESIA";
 	
