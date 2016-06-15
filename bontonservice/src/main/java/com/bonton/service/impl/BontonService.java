@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.bonton.config.BontonConfig;
 import com.bonton.service.Service;
 import com.bonton.service.ServiceActuator;
-import com.bonton.util.BontonProperties;
+import com.bonton.util.BTNProperties;
 
 public class BontonService implements Service {
 	
@@ -44,7 +44,7 @@ public class BontonService implements Service {
 			responseXml = actuator.confirm(request.getInputStream());
 		} catch (Exception exception) {
 			logger.error("Exception while confirm booking {}", exception);
-			return BontonProperties.SERVICE_TEMPORARILY_DOWN;
+			return BTNProperties.SERVICE_TEMPORARILY_DOWN;
 		}
 
 		return responseXml;

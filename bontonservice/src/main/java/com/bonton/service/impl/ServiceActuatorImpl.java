@@ -17,6 +17,7 @@ import com.bonton.service.ServiceProxy;
 import com.bonton.service.adapter.DesiaServiceProxyAdapter;
 import com.bonton.service.adapter.ExpediaServiceProxyAdapter;
 import com.bonton.service.adapter.HBServiceProxyAdapter;
+import com.bonton.util.BTNProperties;
 import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
@@ -153,7 +154,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		BTNConfirmRequest confirmBean = XmlProcessor.getBTNConfirmRQBean(is);
 		String supplier = confirmBean.getSupplier();
 		
-		if ("HotelBeds".equalsIgnoreCase(supplier)) {
+		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
 			return new HBServiceProxyAdapter().confirmBooking(supplier, confirmBean);
 		}
 		
@@ -165,7 +166,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		BTNCancelRQ cancelBean = XmlProcessor.getBTNCancelRQBean(is);
 		String supplier = cancelBean.getSupplier();
 		
-		if ("HotelBeds".equalsIgnoreCase(supplier)) {
+		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
 			return new HBServiceProxyAdapter().cancelBooking(supplier, cancelBean);
 		}
 		return null;
@@ -176,8 +177,10 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		BTNRepriceRequest repriceBean = XmlProcessor.getBTNRepriceRQBean(is);
 		String supplier = repriceBean.getSupplier();
 		
-		if ("HotelBeds".equalsIgnoreCase(supplier)) {
+		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
 			return new HBServiceProxyAdapter().repricing(supplier, repriceBean);
+		} else if (BTNProperties.DESIA.equalsIgnoreCase(supplier)) {
+			return new DesiaServiceProxyAdapter().repricing(supplier, repriceBean);
 		}
 		return null;
 	}
