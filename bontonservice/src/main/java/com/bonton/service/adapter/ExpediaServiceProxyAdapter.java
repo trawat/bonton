@@ -1,16 +1,15 @@
 package com.bonton.service.adapter;
 
-import java.io.InputStream;
-
 import com.bonton.service.ServiceProxy;
 import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
+import com.bonton.utility.artifacts.BTNSearchRequest;
 
-public class ExpediaServiceProxyAdapter  extends ServiceProxy{
+public class ExpediaServiceProxyAdapter  extends ServiceProxy {
 	
 	@Override
-	public void search(InputStream is, String uuid, boolean moreThanOneProvider)
+	public void search(BTNSearchRequest requestBean, String uuid, boolean moreThanOneProvider)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -31,6 +30,12 @@ public class ExpediaServiceProxyAdapter  extends ServiceProxy{
 	@Override
 	public String cancelBooking(String supplier, BTNCancelRQ cancelBean)
 			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getServiceInstance() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -20,6 +20,7 @@ import com.bonton.service.adapter.HBServiceProxyAdapter;
 import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
+import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.processor.XmlProcessor;
 
@@ -30,6 +31,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	public String search(List<? extends ServiceProxy> serviceList, final InputStream is) throws Exception {
 		final String uuid = UUID.randomUUID().toString();
 		final boolean manySp = serviceList.size() > 1;
+		final BTNSearchRequest requestBean = XmlProcessor.getBTNSearchRQBean(is);
 		
 		List<Future<Boolean>> taskLst = new LinkedList<Future<Boolean>>();
 		
@@ -39,7 +41,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 				@Override
 				public void run() {
 					try {
-						sp.search(is, uuid, manySp);
+						sp.search(requestBean, uuid, manySp);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -57,18 +59,16 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		/* For one SP, return the result as it is.*/
 		if (!manySp) {
 			if (serviceList.get(0) instanceof HBServiceProxyAdapter) {
-				return XmlProcessor.getBeanInXml(serviceList.get(0).getHBServiceInstance().getAvailabilityRS(uuid));
+				return XmlProcessor.getBeanInXml(((HBServiceProxyAdapter) serviceList.get(0)).getServiceInstance().getAvailabilityRS(uuid));
 			} else if (serviceList.get(0) instanceof DesiaServiceProxyAdapter) {
-				return XmlProcessor.getBeanInXml(serviceList.get(0).getDesiaServiceInstance().getAvailabilityRS(uuid));
+				return XmlProcessor.getBeanInXml(((DesiaServiceProxyAdapter) serviceList.get(0)).getServiceInstance().getAvailabilityRS(uuid));
 			} else if (serviceList.get(0) instanceof ExpediaServiceProxyAdapter) {
 				//return XmlProcessor.getBeanInXml(serviceList.get(0).getHBServiceInstance().getAvailabilityRS(uuid));
 			} else {
 				//TODO: put in a check for the case none of the services are available
 			}
-			
-//			Class<?> serviceType = (Class<?>) serviceList.get(0).getServiceInstance().getClass().get;
-//			 ((serviceType) serviceList.get(0).getServiceInstance())
 		}
+		
 		/**
 		 * Concurrency level equals to the no. of service provider threads.
 		 * Bonton hotel code and associated rooms represents Key-Value pair. 
@@ -76,11 +76,19 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		final Map<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room>> indxedHtlRoom = new ConcurrentHashMap<>(16, .75f, 3);
 		
 		for (final ServiceProxy sp : serviceList) {
-			final BTNSearchResponse btnSearchResponse = sp.getHBServiceInstance().getAvailabilityRS(uuid);
 			Future<Boolean> submtedTask = es.submit(new Runnable() {
 				@Override
 				public void run() {
 					try {
+						BTNSearchResponse btnSearchResponse = null;
+						if (sp instanceof HBServiceProxyAdapter) {
+							btnSearchResponse = ((HBServiceProxyAdapter) sp).getServiceInstance().getAvailabilityRS(uuid);
+						} else if (sp instanceof DesiaServiceProxyAdapter) {
+							btnSearchResponse = ((DesiaServiceProxyAdapter) sp).getServiceInstance().getAvailabilityRS(uuid);
+						} else if (false) {
+							//btnSearchResponse = ((ExpediaServiceProxyAdapter) sp).getServiceInstance().getAvailabilityRS(uuid);
+						}
+						
 						List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = btnSearchResponse.getHotelOptions().getHotel();
 						
 						for (BTNSearchResponse.HotelOptions.Hotel hotel : hotelLst) {
@@ -95,7 +103,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 								roomLst.addAll(hotel.getRoomOptions().getRoom());
 								indxedHtlRoom.put(hotelCode, roomLst);
 							} else {
-								roomLst.addAll(hotel.getRoomOptions().getRoom());
+								indxedHtlRoom.get(hotelCode).addAll(hotel.getRoomOptions().getRoom());
 							}
 							
 						}
@@ -113,18 +121,26 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		
 		/* Aggregation all set at this point. Prepare final response. */
 		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
-		List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = btnSearchResponse.getHotelOptions().getHotel();
+		BTNSearchResponse.HotelOptions resHotels = new BTNSearchResponse.HotelOptions();
+		List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = resHotels.getHotel();
 		
 		Iterator<Entry<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room>>> itr = indxedHtlRoom.entrySet().iterator();
 		
-		int index = 0;
 		Entry<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room>> entry = null;
 		while (itr.hasNext()) {
 			entry = itr.next();
-			hotelLst.get(index).setHotelCode(entry.getKey());
-			hotelLst.get(index).getRoomOptions().getRoom().addAll(entry.getValue());
+			
+			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
+			BTNSearchResponse.HotelOptions.Hotel.RoomOptions resRooms = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions();
+			resHotel.setRoomOptions(resRooms);
+			
+			resHotel.setHotelCode(entry.getKey());
+			resHotel.getRoomOptions().getRoom().addAll(entry.getValue());
+			
+			hotelLst.add(resHotel);
 		}
 		
+		btnSearchResponse.setHotelOptions(resHotels);
 		String responseXml = XmlProcessor.getBeanInXml(btnSearchResponse);
 		
 		//TODO: Get rid of the indexes before returning

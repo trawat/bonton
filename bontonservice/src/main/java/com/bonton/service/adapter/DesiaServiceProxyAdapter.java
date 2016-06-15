@@ -1,14 +1,10 @@
 package com.bonton.service.adapter;
 
-import java.io.InputStream;
-import java.util.UUID;
-
 import com.bonton.service.ServiceProxy;
 import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
-import com.bonton.utility.processor.XmlProcessor;
 import com.desia.service.DesiaService;
 
 
@@ -20,11 +16,7 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 	}
 	
 	@Override
-	public void search(InputStream is, String uuid, boolean moreThanOneProvider) throws Exception {
-		BTNSearchRequest requestBean = XmlProcessor.getBTNSearchRQBean(is);
-//		if (requestBean == null) {
-//			return "<h1>Invalid Request<h1>";
-//		}
+	public void search(BTNSearchRequest requestBean, String uuid, boolean moreThanOneProvider) throws Exception {
 		/** To help us with unique key for each request */
 		desiaService.search(requestBean, uuid);
 	}
@@ -47,8 +39,9 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public DesiaService getDesiaServiceInstance() {
+	
+	@Override
+	public DesiaService getServiceInstance() {
 		return desiaService;
 	}
 }
