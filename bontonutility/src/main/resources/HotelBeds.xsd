@@ -176,7 +176,7 @@
 						<xs:attribute type="xs:string" name="checkOut" />
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="error" type="error" />
+				<xs:element name="error" type="ErrorRS" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -360,11 +360,281 @@
 						<xs:attribute type="xs:date" name="checkOut" />
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="error" type="error" />
+				<xs:element name="error" type="ErrorRS" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="error">
+	<xs:element name="bookingCancellationRS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="booking">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="modificationPolicies">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute type="xs:string" name="cancellation" />
+											<xs:attribute type="xs:string" name="modification" />
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="holder">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute type="xs:string" name="name" />
+											<xs:attribute type="xs:string" name="surname" />
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="hotel">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="rooms">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="room" minOccurs="1" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="paxes">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="pax" maxOccurs="unbounded"
+																				minOccurs="0">
+																				<xs:complexType>
+																					<xs:simpleContent>
+																						<xs:extension base="xs:string">
+																							<xs:attribute type="xs:int" name="roomId"
+																								use="optional" />
+																							<xs:attribute type="xs:string" name="type"
+																								use="optional" />
+																							<xs:attribute type="xs:int" name="age"
+																								use="optional" />
+																							<xs:attribute type="xs:string" name="name"
+																								use="optional" />
+																							<xs:attribute type="xs:string" name="surname"
+																								use="optional" />
+																						</xs:extension>
+																					</xs:simpleContent>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="rates">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="rate" maxOccurs="1"
+																				minOccurs="1">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element name="cancellationPolicies">
+																							<xs:complexType>
+																								<xs:sequence>
+																									<xs:element name="cancellationPolicy">
+																										<xs:complexType>
+																											<xs:simpleContent>
+																												<xs:extension base="xs:string">
+																													<xs:attribute type="xs:float"
+																														name="amount" />
+																													<xs:attribute type="xs:dateTime"
+																														name="from" />
+																												</xs:extension>
+																											</xs:simpleContent>
+																										</xs:complexType>
+																									</xs:element>
+																								</xs:sequence>
+																							</xs:complexType>
+																						</xs:element>
+																						<xs:element name="rateBreakDown">
+																							<xs:complexType>
+																								<xs:sequence>
+																									<xs:element name="rateSupplements">
+																										<xs:complexType>
+																											<xs:sequence>
+																												<xs:element name="rateSupplement">
+																													<xs:complexType>
+																														<xs:simpleContent>
+																															<xs:extension base="xs:string">
+																																<xs:attribute type="xs:string"
+																																	name="code" />
+																																<xs:attribute type="xs:string"
+																																	name="name" />
+																																<xs:attribute type="xs:date"
+																																	name="from" />
+																																<xs:attribute type="xs:date"
+																																	name="to" />
+																																<xs:attribute type="xs:float"
+																																	name="amount" />
+																																<xs:attribute type="xs:int"
+																																	name="nights" />
+																																<xs:attribute type="xs:int"
+																																	name="paxNumber" />
+																															</xs:extension>
+																														</xs:simpleContent>
+																													</xs:complexType>
+																												</xs:element>
+																											</xs:sequence>
+																										</xs:complexType>
+																									</xs:element>
+																								</xs:sequence>
+																							</xs:complexType>
+																						</xs:element>
+																					</xs:sequence>
+																					<xs:attribute type="xs:string" name="rateClass" />
+																					<xs:attribute type="xs:float" name="net" />
+																					<xs:attribute type="xs:string" name="rateComments" />
+																					<xs:attribute type="xs:string" name="paymentType" />
+																					<xs:attribute type="xs:string" name="packaging" />
+																					<xs:attribute type="xs:string" name="boardCode" />
+																					<xs:attribute type="xs:string" name="boardName" />
+																					<xs:attribute type="xs:int" name="rooms" />
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute type="xs:string" name="status" />
+															<xs:attribute type="xs:int" name="id" />
+															<xs:attribute type="xs:string" name="code" />
+															<xs:attribute type="xs:string" name="name" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="supplier">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute type="xs:string" name="vatNumber" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute type="xs:date" name="checkIn" />
+									<xs:attribute type="xs:date" name="checkOut" />
+									<xs:attribute type="xs:int" name="code" />
+									<xs:attribute type="xs:string" name="name" />
+									<xs:attribute type="xs:string" name="categoryCode" />
+									<xs:attribute type="xs:string" name="categoryName" />
+									<xs:attribute type="xs:string" name="destinationCode" />
+									<xs:attribute type="xs:string" name="destinationName" />
+									<xs:attribute type="xs:byte" name="zoneCode" />
+									<xs:attribute type="xs:string" name="zoneName" />
+									<xs:attribute type="xs:float" name="latitude" />
+									<xs:attribute type="xs:float" name="longitude" />
+									<xs:attribute type="xs:float" name="totalNet" />
+									<xs:attribute type="xs:string" name="currency" />
+									<xs:attribute type="xs:string" name="cancellationAmount" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute type="xs:string" name="reference" />
+						<xs:attribute type="xs:string" name="cancellationReference" />
+						<xs:attribute type="xs:string" name="clientReference" />
+						<xs:attribute type="xs:date" name="creationDate" />
+						<xs:attribute type="xs:float" name="totalNet" />
+						<xs:attribute type="xs:string" name="currency" />
+						<xs:attribute type="xs:date" name="checkIn" />
+						<xs:attribute type="xs:string" name="remark" />
+						<xs:attribute type="xs:date" name="checkOut" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="error" type="ErrorRS" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="checkRateRS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="hotel" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="rooms">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="room" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="rates">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="rate">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="cancellationPolicies">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element name="cancellationPolicy">
+																							<xs:complexType>
+																								<xs:simpleContent>
+																									<xs:extension base="xs:string">
+																										<xs:attribute type="xs:float"
+																											name="amount" />
+																										<xs:attribute type="xs:date"
+																											name="from" />
+																										<xs:attribute type="xs:float"
+																											name="hotelAmount" />
+																									</xs:extension>
+																								</xs:simpleContent>
+																							</xs:complexType>
+																						</xs:element>
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																		<xs:attribute type="xs:string" name="paymentType" />
+																		<xs:attribute type="xs:string" name="packaging" />
+																		<xs:attribute type="xs:string" name="boardCode" />
+																		<xs:attribute type="xs:string" name="boardName" />
+																		<xs:attribute type="xs:int" name="rooms" />
+																		<xs:attribute type="xs:int" name="adults" />
+																		<xs:attribute type="xs:int" name="children" />
+																		<xs:attribute type="xs:string" name="rateKey" />
+																		<xs:attribute type="xs:string" name="rateClass" />
+																		<xs:attribute type="xs:string" name="rateType" />
+																		<xs:attribute type="xs:float" name="net" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute type="xs:string" name="code" />
+												<xs:attribute type="xs:string" name="name" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute type="xs:float" name="checkIn" />
+						<xs:attribute type="xs:float" name="checkOut" />
+						<xs:attribute type="xs:string" name="name" />
+						<xs:attribute type="xs:string" name="code" />
+						<xs:attribute type="xs:string" name="categoryCode" />
+						<xs:attribute type="xs:string" name="categoryName" />
+						<xs:attribute type="xs:string" name="destinationCode" />
+						<xs:attribute type="xs:string" name="destinationName" />
+						<xs:attribute type="xs:string" name="zoneName" />
+						<xs:attribute type="xs:int" name="zoneCode" />
+						<xs:attribute type="xs:float" name="latitude" />
+						<xs:attribute type="xs:float" name="longitude" />
+						<xs:attribute type="xs:string" name="currency" />
+						<xs:attribute type="xs:string" name="totalNet" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="error" type="ErrorRS" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ErrorRS">
 		<xs:sequence>
 			<xs:element name="code" type="xs:string" minOccurs="1"
 				maxOccurs="1" />
