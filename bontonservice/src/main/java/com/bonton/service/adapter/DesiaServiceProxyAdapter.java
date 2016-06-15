@@ -48,4 +48,7 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 		return null;
 	}
 
+	public DesiaService getDesiaServiceInstance() {
+		return desiaService;
+	}
 }

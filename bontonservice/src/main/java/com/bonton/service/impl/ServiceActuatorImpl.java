@@ -59,7 +59,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			if (serviceList.get(0) instanceof HBServiceProxyAdapter) {
 				return XmlProcessor.getBeanInXml(serviceList.get(0).getHBServiceInstance().getAvailabilityRS(uuid));
 			} else if (serviceList.get(0) instanceof DesiaServiceProxyAdapter) {
-				//return XmlProcessor.getBeanInXml(serviceList.get(0).getDesiaServiceInstance().getAvailabilityRS(uuid));
+				return XmlProcessor.getBeanInXml(serviceList.get(0).getDesiaServiceInstance().getAvailabilityRS(uuid));
 			} else if (serviceList.get(0) instanceof ExpediaServiceProxyAdapter) {
 				//return XmlProcessor.getBeanInXml(serviceList.get(0).getHBServiceInstance().getAvailabilityRS(uuid));
 			} else {
