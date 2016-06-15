@@ -19,9 +19,10 @@ public class DesiaService {
 		OTAHotelAvailRS otaHotelAvailRS = desiaHelper.sendSearchRequest(otaHotelAvailRQ);
 		
 		BTNSearchResponse btnSearchResponse = desiaHelper.searchBeanResponseMapper(otaHotelAvailRS);
-		//Hotels hotels = DesiaDataProcessor.getHBDataReponseInAggregationFormat(otaHotelAvailRs);
-		//getSearchResponse(hotels);
 		rqRsMap.put(uuid, btnSearchResponse);
 	}
 	
+	public BTNSearchResponse getAvailabilityRS(String uuid) {
+		return rqRsMap.get(uuid);
+	}
 }
