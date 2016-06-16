@@ -31,4 +31,6 @@ public interface HBProperties {
     public static final String SERVICE_TEMPORARILY_DOWN = "<h1>Service Temporarily Down</h1>";
     public static final String FILE_WRITE_DIRECTORY = "D:\\";
     
+    public static final int REST_TEMPLATE_READ_TIME_OUT = 5000;
+    
 }
