@@ -18,41 +18,74 @@ import javax.xml.ws.handler.PortInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bonton.utility.artifacts.BTNCancelRQ;
+import com.bonton.utility.artifacts.BTNCancelRS;
+import com.bonton.utility.artifacts.BTNConfirmRequest;
+import com.bonton.utility.artifacts.BTNConfirmResponse;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
+import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.desia.Hotels;
-import com.desia.artifacts.AvailRequestSegmentsType.AvailRequestSegment;
-import com.desia.artifacts.AvailRequestSegmentsType.AvailRequestSegment.HotelSearchCriteria;
-import com.desia.artifacts.CountryNameType;
-import com.desia.artifacts.DateTimeSpanType;
-import com.desia.artifacts.GuestCountType;
-import com.desia.artifacts.GuestCountType.GuestCount;
-import com.desia.artifacts.HotelSearchCriteriaType.Criterion;
-import com.desia.artifacts.HotelSearchCriterionType.RoomStayCandidates;
-import com.desia.artifacts.ItemSearchCriterionType.Address;
-import com.desia.artifacts.OTAHotelAvailRQ;
-import com.desia.artifacts.OTAHotelAvailRQ.AvailRequestSegments;
-import com.desia.artifacts.OTAHotelAvailRS;
-import com.desia.artifacts.OTAHotelAvailRS.RoomStays.RoomStay;
-import com.desia.artifacts.OTAHotelResRQ;
-import com.desia.artifacts.Pagination;
-import com.desia.artifacts.RatePlanType;
-import com.desia.artifacts.RoomStayCandidateType;
-import com.desia.artifacts.RoomStayType.RoomRates.RoomRate;
-import com.desia.artifacts.RoomTypeType;
-import com.desia.artifacts.TGServiceEndPoint;
-import com.desia.artifacts.TGServiceEndPointImplService;
-import com.desia.artifacts.TPAExtensionsType;
-import com.desia.artifacts.TPAExtensionsType.UserAuthentication;
+import com.desia.artifacts.booking.OTACancelRQ;
+import com.desia.artifacts.booking.OTACancelRS;
+import com.desia.artifacts.booking.OTAHotelResRQ;
+import com.desia.artifacts.booking.OTAHotelResRS;
+import com.desia.artifacts.booking.TGBookingServiceEndPoint;
+import com.desia.artifacts.booking.TGBookingServiceEndPointImplService;
+import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment;
+import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment.HotelSearchCriteria;
+import com.desia.artifacts.search.CountryNameType;
+import com.desia.artifacts.search.DateTimeSpanType;
+import com.desia.artifacts.search.GuestCountType;
+import com.desia.artifacts.search.GuestCountType.GuestCount;
+import com.desia.artifacts.search.HotelSearchCriteriaType.Criterion;
+import com.desia.artifacts.search.HotelSearchCriterionType.RoomStayCandidates;
+import com.desia.artifacts.search.ItemSearchCriterionType.Address;
+import com.desia.artifacts.search.OTAHotelAvailRQ;
+import com.desia.artifacts.search.OTAHotelAvailRQ.AvailRequestSegments;
+import com.desia.artifacts.search.OTAHotelAvailRS;
+import com.desia.artifacts.search.OTAHotelAvailRS.RoomStays.RoomStay;
+import com.desia.artifacts.search.Pagination;
+import com.desia.artifacts.search.RatePlanType;
+import com.desia.artifacts.search.RoomStayCandidateType;
+import com.desia.artifacts.search.RoomStayType.RoomRates.RoomRate;
+import com.desia.artifacts.search.RoomTypeType;
+import com.desia.artifacts.search.TGServiceEndPoint;
+import com.desia.artifacts.search.TGServiceEndPointImplService;
+import com.desia.artifacts.search.TPAExtensionsType;
+import com.desia.artifacts.search.TPAExtensionsType.UserAuthentication;
 import com.desia.handler.MessageHandler;
 
 public class DesiaServiceHelper {
-	private static Logger logger = LoggerFactory.getLogger(DesiaServiceHelper.class); 
-
-	public DesiaServiceHelper() {}
+	private static Logger logger = LoggerFactory.getLogger(DesiaServiceHelper.class);
 	
-	public OTAHotelAvailRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRequest) {
+	private static final TGServiceEndPointImplService searchSIB = new TGServiceEndPointImplService();
+	private static final TGBookingServiceEndPointImplService bookingSIB = new TGBookingServiceEndPointImplService();
+	
+	private static TGServiceEndPoint searchSEI = null;
+	private static TGBookingServiceEndPoint bookingSEI = null;
+	
+	
+	private DesiaServiceHelper() {}
+	
+	static {
+		HandlerResolver handlerResolver = new HandlerResolver() {
+			@Override
+			public List<Handler> getHandlerChain(PortInfo portInfo) {
+				List<Handler> handler = new LinkedList<>();
+				handler.add(new MessageHandler());
+				return handler;
+			}
+		};
+		searchSIB.setHandlerResolver(handlerResolver);
+		bookingSIB.setHandlerResolver(handlerResolver);
+		
+		searchSEI = (TGServiceEndPoint) searchSIB.getTGServiceEndPointImplPort();
+		bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
+	}
+	
+	public static OTAHotelAvailRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRequest) throws Exception {
 		/* Add appropriate mapping */
 
 		/* Use below set of mapping to start and prepare final set of mapping */
@@ -115,22 +148,8 @@ public class DesiaServiceHelper {
 		return otaHotelAvailRQ;
 	}
 	
-	public OTAHotelAvailRS sendSearchRequest(OTAHotelAvailRQ otaHotelAvailRQ) throws Exception {
-		TGServiceEndPointImplService sib = new TGServiceEndPointImplService();
-		sib.setHandlerResolver(new HandlerResolver() {
-
-			@Override
-			public List<Handler> getHandlerChain(PortInfo portInfo) {
-				List<Handler> handler = new LinkedList<>();
-				handler.add(new MessageHandler());
-				return handler;
-			}});
-		TGServiceEndPoint sei = (TGServiceEndPoint) sib.getTGServiceEndPointImplPort();
-
-		return sei.fetchResponse(otaHotelAvailRQ);
-	}
 	
-	public BTNSearchResponse searchBeanResponseMapper(OTAHotelAvailRS otaHotelAvailRS) throws Exception {
+	public static BTNSearchResponse searchBeanResponseMapper(OTAHotelAvailRS otaHotelAvailRS) throws Exception {
 		BTNSearchResponse btnSearchRS = new BTNSearchResponse();
 		
 		btnSearchRS.setTravelRequestID("");
@@ -204,7 +223,72 @@ public class DesiaServiceHelper {
 		return btnSearchRS;
 	}
 	
-	private Hotels getHotelList(List<OTAHotelAvailRS.RoomStays.RoomStay> hotelLst) throws Exception {
+	
+	public static OTAHotelResRQ repriceBeanRequestMapper(BTNRepriceRequest btnRepriceRQ) throws Exception {
+		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
+		
+		/* Add appropriate mapping here. */
+		
+		return otaHotelResRQ;
+	}
+	
+	public static BTNRepriceResponse repriceBeanResponseMapper(OTAHotelResRS otaHotelResRS) throws Exception {
+		BTNRepriceResponse btnRepriceRS = new BTNRepriceResponse();
+		
+		/* Add appropriate mapping here. */
+		
+		return btnRepriceRS;
+	}
+	
+	public static OTAHotelResRQ confirmBeanRequestMapper(BTNConfirmRequest btnConfirmRQ) throws Exception {
+		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
+		
+		/* Add appropriate mapping here. */
+		
+		return otaHotelResRQ;
+	}
+	
+	public static BTNConfirmResponse confirmBeanResponseMapper(OTAHotelResRS otaHotelResRS) throws Exception {
+		BTNConfirmResponse btnConfirmRS = new BTNConfirmResponse();
+		
+		/* Add appropriate mapping here. */
+		
+		return btnConfirmRS;
+	}
+	
+	public static OTACancelRQ cancelBeanRequestMapper(BTNCancelRQ btnCancelRQ) throws Exception {
+		OTACancelRQ otaCancelRQ = new OTACancelRQ();
+		
+		/* Add appropriate mapping here. */
+		
+		return otaCancelRQ;
+	}
+	
+	public static BTNCancelRS cancelBeanResponseMapper(OTACancelRS otaCancelRS) throws Exception {
+		BTNCancelRS btnCancelRS = new BTNCancelRS();
+		
+		/* Add appropriate mapping here. */
+		
+		return btnCancelRS;
+	}
+	
+	public static OTAHotelAvailRS sendSearchRequest(OTAHotelAvailRQ otaHotelAvailRQ) throws Exception {
+		return searchSEI.fetchResponse(otaHotelAvailRQ);
+	}
+	
+	public static OTAHotelResRS sendRepriceRequest(OTAHotelResRQ otaHotelResRQ) throws Exception {
+		return bookingSEI.createBooking(otaHotelResRQ);
+	}
+	
+	public static OTAHotelResRS sendConfirmRequest(OTAHotelResRQ otaHotelResRQ) throws Exception {
+		return bookingSEI.createBooking(otaHotelResRQ);
+	}
+	
+	public static OTACancelRS sendCancelRequest(OTACancelRQ otaCancelRQ) throws Exception {
+		return bookingSEI.cancelBooking(otaCancelRQ);
+	}
+	
+	private static Hotels getHotelList(List<OTAHotelAvailRS.RoomStays.RoomStay> hotelLst) throws Exception {
 		Hotels hotels = new Hotels();
 		
 		if (hotelLst.size() != 0) {
@@ -279,12 +363,8 @@ public class DesiaServiceHelper {
 		return hotels;
 	}
 	
-	public OTAHotelResRQ repriceBeanRequestMapper(BTNRepriceRequest btnRepriceRQ) {
-		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
-		
-		
-	}
 	
+	/** Not used. */
 	private static BTNSearchResponse searchBeanResponseMapperTest(OTAHotelAvailRS otaHotelAvailRS) throws Exception {
 		BTNSearchResponse btnSearchRS = new BTNSearchResponse();
 		
@@ -328,6 +408,7 @@ public class DesiaServiceHelper {
 		return btnSearchRS;
 	}
 	
+	/** Not used. */
 	private static Hotels getHotelsTest(OTAHotelAvailRS rs) {
 		Hotels hotels = new Hotels();
 		
@@ -403,6 +484,7 @@ public class DesiaServiceHelper {
 		return hotels;
 	}
 	
+	/** Not used. */
 	private static BTNSearchResponse getSearchResponse(Hotels hotels) {
 		BTNSearchResponse searchRespBean = new BTNSearchResponse();
 		
