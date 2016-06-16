@@ -404,17 +404,19 @@ targetNamespace="http://www.bonton.com/messages">
 										<xs:element name="Rooms">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="Room" maxOccurs="unbounded" minOccurs="0">
+													<xs:element name="Room" maxOccurs="unbounded"
+														minOccurs="0">
 														<xs:complexType>
 															<xs:sequence>
 																<xs:element name="Paxes">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="Pax" maxOccurs="unbounded" minOccurs="0">
+																			<xs:element name="Pax" maxOccurs="unbounded"
+																				minOccurs="0">
 																				<xs:complexType>
 																					<xs:simpleContent>
 																						<xs:extension base="xs:string">
-																						<xs:attribute type="xs:int" name="age"
+																							<xs:attribute type="xs:int" name="age"
 																								use="optional" />
 																							<xs:attribute type="xs:int" name="roomId"
 																								use="optional" />
@@ -513,23 +515,23 @@ targetNamespace="http://www.bonton.com/messages">
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="BTNCancelRQ">
-    <xs:complexType>
-      <xs:sequence>
-      	<xs:element type="xs:string" name="Supplier" />
-        <xs:element name="CancelDetails">
-          <xs:complexType>
-            <xs:simpleContent>
-              <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="language"/>
-                <xs:attribute type="xs:string" name="referenceId"/>
-                <xs:attribute type="xs:string" name="cancelFlag"/>
-              </xs:extension>
-            </xs:simpleContent>
-          </xs:complexType>
-        </xs:element>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element type="xs:string" name="Supplier" />
+				<xs:element name="CancelDetails">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute type="xs:string" name="language" />
+								<xs:attribute type="xs:string" name="referenceId" />
+								<xs:attribute type="xs:string" name="cancelFlag" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="BTNCancelRS">
 		<xs:complexType>
 			<xs:sequence>
@@ -562,17 +564,19 @@ targetNamespace="http://www.bonton.com/messages">
 										<xs:element name="Rooms">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="Room" maxOccurs="unbounded" minOccurs="0">
+													<xs:element name="Room" maxOccurs="unbounded"
+														minOccurs="0">
 														<xs:complexType>
 															<xs:sequence>
 																<xs:element name="Paxes">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="Pax" maxOccurs="unbounded" minOccurs="0">
+																			<xs:element name="Pax" maxOccurs="unbounded"
+																				minOccurs="0">
 																				<xs:complexType>
 																					<xs:simpleContent>
 																						<xs:extension base="xs:string">
-																						<xs:attribute type="xs:int" name="age"
+																							<xs:attribute type="xs:int" name="age"
 																								use="optional" />
 																							<xs:attribute type="xs:int" name="roomId"
 																								use="optional" />
@@ -672,12 +676,49 @@ targetNamespace="http://www.bonton.com/messages">
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="BTNBookingListRQ">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Details">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute type="xs:string" name="checkin" />
+								<xs:attribute type="xs:string" name="checkout" />
+								<xs:attribute type="xs:string" name="cancelled" />
+								<xs:attribute type="xs:string" name="filter" />
+								<xs:attribute type="xs:string" name="fromIndex" />
+								<xs:attribute type="xs:string" name="toIndex" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Error" type="BTNError" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BTNBookingDetailRQ">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Detail">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute type="xs:string" name="referenceId" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Error" type="BTNError" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 	<xs:complexType name="BTNError">
-	<xs:sequence>
-		<xs:element name="code" type="xs:string" minOccurs="1"
-			maxOccurs="1" />
-		<xs:element name="message" type="xs:string" minOccurs="1"
-			maxOccurs="1" />
-	</xs:sequence>
-</xs:complexType>
+		<xs:sequence>
+			<xs:element name="code" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="message" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
 </xs:schema>
