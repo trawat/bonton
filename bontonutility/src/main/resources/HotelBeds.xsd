@@ -589,6 +589,10 @@
 																				</xs:complexType>
 																			</xs:element>
 																		</xs:sequence>
+																		<xs:attribute type="xs:string" name="rateKey" />
+																		<xs:attribute type="xs:string" name="rateClass" />
+																		<xs:attribute type="xs:string" name="rateType" />
+																		<xs:attribute type="xs:string" name="rateComment" />
 																		<xs:attribute type="xs:string" name="paymentType" />
 																		<xs:attribute type="xs:string" name="packaging" />
 																		<xs:attribute type="xs:string" name="boardCode" />
@@ -596,9 +600,6 @@
 																		<xs:attribute type="xs:int" name="rooms" />
 																		<xs:attribute type="xs:int" name="adults" />
 																		<xs:attribute type="xs:int" name="children" />
-																		<xs:attribute type="xs:string" name="rateKey" />
-																		<xs:attribute type="xs:string" name="rateClass" />
-																		<xs:attribute type="xs:string" name="rateType" />
 																		<xs:attribute type="xs:float" name="net" />
 																	</xs:complexType>
 																</xs:element>
@@ -618,6 +619,7 @@
 						<xs:attribute type="xs:float" name="checkOut" />
 						<xs:attribute type="xs:string" name="name" />
 						<xs:attribute type="xs:string" name="code" />
+						<xs:attribute type="xs:string" name="description" />
 						<xs:attribute type="xs:string" name="categoryCode" />
 						<xs:attribute type="xs:string" name="categoryName" />
 						<xs:attribute type="xs:string" name="destinationCode" />
