@@ -28,20 +28,17 @@ import com.bonton.utility.artifacts.BTNConfirmRequest.Rooms.Room.Paxes.Pax;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
 import com.bonton.utility.artifacts.BTNError;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
+import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.hotelbeds.AvailabilityRQ;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRS;
+import com.bonton.utility.hotelbeds.CheckRateRS;
 import com.bonton.utility.processor.XmlProcessor;
-import com.google.gson.Gson;
-import com.hotelbeds.beans.CancellationBean;
-import com.hotelbeds.beans.HBJsonDataContainer;
 import com.hotelbeds.util.BontonConfigImpl;
-import com.hotelbeds.util.FileProcessor;
 import com.hotelbeds.util.HBProperties;
-import com.hotelbeds.util.RepricingUtil;
 
 public class HBServiceHelper {
 	
@@ -449,6 +446,13 @@ public class HBServiceHelper {
 		return btnCancelRS;
 	}
 	
+	public BTNRepriceResponse repriceBeanResponseMapper(CheckRateRS repriceRS) throws Exception {
+		BTNRepriceResponse btnRepriceRs = new BTNRepriceResponse();
+		
+		/* Add the appropriate mappings here */
+		
+		return btnRepriceRs;
+	} 
 	public String sendCancellation (BTNCancelRQ cancelBean) throws Exception {
 		String result = "";
 		String refId = cancelBean.getCancelDetails().getReferenceId();
@@ -536,26 +540,6 @@ public class HBServiceHelper {
         	logger.debug("Error {}", e);
         	throw e;
         }
-	}
-	
-	public boolean writeResponseDataInAggregationFormat(String responseJson, String requestId) {
-	
-		boolean success = false;
-		Gson g = new Gson();
-	    HBJsonDataContainer hbJaonDataCOntainer = g.fromJson(responseJson, HBJsonDataContainer.class);
-	    String fileNameWithPath = HBProperties.FILE_WRITE_DIRECTORY + requestId + ".txt";
-	    if(hbJaonDataCOntainer != null) {
-	    	if(hbJaonDataCOntainer.getAuditData() != null && hbJaonDataCOntainer.getHotels() != null) {
-	    		HBDataProcessor hbDataProcessor = new HBDataProcessor();
-	    		String dataString  = hbDataProcessor.getHBDataReponseInAggregationFormat(hbJaonDataCOntainer);
-	    		
-	    		
-	    		//@TODO this should be moved to bonton ************************************
-	    		FileProcessor.writeStringToFile(dataString, fileNameWithPath);
-	    		success = true;
-	    	}
-	    }
-		return success;
 	}
 	
 	public String getHotelsDataJson(BTNSearchRequest xmlRequestObj, String requestId) throws Exception {
@@ -657,61 +641,8 @@ public class HBServiceHelper {
 		return responseStr;
 	}
 	
-	public String sendCancelBookingRequestAndGetResult(CancellationBean xmlRequestObj) {
-		
-		// getHotelsDataJson methodology
-		String requestJsonString = getHotelBedsCancellationBookingRequestXml(xmlRequestObj);
-		StringBuilder stringBuilder = new StringBuilder();
-		String result = "";
-		
-			//if (BontonConfigImpl.isInitialised()) {
-	            try {
-	            	logger.debug("Sending Request to get HB Htel Data");
-	                Request.Builder requestBuilder = new Request.Builder().headers(getHeaders("DELETE")).url(HBProperties.HB_GET_HOTELS_END_POINT);
-	                requestBuilder.post(RequestBody.create(HBProperties.XML,requestJsonString));
-	                
-	                
-	                Response response = BontonConfigImpl.getRestTemplate().newCall(requestBuilder.build()).execute();
-	                logger.debug("HB Hotel Data Response Code : "+response.code()+" : Response Message : "+response.message());
-	                try (ResponseBody body = response.body()) {
-	                    BufferedSource source = body.source();
-	                    source.request(Long.MAX_VALUE);
-	                    Buffer buffer = source.buffer();
-	                    Charset charset = HBProperties.UTF8;
-	                    if (body.contentType() != null) {
-	                        try {
-	                            charset = body.contentType().charset(HBProperties.UTF8);
-	                        } catch (UnsupportedCharsetException e) {
-	                            logger.error("Response body could not be decoded {}", e.getMessage());
-	                        }
-	                    }
-	                    result = buffer.readString(charset);
-	                    if (response.headers().get(HBProperties.CONTENT_TYPE_HEADER).toLowerCase().startsWith(HBProperties.APPLICATION_JSON_HEADER)) {
-	                         return result;
-	                    } else {
-	                    	logger.error("Invalid response Wrong content type" + response.headers().get(HBProperties.CONTENT_TYPE_HEADER));
-	                    }
-	                }
-	            } catch (IOException e) {
-	                if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
-	                	logger.error("Timeout", e.getCause().getMessage());
-	                	
-	                } else {
-	                	logger.error("Error accessing API", e.getMessage());
-	                }
-	                return HBProperties.SERVICE_TEMPORARILY_DOWN;
-	            } catch (Exception e) {
-	            	logger.error(e.getClass().getName(), e.getMessage(), e);
-	            	return HBProperties.SERVICE_TEMPORARILY_DOWN;
-	            }
-			//}
-		return result;			
-		
-		
-		
-	}												
 	
-	public String recheckHotelPricingAndGetResult(BTNRepriceRequest repricingBean) {
+	public String sendRepricing(BTNRepriceRequest repricingBean) {
 		String result = "";
 		String rateKey = repricingBean.getRooms().getRoom().getUniqueKey();
 		BontonConfigImpl.init();//get rid of this later
@@ -732,7 +663,7 @@ public class HBServiceHelper {
 					}
 				}
 				result = buffer.readString(charset);
-				result = RepricingUtil.getRepricingXml(result);
+				
 				logger.debug("Response body could not be decoded recheckHotelPricingAndGetResult {}", result);
 				if (response.headers().get(HBProperties.CONTENT_TYPE_HEADER).toLowerCase().startsWith(HBProperties.APPLICATION_JSON_HEADER)) {
 					return result;
@@ -885,35 +816,5 @@ public class HBServiceHelper {
 		return xmlString.toString();
 		
 	}
-	
-public static String getHotelBedsCancellationBookingRequestXml(CancellationBean xmlRequestObj) {
-		
-		StringBuilder xmlString = new StringBuilder("");
-		
-		String email = "chawlaritesh@presidency.com";
-		String password = "test123";
-		String clientReference = "4444333322221111";
-		//String rateKey = "20160615|20160616|W|270|105996|DBT.DX|ID_B2B_7|RO|FITA|1~1~0||N@-739835568";
-		
-		
-		xmlString.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
-		xmlString.append("<Request>");
-		xmlString.append("<Source>");
-		xmlString.append("<RequestorID Client=\"1819\" EMailAddress=\"XML.TRIYASOFT@BONTONTOURS.COM\" Password=\"PASS\"/>");
-		xmlString.append("<RequestorPreferences>");
-		xmlString.append("<RequestMode>SYNCHRONOUS</RequestMode>");
-		xmlString.append("</RequestorPreferences>");
-		xmlString.append("</Source>");
-		xmlString.append("<RequestDetails>");
-		xmlString.append("<CancelBookingRequest>");
-		xmlString.append("<BookingReference ReferenceSource=\"client\">1463480809646</BookingReference> ");
-		xmlString.append("</CancelBookingRequest>");
-		xmlString.append("</RequestDetails>");
-		xmlString.append("</Request>");
-		
-		logger.debug(xmlString.toString());
-		return xmlString.toString();
-		
-	}									
 	
 }

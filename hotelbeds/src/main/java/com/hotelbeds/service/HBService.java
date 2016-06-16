@@ -11,12 +11,14 @@ import com.bonton.utility.artifacts.BTNCancelRS;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
+import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.hotelbeds.AvailabilityRQ;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRS;
+import com.bonton.utility.hotelbeds.CheckRateRS;
 import com.bonton.utility.processor.XmlProcessor;
 
 public class HBService {
@@ -57,7 +59,7 @@ public class HBService {
 		HBServiceHelper client = new HBServiceHelper();
 		String hbCancelResXml = client.sendCancellation(cancelBean);
 		
-		logger.debug("hbCancelResXml {}", hbCancelResXml);
+		//logger.debug("hbCancelResXml {}", hbCancelResXml);
 		BookingCancellationRS cancelRS = XmlProcessor.getHBCancelRSBean(hbCancelResXml);
 		
 		BTNCancelRS btnCancelRS = client.cancelBeanResponseMapper(cancelRS);
@@ -66,7 +68,12 @@ public class HBService {
 	
 	public String repricing(BTNRepriceRequest repricingBean) throws Exception {
 		HBServiceHelper client = new HBServiceHelper();
-		return client.recheckHotelPricingAndGetResult(repricingBean);
+		String hbRepriceResXml = client.sendRepricing(repricingBean);
+		
+		CheckRateRS repriceRS = XmlProcessor.getHBRepriceRSBean(hbRepriceResXml);
+		
+		BTNRepriceResponse btnRepriceRS = client.repriceBeanResponseMapper(repriceRS);
+		return XmlProcessor.getBeanInXml(btnRepriceRS);
 	}
 	
 	public BTNSearchResponse getAvailabilityRS(String uuid) {
