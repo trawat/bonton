@@ -21,7 +21,9 @@ import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRS;
+import com.bonton.utility.hotelbeds.CheckRateRS;
 
+@SuppressWarnings("unchecked")
 public class XmlProcessor {
 	private static final Logger log = LoggerFactory.getLogger(XmlProcessor.class);
 	
@@ -59,6 +61,10 @@ public class XmlProcessor {
 		return unmarshall(new ByteArrayInputStream(hbCancelResXml.getBytes("UTF-8")), BookingCancellationRS.class);
 	}
 	
+	public static CheckRateRS getHBRepriceRSBean(String hbRepriceResXml) throws Exception {
+		return unmarshall(new ByteArrayInputStream(hbRepriceResXml.getBytes("UTF-8")), CheckRateRS.class);
+	}
+	
 	private static <T> T unmarshall(InputStream is, Class<T> beanClass) throws Exception {
 		JAXBContext jaxbCtx = null;
 		Unmarshaller unmarshaller = null;
@@ -67,7 +73,6 @@ public class XmlProcessor {
 			jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
 			unmarshaller = jaxbCtx.createUnmarshaller();
 			
-			//JAXBElement<T> element = (JAXBElement<T>) unmarshaller.unmarshal(is);
 			T element = (T) unmarshaller.unmarshal(is);
 			return element;
 		} catch (Exception exception) {
@@ -85,7 +90,7 @@ public class XmlProcessor {
 
 			jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
 			marshaller = jaxbCtx.createMarshaller();
-
+			
 			StringWriter tempBuffer = new StringWriter();
 			marshaller.marshal(beanType, tempBuffer);
 			
@@ -96,6 +101,7 @@ public class XmlProcessor {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static BTNSearchRequest get(InputStream is) {
 		JAXBContext jaxbCtx = null;
 		Unmarshaller unmarshaller = null;
@@ -120,6 +126,7 @@ public class XmlProcessor {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private static <T> T getBean(InputStream is, Class<T> bean) {
 		JAXBContext jaxbCtx = null;
 		Unmarshaller unmarshaller = null;
