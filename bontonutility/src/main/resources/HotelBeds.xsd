@@ -615,8 +615,8 @@
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute type="xs:float" name="checkIn" />
-						<xs:attribute type="xs:float" name="checkOut" />
+						<xs:attribute type="xs:date" name="checkIn" />
+						<xs:attribute type="xs:date" name="checkOut" />
 						<xs:attribute type="xs:string" name="name" />
 						<xs:attribute type="xs:string" name="code" />
 						<xs:attribute type="xs:string" name="description" />
