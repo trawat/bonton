@@ -156,13 +156,9 @@ targetNamespace="http://www.bonton.com/messages">
 																<xs:element type="xs:string" name="packaging" />
 																<xs:element name="FinalPrice">
 																	<xs:complexType>
-																		<xs:simpleContent>
-																			<xs:extension base="xs:float">
-																				<xs:attribute type="xs:float" name="supplierPrice" />
-																				<xs:attribute type="xs:float" name="otaFee" />
-																				<xs:attribute type="xs:float" name="otaDiscountAmount" />
-																			</xs:extension>
-																		</xs:simpleContent>
+																		<xs:attribute type="xs:decimal" name="supplierPrice" />
+																		<xs:attribute type="xs:float" name="otaFee" />
+																		<xs:attribute type="xs:float" name="otaDiscountAmount" />
 																	</xs:complexType>
 																</xs:element>
 																<xs:element name="CancellationPolicies">
@@ -226,14 +222,14 @@ targetNamespace="http://www.bonton.com/messages">
 																<xs:element name="Rate">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element type="xs:float" name="NetRate" />
+																			<xs:element type="xs:decimal" name="NetRate" />
 																			<xs:element type="xs:string" name="Packaging" />
 																			<xs:element type="xs:string" name="RateType" />
 																			<xs:element type="xs:string" name="Category" />
-																			<xs:element type="xs:byte" name="RoomCount" />
-																			<xs:element type="xs:byte" name="AdultCount" />
-																			<xs:element type="xs:byte" name="ChildCount" />
-																			<xs:element type="xs:byte" name="ChildrenAges" />
+																			<xs:element type="xs:int" name="RoomCount" />
+																			<xs:element type="xs:int" name="AdultCount" />
+																			<xs:element type="xs:int" name="ChildCount" />
+																			<xs:element type="xs:int" name="ChildrenAges" />
 																			<xs:element name="CancellationPolicies">
 																				<xs:complexType>
 																					<xs:sequence>
@@ -241,7 +237,7 @@ targetNamespace="http://www.bonton.com/messages">
 																							<xs:complexType>
 																								<xs:simpleContent>
 																									<xs:extension base="xs:string">
-																										<xs:attribute type="xs:float"
+																										<xs:attribute type="xs:decimal"
 																											name="amount" />
 																										<xs:attribute type="xs:dateTime"
 																											name="from" />
@@ -289,9 +285,9 @@ targetNamespace="http://www.bonton.com/messages">
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute type="xs:date" name="checkIn" />
-						<xs:attribute type="xs:date" name="checkOut" />
-						<xs:attribute type="xs:short" name="code" />
+						<xs:attribute type="xs:dateTime" name="checkIn" />
+						<xs:attribute type="xs:dateTime" name="checkOut" />
+						<xs:attribute type="xs:int" name="code" />
 						<xs:attribute type="xs:string" name="name" />
 						<xs:attribute type="xs:string" name="categoryCode" />
 						<xs:attribute type="xs:string" name="categoryName" />
