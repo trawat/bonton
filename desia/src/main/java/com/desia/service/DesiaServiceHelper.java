@@ -78,7 +78,7 @@ public class DesiaServiceHelper {
 				return handler;
 			}
 		};
-		searchSIB.setHandlerResolver(handlerResolver);
+		//searchSIB.setHandlerResolver(handlerResolver);//TODO: uncomment this later
 		bookingSIB.setHandlerResolver(handlerResolver);
 		
 		searchSEI = (TGServiceEndPoint) searchSIB.getTGServiceEndPointImplPort();
@@ -165,7 +165,7 @@ public class DesiaServiceHelper {
 		
 		BTNSearchResponse.HotelOptions resHotels = new BTNSearchResponse.HotelOptions();
 		btnSearchRS.setHotelOptions(resHotels);
-		List<BTNSearchResponse.HotelOptions.Hotel> resHotelLst = btnSearchRS.getHotelOptions().getHotel();
+		List<BTNSearchResponse.HotelOptions.Hotel> resHotelLst = resHotels.getHotel();
 		
 		for (Hotels.Hotel hotel : hotelLst) {
 			/* Using fully qualified names in order to avoid confusion */
@@ -204,7 +204,8 @@ public class DesiaServiceHelper {
 				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.FinalPrice resFinalPrice = 
 						new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.FinalPrice();
 				
-				resFinalPrice.setSupplierPrice(room.getRate().getNet());
+				/* narrowing the value. Change it late to use BigDecimal */
+				resFinalPrice.setSupplierPrice(room.getRate().getNet().floatValue());
 				resFinalPrice.setOtaFee(0.0f);
 				resFinalPrice.setOtaDiscountAmount(0.0f);
 				
@@ -317,45 +318,85 @@ public class DesiaServiceHelper {
 				Map<String, RoomTypeType> roomTypeMap = new HashMap<>();
 				Map<String, RatePlanType> ratePlanMap = new HashMap<>();
 				
+				/* Populating values in map types */ 
+				for (RoomTypeType tmpRoomType : roomTypeLst) {
+					roomTypeMap.put(tmpRoomType.getRoomTypeCode(), tmpRoomType);
+				}
+				
+				for (RatePlanType tmpRatePlan : rateTypeLst) {
+					ratePlanMap.put(tmpRatePlan.getRatePlanCode(), tmpRatePlan);
+				}
+				
+				Hotels.Hotel.Rooms resRooms = new Hotels.Hotel.Rooms();
+				List<Hotels.Hotel.Rooms.Room> resRoomLst = resRooms.getRoom();
+				
+				/* To keep track of resRate object for the same 
+				 * roomId-rateId combination to return net amount; */
+				Map<String, Hotels.Hotel.Rooms.Room.Rate> roomTypeIdMap = new HashMap<>();
+				
 				for (RoomRate roomRate : roomRateLst) {
-					String roomId = roomRate.getRoomTypeCode();
+					String roomId = roomRate.getRoomID();
 					String rateId = roomRate.getRatePlanCode();
 					
-					RoomTypeType roomTypeItem = roomTypeMap.get(rateId);
-					RatePlanType ratePlanItem = ratePlanMap.get(roomId);
+					//RoomTypeType roomTypeItem = roomTypeMap.get(rateId);
+					//RatePlanType ratePlanItem = ratePlanMap.get(roomId);
 					
-					/* Can be optimized. Need not to read all the values.*/
-					if (roomTypeItem == null) {
-						for (RoomTypeType tmpRoomType : roomTypeLst) {
-							roomTypeMap.put(tmpRoomType.getRoomID(), tmpRoomType);
-						}
-					} 
-					if (ratePlanItem == null) {
-						for (RatePlanType tmpRatePlan : rateTypeLst) {
-							ratePlanMap.put(tmpRatePlan.getRatePlanCode(), tmpRatePlan);
-						}
+					String tempId = roomId + rateId;
+					BigDecimal net = new BigDecimal(0);
+					net = net.add(roomRate.getRates().getRate().get(0).getTPAExtensions().getRate().getBase().getAmountBeforeTax());
+					
+					if (roomTypeIdMap.get(tempId) == null) {
+						Hotels.Hotel.Rooms.Room resRoom = new Hotels.Hotel.Rooms.Room();
+						resRoom.setCode(roomId);
+						resRoom.setName(roomTypeMap.get(roomId).getRoomType());
+						resRoom.setSupplier("DESIA");
+						
+						Hotels.Hotel.Rooms.Room.Rate resRate = new Hotels.Hotel.Rooms.Room.Rate();
+						resRate.setUniqueKey(rateId);
+						resRate.setClazz("");
+						resRate.setType(ratePlanMap.get(rateId).getRatePlanType());
+						resRate.setAvailability("");
+						resRate.setBoardName("");
+						
+						// always one rate element is returned
+						resRate.setNet(net);
+						
+						resRoom.setRate(resRate);
+						resRoomLst.add(resRoom);
+						roomTypeIdMap.put(tempId, resRate);
+					} else {
+						roomTypeIdMap.get(tempId).setNet(roomTypeIdMap.get(tempId).getNet().add(net));
 					}
 					
-					Hotels.Hotel.Rooms resRooms = new Hotels.Hotel.Rooms();
-					List<Hotels.Hotel.Rooms.Room> resRoomLst = resRooms.getRoom();
+					//Hotels.Hotel.Rooms.Room resRoom = new Hotels.Hotel.Rooms.Room();
+//					resRoom.setCode(roomId);
+//					resRoom.setName(roomTypeMap.get(roomId).getRoomType());
+//					resRoom.setSupplier("DESIA");
 					
-					Hotels.Hotel.Rooms.Room resRoom = new Hotels.Hotel.Rooms.Room();
-					resRoom.setCode(roomId);
-					resRoom.setName(roomTypeMap.get(roomId).getRoomType());
-					resRoom.setSupplier("DESIA");
+//					Hotels.Hotel.Rooms.Room.Rate resRate = new Hotels.Hotel.Rooms.Room.Rate();
+//					resRate.setUniqueKey(rateId);
+//					resRate.setClazz("");
+//					resRate.setType(ratePlanMap.get(rateId).getRatePlanType());
+//					resRate.setAvailability("");
+//					resRate.setBoardName("");
+//					
+//					String tempId = roomId + rateId;
+//					BigDecimal net = new BigDecimal(0);
+//					net.add(roomRate.getRates().getRate().get(0).getTPAExtensions().getRate().getBase().getAmountBeforeTax());
 					
-					Hotels.Hotel.Rooms.Room.Rate resRate = new Hotels.Hotel.Rooms.Room.Rate();
-					resRate.setUniqueKey(rateId);
-					resRate.setClazz("");
-					resRate.setType(ratePlanMap.get(rateId).getRatePlanType());
-					resRate.setAvailability("");
-					resRate.setBoardName("");
-					resRate.setNet(0.0f);
+//					if (roomTypeIdMap.get(tempId) == null) {
+//						// always one rate element is returned
+//						resRate.setNet(net);
+//						roomTypeIdMap.put(tempId, resRate);
+//					} else {
+//						roomTypeIdMap.get(tempId).getNet().add(net);
+//					}
 					
-					resRoom.setRate(resRate);
-					resRoomLst.add(resRoom);
-					resHotel.setRooms(resRooms);
+//					resRoom.setRate(resRate);
+//					resRoomLst.add(resRoom);
+					
 				}
+				resHotel.setRooms(resRooms);
 				resHotelLst.add(resHotel);
 			}
 		}
@@ -472,7 +513,7 @@ public class DesiaServiceHelper {
 					resRate.setType(ratePlanMap.get(rateId).getRatePlanType());
 					resRate.setAvailability("");
 					resRate.setBoardName("");
-					resRate.setNet(0.0f);
+					//resRate.setNet();
 					
 					resRoom.setRate(resRate);
 					resRoomLst.add(resRoom);
