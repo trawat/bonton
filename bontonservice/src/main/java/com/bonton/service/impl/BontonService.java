@@ -1,7 +1,5 @@
 package com.bonton.service.impl;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -10,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import com.bonton.config.BontonConfig;
 import com.bonton.service.Service;
 import com.bonton.service.ServiceActuator;
-import com.bonton.util.BTNProperties;
 
 public class BontonService implements Service {
 	
@@ -27,8 +24,9 @@ public class BontonService implements Service {
 		try {
 			ServiceActuator actuator = new ServiceActuatorImpl();
 			responseXml = actuator.search(BontonConfig.getEnabledEndPointsList(), request.getInputStream());
-		} catch(Exception e) {
-			logger.error("Exception in BontonService : {}", e);
+		} catch(Exception exception) {
+			exception.printStackTrace();
+			logger.error("Exception in BontonService : {}", exception);
 			//TODO: return proper http error
 		}
 
@@ -43,8 +41,8 @@ public class BontonService implements Service {
 			ServiceActuator actuator = new ServiceActuatorImpl();
 			responseXml = actuator.confirm(request.getInputStream());
 		} catch (Exception exception) {
+			exception.printStackTrace();
 			logger.error("Exception while confirm booking {}", exception);
-			return BTNProperties.SERVICE_TEMPORARILY_DOWN;
 		}
 
 		return responseXml;
@@ -59,6 +57,7 @@ public class BontonService implements Service {
 			ServiceActuator actuator = new ServiceActuatorImpl();
 			responseXml = actuator.cancel(request.getInputStream());
 		} catch(Exception exception) {
+			exception.printStackTrace();
 			logger.error("Exception while cancel Booking {}", exception);
 		}
 
@@ -73,8 +72,9 @@ public class BontonService implements Service {
 			ServiceActuator actuator = new ServiceActuatorImpl();
 			responseXml = actuator.repricing(request.getInputStream());
 			
-		} catch(Exception e) {
-			logger.error("Exception while checking rate for Key ");
+		} catch(Exception exception) {
+			exception.printStackTrace();
+			logger.error("Exception while checking rate for Key {}", exception);
 		}
 		return responseXml;
 	}
