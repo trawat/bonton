@@ -1,6 +1,7 @@
 package com.hotelbeds.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
@@ -446,10 +447,75 @@ public class HBServiceHelper {
 		return btnCancelRS;
 	}
 	
-	public BTNRepriceResponse repriceBeanResponseMapper(CheckRateRS repriceRS) throws Exception {
+	public BTNRepriceResponse repriceBeanResponseMapper(CheckRateRS checkRateRS) throws Exception {
 		BTNRepriceResponse btnRepriceRs = new BTNRepriceResponse();
+
+		if (checkRateRS.getError() != null) {
+			BTNError errElmnt = new BTNError();
+			errElmnt.setCode(checkRateRS.getError().getCode());
+			errElmnt.setMessage(checkRateRS.getError().getMessage());
+
+			btnRepriceRs.setError(errElmnt);
+			return btnRepriceRs;
+		}
+
+		BTNRepriceResponse.Hotel resHotel = new BTNRepriceResponse.Hotel(); 
+		CheckRateRS.Hotel hotel = checkRateRS.getHotel();
+
+		resHotel.setCheckIn(hotel.getCheckIn());
+		resHotel.setCheckOut(hotel.getCheckOut());
+		resHotel.setCode(new Integer(hotel.getCode()));
+		resHotel.setName(hotel.getName());
+		resHotel.setCategoryName(hotel.getCategoryName());
+		resHotel.setCategoryCode(hotel.getCategoryCode());
+		resHotel.setDestinationCode(hotel.getDestinationCode());
+		resHotel.setDestinationName(hotel.getDestinationName());
+		//  hotel.getZoneCode();
+		//  hotel.getZoneName();
+		//  hotel.getLatitude();
+		//  hotel.getLongitude();  
+		//  hotel.getCurrency();
+		//  hotel.getTotalNet();
+		//  total selling rate .... (need to add)
+
+		BTNRepriceResponse.Hotel.Rooms resRooms = new BTNRepriceResponse.Hotel.Rooms();
+		BTNRepriceResponse.Hotel.Rooms.Room resRoom = new BTNRepriceResponse.Hotel.Rooms.Room();
 		
-		/* Add the appropriate mappings here */
+		List<CheckRateRS.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
+		for (CheckRateRS.Hotel.Rooms.Room room : roomLst) {
+			resRoom.setCode(room.getCode());
+			resRoom.setName(room.getName());
+			
+			CheckRateRS.Hotel.Rooms.Room.Rates.Rate rate = room.getRates().getRate();
+			BTNRepriceResponse.Hotel.Rooms.Room.Rates resRates = new BTNRepriceResponse.Hotel.Rooms.Room.Rates();
+			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate resRate = new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate();
+			
+			BigDecimal net = new BigDecimal(rate.getNet().toString());
+			
+			resRate.setNetRate(net);
+			resRate.setPackaging(rate.getPackaging());
+			resRate.setRateType(rate.getRateType());
+//			resRate.setCategory();
+			resRate.setRoomCount(rate.getRooms());
+			resRate.setAdultCount(rate.getAdults());
+			resRate.setChildCount(rate.getChildren());
+			
+			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies rescpies = 
+					new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies();
+			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy rescpy = 
+					new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
+			
+			rescpy.setAmount(new BigDecimal(rate.getCancellationPolicies().getCancellationPolicy().getAmount().toString()));
+			rescpy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom());
+			
+			rescpies.setCancellationPolicy(rescpy);
+			resRate.setCancellationPolicies(rescpies);
+			resRates.setRate(resRate);
+			resRoom.setRates(resRates);
+		}
+		resRooms.setRoom(resRoom);
+		resHotel.setRooms(resRooms);
+		btnRepriceRs.setHotel(resHotel);
 		
 		return btnRepriceRs;
 	} 
@@ -642,43 +708,24 @@ public class HBServiceHelper {
 	}
 	
 	
-	public String sendRepricing(BTNRepriceRequest repricingBean) {
+	public String sendRepricing(BTNRepriceRequest repricingBean) throws Exception {
 		String result = "";
 		String rateKey = repricingBean.getRooms().getRoom().getUniqueKey();
 		BontonConfigImpl.init();//get rid of this later
 		try {
-			Request.Builder requestBuilder = new Request.Builder().headers(getHeaders("GET")).url(HBProperties.HB_REPRICING_RATE_KEY_GET_URL+"?rateKey="+rateKey);
+			Request.Builder requestBuilder = new Request.Builder().headers(getHeadersForBookingOrCancellation("GET")).url(HBProperties.HB_REPRICING_RATE_KEY_GET_URL+"?rateKey="+rateKey);
 
 			Response response = BontonConfigImpl.getRestTemplate().newCall(requestBuilder.build()).execute();
 			try (ResponseBody body = response.body()) {
 				BufferedSource source = body.source();
 				source.request(Long.MAX_VALUE);
 				Buffer buffer = source.buffer();
-				Charset charset = HBProperties.UTF8;
-				if (body.contentType() != null) {
-					try {
-						charset = body.contentType().charset(HBProperties.UTF8);
-					} catch (UnsupportedCharsetException e) {
-						// logger.log("Response body could not be decoded {}", e.getMessage());
-					}
-				}
-				result = buffer.readString(charset);
 				
-				logger.debug("Response body could not be decoded recheckHotelPricingAndGetResult {}", result);
-				if (response.headers().get(HBProperties.CONTENT_TYPE_HEADER).toLowerCase().startsWith(HBProperties.APPLICATION_JSON_HEADER)) {
-					return result;
-				} else {
-					//throw new HotelBedsConnectorException("Invalid response", "Wrong content type" + response.headers().get(HotelBedsProperties.CONTENT_TYPE_HEADER));
-				}
-			} catch (IOException e) {
-				if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
-					//throw new HotelBedsConnectorException("Timeout", e.getCause().getMessage());
-				} else {
-					//throw new HotelBedsConnectorException("Error accessing API", e.getMessage());
-				}
+				result = buffer.readString(HBProperties.UTF8);
+				
 			}
 		} catch (Exception e) {
-			//throw new HotelBedsConnectorException(e.getClass().getName(), e.getMessage(), e);
+			throw e;
 		}
 		return result;
 	}
