@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<BTNSearchRequest>
+<BTNSearchRequest xmlns="http://www.bonton.com/messages">
   <Source>
     <RequestorID Client="1819" EMailAddress="XML.TRIYASOFT@BONTONTOURS.COM" Password="PASS"/>
     <RequestorPreferences>
