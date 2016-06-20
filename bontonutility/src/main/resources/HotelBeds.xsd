@@ -632,10 +632,82 @@
 						<xs:attribute type="xs:string" name="totalNet" />
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="error" type="ErrorRS" />
+				<xs:element name="error" type="ErrorRS" />								
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="bookingRQ">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="holder">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="name"/>
+                <xs:attribute type="xs:string" name="surname"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="rooms">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="room">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="paxes">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="pax" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="type"/>
+                                  <xs:attribute type="xs:int" name="age"/>
+                                  <xs:attribute type="xs:string" name="name"/>
+                                  <xs:attribute type="xs:string" name="surname"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:string" name="rateKey"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="paymentData">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="paymentCard">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="cardType"/>
+                    <xs:element type="xs:int" name="cardNumber"/>
+                    <xs:element type="xs:int" name="expiryDate"/>
+                    <xs:element type="xs:int" name="cardCVC"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="contactData">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="email"/>
+                    <xs:element type="xs:int" name="phoneNumber"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:int" name="clientReference"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 	<xs:complexType name="ErrorRS">
 		<xs:sequence>
 			<xs:element name="code" type="xs:string" minOccurs="1"
@@ -644,4 +716,5 @@
 				maxOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
+
 </xs:schema>
