@@ -1,14 +1,12 @@
 package com.hotelbeds.util;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import okhttp3.OkHttpClient;
 
 /**
  *
@@ -20,7 +18,6 @@ public class BontonConfigImpl {
     private static int connectTimeout = HBProperties.REST_TEMPLATE_READ_TIME_OUT;
     private static int connectionRequestTimeout = HBProperties.REST_TEMPLATE_READ_TIME_OUT;
 	private static boolean initialised = false;
-	private static ExecutorService executorService = null;
     private static ObjectMapper mapper = null;
     private static LoggingRequestInterceptor logger = null;//new LoggingRequestInterceptor(LoggerFactory.getLogger(BontonConfigImpl.class));
     
@@ -38,7 +35,6 @@ public class BontonConfigImpl {
 	        .build();
 	        
 	        initialised = true;
-	        executorService = Executors.newFixedThreadPool(8);
 	        mapper = new ObjectMapper();
 	        mapper.findAndRegisterModules();
 		}
