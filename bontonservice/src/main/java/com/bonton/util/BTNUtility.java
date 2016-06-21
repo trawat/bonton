@@ -9,10 +9,9 @@ import org.slf4j.LoggerFactory;
 import com.bonton.service.ServiceProxy;
 import com.bonton.service.adapter.DesiaServiceProxyAdapter;
 import com.bonton.service.adapter.HBServiceProxyAdapter;
-import com.bonton.service.impl.BontonService;
 
 public class BTNUtility {
-	private static final Logger logger = LoggerFactory.getLogger(BontonService.class);
+	private static final Logger logger = LoggerFactory.getLogger(BTNUtility.class);
 
 	private BTNUtility() {}
 
