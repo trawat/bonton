@@ -177,7 +177,7 @@ public class HBServiceHelper {
 		return btnSearchResponse;
 	}
 	
-	public BookingRQ confirmBeanRequestMapper(BTNConfirmRequest btnbookingRq) {		
+	public static BookingRQ confirmBeanRequestMapper(BTNConfirmRequest btnbookingRq) {		
 		BookingRQ bookingRQ = new BookingRQ();
 
 		BookingRQ.Holder holder = new BookingRQ.Holder();		
