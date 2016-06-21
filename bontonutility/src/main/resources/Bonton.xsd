@@ -334,7 +334,7 @@ targetNamespace="http://www.bonton.com/messages">
 																		use="optional" />
 																	<xs:attribute type="xs:string" name="type"
 																		use="optional" />
-																	<xs:attribute type="xs:byte" name="age"
+																	<xs:attribute type="xs:int" name="age"
 																		use="optional" />
 																	<xs:attribute type="xs:string" name="name"
 																		use="optional" />

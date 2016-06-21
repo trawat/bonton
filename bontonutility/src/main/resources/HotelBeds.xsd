@@ -652,7 +652,7 @@
         <xs:element name="rooms">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="room">
+              <xs:element name="room" maxOccurs="unbounded" >
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="paxes">

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bonton.utility.artifacts.BTNCancelRS;
+import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
 import com.bonton.utility.artifacts.BTNError;
 import com.bonton.utility.artifacts.BTNRepriceResponse;
@@ -15,6 +16,7 @@ import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.hotelbeds.AvailabilityRQ;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.hotelbeds.BookingCancellationRS;
+import com.bonton.utility.hotelbeds.BookingRQ;
 import com.bonton.utility.hotelbeds.BookingRS;
 import com.bonton.utility.hotelbeds.CheckRateRS;
 
@@ -173,6 +175,61 @@ public class HBServiceHelper {
 		// availabilityRS.getHotels().getHotel().getRooms().getRoom().getRates().getRate().getPackaging();
 
 		return btnSearchResponse;
+	}
+	
+	public BookingRQ confirmBeanRequestMapper(BTNConfirmRequest btnbookingRq) {		
+		BookingRQ bookingRQ = new BookingRQ();
+
+		BookingRQ.Holder holder = new BookingRQ.Holder();		
+		holder.setName(btnbookingRq.getPrinciplePax().getName());
+		holder.setSurname(btnbookingRq.getPrinciplePax().getSurname());
+		bookingRQ.setHolder(holder);
+		
+		BookingRQ.Rooms resRooms = new BookingRQ.Rooms();
+		
+		List<BookingRQ.Rooms.Room> resRoomlst = resRooms.getRoom();
+		List<BTNConfirmRequest.Rooms.Room> roomLst = btnbookingRq.getRooms().getRoom();		
+		for (BTNConfirmRequest.Rooms.Room room : roomLst) {
+			BookingRQ.Rooms.Room resRoom = new BookingRQ.Rooms.Room();
+			BookingRQ.Rooms.Room.Paxes resPaxes = new BookingRQ.Rooms.Room.Paxes();
+
+			resRoom.setPaxes(resPaxes);
+			List<BookingRQ.Rooms.Room.Paxes.Pax> resPaxLst = resPaxes.getPax();
+
+			List<BTNConfirmRequest.Rooms.Room.Paxes.Pax> paxLst = room.getPaxes().getPax();
+			for (BTNConfirmRequest.Rooms.Room.Paxes.Pax pax : paxLst){
+				BookingRQ.Rooms.Room.Paxes.Pax resPax = new BookingRQ.Rooms.Room.Paxes.Pax();
+				resPax.setName(pax.getName());
+				resPax.setSurname(pax.getSurname());
+				resPax.setType(pax.getType());
+				resPax.setAge(pax.getAge());
+
+				resPaxLst.add(resPax);
+
+			}
+			resRoom.setPaxes(resPaxes);
+			resRoomlst.add(resRoom);
+		}
+		bookingRQ.setRooms(resRooms);
+		
+		BookingRQ.PaymentData paymentdata = new BookingRQ.PaymentData();		
+		BookingRQ.PaymentData.PaymentCard paymentcard = new BookingRQ.PaymentData.PaymentCard();
+		//paymentcard.setCardNumber(value);
+		//paymentcard.setCardCVC(value));
+		//paymentcard.setCardType(value);
+		//paymentcard.setExpiryDate(value);
+		paymentdata.setPaymentCard(paymentcard);
+				
+		BookingRQ.PaymentData.ContactData contactdata = new BookingRQ.PaymentData.ContactData();
+		contactdata.setEmail(btnbookingRq.getContactData().getEmail());
+		contactdata.setPhoneNumber(btnbookingRq.getContactData().getPhoneNumber());
+		paymentdata.setContactData(contactdata);
+		
+		bookingRQ.setPaymentData(paymentdata);
+		
+		bookingRQ.setClientReference(new Integer(btnbookingRq.getClientReference()).intValue());
+		
+		return bookingRQ;
 	}
 	
 	public static BTNConfirmResponse confirmBeanResponseMapper(BookingRS bookingRS) throws Exception {
