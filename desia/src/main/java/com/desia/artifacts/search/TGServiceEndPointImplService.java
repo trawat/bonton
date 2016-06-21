@@ -17,7 +17,8 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "TGServiceEndPointImplService", targetNamespace = "http://endpoints.services.travelguru.com/", wsdlLocation = "file:/D:/metro/bin/Search.wsdl")
+@WebServiceClient(name = "TGServiceEndPointImplService", targetNamespace = "http://endpoints.services.travelguru.com/", 
+wsdlLocation = "http://stage-api.travelguru.com/services-2.0/tg-services/TGServiceEndPoint?wsdl")
 public class TGServiceEndPointImplService
     extends Service
 {
@@ -30,7 +31,7 @@ public class TGServiceEndPointImplService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/D:/metro/bin/Search.wsdl");
+            url = new URL("http://stage-api.travelguru.com/services-2.0/tg-services/TGServiceEndPoint?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
