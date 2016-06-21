@@ -20,55 +20,55 @@ import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRS;
 import com.bonton.utility.hotelbeds.CheckRateRS;
 import com.bonton.utility.processor.XmlProcessor;
+import com.hotelbeds.util.HBClient;
 
 public class HBService {
-	private static Logger logger = LoggerFactory.getLogger(HBServiceHelper.class); 
+	private static Logger logger = LoggerFactory.getLogger(HBService.class);
 	
 	/* Holds unique uuid and generated common response object as key-value */
 	private static final Map<String, BTNSearchResponse> rqRsMap = new HashMap<>();
 	
 	
 	public void search(BTNSearchRequest searchBean, String uuid) throws Exception {
-		HBServiceHelper client = new HBServiceHelper();
-		AvailabilityRQ availabilityRQ = client.searchBeanRequestMapper(searchBean);
+		AvailabilityRQ availabilityRQ = HBServiceHelper.searchBeanRequestMapper(searchBean);
 		
-		String hbSearchResXml = client.sendRequest(availabilityRQ);
+		AvailabilityRS availabilityRS = HBClient.postSearch(availabilityRQ);
+		//String hbSearchResXml = client.sendRequest(availabilityRQ);
 		
 		//logger.debug("hbSearchResXml {}", hbSearchResXml);
-		AvailabilityRS availabilityRS = XmlProcessor.getHBSearchRSBean(hbSearchResXml);
+		//AvailabilityRS availabilityRS = XmlProcessor.getHBSearchRSBean(hbSearchResXml);
 
-		BTNSearchResponse btnSearchResponse = client.searchBeanResponseMapper(availabilityRS);
+		BTNSearchResponse btnSearchResponse = HBServiceHelper.searchBeanResponseMapper(availabilityRS);
 		rqRsMap.put(uuid, btnSearchResponse);
 	}
 	
 	public String confirmBooking(BTNConfirmRequest confirmBean) throws Exception {
-		HBServiceHelper client = new HBServiceHelper();
-		String hbConfirmResXml = client.sendBookingConfirmationAndGetResult(confirmBean);
+		String hbConfirmResXml = null;//HBServiceHelper.sendBookingConfirmationAndGetResult(confirmBean);
 		
 		//logger.debug("hbConfirmResXml {}", hbConfirmResXml);
 		BookingRS bookingRS = XmlProcessor.getHBConfirmRSBean(hbConfirmResXml);
 		
-		BTNConfirmResponse btnConfirmResponse = client.confirmBeanResponseMapper(bookingRS);
+		BTNConfirmResponse btnConfirmResponse = HBServiceHelper.confirmBeanResponseMapper(bookingRS);
 		return XmlProcessor.getBeanInXml(btnConfirmResponse);
 	}
 	
 	public String cancelBooking(BTNCancelRQ cancelBean) throws Exception {
-		HBServiceHelper client = new HBServiceHelper();
-		String hbCancelResXml = client.sendCancellation(cancelBean);
+		//String hbCancelResXml = client.sendCancellation(cancelBean);
 		
 		//logger.debug("hbCancelResXml {}", hbCancelResXml);
-		BookingCancellationRS cancelRS = XmlProcessor.getHBCancelRSBean(hbCancelResXml);
+		//BookingCancellationRS cancelRS = XmlProcessor.getHBCancelRSBean(hbCancelResXml);
+		BookingCancellationRS cancelRS = HBClient.postCancelBooking(cancelBean);
 		
-		BTNCancelRS btnCancelRS = client.cancelBeanResponseMapper(cancelRS);
+		BTNCancelRS btnCancelRS = HBServiceHelper.cancelBeanResponseMapper(cancelRS);
 		return XmlProcessor.getBeanInXml(btnCancelRS);
 	}
 	
 	public String repricing(BTNRepriceRequest repricingBean) throws Exception {
-		HBServiceHelper client = new HBServiceHelper();
-		String hbRepriceResXml = client.sendRepricing(repricingBean);
+		//String hbRepriceResXml = client.sendRepricing(repricingBean);
 		
-		CheckRateRS repriceRS = XmlProcessor.getHBRepriceRSBean(hbRepriceResXml);
-		BTNRepriceResponse btnRepriceRS = client.repriceBeanResponseMapper(repriceRS);
+		//CheckRateRS repriceRS = XmlProcessor.getHBRepriceRSBean(hbRepriceResXml);
+		CheckRateRS repriceRS = HBClient.postRepricing(repricingBean);
+		BTNRepriceResponse btnRepriceRS = HBServiceHelper.repriceBeanResponseMapper(repriceRS);
 		
 		return XmlProcessor.getBeanInXml(btnRepriceRS);
 	}

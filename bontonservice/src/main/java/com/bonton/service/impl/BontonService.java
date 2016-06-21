@@ -5,17 +5,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bonton.config.BontonConfig;
 import com.bonton.service.Service;
 import com.bonton.service.ServiceActuator;
+import com.bonton.util.BTNUtility;
 
 public class BontonService implements Service {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BontonService.class);
 	
-	public BontonService() {
-		BontonConfig.init();
-	}
+	public BontonService() {}
 	
 	@Override
 	public String search(HttpServletRequest request) throws Exception {
@@ -23,7 +21,7 @@ public class BontonService implements Service {
 
 		try {
 			ServiceActuator actuator = new ServiceActuatorImpl();
-			responseXml = actuator.search(BontonConfig.getEnabledEndPointsList(), request.getInputStream());
+			responseXml = actuator.search(BTNUtility.getEnabledEndPointsList(), request.getInputStream());
 		} catch(Exception exception) {
 			exception.printStackTrace();
 			logger.error("Exception in BontonService : {}", exception);

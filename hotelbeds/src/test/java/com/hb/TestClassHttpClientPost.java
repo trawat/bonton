@@ -1,12 +1,8 @@
 package com.hb;
 
-import com.hotelbeds.service.HBServiceHelper;
-
-
 public class TestClassHttpClientPost {
 
 	public static void main(String[] args) {
-		HBServiceHelper requestSender = new HBServiceHelper();
 		try {
 			String resultData = "";//requestSender.getHotelsDataJson("", "FileLatest");
 			System.out.println("DDDDDDD "+resultData);
