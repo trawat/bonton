@@ -7,6 +7,13 @@ import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.hotelbeds.service.HBService;
 
+/**
+ * This class act as an adapter and adapts to the services provided by 
+ * Hotel Beds service by implementing the proxy interface.
+ * @author Tirath
+ * @see ServiceProxy
+ * @see HBService
+ */
 public class HBServiceProxyAdapter extends ServiceProxy {
 	private final HBService hBService;
 	

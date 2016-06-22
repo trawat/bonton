@@ -5,6 +5,11 @@ import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 
+/**
+ * This class acts as a proxy interface for the services provided by 
+ * different service providers.
+ * @author Tirath
+ */
 public abstract class ServiceProxy {
 	public abstract void search(BTNSearchRequest requestBean, String uuid, boolean moreThanOneProvider) throws Exception;
 	

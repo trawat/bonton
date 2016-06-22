@@ -25,6 +25,13 @@ import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.processor.XmlProcessor;
 
+/**
+ * Holds the logic to trigger available operations to the request 
+ * specific service provider based on the available service provider
+ * (in case of search) or the value of <Supplier> node for the other
+ * operations. 
+ * @author Tirath
+ */
 public class ServiceActuatorImpl implements ServiceActuator {
 	private static final ExecutorService es = Executors.newCachedThreadPool();
 	

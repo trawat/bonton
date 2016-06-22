@@ -6,6 +6,13 @@ import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 
+/**
+ * This class act as an adapter and adapts to the services provided by 
+ * Expedia service by implementing the proxy interface.
+ * @author Tirath
+ * @see ServiceProxy
+ * @see 
+ */
 public class ExpediaServiceProxyAdapter  extends ServiceProxy {
 	
 	@Override

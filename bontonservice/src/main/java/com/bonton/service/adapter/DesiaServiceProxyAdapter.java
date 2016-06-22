@@ -7,7 +7,13 @@ import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.desia.service.DesiaService;
 
-
+/**
+ * This class act as an adapter and adapts to the services provided by 
+ * Desia service by implementing the proxy interface.
+ * @author Tirath
+ * @see ServiceProxy
+ * @see DesiaService
+ */
 public class DesiaServiceProxyAdapter  extends ServiceProxy {
 	private final DesiaService desiaService;
 	

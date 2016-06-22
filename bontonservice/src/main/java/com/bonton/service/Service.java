@@ -8,7 +8,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 /**
- * Represents common service end point interface operations available to 
+ * Bonton service end point interface operations available to 
  * Bonton API client . 
  * @author Tirath
  */
