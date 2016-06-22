@@ -11,6 +11,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
@@ -50,6 +51,7 @@ public class HBClient {
 			throw exception;
 		}
 	}
+	
 	private static <T> Object post(T rqObj, WebTarget target, Class<?> clazz) throws Exception {
 		Invocation.Builder builder = target.request()
 		.accept(MediaType.APPLICATION_XML)
@@ -59,7 +61,9 @@ public class HBClient {
 		Entity<T> entity = Entity.entity(rqObj, MediaType.APPLICATION_XML);
 		Invocation invoker = builder.buildPost(entity);
 
-		return invoker.invoke(clazz);
+		Response response = invoker.invoke();
+		
+		return response.readEntity(clazz);
 	}
 	
 	public static <T> AvailabilityRS postSearch(T bean) throws Exception {
@@ -84,14 +88,12 @@ public class HBClient {
 				.headers(getHeaders());
 		
 		Invocation invoker = builder.buildDelete();
-
 		return (BookingCancellationRS) invoker.invoke(BookingCancellationRS.class);
 	}
 	
 	public static <T> CheckRateRS postRepricing(T bean) throws Exception {
 		WebTarget target = hbRsClient.target(HBProperties.HB_REPRICE_BOOKING_END_POINT)
 				.resolveTemplate(HBProperties.RATE_KEY, ((BTNRepriceRequest) bean).getRooms().getRoom().getUniqueKey());
-				//.queryParam(HBProperties.RATE_KEY, ((BTNRepriceRequest) bean).getRooms().getRoom().getUniqueKey());
 		
 		/* done differently from other methods */
 		Invocation.Builder builder = target.request()

@@ -48,7 +48,7 @@ public class HBService {
 	
 	public String cancelBooking(BTNCancelRQ cancelBean) throws Exception {
 		BookingCancellationRS cancelRS = HBClient.postCancelBooking(cancelBean);
-		
+
 		BTNCancelRS btnCancelRS = HBServiceHelper.cancelBeanResponseMapper(cancelRS);
 		return XmlProcessor.getBeanInXml(btnCancelRS);
 	}

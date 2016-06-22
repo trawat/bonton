@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import com.bonton.utility.artifacts.BTNCancelRS;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
-import com.bonton.utility.artifacts.BTNError;
 import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
@@ -85,11 +84,11 @@ public class HBServiceHelper {
 		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
 
 		if (availabilityRS.getError() != null) {
-			BTNError errElmnt = new BTNError();
+			BTNSearchResponse.BTNError errElmnt = new BTNSearchResponse.BTNError();
 			errElmnt.setCode(availabilityRS.getError().getCode());
 			errElmnt.setMessage(availabilityRS.getError().getMessage());
 			
-			btnSearchResponse.setError(errElmnt);
+			btnSearchResponse.setBTNError(errElmnt);
 			return btnSearchResponse;
 		}
 		
@@ -146,7 +145,7 @@ public class HBServiceHelper {
 				resRoom.setRateKey(rate.getRateKey());
 				resRoom.setPackaging(rate.getPackaging());
 				
-				resFinalPrice.setSupplierPrice(rate.getNet());
+				resFinalPrice.setSupplierPrice(new BigDecimal(rate.getNet()));
 				resFinalPrice.setOtaFee(0.0f);
 				resFinalPrice.setOtaDiscountAmount(0.0f);
 				
@@ -192,13 +191,15 @@ public class HBServiceHelper {
 		for (BTNConfirmRequest.Rooms.Room room : roomLst) {
 			BookingRQ.Rooms.Room resRoom = new BookingRQ.Rooms.Room();
 			BookingRQ.Rooms.Room.Paxes resPaxes = new BookingRQ.Rooms.Room.Paxes();
-
+			
+			resRoom.setRateKey(room.getUniqueKey());
 			resRoom.setPaxes(resPaxes);
 			List<BookingRQ.Rooms.Room.Paxes.Pax> resPaxLst = resPaxes.getPax();
 
 			List<BTNConfirmRequest.Rooms.Room.Paxes.Pax> paxLst = room.getPaxes().getPax();
 			for (BTNConfirmRequest.Rooms.Room.Paxes.Pax pax : paxLst){
 				BookingRQ.Rooms.Room.Paxes.Pax resPax = new BookingRQ.Rooms.Room.Paxes.Pax();
+				resPax.setRoomId(new Integer(pax.getRoomId()).intValue());
 				resPax.setName(pax.getName());
 				resPax.setSurname(pax.getSurname());
 				resPax.setType(pax.getType());
@@ -222,12 +223,13 @@ public class HBServiceHelper {
 				
 		BookingRQ.PaymentData.ContactData contactdata = new BookingRQ.PaymentData.ContactData();
 		contactdata.setEmail(btnbookingRq.getContactData().getEmail());
-		contactdata.setPhoneNumber(btnbookingRq.getContactData().getPhoneNumber());
+		//TODO: change this later
+		contactdata.setPhoneNumber(btnbookingRq.getContactData().getPhoneNumber() + "");
 		paymentdata.setContactData(contactdata);
 		
-		bookingRQ.setPaymentData(paymentdata);
+//		bookingRQ.setPaymentData(paymentdata);
 		
-		bookingRQ.setClientReference(new Integer(btnbookingRq.getClientReference()).intValue());
+		bookingRQ.setClientReference(btnbookingRq.getClientReference());
 		
 		return bookingRQ;
 	}
@@ -236,11 +238,11 @@ public class HBServiceHelper {
 		BTNConfirmResponse btnConfirmResponse = new BTNConfirmResponse();
 		
 		if (bookingRS.getError() != null) {
-			BTNError errElmnt = new BTNError();
+			BTNConfirmResponse.BTNError errElmnt = new BTNConfirmResponse.BTNError();
 			errElmnt.setCode(bookingRS.getError().getCode());
 			errElmnt.setMessage(bookingRS.getError().getMessage());
 			
-			btnConfirmResponse.setError(errElmnt);
+			btnConfirmResponse.setBTNError(errElmnt);
 			return btnConfirmResponse;
 		}
 		
@@ -358,11 +360,11 @@ public class HBServiceHelper {
 		BTNCancelRS btnCancelRS = new BTNCancelRS();
 		
 		if (cancelRS.getError() != null) {
-			BTNError errElmnt = new BTNError();
+			BTNCancelRS.BTNError errElmnt = new BTNCancelRS.BTNError();
 			errElmnt.setCode(cancelRS.getError().getCode());
 			errElmnt.setMessage(cancelRS.getError().getMessage());
 			
-			btnCancelRS.setError(errElmnt);
+			btnCancelRS.setBTNError(errElmnt);
 			return btnCancelRS;
 		}
 		
@@ -486,11 +488,11 @@ public class HBServiceHelper {
 		BTNRepriceResponse btnRepriceRs = new BTNRepriceResponse();
 
 		if (checkRateRS.getError() != null) {
-			BTNError errElmnt = new BTNError();
+			BTNRepriceResponse.BTNError errElmnt = new BTNRepriceResponse.BTNError();
 			errElmnt.setCode(checkRateRS.getError().getCode());
 			errElmnt.setMessage(checkRateRS.getError().getMessage());
 
-			btnRepriceRs.setError(errElmnt);
+			btnRepriceRs.setBTNError(errElmnt);
 			return btnRepriceRs;
 		}
 
