@@ -10,6 +10,10 @@ import com.bonton.service.ServiceProxy;
 import com.bonton.service.adapter.DesiaServiceProxyAdapter;
 import com.bonton.service.adapter.HBServiceProxyAdapter;
 
+/**
+ * Bonton utility class to hold common utility methods.
+ * @author Tirath
+ */
 public class BTNUtility {
 	private static final Logger logger = LoggerFactory.getLogger(BTNUtility.class);
 

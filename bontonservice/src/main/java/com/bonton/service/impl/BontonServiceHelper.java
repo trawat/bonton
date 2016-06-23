@@ -6,6 +6,10 @@ import java.util.concurrent.Future;
 
 import com.bonton.service.ServiceProxy;
 
+/**
+ * Acts as a service helper.
+ * @author Tirath
+ */
 public class BontonServiceHelper {
 	private static final ExecutorService es = Executors.newCachedThreadPool();
 	public void execute(ServiceProxy sp) {

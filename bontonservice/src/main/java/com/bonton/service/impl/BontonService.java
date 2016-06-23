@@ -9,6 +9,10 @@ import com.bonton.service.Service;
 import com.bonton.service.ServiceActuator;
 import com.bonton.util.BTNUtility;
 
+/**
+ * Entry point into Bonton Service application.
+ * @author Tirath
+ */
 public class BontonService implements Service {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BontonService.class);
