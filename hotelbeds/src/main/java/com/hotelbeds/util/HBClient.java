@@ -88,7 +88,9 @@ public class HBClient {
 				.headers(getHeaders());
 		
 		Invocation invoker = builder.buildDelete();
-		return (BookingCancellationRS) invoker.invoke(BookingCancellationRS.class);
+		Response response = invoker.invoke();
+		
+		return response.readEntity(BookingCancellationRS.class);
 	}
 	
 	public static <T> CheckRateRS postRepricing(T bean) throws Exception {
@@ -102,8 +104,9 @@ public class HBClient {
 				.headers(getHeaders());
 		
 		Invocation invoker = builder.buildGet();
-
-		return (CheckRateRS) invoker.invoke(CheckRateRS.class);
+		Response response = invoker.invoke();
+		
+		return response.readEntity(CheckRateRS.class);
 	}
 	
 	private static MultivaluedMap<String, Object> getHeaders() {
