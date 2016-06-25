@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://www.bonton.com/messages" xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+<xs:schema xmlns="http://www.bonton.com/messages" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:element name="BTNSearchRequest">
 		<xs:complexType>
 			<xs:sequence>
@@ -149,48 +149,55 @@
 													<xs:element name="Room" minOccurs="0" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element type="xs:string" name="Supplier" />
-																<xs:element type="xs:string" name="RateKey" />
-																<xs:element type="xs:string" name="packaging" />
-																<xs:element type="xs:string" name="RoomType" />
-																<xs:element type="xs:string" name="MealType" />
-																<xs:element name="FinalPrice">
-																	<xs:complexType>
-																		<xs:attribute type="xs:float" name="supplierPrice" />
-																		<xs:attribute type="xs:float" name="otaFee" />
-																		<xs:attribute type="xs:float" name="otaDiscountAmount" />
-																	</xs:complexType>
-																</xs:element>
-																<xs:element name="CancellationPolicies">
+																<xs:element name="Rate" maxOccurs="unbounded">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element type="xs:float" name="Amount" />
-																			<xs:element type="xs:dateTime" name="From" />
+																			<xs:element type="xs:string" name="RateKey" />
+																			<xs:element type="xs:string" name="packaging" />
+																			<xs:element type="xs:string" name="MealType" />
+																			<xs:element type="xs:float" name="supplierPrice" />
+																			<xs:element type="xs:float" name="otaFee" />
+																			<xs:element type="xs:float" name="otaDiscountAmount" />
+																			<xs:element name="CancellationPolicies">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element name="CancellationPolicy" maxOccurs="unbounded">
+																						<xs:complexType>
+																							<xs:sequence>
+																								<xs:element type="xs:float" name="Amount" />
+																								<xs:element type="xs:dateTime" name="From" />
+																							</xs:sequence>
+																						</xs:complexType>
+																						</xs:element>
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																			<xs:element name="dailyRates">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element name="dailyRate" maxOccurs="unbounded">
+																							<xs:complexType>
+																								<xs:simpleContent>
+																									<xs:extension base="xs:string">
+																										<xs:attribute type="xs:int" name="offset" />
+																										<xs:attribute type="xs:float"
+																											name="dailySellingRate" />
+																										<xs:attribute type="xs:float"
+																											name="dailyNet" />
+																									</xs:extension>
+																								</xs:simpleContent>
+																							</xs:complexType>
+																						</xs:element>
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
 																		</xs:sequence>
 																	</xs:complexType>
 																</xs:element>
-																<xs:element name="dailyRates">
-																							<xs:complexType>
-																								<xs:sequence>
-																									<xs:element name="dailyRate" maxOccurs="unbounded">
-																										<xs:complexType>
-																											<xs:simpleContent>
-																												<xs:extension base="xs:string">
-																													<xs:attribute type="xs:int"
-																														name="offset" />
-																													<xs:attribute type="xs:float"
-																														name="dailySellingRate" />
-																													<xs:attribute type="xs:float"
-																														name="dailyNet" />
-																												</xs:extension>
-																											</xs:simpleContent>
-																										</xs:complexType>
-																									</xs:element>
-																								</xs:sequence>
-																							</xs:complexType>
-																						</xs:element>
 																<xs:element type="xs:string" name="Remarks" />
 															</xs:sequence>
+															<xs:attribute type="xs:string" name="RoomType" />
+															<xs:attribute type="xs:string" name="Supplier" />
 														</xs:complexType>
 													</xs:element>
 												</xs:sequence>

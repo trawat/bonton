@@ -83,31 +83,31 @@ public class HBServiceHelper {
 	}
 	
 	public static BTNSearchResponse searchBeanResponseMapper(AvailabilityRS availabilityRS) throws Exception {
-		
+
 		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
 
 		if (availabilityRS.getError() != null) {
 			BTNSearchResponse.BTNError errElmnt = new BTNSearchResponse.BTNError();
 			errElmnt.setCode(availabilityRS.getError().getCode());
 			errElmnt.setMessage(availabilityRS.getError().getMessage());
-			
+
 			btnSearchResponse.setBTNError(errElmnt);
 			return btnSearchResponse;
 		}
-		
+
 		/** do the appropriate mapping*/
 		btnSearchResponse.setServiceRequestID("");
 		btnSearchResponse.setServiceRequestID("");
-		
+
 		btnSearchResponse.setOptionsCount(availabilityRS.getHotels().getTotal());
-		
+
 		boolean onlyOnce = true;
 		BTNSearchResponse.HotelOptions resHotelOptions = new  BTNSearchResponse.HotelOptions();
 		btnSearchResponse.setHotelOptions(resHotelOptions);
-		
+
 		List<BTNSearchResponse.HotelOptions.Hotel> resHotelLst = btnSearchResponse.getHotelOptions().getHotel();
 		List<AvailabilityRS.Hotels.Hotel> hotelLst = availabilityRS.getHotels().getHotel();
-		
+
 		for (AvailabilityRS.Hotels.Hotel hotel : hotelLst) {
 			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
 			resHotel.setHotelCode(hotel.getCode());
@@ -125,58 +125,66 @@ public class HBServiceHelper {
 				btnSearchResponse.setCity(city);
 				onlyOnce = false;
 			}
-			
+
 			BTNSearchResponse.HotelOptions.Hotel.RoomOptions resRoomOptions = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions();
 			resHotel.setRoomOptions(resRoomOptions);
-			
+
 			List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> resRoomLst = resHotel.getRoomOptions().getRoom();
 			List<AvailabilityRS.Hotels.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
-			
-			for (AvailabilityRS.Hotels.Hotel.Rooms.Room room : roomLst){
 
+			for (AvailabilityRS.Hotels.Hotel.Rooms.Room room : roomLst){
 				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
 				resRoom.setRoomType(room.getName());
 				resRoom.setSupplier("HOTELBEDS");
-				
-				/* check this .. using first index for now*/
-//				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate> rateLst = room.getRates().getRate();
-				AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate rate = room.getRates().getRate();
-				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.FinalPrice resFinalPrice = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.FinalPrice();
-				
-				//resRoom.set (rate.getNet());
-				resRoom.setRateKey(rate.getRateKey());
-				resRoom.setPackaging(rate.getPackaging());
-				resRoom.setMealType(rate.getBoardName());
-				
-				resFinalPrice.setSupplierPrice(rate.getNet());
-				resFinalPrice.setOtaFee(0.0f);
-				resFinalPrice.setOtaDiscountAmount(0.0f);
-				
-				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.CancellationPolicies resCancPlcy = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.CancellationPolicies();
-				resCancPlcy.setAmount(rate.getCancellationPolicies().getCancellationPolicy().getAmount());
-				resCancPlcy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom());
-				
-				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates resDailyRates = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates();
-				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates.DailyRate> resDailyRateLst = resDailyRates.getDailyRate();
-				
-				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate> dailyRateLst = rate.getDailyRates().getDailyRate();
-				for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate dailyRate : dailyRateLst) {
-					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates.DailyRate resDailyRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates.DailyRate();
-					resDailyRate.setOffset(dailyRate.getOffset());
-					resDailyRate.setDailyNet(dailyRate.getDailyNet());
-					
-					/* adding to the daily rate list */
-					resDailyRateLst.add(resDailyRate);
-				}
-				
-				resRoom.setFinalPrice(resFinalPrice);
-				resRoom.setCancellationPolicies(resCancPlcy);
-				resRoom.setDailyRates(resDailyRates);
-				resRoomLst.add(resRoom);
-			}
-			resHotelLst.add(resHotel);
-		}
 
+				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> resRateLst = resRoom.getRate();
+				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate> rateLst = room.getRates().getRate();
+
+				for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate rate : rateLst) {
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate resRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate();
+					resRate.setRateKey(rate.getRateKey());
+					resRate.setPackaging(rate.getPackaging());
+					resRate.setMealType(rate.getBoardName());
+
+					resRate.setSupplierPrice(rate.getNet());
+					resRate.setOtaFee(0.0f);
+					resRate.setOtaDiscountAmount(0.0f);
+
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies resCancPlcies = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies();
+					List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy> resCancPlcyLst = resCancPlcies.getCancellationPolicy();
+					List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy> cancPlcyLst = rate.getCancellationPolicies().getCancellationPolicy();
+
+					for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy cancPlcy : cancPlcyLst) {
+						BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy resCancPlcy = 
+								new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy();
+
+						resCancPlcy.setAmount(cancPlcy.getAmount());
+						resCancPlcy.setFrom(cancPlcy.getFrom());
+
+						resCancPlcyLst.add(resCancPlcy);
+					}
+
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates resDailyRates = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates();
+					List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate> resDailyRateLst = resDailyRates.getDailyRate();
+
+					List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate> dailyRateLst = rate.getDailyRates().getDailyRate();
+					for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate dailyRate : dailyRateLst) {
+						BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate resDailyRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
+						resDailyRate.setOffset(dailyRate.getOffset());
+						resDailyRate.setDailyNet(dailyRate.getDailyNet());
+
+						/* adding to the daily rate list */
+						resDailyRateLst.add(resDailyRate);
+					}
+					resRate.setDailyRates(resDailyRates);
+					resRate.setCancellationPolicies(resCancPlcies);
+					
+					resRateLst.add(resRate);
+					resRoomLst.add(resRoom);
+				}
+				resHotelLst.add(resHotel);
+			}
+		}
 		return btnSearchResponse;
 	}
 	
