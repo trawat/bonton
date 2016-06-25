@@ -27,7 +27,10 @@ public class HBServiceHelper {
 	
 	public static AvailabilityRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRq) {
 		AvailabilityRQ availabilityRQ = new AvailabilityRQ();
-
+		
+		/* To fetch the daily price break down */
+		availabilityRQ.setDailyRate(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().isIncludePriceBreakdown());
+		
 		AvailabilityRQ.Destination destination = new AvailabilityRQ.Destination();
 		destination.setCode(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationCode());
 		//destination.setZone(searchBean.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationType());  
@@ -106,13 +109,12 @@ public class HBServiceHelper {
 		List<AvailabilityRS.Hotels.Hotel> hotelLst = availabilityRS.getHotels().getHotel();
 		
 		for (AvailabilityRS.Hotels.Hotel hotel : hotelLst) {
-
 			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
 			resHotel.setHotelCode(hotel.getCode());
 			resHotel.setHotelName(hotel.getName());
 			resHotel.setStarRating(hotel.getCategoryName());
-			resHotel.setLatitude(hotel.getLatitude());
-			resHotel.setLongitude(hotel.getLongitude());
+			resHotel.setLatitude(hotel.getLatitude() == null? 0f: hotel.getLatitude());
+			resHotel.setLongitude(hotel.getLongitude() == null? 0f: hotel.getLongitude());
 			resHotel.setFullAddress(hotel.getAddress());
 
 			/* As this is common for all the hotels*/
@@ -133,7 +135,7 @@ public class HBServiceHelper {
 			for (AvailabilityRS.Hotels.Hotel.Rooms.Room room : roomLst){
 
 				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
-				resRoom.setRoomDescription(room.getName());
+				resRoom.setRoomType(room.getName());
 				resRoom.setSupplier("HOTELBEDS");
 				
 				/* check this .. using first index for now*/
@@ -144,8 +146,9 @@ public class HBServiceHelper {
 				//resRoom.set (rate.getNet());
 				resRoom.setRateKey(rate.getRateKey());
 				resRoom.setPackaging(rate.getPackaging());
+				resRoom.setMealType(rate.getBoardName());
 				
-				resFinalPrice.setSupplierPrice(new BigDecimal(rate.getNet()));
+				resFinalPrice.setSupplierPrice(rate.getNet());
 				resFinalPrice.setOtaFee(0.0f);
 				resFinalPrice.setOtaDiscountAmount(0.0f);
 				
@@ -153,25 +156,26 @@ public class HBServiceHelper {
 				resCancPlcy.setAmount(rate.getCancellationPolicies().getCancellationPolicy().getAmount());
 				resCancPlcy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom());
 				
+				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates resDailyRates = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates();
+				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates.DailyRate> resDailyRateLst = resDailyRates.getDailyRate();
+				
+				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate> dailyRateLst = rate.getDailyRates().getDailyRate();
+				for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate dailyRate : dailyRateLst) {
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates.DailyRate resDailyRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.DailyRates.DailyRate();
+					resDailyRate.setOffset(dailyRate.getOffset());
+					resDailyRate.setDailyNet(dailyRate.getDailyNet());
+					
+					/* adding to the daily rate list */
+					resDailyRateLst.add(resDailyRate);
+				}
+				
 				resRoom.setFinalPrice(resFinalPrice);
 				resRoom.setCancellationPolicies(resCancPlcy);
+				resRoom.setDailyRates(resDailyRates);
 				resRoomLst.add(resRoom);
 			}
 			resHotelLst.add(resHotel);
 		}
-
-
-		// availabilityRS.getHotels().getHotel().getDestinationCode();
-		// availabilityRS.getHotels().getHotel().getDestinationName();
-		// availabilityRS.getHotels().getHotel().getCode();
-		// availabilityRS.getHotels().getHotel().getCategoryName();
-		// availabilityRS.getHotels().getHotel().getLongitude();
-		// availabilityRS.getHotels().getHotel().getLatitude();
-		// availabilityRS.getHotels().getHotel().getAddress();  
-		// availabilityRS.getHotels().getHotel().getRooms().getRoom().getName();
-		// availabilityRS.getHotels().getHotel().getRooms().getRoom().getRates().getRate().getNet();
-		// availabilityRS.getHotels().getHotel().getRooms().getRoom().getRates().getRate().getRateKey();
-		// availabilityRS.getHotels().getHotel().getRooms().getRoom().getRates().getRate().getPackaging();
 
 		return btnSearchResponse;
 	}

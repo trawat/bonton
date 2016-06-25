@@ -32,9 +32,11 @@ public class HBService {
 	
 	public void search(BTNSearchRequest searchBean, String uuid) throws Exception {
 		AvailabilityRQ availabilityRQ = HBServiceHelper.searchBeanRequestMapper(searchBean);
+		logger.debug("hb availability request {}", XmlProcessor.getBeanInXml(availabilityRQ));
 		AvailabilityRS availabilityRS = HBClient.postSearch(availabilityRQ);
-		
+		logger.debug("hb availability response {}", XmlProcessor.getBeanInXml(availabilityRS));
 		BTNSearchResponse btnSearchResponse = HBServiceHelper.searchBeanResponseMapper(availabilityRS);
+		logger.debug("btn-hb availability response {}", XmlProcessor.getBeanInXml(btnSearchResponse));
 		rqRsMap.put(uuid, btnSearchResponse);
 	}
 	
@@ -55,6 +57,7 @@ public class HBService {
 	
 	public String repricing(BTNRepriceRequest repricingBean) throws Exception {
 		CheckRateRS repriceRS = HBClient.postRepricing(repricingBean);
+		logger.debug("hb reprice response {}", XmlProcessor.getBeanInXml(repriceRS));
 		BTNRepriceResponse btnRepriceRS = HBServiceHelper.repriceBeanResponseMapper(repriceRS);
 		
 		return XmlProcessor.getBeanInXml(btnRepriceRS);
