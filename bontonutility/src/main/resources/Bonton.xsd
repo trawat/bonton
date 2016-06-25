@@ -55,7 +55,7 @@
 											</xs:complexType>
 										</xs:element>
 										<xs:element type="xs:string" name="IncludeRecommended" />
-										<xs:element type="xs:string" name="IncludePriceBreakdown" />
+										<xs:element type="xs:boolean" name="IncludePriceBreakdown" />
 										<xs:element type="xs:string" name="IncludeChargeConditions" />
 										<xs:element name="Rooms">
 											<xs:complexType>
@@ -151,11 +151,12 @@
 															<xs:sequence>
 																<xs:element type="xs:string" name="Supplier" />
 																<xs:element type="xs:string" name="RateKey" />
-																<xs:element type="xs:string" name="RoomDescription" />
 																<xs:element type="xs:string" name="packaging" />
+																<xs:element type="xs:string" name="RoomType" />
+																<xs:element type="xs:string" name="MealType" />
 																<xs:element name="FinalPrice">
 																	<xs:complexType>
-																		<xs:attribute type="xs:decimal" name="supplierPrice" />
+																		<xs:attribute type="xs:float" name="supplierPrice" />
 																		<xs:attribute type="xs:float" name="otaFee" />
 																		<xs:attribute type="xs:float" name="otaDiscountAmount" />
 																	</xs:complexType>
@@ -168,6 +169,26 @@
 																		</xs:sequence>
 																	</xs:complexType>
 																</xs:element>
+																<xs:element name="dailyRates">
+																							<xs:complexType>
+																								<xs:sequence>
+																									<xs:element name="dailyRate" maxOccurs="unbounded">
+																										<xs:complexType>
+																											<xs:simpleContent>
+																												<xs:extension base="xs:string">
+																													<xs:attribute type="xs:int"
+																														name="offset" />
+																													<xs:attribute type="xs:float"
+																														name="dailySellingRate" />
+																													<xs:attribute type="xs:float"
+																														name="dailyNet" />
+																												</xs:extension>
+																											</xs:simpleContent>
+																										</xs:complexType>
+																									</xs:element>
+																								</xs:sequence>
+																							</xs:complexType>
+																						</xs:element>
 																<xs:element type="xs:string" name="Remarks" />
 															</xs:sequence>
 														</xs:complexType>
