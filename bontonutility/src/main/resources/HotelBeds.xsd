@@ -30,7 +30,7 @@
 																	<xs:attribute type="xs:string" name="type"
 																		use="optional" />
 																	<xs:attribute type="xs:int" name="age"
-																		use="required" />
+																		use="optional" />
 																	<xs:attribute type="xs:string" name="name"
 																		use="optional" />
 																	<xs:attribute type="xs:string" name="surname"
@@ -84,6 +84,7 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
+			<xs:attribute type="xs:boolean" name="dailyRate" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="availabilityRS">
@@ -104,13 +105,13 @@
 																<xs:element name="rates">
 																	<xs:complexType>
 																		<xs:sequence>
-																			<xs:element name="rate">
+																			<xs:element name="rate" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
-																						<xs:element name="cancellationPolicies">
+																						<xs:element name="cancellationPolicies" >
 																							<xs:complexType>
 																								<xs:sequence>
-																									<xs:element name="cancellationPolicy">
+																									<xs:element name="cancellationPolicy" maxOccurs="unbounded">
 																										<xs:complexType>
 																											<xs:simpleContent>
 																												<xs:extension base="xs:string">
@@ -120,6 +121,26 @@
 																														name="from" />
 																													<xs:attribute type="xs:float"
 																														name="hotelAmount" />
+																												</xs:extension>
+																											</xs:simpleContent>
+																										</xs:complexType>
+																									</xs:element>
+																								</xs:sequence>
+																							</xs:complexType>
+																						</xs:element>
+																						<xs:element name="dailyRates">
+																							<xs:complexType>
+																								<xs:sequence>
+																									<xs:element name="dailyRate" maxOccurs="unbounded">
+																										<xs:complexType>
+																											<xs:simpleContent>
+																												<xs:extension base="xs:string">
+																													<xs:attribute type="xs:int"
+																														name="offset" />
+																													<xs:attribute type="xs:float"
+																														name="dailySellingRate" />
+																													<xs:attribute type="xs:float"
+																														name="dailyNet" />
 																												</xs:extension>
 																											</xs:simpleContent>
 																										</xs:complexType>
