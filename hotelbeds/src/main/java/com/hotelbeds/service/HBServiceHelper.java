@@ -24,7 +24,19 @@ import com.bonton.utility.hotelbeds.CheckRateRS;
 
 public class HBServiceHelper {
 	
-	private static Logger logger = LoggerFactory.getLogger(HBServiceHelper.class); 
+	private static Logger logger = LoggerFactory.getLogger(HBServiceHelper.class);
+	
+	/* To get the rate response sorted on the basis of board code */
+	public static final Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> rateListCmptr = 
+	new Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> () {
+
+		@Override
+		public int compare(Rate r1, Rate r2) {
+			String brdOne = r1.getMealCode();
+			String brdTwo = r2.getMealCode();
+			return brdOne.compareTo(brdTwo);
+		}};
+
 	
 	private HBServiceHelper() {}
 	
@@ -104,18 +116,6 @@ public class HBServiceHelper {
 
 		btnSearchResponse.setOptionsCount(availabilityRS.getHotels().getTotal());
 
-		/* To get the rate response sorted on the basis of board code */
-		Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> rateListCmptr = 
-				new Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> () {
-
-					@Override
-					public int compare(Rate r1, Rate r2) {
-						String brdOne = r1.getMealCode();
-						String brdTwo = r2.getMealCode();
-						return brdOne.compareTo(brdTwo);
-					}};
-
-		
 		boolean onlyOnce = true;
 		BTNSearchResponse.HotelOptions resHotelOptions = new  BTNSearchResponse.HotelOptions();
 		btnSearchResponse.setHotelOptions(resHotelOptions);
