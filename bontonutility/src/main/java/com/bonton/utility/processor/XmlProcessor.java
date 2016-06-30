@@ -135,7 +135,10 @@ public class XmlProcessor {
 			jaxbCtx = JAXBContext.newInstance(bean.getClass());
 			unmarshaller = jaxbCtx.createUnmarshaller();
 			//JAXBElement<T> element = new JAXBElement<T>();
-			is = new FileInputStream(new File("SearchRequest.xml"));
+			is = new FileInputStream(new File("3rs.xml"));
+			if (is != null) {
+				System.out.println("not null");
+			}
 			JAXBElement<T> element = (JAXBElement<T>) unmarshaller.unmarshal(is);
 			
 			return element.getValue();
@@ -144,4 +147,21 @@ public class XmlProcessor {
 		}
 		return null;
 	}
+	
+	/* Use this for local testing. Change name test to main */
+	public static void test(String...a) throws Exception {
+//		Scanner is = new Scanner(new FileInputStream(new File("3rs.xml")), "UTF-8");
+//		StringBuilder sb = new StringBuilder();
+//		while (is.hasNextLine()) {
+//			sb.append(is.nextLine());
+//		}
+//		AvailabilityRS ars = getHBSearchRSBean(sb.toString());
+//		BTNSearchResponse res = searchBeanResponseMapper(ars);
+//		
+//		String s = getBeanInXml(res);
+//		FileOutputStream fos = new FileOutputStream(new File("btnrs.xml"));
+//		fos.write(s.getBytes());
+//		fos.close();
+	}
+	
 }
