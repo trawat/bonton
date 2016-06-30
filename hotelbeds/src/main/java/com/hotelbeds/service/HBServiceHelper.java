@@ -1,6 +1,8 @@
 package com.hotelbeds.service;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import com.bonton.utility.artifacts.BTNConfirmResponse;
 import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
+import com.bonton.utility.artifacts.BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate;
 import com.bonton.utility.hotelbeds.AvailabilityRQ;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.hotelbeds.BookingCancellationRS;
@@ -101,6 +104,18 @@ public class HBServiceHelper {
 
 		btnSearchResponse.setOptionsCount(availabilityRS.getHotels().getTotal());
 
+		/* To get the rate response sorted on the basis of board code */
+		Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> rateListCmptr = 
+				new Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> () {
+
+					@Override
+					public int compare(Rate r1, Rate r2) {
+						String brdOne = r1.getMealCode();
+						String brdTwo = r2.getMealCode();
+						return brdOne.compareTo(brdTwo);
+					}};
+
+		
 		boolean onlyOnce = true;
 		BTNSearchResponse.HotelOptions resHotelOptions = new  BTNSearchResponse.HotelOptions();
 		btnSearchResponse.setHotelOptions(resHotelOptions);
@@ -129,22 +144,35 @@ public class HBServiceHelper {
 			BTNSearchResponse.HotelOptions.Hotel.RoomOptions resRoomOptions = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions();
 			resHotel.setRoomOptions(resRoomOptions);
 
-			List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> resRoomLst = resHotel.getRoomOptions().getRoom();
+			List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> resRoomLst = resRoomOptions.getRoom();
 			List<AvailabilityRS.Hotels.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
 
-			for (AvailabilityRS.Hotels.Hotel.Rooms.Room room : roomLst){
+			for (AvailabilityRS.Hotels.Hotel.Rooms.Room room : roomLst) {
 				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
 				resRoom.setRoomType(room.getName());
 				resRoom.setSupplier("HOTELBEDS");
 
 				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> resRateLst = resRoom.getRate();
 				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate> rateLst = room.getRates().getRate();
-
+				
+								
 				for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate rate : rateLst) {
+					/* Skip rate entry if rateType is not bookable. Other possibility is recheck */
+//					if (!rate.getRateType().equals("BOOKABLE")) {
+//						continue;
+//					}
+					
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate resRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate();
 					resRate.setRateKey(rate.getRateKey());
 					resRate.setPackaging(rate.getPackaging());
 					resRate.setMealType(rate.getBoardName());
+					
+					/* Meal code contains board code. Should not be changes. Otherwise breaks the rate list
+					 * sorting logic. Change the comparator logic if it must change. */
+					resRate.setMealCode(rate.getBoardCode());
+					resRate.setChildren(rate.getChildren());
+					resRate.setAdults(rate.getAdults());
+					resRate.setChildrenAges(rate.getChildrenAges());
 
 					resRate.setSupplierPrice(rate.getNet());
 					resRate.setOtaFee(0.0f);
@@ -180,10 +208,12 @@ public class HBServiceHelper {
 					resRate.setCancellationPolicies(resCancPlcies);
 					
 					resRateLst.add(resRate);
-					resRoomLst.add(resRoom);
 				}
-				resHotelLst.add(resHotel);
+				/* Sorted rate list */
+				Collections.sort(resRateLst, rateListCmptr);
+				resRoomLst.add(resRoom);				
 			}
+			resHotelLst.add(resHotel);
 		}
 		return btnSearchResponse;
 	}

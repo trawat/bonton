@@ -156,6 +156,7 @@
 																					<xs:attribute type="xs:int" name="rooms" />
 																					<xs:attribute type="xs:int" name="adults" />
 																					<xs:attribute type="xs:int" name="children" />
+																					<xs:attribute type="xs:string" name="childrenAges" />
 																					<xs:attribute type="xs:string" name="rateKey" />
 																					<xs:attribute type="xs:string" name="rateClass" />
 																					<xs:attribute type="xs:string" name="rateType" />
