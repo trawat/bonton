@@ -29,7 +29,7 @@ public class HBDBConnection {
 		}
 	}
 
-	public static void insert(String opr, String btnRq, String hbRq, String hbRs, String btnRs, String splr) {
+	public static void insert(String opr, String btnRq, String hbRq, String hbRs, String btnRs, String splr) throws Exception {
 		try {
 			ps = connection.prepareStatement(activitySql);
 			ps.setString(1, opr);
@@ -41,7 +41,7 @@ public class HBDBConnection {
 			
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw e;
 		}
 	}
 }

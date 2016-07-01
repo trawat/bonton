@@ -63,6 +63,7 @@ public class HBServiceHelper {
 	private HBServiceHelper() {}
 	
 	public static AvailabilityRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRq, String uuid) {
+		logger.info("search bean request mapping started ---->");
 		/** Preparing request-response map */
 		List<? super Object> rqRsLst = new ArrayList<>();
 		rqRsLst.add(btnSearchRq);
@@ -132,6 +133,7 @@ public class HBServiceHelper {
 		rtRcmndMap.put(uuid, sb.toString());
 		rqRsLst.add(availabilityRQ);
 		
+		logger.info("search bean request mapping done ---->");
 		return availabilityRQ;
 	}
 	
@@ -144,7 +146,7 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static BTNSearchResponse searchBeanResponseMapper(AvailabilityRS availabilityRS, String uuid) throws Exception {
-		logger.info("searchBeanResponseMapper() started ---->");
+		logger.info("search bean response mapping started ---->");
 		
 		/** Adding HB availability response for logging */
 		reqResMap.get(uuid).add(availabilityRS);
@@ -295,11 +297,12 @@ public class HBServiceHelper {
 		/** Adding HB availability response for logging */
 		reqResMap.get(uuid).add(btnSearchResponse);
 		
-		logger.info("searchBeanResponseMapper() ends ---->");
+		logger.info("search bean response mapping done ---->");
 		return btnSearchResponse;
 	}
 	
-	public static BookingRQ confirmBeanRequestMapper(BTNConfirmRequest btnbookingRq) {		
+	public static BookingRQ confirmBeanRequestMapper(BTNConfirmRequest btnbookingRq) {
+		logger.info("confirm bean request mapping started ---->");
 		BookingRQ bookingRQ = new BookingRQ();
 
 		BookingRQ.Holder holder = new BookingRQ.Holder();		
@@ -354,10 +357,12 @@ public class HBServiceHelper {
 		
 		bookingRQ.setClientReference(btnbookingRq.getClientReference());
 		
+		logger.info("confirm bean request mapping done ---->");
 		return bookingRQ;
 	}
 	
 	public static BTNConfirmResponse confirmBeanResponseMapper(BookingRS bookingRS) throws Exception {
+		logger.info("confirm bean response mapping started ---->");
 		BTNConfirmResponse btnConfirmResponse = new BTNConfirmResponse();
 		
 		if (bookingRS.getError() != null) {
@@ -475,11 +480,12 @@ public class HBServiceHelper {
 		}
 		btnConfirmResponse.setBooking(resBooking);
 		
-		
+		logger.info("confirm bean response mapping done ---->");
 		return btnConfirmResponse;
 	}
 	
 	public static BTNCancelRS cancelBeanResponseMapper(BookingCancellationRS cancelRS) throws Exception {
+		logger.info("cancel bean response mapping started ---->");
 		BTNCancelRS btnCancelRS = new BTNCancelRS();
 		
 		if (cancelRS.getError() != null) {
@@ -603,11 +609,12 @@ public class HBServiceHelper {
 		}
 		btnCancelRS.setBooking(resBooking);
 		
-		
+		logger.info("cancel bean response mapping done ---->");
 		return btnCancelRS;
 	}
 	
 	public static BTNRepriceResponse repriceBeanResponseMapper(CheckRateRS checkRateRS) throws Exception {
+		logger.info("reprice bean response mapping started ---->");
 		BTNRepriceResponse btnRepriceRs = new BTNRepriceResponse();
 
 		if (checkRateRS.getError() != null) {
@@ -677,6 +684,7 @@ public class HBServiceHelper {
 		resHotel.setRooms(resRooms);
 		btnRepriceRs.setHotel(resHotel);
 		
+		logger.info("reprice bean response mapping done ---->");
 		return btnRepriceRs;
 	}
 	
@@ -685,13 +693,15 @@ public class HBServiceHelper {
 	 * i.e: logging for each operation executes in a separate thread.
 	 * It is possible that some thing goes wrong while preparing the
 	 * request-response list. In that scenario, this method goes ahead and
-	 * logs whatever is available in the reqResLst.
+	 * logs whatever is available in the reqResLst. Also, if any exception 
+	 * occurs while inserting the request/ responses, this method will silently
+	 * log the same in the log file/
 	 * @param uuid
 	 * @param operation search, reprice, confirm or cancel
 	 * @param supplier service provider
 	 * @throws Exception
 	 */
-	public static void logReqRes(String uuid, String operation, String supplier) throws Exception {
+	public static void logReqRes(String uuid, String operation, String supplier) {
 		List<? super Object> reqResLst = reqResMap.get(uuid);
 		
 		hbEs.submit(new Runnable() {
@@ -706,7 +716,7 @@ public class HBServiceHelper {
 							XmlProcessor.getBeanInXml((BTNSearchResponse) reqResLst.get(3)), 
 							supplier);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error("Exception occured while logging the request and responses in the DB {}", e.getCause());
 				}
 			}});
 	}
