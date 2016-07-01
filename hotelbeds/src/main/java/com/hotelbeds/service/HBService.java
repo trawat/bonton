@@ -30,12 +30,11 @@ public class HBService {
 	private static final Map<String, BTNSearchResponse> rqRsMap = new HashMap<>();
 	
 	public void search(BTNSearchRequest btnSearchRQ, String uuid) throws Exception {
-		AvailabilityRQ availabilityRQ = HBServiceHelper.searchBeanRequestMapper(btnSearchRQ);
-		//logger.debug("hb availability request {}", XmlProcessor.getBeanInXml(availabilityRQ));
+		AvailabilityRQ availabilityRQ = HBServiceHelper.searchBeanRequestMapper(btnSearchRQ, uuid);
 		AvailabilityRS availabilityRS = HBClient.postSearch(availabilityRQ);
-		//logger.debug("hb availability response {}", XmlProcessor.getBeanInXml(availabilityRS));
-		BTNSearchResponse btnSearchRS = HBServiceHelper.searchBeanResponseMapper(availabilityRS);
-		//logger.debug("btn-hb availability response {}", XmlProcessor.getBeanInXml(btnSearchRS));
+		
+		BTNSearchResponse btnSearchRS = HBServiceHelper.searchBeanResponseMapper(availabilityRS, uuid);
+		
 		rqRsMap.put(uuid, btnSearchRS);
 		HBServiceHelper.logReqRes(uuid, "Search", "HotelBeds");
 	}
