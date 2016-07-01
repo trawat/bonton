@@ -42,6 +42,9 @@ public class HBDBConnection {
 			ps.execute();
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
 		}
 	}
 }

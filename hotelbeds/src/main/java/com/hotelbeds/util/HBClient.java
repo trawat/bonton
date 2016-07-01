@@ -76,7 +76,16 @@ public class HBClient {
 		return (BookingRS) post(bean, target, BookingRS.class);
 	}
 	
+	/**
+	 * Post the Bonton cancellation request bean to HotelBeds and 
+	 * return HotelBeds cancellation response.
+	 * @param bean Bonton cancellation bean
+	 * @return HotelBeds cancellation response bean
+	 * @throws Exception
+	 */
 	public static <T> BookingCancellationRS postCancelBooking(T bean) throws Exception {
+		logger.info("cancel request posting to HotelBeds started ---->");
+		
 		WebTarget target = hbRsClient.target(HBProperties.HB_CANCEL_BOOKING_END_POINT)
 				.resolveTemplate(HBProperties.REF_ID, ((BTNCancelRQ) bean).getCancelDetails().getReferenceId())
 				.resolveTemplate(HBProperties.CNCL_FLG, ((BTNCancelRQ) bean).getCancelDetails().getCancelFlag());
@@ -90,6 +99,7 @@ public class HBClient {
 		Invocation invoker = builder.buildDelete();
 		Response response = invoker.invoke();
 		
+		logger.info("cancel request posting done ---->");
 		return response.readEntity(BookingCancellationRS.class);
 	}
 	
