@@ -784,6 +784,8 @@ public class HBServiceHelper {
 					logger.error("Exception occured while logging the request and responses in the DB {}", e.getCause());
 				}
 			}});
+		/** Remove the entry once we are done logging in DB */
+		reqResMap.remove(uuid);
 	}
 	
 }
