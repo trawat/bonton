@@ -3,7 +3,11 @@ package com.hotelbeds.service;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +25,16 @@ import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRQ;
 import com.bonton.utility.hotelbeds.BookingRS;
 import com.bonton.utility.hotelbeds.CheckRateRS;
+import com.bonton.utility.processor.XmlProcessor;
+import com.hotelbeds.util.HBDBConnection;
 
 public class HBServiceHelper {
+	private static Logger logger = LoggerFactory.getLogger(HBServiceHelper.class);
 	
-	private static Logger logger = LoggerFactory.getLogger(HBServiceHelper.class); 
+	/* Holds unique uuid and generated request-response list as key-value */
+	private static final Map<String, List<? super Object>> rqRsMap = new HashMap<>();
+	
+	private static final ExecutorService hbEs = Executors.newCachedThreadPool();
 	
 	private HBServiceHelper() {}
 	
@@ -598,5 +608,27 @@ public class HBServiceHelper {
 		
 		return btnRepriceRs;
 	}
+	
+	public static void logReqRes(String uuid, String operation, String supplier) {
 		
+	}
+	
+	public static void logReqRes(String opr, String btnRq, String btnRs, String hbRq, String hbRs, String splr) {
+		hbEs.submit(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					HBDBConnection.insert(opr, 
+							XmlProcessor.getBeanInXml(btnRq), 
+							XmlProcessor.getBeanInXml(btnRs), 
+							XmlProcessor.getBeanInXml(hbRq), 
+							XmlProcessor.getBeanInXml(hbRs), 
+							"HotelBeds");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}});
+
+	}
 }

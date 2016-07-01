@@ -29,15 +29,15 @@ public class HBService {
 	/* Holds unique uuid and generated common response object as key-value */
 	private static final Map<String, BTNSearchResponse> rqRsMap = new HashMap<>();
 	
-	
-	public void search(BTNSearchRequest searchBean, String uuid) throws Exception {
-		AvailabilityRQ availabilityRQ = HBServiceHelper.searchBeanRequestMapper(searchBean);
-		logger.debug("hb availability request {}", XmlProcessor.getBeanInXml(availabilityRQ));
+	public void search(BTNSearchRequest btnSearchRQ, String uuid) throws Exception {
+		AvailabilityRQ availabilityRQ = HBServiceHelper.searchBeanRequestMapper(btnSearchRQ);
+		//logger.debug("hb availability request {}", XmlProcessor.getBeanInXml(availabilityRQ));
 		AvailabilityRS availabilityRS = HBClient.postSearch(availabilityRQ);
-		logger.debug("hb availability response {}", XmlProcessor.getBeanInXml(availabilityRS));
-		BTNSearchResponse btnSearchResponse = HBServiceHelper.searchBeanResponseMapper(availabilityRS);
-		logger.debug("btn-hb availability response {}", XmlProcessor.getBeanInXml(btnSearchResponse));
-		rqRsMap.put(uuid, btnSearchResponse);
+		//logger.debug("hb availability response {}", XmlProcessor.getBeanInXml(availabilityRS));
+		BTNSearchResponse btnSearchRS = HBServiceHelper.searchBeanResponseMapper(availabilityRS);
+		//logger.debug("btn-hb availability response {}", XmlProcessor.getBeanInXml(btnSearchRS));
+		rqRsMap.put(uuid, btnSearchRS);
+		HBServiceHelper.logReqRes(uuid, "Search", "HotelBeds");
 	}
 	
 	public String confirmBooking(BTNConfirmRequest confirmBean) throws Exception {

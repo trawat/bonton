@@ -2,37 +2,44 @@ package com.hotelbeds.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class HBDBConnection {
-	private static final String db_url = "jdbc:mysql://52.76.38.70:3306/Bonton";
+	private static final String db_url = "jdbc:mysql://localhost:3306/Bonton";
 	private static final String db_driver = "com.mysql.jdbc.Driver";
 	private static final String db_username = "root";
-	private static final String db_password = "ezee_crm@123";
+	private static final String db_password = "";
 	
-	public static void getConnection() {
-		
+	private static Connection connection = null;
+	private static final String activitySql = 
+			"insert into Bonton.activitytracking(FUNCTION, BTN_RQ, BTN_RS, HB_RQ, HB_RS, SUPPLIER) "
+			+ "values (?, ?, ?, ?, ?, ?)";
+	
+	static {
 		try {
 			Class.forName(db_driver);
-			Connection con = DriverManager.getConnection(db_url, db_username, db_password);
-
-			
-			Statement s = con.createStatement();
-			String Sql = "select HotelName from MH_SupplierHotelMapping_Test";
-			ResultSet rs = s.executeQuery(Sql);
-
-			while (rs.next()) {
-				System.out.println(rs.getString("HotelName"));
-			}
+			connection = DriverManager.getConnection(db_url, db_username, db_password);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	public static void main(String...arr) {
-		getConnection();
+
+	public static void insert(String opr, String btnRq, String btnRs, String hbRq, String hbRs, String splr) {
+		try {
+			PreparedStatement ps = connection.prepareStatement(activitySql);
+			ps.setString(1, opr);
+			ps.setString(2, btnRq);
+			ps.setString(3, btnRs);
+			ps.setString(4, hbRq);
+			ps.setString(5, hbRs);
+			ps.setString(6, splr);
+			
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
