@@ -31,11 +31,11 @@ public class HBService {
 	
 	
 	public void search(BTNSearchRequest searchBean, String uuid) throws Exception {
-		AvailabilityRQ availabilityRQ = HBServiceHelper.searchBeanRequestMapper(searchBean);
+		AvailabilityRQ availabilityRQ = HBServiceHelper.searchBeanRequestMapper(searchBean, uuid);
 		logger.debug("hb availability request {}", XmlProcessor.getBeanInXml(availabilityRQ));
 		AvailabilityRS availabilityRS = HBClient.postSearch(availabilityRQ);
 		logger.debug("hb availability response {}", XmlProcessor.getBeanInXml(availabilityRS));
-		BTNSearchResponse btnSearchResponse = HBServiceHelper.searchBeanResponseMapper(availabilityRS);
+		BTNSearchResponse btnSearchResponse = HBServiceHelper.searchBeanResponseMapper(availabilityRS, uuid);
 		logger.debug("btn-hb availability response {}", XmlProcessor.getBeanInXml(btnSearchResponse));
 		rqRsMap.put(uuid, btnSearchResponse);
 	}

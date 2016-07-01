@@ -20,4 +20,11 @@ public interface HBProperties {
     public static final String SIGNATURE_HEADER_NAME = "X-Signature";
     public static final String UTF8 = "UTF-8";
     
+    public static final String HB = "HOTELBEDS";
+    public static final String RATE_TYPE = "BOOKABLE";
+    public static final String SEP1 = "~";
+    public static final String SEP2 = "|";
+    public static final String REC = "1";
+    public static final String SPLIT = "\\|";
+    
 }
