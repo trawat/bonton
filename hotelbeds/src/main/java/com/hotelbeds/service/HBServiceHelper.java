@@ -1,12 +1,12 @@
 package com.hotelbeds.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -64,7 +64,7 @@ public class HBServiceHelper {
 	
 	public static AvailabilityRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRq, String uuid) {
 		/** Preparing request-response map */
-		List<? super Object> rqRsLst = new LinkedList<>();
+		List<? super Object> rqRsLst = new ArrayList<>();
 		rqRsLst.add(btnSearchRq);
 		reqResMap.put(uuid, rqRsLst);
 		
@@ -135,8 +135,20 @@ public class HBServiceHelper {
 		return availabilityRQ;
 	}
 	
+	/**
+	 * To map the Hotel beds availability response to Bonton response.
+	 * @param availabilityRS
+	 * @param uuid To associate request with responses.
+	 * @return BTNSearchResponse 
+	 * @throws Exception
+	 * @author Tirath
+	 */
 	public static BTNSearchResponse searchBeanResponseMapper(AvailabilityRS availabilityRS, String uuid) throws Exception {
-
+		logger.info("searchBeanResponseMapper() started ---->");
+		
+		/** Adding HB availability response for logging */
+		reqResMap.get(uuid).add(availabilityRS);
+		
 		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
 
 		if (availabilityRS.getError() != null) {
@@ -280,6 +292,10 @@ public class HBServiceHelper {
 			}
 			resHotelLst.add(resHotel);
 		}
+		/** Adding HB availability response for logging */
+		reqResMap.get(uuid).add(btnSearchResponse);
+		
+		logger.info("searchBeanResponseMapper() ends ---->");
 		return btnSearchResponse;
 	}
 	
@@ -664,26 +680,35 @@ public class HBServiceHelper {
 		return btnRepriceRs;
 	}
 	
-	public static void logReqRes(String uuid, String operation, String supplier) {
+	/**
+	 * All the logging threads are handled by separate executor thread.
+	 * i.e: logging for each operation executes in a separate thread.
+	 * It is possible that some thing goes wrong while preparing the
+	 * request-response list. In that scenario, this method goes ahead and
+	 * logs whatever is available in the reqResLst.
+	 * @param uuid
+	 * @param operation search, reprice, confirm or cancel
+	 * @param supplier service provider
+	 * @throws Exception
+	 */
+	public static void logReqRes(String uuid, String operation, String supplier) throws Exception {
+		List<? super Object> reqResLst = reqResMap.get(uuid);
 		
-	}
-	
-	public static void logReqRes(String opr, String btnRq, String btnRs, String hbRq, String hbRs, String splr) {
 		hbEs.submit(new Runnable() {
 
 			@Override
 			public void run() {
 				try {
-					HBDBConnection.insert(opr, 
-							XmlProcessor.getBeanInXml(btnRq), 
-							XmlProcessor.getBeanInXml(btnRs), 
-							XmlProcessor.getBeanInXml(hbRq), 
-							XmlProcessor.getBeanInXml(hbRs), 
-							"HotelBeds");
+					HBDBConnection.insert(operation, 
+							XmlProcessor.getBeanInXml((BTNSearchRequest) reqResLst.get(0)),
+							XmlProcessor.getBeanInXml((AvailabilityRQ) reqResLst.get(1)),
+							XmlProcessor.getBeanInXml((AvailabilityRS) reqResLst.get(2)),
+							XmlProcessor.getBeanInXml((BTNSearchResponse) reqResLst.get(3)), 
+							supplier);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}});
-
 	}
+	
 }
