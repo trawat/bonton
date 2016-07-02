@@ -51,8 +51,8 @@ public class HBService {
 		BTNSearchResponse btnSearchRS = HBServiceHelper.searchBeanRSMapper(availabilityRS, uuid);
 		
 		rqRsMap.put(uuid, btnSearchRS);
-		HBServiceHelper.logReqRes(uuid, "Search", HBProperties.HB);
 		logger.info("hotelbeds search operation done ---->");
+		HBServiceHelper.logReqRes(uuid, HBProperties.SEARCH, HBProperties.HB);
 	}
 	
 	/**
@@ -69,9 +69,8 @@ public class HBService {
 		
 		BTNConfirmResponse btnConfirmRS = HBServiceHelper.confirmBeanRSMapper(bookingRS, uuid);
 		
-		HBServiceHelper.logReqRes(uuid, "Confirm", HBProperties.HB);
-		
 		logger.info("hotelbeds confirm operation done ---->");
+		HBServiceHelper.logReqRes(uuid, HBProperties.CONFIRM, HBProperties.HB);
 		return XmlProcessor.getBeanInXml(btnConfirmRS);
 	}
 	
@@ -88,8 +87,8 @@ public class HBService {
 
 		BTNCancelRS btnCancelRS = HBServiceHelper.cancelBeanRSMapper(cancelRS, uuid);
 		
-		HBServiceHelper.logReqRes(uuid, "Cancel", HBProperties.HB);
-		logger.info("hotelbeds search operation done ---->");
+		logger.info("hotelbeds cancel operation done ---->");
+		HBServiceHelper.logReqRes(uuid, HBProperties.CANCEL, HBProperties.HB);
 		return XmlProcessor.getBeanInXml(btnCancelRS);
 	}
 	
@@ -106,8 +105,8 @@ public class HBService {
 		
 		BTNRepriceResponse btnRepriceRS = HBServiceHelper.repriceBeanRSMapper(repriceRS, uuid);
 		
-		HBServiceHelper.logReqRes(uuid, "Reprice", HBProperties.HB);
-		logger.info("hotelbeds search operation done ---->");
+		logger.info("hotelbeds reprice operation done ---->");
+		HBServiceHelper.logReqRes(uuid, HBProperties.REPRICE, HBProperties.HB);
 		return XmlProcessor.getBeanInXml(btnRepriceRS);
 	}
 	

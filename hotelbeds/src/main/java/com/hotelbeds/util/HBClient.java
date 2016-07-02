@@ -104,6 +104,7 @@ public class HBClient {
 	}
 	
 	public static <T> CheckRateRS postRepricing(T bean) throws Exception {
+		logger.info("reprice request posting to HotelBeds started ---->");
 		WebTarget target = hbRsClient.target(HBProperties.HB_REPRICE_BOOKING_END_POINT)
 				.resolveTemplate(HBProperties.RATE_KEY, ((BTNRepriceRequest) bean).getRooms().getRoom().getUniqueKey());
 		
@@ -116,6 +117,7 @@ public class HBClient {
 		Invocation invoker = builder.buildGet();
 		Response response = invoker.invoke();
 		
+		logger.info("reprice request posting done ---->");
 		return response.readEntity(CheckRateRS.class);
 	}
 	

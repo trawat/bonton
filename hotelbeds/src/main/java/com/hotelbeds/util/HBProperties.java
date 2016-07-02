@@ -27,4 +27,8 @@ public interface HBProperties {
     public static final String REC = "1";
     public static final String SPLIT = "\\|";
     
+    public static final String SEARCH = "Search";
+    public static final String REPRICE = "Reprice";
+    public static final String CONFIRM = "Confirm";
+    public static final String CANCEL = "Cancel";
 }
