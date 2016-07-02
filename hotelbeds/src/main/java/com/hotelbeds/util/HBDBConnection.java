@@ -8,23 +8,32 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hotelbeds.service.HBService;
-
+/**
+ * Class to connect to a logging database and save request and responses.
+ * @author Tirath
+ */
 public class HBDBConnection {
 	private static Logger logger = LoggerFactory.getLogger(HBDBConnection.class);
 	
-	private static final String host = "localhost";
-	private static final String port = "3306";
-	private static final String db = "Bonton";
+	/** Host name */
+	private static final String host = HBUtility.getProperty(HBProperties.LOGGINGHOST);
+	/** Port number */
+	private static final String port = HBUtility.getProperty(HBProperties.LOGGINGPORT);
+	/** Database name to which to connect */
+	private static final String db = HBUtility.getProperty(HBProperties.LOGGINGDB);
+	/** Full database url */
 	private static final String db_url = "jdbc:mysql://" + host + ":" + port + "/" + db;
+	/** Database driver name */
 	private static final String db_driver = "com.mysql.jdbc.Driver";
-	private static final String db_username = "root";
-	private static final String db_password = "";
+	/** Database user name */
+	private static final String db_username = HBUtility.getProperty(HBProperties.LOGGINGUNAME);
+	/** Database password */
+	private static final String db_password = HBUtility.getProperty(HBProperties.LOGGINGUPWD);;
 	
 	private static Connection connection = null;
 	
 	private static final String activitySql = 
-			"insert into Bonton.activitytracking(FUNCTION, BTN_RQ, HB_RQ, HB_RS, BTN_RS, SUPPLIER) "
+			"insert into activitytracking(FUNCTION, BTN_RQ, HB_RQ, HB_RS, BTN_RS, SUPPLIER) "
 			+ "values (?, ?, ?, ?, ?, ?)";
 	
 	static {
@@ -36,6 +45,16 @@ public class HBDBConnection {
 		}
 	}
 
+	/**
+	 * DML function to log request and responses for each operation provided by Bonton
+	 * plus HotelBeds API service.
+	 * @param opr HotelBeds operation name i.e, search, reprice, confirm or cancel
+	 * @param btnRq Request Xml received by Bonton service
+	 * @param hbRq Request Xml send to HotelBeds API service
+	 * @param hbRs Response Xml recieved from HotelBeds service
+	 * @param btnRs Response Xml sent bact by Bonton service
+	 * @param splr Name of the supplier or supplier code
+	 */
 	public static void insert(String opr, String btnRq, String hbRq, String hbRs, String btnRs, String splr) {
 		try (PreparedStatement ps = connection.prepareStatement(activitySql)) {
 			ps.setString(1, opr);
