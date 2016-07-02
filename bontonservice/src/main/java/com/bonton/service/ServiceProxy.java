@@ -11,15 +11,15 @@ import com.bonton.utility.artifacts.BTNSearchRequest;
  * @author Tirath
  */
 public abstract class ServiceProxy {
-	public abstract void search(BTNSearchRequest requestBean, String uuid, boolean moreThanOneProvider) throws Exception;
+	public abstract void search(BTNSearchRequest btnSearchRQ, String uuid, boolean moreThanOneProvider) throws Exception;
 	
-	public abstract String confirmBooking(String supplier, BTNConfirmRequest confirmBean) throws Exception;
+	public abstract String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception;
 	
-	public abstract String cancelBooking(String supplier, BTNCancelRQ cancelBean) throws Exception;
+	public abstract String cancelBooking(BTNCancelRQ btnCancelRQ, String uuid) throws Exception;
 	
-	public abstract String repricing(String supplier, BTNRepriceRequest repriceBean) throws Exception;
+	public abstract String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception;
 	
-	/* Implementers can return their specific types */
+	/** Implementers can return their specific types */
 	public abstract Object getServiceInstance() throws Exception;
 	
 }

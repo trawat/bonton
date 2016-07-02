@@ -158,11 +158,11 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	
 	@Override
 	public String confirm(InputStream is) throws Exception {
-		BTNConfirmRequest confirmBean = XmlProcessor.getBTNConfirmRQBean(is);
-		String supplier = confirmBean.getSupplier();
+		BTNConfirmRequest btnConfirmRQ = XmlProcessor.getBTNConfirmRQBean(is);
+		String supplier = btnConfirmRQ.getSupplier();
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
-			return new HBServiceProxyAdapter().confirmBooking(supplier, confirmBean);
+			return new HBServiceProxyAdapter().confirmBooking(btnConfirmRQ, getRandonUUID());
 		}
 		
 		return null;
@@ -170,26 +170,29 @@ public class ServiceActuatorImpl implements ServiceActuator {
 
 	@Override
 	public String cancel(InputStream is) throws Exception {
-		BTNCancelRQ cancelBean = XmlProcessor.getBTNCancelRQBean(is);
-		String supplier = cancelBean.getSupplier();
+		BTNCancelRQ btnCancelRQ = XmlProcessor.getBTNCancelRQBean(is);
+		String supplier = btnCancelRQ.getSupplier();
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
-			return new HBServiceProxyAdapter().cancelBooking(supplier, cancelBean);
+			return new HBServiceProxyAdapter().cancelBooking(btnCancelRQ, getRandonUUID());
 		}
 		return null;
 	}
 
 	@Override
 	public String repricing(InputStream is) throws Exception {
-		BTNRepriceRequest repriceBean = XmlProcessor.getBTNRepriceRQBean(is);
-		String supplier = repriceBean.getSupplier();
+		BTNRepriceRequest btnRepriceRQ = XmlProcessor.getBTNRepriceRQBean(is);
+		String supplier = btnRepriceRQ.getSupplier();
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
-			return new HBServiceProxyAdapter().repricing(supplier, repriceBean);
+			return new HBServiceProxyAdapter().repricing(btnRepriceRQ, getRandonUUID());
 		} else if (BTNProperties.DESIA.equalsIgnoreCase(supplier)) {
-			return new DesiaServiceProxyAdapter().repricing(supplier, repriceBean);
+			//return new DesiaServiceProxyAdapter().repricing(supplier, repriceBean);
 		}
 		return null;
 	}
 	
+	private static String getRandonUUID() {
+		return UUID.randomUUID().toString();
+	}
 }

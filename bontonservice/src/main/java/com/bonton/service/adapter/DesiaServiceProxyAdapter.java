@@ -22,26 +22,25 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 	}
 	
 	@Override
-	public void search(BTNSearchRequest requestBean, String uuid, boolean moreThanOneProvider) throws Exception {
+	public void search(BTNSearchRequest btnSearchRQ, String uuid, boolean moreThanOneProvider) throws Exception {
 		/** To help us with unique key for each request */
-		desiaService.search(requestBean, uuid);
+		desiaService.search(btnSearchRQ, uuid);
 	}
 
 	@Override
-	public String confirmBooking(String supplier, BTNConfirmRequest confirmBean) throws Exception {
+	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String repricing(String supplier, BTNRepriceRequest repriceBean) throws Exception {
-		//return desiaService.repricing(repricingBean);
+	public String cancelBooking(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String cancelBooking(String supplier, BTNCancelRQ cancelBean)
-			throws Exception {
+	public String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

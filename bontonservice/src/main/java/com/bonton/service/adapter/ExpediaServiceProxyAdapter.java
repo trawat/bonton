@@ -14,29 +14,27 @@ import com.bonton.utility.artifacts.BTNSearchRequest;
  * @see 
  */
 public class ExpediaServiceProxyAdapter  extends ServiceProxy {
-	
+
 	@Override
-	public void search(BTNSearchRequest requestBean, String uuid, boolean moreThanOneProvider)
-			throws Exception {
+	public void search(BTNSearchRequest btnSearchRQ, String uuid, boolean moreThanOneProvider) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	@Override
-	public String confirmBooking(String supplier, BTNConfirmRequest confirmBean) throws Exception {
+	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String repricing(String supplier, BTNRepriceRequest repriceBean) throws Exception {
+	public String cancelBooking(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String cancelBooking(String supplier, BTNCancelRQ cancelBean)
-			throws Exception {
+	public String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -46,5 +44,5 @@ public class ExpediaServiceProxyAdapter  extends ServiceProxy {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }
