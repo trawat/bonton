@@ -10,9 +10,9 @@
 								<xs:complexType>
 									<xs:simpleContent>
 										<xs:extension base="xs:string">
-											<xs:attribute type="xs:string" name="client" />
-											<xs:attribute type="xs:string" name="emailAddress" />
-											<xs:attribute type="xs:string" name="password" />
+											<xs:attribute type="xs:string" name="Client" />
+											<xs:attribute type="xs:string" name="EmailAddress" />
+											<xs:attribute type="xs:string" name="Password" />
 										</xs:extension>
 									</xs:simpleContent>
 								</xs:complexType>
@@ -33,12 +33,12 @@
 							<xs:element name="SearchHotelPriceRequest">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="ItemDestination">
+										<xs:element name="ItemDestination" minOccurs="0" maxOccurs="1">
 											<xs:complexType>
 												<xs:simpleContent>
 													<xs:extension base="xs:string">
-														<xs:attribute type="xs:string" name="destinationCode" />
-														<xs:attribute type="xs:string" name="destinationType" />
+														<xs:attribute type="xs:string" name="destinationCode" use="required"/>
+														<xs:attribute type="xs:string" name="destinationType" use="optional"/>
 													</xs:extension>
 												</xs:simpleContent>
 											</xs:complexType>
@@ -55,7 +55,7 @@
 											</xs:complexType>
 										</xs:element>
 										<xs:element type="xs:string" name="IncludeRecommended" />
-										<xs:element type="xs:boolean" name="IncludePriceBreakdown" />
+										<xs:element type="xs:boolean" name="IncludePriceBreakdown" default="true"/>
 										<xs:element type="xs:string" name="IncludeChargeConditions" />
 										<xs:element name="Rooms" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
@@ -64,7 +64,7 @@
 														minOccurs="1">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element name="Occupant">
+																<xs:element name="Occupant" minOccurs="0" maxOccurs="unbounded">
 																	<xs:complexType>
 																		<xs:simpleContent>
 																			<xs:extension base="xs:string">

@@ -6,11 +6,14 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +80,11 @@ public class XmlProcessor {
 		try {
 			jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
 			unmarshaller = jaxbCtx.createUnmarshaller();
+			
+			/** Setting schema for xml validation besides default well formedness check */
+			SchemaFactory btnSf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			Schema btnSchema = btnSf.newSchema(Thread.currentThread().getContextClassLoader().getResource("Bonton.xsd"));
+			unmarshaller.setSchema(btnSchema);
 			
 			T element = (T) unmarshaller.unmarshal(is);
 			return element;
