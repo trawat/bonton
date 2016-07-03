@@ -46,26 +46,25 @@
 										<xs:element type="xs:string" name="MinStarRating" />
 										<xs:element type="xs:string" name="MaxStarRating" />
 										<xs:element type="xs:string" name="ImmediateConfirmationOnly" />
-										<xs:element name="PeriodOfStay">
+										<xs:element name="PeriodOfStay" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element type="xs:date" name="CheckOutDate" />
-													<xs:element type="xs:date" name="CheckInDate" />
+													<xs:element type="xs:date" name="CheckOutDate" minOccurs="1" maxOccurs="1" />
+													<xs:element type="xs:date" name="CheckInDate" minOccurs="1" maxOccurs="1" />
 												</xs:sequence>
 											</xs:complexType>
 										</xs:element>
 										<xs:element type="xs:string" name="IncludeRecommended" />
 										<xs:element type="xs:boolean" name="IncludePriceBreakdown" />
 										<xs:element type="xs:string" name="IncludeChargeConditions" />
-										<xs:element name="Rooms">
+										<xs:element name="Rooms" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="Room" maxOccurs="unbounded"
 														minOccurs="1">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element name="Occupant" maxOccurs="unbounded"
-																	minOccurs="1">
+																<xs:element name="Occupant">
 																	<xs:complexType>
 																		<xs:simpleContent>
 																			<xs:extension base="xs:string">
