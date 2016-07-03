@@ -27,9 +27,7 @@ public class BontonService implements Service {
 			ServiceActuator actuator = new ServiceActuatorImpl();
 			responseXml = actuator.search(BTNUtility.getEnabledEndPointsList(), request.getInputStream());
 		} catch(Exception exception) {
-			exception.printStackTrace();
 			logger.error("Exception in BontonService : {}", exception);
-			//TODO: return proper http error
 		}
 
 		return responseXml;

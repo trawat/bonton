@@ -12,6 +12,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javax.xml.bind.UnmarshalException;
+
 import com.bonton.service.ServiceActuator;
 import com.bonton.service.ServiceProxy;
 import com.bonton.service.adapter.DesiaServiceProxyAdapter;
@@ -39,22 +41,31 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	public String search(List<? extends ServiceProxy> serviceList, final InputStream is) throws Exception {
 		final String uuid = UUID.randomUUID().toString();
 		final boolean manySp = serviceList.size() > 1;
-		final BTNSearchRequest requestBean = XmlProcessor.getBTNSearchRQBean(is);
 		
 		List<Future<Boolean>> taskLst = new LinkedList<Future<Boolean>>();
-		
-		/* Trigger task threads */
-		for (final ServiceProxy sp : serviceList) {
-			Future<Boolean> submtedTask = es.submit(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						sp.search(requestBean, uuid, manySp);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}}, true);
-			taskLst.add(submtedTask);
+		try {
+			final BTNSearchRequest requestBean = XmlProcessor.getBTNSearchRQBean(is);
+			
+			/* Trigger task threads */
+			for (final ServiceProxy sp : serviceList) {
+				Future<Boolean> submtedTask = es.submit(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							sp.search(requestBean, uuid, manySp);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}}, true);
+				taskLst.add(submtedTask);
+			}
+		} catch (Exception exception) {
+			if (exception instanceof UnmarshalException) {
+				/** Return informative error message in case the submitted request is not proper */
+				return XmlProcessor.getBeanInXml(XmlProcessor.getBTNSearchErrorRS(exception));
+			} else {
+				throw exception;
+			}
 		}
 		
 		/* Wait for all the submitted tasks to complete */
@@ -158,7 +169,14 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	
 	@Override
 	public String confirm(InputStream is) throws Exception {
-		BTNConfirmRequest btnConfirmRQ = XmlProcessor.getBTNConfirmRQBean(is);
+		BTNConfirmRequest btnConfirmRQ = null;
+		
+		try {
+			btnConfirmRQ = XmlProcessor.getBTNConfirmRQBean(is);
+		} catch (Exception exception) {
+			/** Return informative error message in case the submitted request is not proper */
+			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNConfirmErrorRS(exception));
+		}
 		String supplier = btnConfirmRQ.getSupplier();
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
@@ -170,7 +188,14 @@ public class ServiceActuatorImpl implements ServiceActuator {
 
 	@Override
 	public String cancel(InputStream is) throws Exception {
-		BTNCancelRQ btnCancelRQ = XmlProcessor.getBTNCancelRQBean(is);
+		BTNCancelRQ btnCancelRQ = null;
+		
+		try {
+			btnCancelRQ = XmlProcessor.getBTNCancelRQBean(is);
+		} catch (Exception exception) {
+			/** Return informative error message in case the submitted request is not proper */
+			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNCancelErrorRS(exception));
+		}
 		String supplier = btnCancelRQ.getSupplier();
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
@@ -181,7 +206,14 @@ public class ServiceActuatorImpl implements ServiceActuator {
 
 	@Override
 	public String repricing(InputStream is) throws Exception {
-		BTNRepriceRequest btnRepriceRQ = XmlProcessor.getBTNRepriceRQBean(is);
+		BTNRepriceRequest btnRepriceRQ = null;
+		
+		try {
+			btnRepriceRQ = XmlProcessor.getBTNRepriceRQBean(is);
+		} catch (Exception exception) {
+			/** Return informative error message in case the submitted request is not proper */
+			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNRepriceErrorRS(exception));
+		}
 		String supplier = btnRepriceRQ.getSupplier();
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {

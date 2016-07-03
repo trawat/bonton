@@ -8,6 +8,7 @@ import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
@@ -15,9 +16,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bonton.utility.artifacts.BTNCancelRQ;
+import com.bonton.utility.artifacts.BTNCancelRS;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
+import com.bonton.utility.artifacts.BTNConfirmResponse;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
+import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
+import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRS;
@@ -75,8 +80,8 @@ public class XmlProcessor {
 			
 			T element = (T) unmarshaller.unmarshal(is);
 			return element;
-		} catch (Exception exception) {
-			log.debug("Exception while initializing JAXBContext {}", exception.getCause());
+		} catch (JAXBException exception) {
+			log.debug("Exception while initializing JAXBContext {}", exception);
 			throw exception;
 		}
 	}
@@ -99,6 +104,71 @@ public class XmlProcessor {
 			//log.debug("Exception while initializing JAXBContext {}", exception.getCause());
 			throw exception;
 		}
+	}
+	
+	public static BTNSearchResponse getBTNSearchErrorRS(Exception exception) {
+		return getUnmarshallErrorResponse(BTNSearchResponse.class, exception);
+	}
+	
+	public static BTNConfirmResponse getBTNConfirmErrorRS(Exception exception) {
+		return getUnmarshallErrorResponse(BTNConfirmResponse.class, exception);
+	}
+	
+	public static BTNCancelRS getBTNCancelErrorRS(Exception exception) {
+		return getUnmarshallErrorResponse(BTNCancelRS.class, exception);
+	}
+	
+	public static BTNRepriceResponse getBTNRepriceErrorRS(Exception exception) {
+		return getUnmarshallErrorResponse(BTNRepriceResponse.class, exception);
+	}
+	
+	/** Displaying useful information in case of bad request.
+	 * Assuming bad request with unmarshalling error will only appear 
+	 * during testing/ integration phase. 
+	 * Returning related useful information should help in recovering
+	 * from the error
+	 **/
+	private static <T> T getUnmarshallErrorResponse(Class<T> reqType, Exception exception) {
+		if (reqType.equals(BTNSearchResponse.class)) {
+			BTNSearchResponse.BTNError errElmnt = new BTNSearchResponse.BTNError();
+			errElmnt.setCode("Unmarshalling Error");
+			errElmnt.setMessage(exception.getCause().toString());
+
+			BTNSearchResponse btnSearchRS = new BTNSearchResponse();
+			btnSearchRS.setBTNError(errElmnt);
+			
+			return (T) btnSearchRS;
+		} else if (reqType.equals(BTNConfirmResponse.class)) {
+			BTNConfirmResponse.BTNError errElmnt = new BTNConfirmResponse.BTNError();
+			errElmnt.setCode("Unmarshalling Error");
+			errElmnt.setMessage(exception.getCause().toString());
+
+			BTNConfirmResponse btnConfirmRS = new BTNConfirmResponse();
+			btnConfirmRS.setBTNError(errElmnt);
+			
+			return (T) btnConfirmRS;
+		} else if (reqType.equals(BTNRepriceResponse.class)) {
+			BTNRepriceResponse.BTNError errElmnt = new BTNRepriceResponse.BTNError();
+			errElmnt.setCode("Unmarshalling Error");
+			errElmnt.setMessage(exception.getCause().toString());
+
+			BTNRepriceResponse btnRepriceRS = new BTNRepriceResponse();
+			btnRepriceRS.setBTNError(errElmnt);
+			
+			return (T) btnRepriceRS;
+
+		} else if (reqType.equals(BTNCancelRS.class)) {
+			BTNCancelRS.BTNError errElmnt = new BTNCancelRS.BTNError();
+			errElmnt.setCode("Unmarshalling Error");
+			errElmnt.setMessage(exception.getCause().toString());
+
+			BTNCancelRS btnCancelRS = new BTNCancelRS();
+			btnCancelRS.setBTNError(errElmnt);
+			
+			return (T) btnCancelRS;
+		}
+		/** Should never reach this point */
+		return null;
 	}
 	
 	@SuppressWarnings("unused")
