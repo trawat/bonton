@@ -233,7 +233,7 @@
 				<xs:element name="Rooms">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="Room">
+							<xs:element name="Room" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:attribute name="uniqueKey" type="xs:string" />
 								</xs:complexType>
@@ -253,7 +253,7 @@
 							<xs:element name="Rooms">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="Room">
+										<xs:element name="Room" maxOccurs="unbounded">
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="Rates">
@@ -325,8 +325,8 @@
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute type="xs:dateTime" name="checkIn" />
-						<xs:attribute type="xs:dateTime" name="checkOut" />
+						<xs:attribute type="xs:date" name="checkIn" />
+						<xs:attribute type="xs:date" name="checkOut" />
 						<xs:attribute type="xs:int" name="code" />
 						<xs:attribute type="xs:string" name="name" />
 						<xs:attribute type="xs:string" name="categoryCode" />

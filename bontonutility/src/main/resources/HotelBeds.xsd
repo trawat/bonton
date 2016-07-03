@@ -572,6 +572,23 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="checkRateRQ">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="rooms" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="room" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="rateKey" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="checkRateRS">
 		<xs:complexType>
 			<xs:sequence>

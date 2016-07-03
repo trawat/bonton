@@ -31,6 +31,7 @@ import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRQ;
 import com.bonton.utility.hotelbeds.BookingRS;
+import com.bonton.utility.hotelbeds.CheckRateRQ;
 import com.bonton.utility.hotelbeds.CheckRateRS;
 import com.bonton.utility.processor.XmlProcessor;
 import com.hotelbeds.util.HBClient;
@@ -679,11 +680,23 @@ public class HBServiceHelper {
 		rqRsLst.add(btnRepriceRQ);
 		reqResMap.put(uuid, rqRsLst);
 
-		/** Adding null as reprice request is send using HTTP GET */
-		rqRsLst.add(null);
+		CheckRateRQ checkRateRQ = new CheckRateRQ();
+		CheckRateRQ.Rooms resRooms = new CheckRateRQ.Rooms();
+		List<CheckRateRQ.Rooms.Room> resRoomLst = resRooms.getRoom();
+		
+		List<BTNRepriceRequest.Rooms.Room> roomLst = btnRepriceRQ.getRooms().getRoom();
+		for (BTNRepriceRequest.Rooms.Room room : roomLst) {
+			CheckRateRQ.Rooms.Room resRoom = new CheckRateRQ.Rooms.Room();
+			resRoom.setRateKey(room.getUniqueKey());
+			
+			resRoomLst.add(resRoom);
+		}
+		checkRateRQ.setRooms(resRooms);
+		
+		rqRsLst.add(checkRateRQ);
 		
 		logger.info("reprice request mapping done ---->");
-		return HBClient.postRepricing(btnRepriceRQ);
+		return HBClient.postRepricing(checkRateRQ);
 	}	
 	
 	public static BTNRepriceResponse repriceBeanRSMapper(CheckRateRS checkRateRS, String uuid) throws Exception {
@@ -719,19 +732,14 @@ public class HBServiceHelper {
 		resHotel.setCategoryCode(hotel.getCategoryCode());
 		resHotel.setDestinationCode(hotel.getDestinationCode());
 		resHotel.setDestinationName(hotel.getDestinationName());
-		//  hotel.getZoneCode();
-		//  hotel.getZoneName();
-		//  hotel.getLatitude();
-		//  hotel.getLongitude();  
-		//  hotel.getCurrency();
-		//  hotel.getTotalNet();
-		//  total selling rate .... (need to add)
-
+		
 		BTNRepriceResponse.Hotel.Rooms resRooms = new BTNRepriceResponse.Hotel.Rooms();
-		BTNRepriceResponse.Hotel.Rooms.Room resRoom = new BTNRepriceResponse.Hotel.Rooms.Room();
+		List<BTNRepriceResponse.Hotel.Rooms.Room> resRoomLst = resRooms.getRoom();
 		
 		List<CheckRateRS.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
 		for (CheckRateRS.Hotel.Rooms.Room room : roomLst) {
+			
+			BTNRepriceResponse.Hotel.Rooms.Room resRoom = new BTNRepriceResponse.Hotel.Rooms.Room();
 			resRoom.setCode(room.getCode());
 			resRoom.setName(room.getName());
 			
@@ -761,8 +769,9 @@ public class HBServiceHelper {
 			resRate.setCancellationPolicies(rescpies);
 			resRates.setRate(resRate);
 			resRoom.setRates(resRates);
+			
+			resRoomLst.add(resRoom);
 		}
-		resRooms.setRoom(resRoom);
 		resHotel.setRooms(resRooms);
 		btnRepriceRs.setHotel(resHotel);
 		
@@ -807,7 +816,7 @@ public class HBServiceHelper {
 					case HBProperties.REPRICE:
 						HBDBConnection.insert(op, 
 								XmlProcessor.getBeanInXml((BTNRepriceRequest) reqResLst.get(0)),
-								null,	//As its a HTTP GET OPERATION
+								XmlProcessor.getBeanInXml((CheckRateRQ) reqResLst.get(1)),
 								XmlProcessor.getBeanInXml((CheckRateRS) reqResLst.get(2)),
 								XmlProcessor.getBeanInXml((BTNRepriceResponse) reqResLst.get(3)), 
 								supplier);

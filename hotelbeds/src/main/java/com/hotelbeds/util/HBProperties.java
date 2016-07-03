@@ -8,6 +8,7 @@ public interface HBProperties {
 	
 	public static String HB_SEARCH_HOTELS_END_POINT = "https://api.test.hotelbeds.com/hotel-api/1.0/hotels";
 	public static String HB_REPRICE_BOOKING_END_POINT = "https://api.test.hotelbeds.com/hotel-api/1.0/checkrates?rateKey={rateKey}";
+	public static String HB_REPRICE_POST_END_POINT = "https://api.test.hotelbeds.com/hotel-api/1.0/checkrates";
 	public static String HB_CANCEL_BOOKING_END_POINT = "https://api.test.hotelbeds.com/hotel-api/1.0/bookings/{refId}?cancellationFlag={flag}";
 	public static String HB_CONFIRM_BOOKING_END_POINT = "https://api.test.hotelbeds.com/hotel-api/1.0/bookings";
 	
