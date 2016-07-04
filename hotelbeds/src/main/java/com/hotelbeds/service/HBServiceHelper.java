@@ -68,6 +68,14 @@ public class HBServiceHelper {
 	
 	private HBServiceHelper() {}
 	
+	/**
+	 * Used to map Bonton hotel availability RQ object to HotelBeds API
+	 * specific RQ object.
+	 * @param btnSearchRq Bonton specific search RQ object
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return HotelBeds specific RQ object
+	 * @author Tirath
+	 */
 	public static AvailabilityRQ searchBeanRQMapper(BTNSearchRequest btnSearchRq, String uuid) {
 		logger.info("search request mapping started ---->");
 		/** Preparing request-response map */
@@ -144,11 +152,11 @@ public class HBServiceHelper {
 	}
 	
 	/**
-	 * To map the Hotel beds availability response to Bonton response.
-	 * @param availabilityRS
-	 * @param uuid To associate request with responses.
-	 * @return BTNSearchResponse 
-	 * @throws Exception
+	 * Used to map the Hotel beds availability response to Bonton response.
+	 * @param availabilityRS Hotel availability RS object returned by HotelBeds API
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return BTNSearchResponse Bonton specific RS object after mapping
+	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
 	public static BTNSearchResponse searchBeanRSMapper(AvailabilityRS availabilityRS, String uuid) throws Exception {
@@ -312,7 +320,16 @@ public class HBServiceHelper {
 		return btnSearchResponse;
 	}
 	
-	public static BookingRQ confirmBeanRQMapper(BTNConfirmRequest btnbookingRq, String uuid) {
+	/**
+	 * Used to map Bonton booking confirmation RQ object to HotelBeds
+	 * specific booking confirmation RQ object.
+	 * @param btnbookingRq Bonton booking confirmation RQ object
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return HotelBeds specific booking confirmation RQ object
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
+	public static BookingRQ confirmBeanRQMapper(BTNConfirmRequest btnbookingRq, String uuid) throws Exception {
 		logger.info("confirm request mapping started ---->");
 		
 		/** Preparing request-response map */
@@ -380,6 +397,15 @@ public class HBServiceHelper {
 		return bookingRQ;
 	}
 	
+	/**
+	 * Used to map HotelBeds specific booking RS to Bonton specific 
+	 * booking confirmation RS object.
+	 * @param bookingRS HotelBeds booking confirmation RS object
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return Booking confirmation RS object specific to Bonton API
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static BTNConfirmResponse confirmBeanRSMapper(BookingRS bookingRS, String uuid) throws Exception {
 		logger.info("confirm response mapping started ---->");
 		
@@ -431,12 +457,6 @@ public class HBServiceHelper {
 		resHotel.setCatName(hotel.getCategoryName());
 		resHotel.setDestCode(hotel.getDestinationCode());
 		resHotel.setDestName(hotel.getDestinationName());
-		//hotel.getZoneCode() //setters not available
-		//hotel.getZoneName()
-		//hotel.getLatitude()
-		//hotel.getLongitude()
-		//hotel.getTotalNet()
-		//hotel.getCurrency()
 		
 		BTNConfirmResponse.Booking.Hotel.Supplierdetails resSupplierDetails = new BTNConfirmResponse.Booking.Hotel.Supplierdetails(); 
 		resSupplierDetails.setName("HotelBeds");
@@ -477,13 +497,9 @@ public class HBServiceHelper {
 			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate resRate = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate(); 
 			BookingRS.Booking.Hotel.Rooms.Room.Rates.Rate rate = room.getRates().getRate();
 			
-			//rate.getBoardCode()
-			//rate.getBoardName()
 			resRate.setNetRate(rate.getNet());
 			resRate.setPackaging(rate.getPackaging());
-			//rate.getPaymentType()
 			resRate.setRateType(rate.getRateClass());
-			//rate.getRateComments()
 			resRate.setRoomCount(roomCount);
 			resRate.setAdultCount(adultCount);
 			resRate.setChildCount(totalOccupant - adultCount);
@@ -515,6 +531,15 @@ public class HBServiceHelper {
 		return btnConfirmResponse;
 	}
 	
+	/**
+	 * Used to map Bonton booking cancellation RQ object to HotelBeds
+	 * specific RQ object.
+	 * @param btnCancelRQ Bonton cancellation RQ object
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return Booking cancellation RS object specific to HotelBeds API
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static BookingCancellationRS cancelBeanRQMapper(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
 		logger.info("cancel request mapping started ---->");
 		
@@ -531,6 +556,15 @@ public class HBServiceHelper {
 		return HBClient.postCancelBooking(btnCancelRQ);
 	}
 	
+	/**
+	 * Used to map the HotelBeds booking cancellation RS to Bonton
+	 * specific cancellation RS object.
+	 * @param cancelRS Cancellation RS object returned by HotelBeds API
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return Cancellation RS object specific to Bonton API
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static BTNCancelRS cancelBeanRSMapper(BookingCancellationRS cancelRS, String uuid) throws Exception {
 		logger.info("cancel response mapping started ---->");
 		
@@ -672,6 +706,14 @@ public class HBServiceHelper {
 		return btnCancelRS;
 	}
 	
+	/**
+	 * Used to map Bonton reprice RQ to HotelBeds specific reprice RQ.
+	 * @param btnRepriceRQ Reprice RQ send by Bonton API
+	 * @param uuid Unique identifier
+	 * @return CheckRateRS which is used to prepare Bonton specific reprice RS.
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static CheckRateRS repriceBeanRQMapper(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
 		logger.info("reprice request mapping started ---->");
 		
@@ -699,6 +741,14 @@ public class HBServiceHelper {
 		return HBClient.postRepricing(checkRateRQ);
 	}	
 	
+	/**
+	 * Used to map HotelBeds reprice RS to Bonton specific reprice RS.
+	 * @param checkRateRS HotelBeds reprice RS object
+	 * @param uuid Unique identifier
+	 * @return Bonton specific reprice RS object
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static BTNRepriceResponse repriceBeanRSMapper(CheckRateRS checkRateRS, String uuid) throws Exception {
 		logger.info("reprice response mapping started ---->");
 		
@@ -792,8 +842,9 @@ public class HBServiceHelper {
 	 * log the same in the log file/
 	 * @param uuid unique identifier for request-response pairs
 	 * @param operation search, reprice, confirm or cancel
-	 * @param supplier service provider
-	 * @throws Exception
+	 * @param supplier service provider like HB, Desia or others
+	 * @throws Exception 
+	 * @author Tirath
 	 */
 	public static void logReqRes(String uuid, String op, String supplier) throws Exception {
 		logger.info("logging for {} operation id {} started --->", op, uuid);

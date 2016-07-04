@@ -17,6 +17,7 @@ import javax.xml.validation.SchemaFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNCancelRS;
@@ -32,8 +33,23 @@ import com.bonton.utility.hotelbeds.BookingRS;
 import com.bonton.utility.hotelbeds.CheckRateRS;
 
 @SuppressWarnings("unchecked")
-public class XmlProcessor {
+public final class XmlProcessor {
 	private static final Logger log = LoggerFactory.getLogger(XmlProcessor.class);
+	
+	private static final String BTN_SCHEMA_FILE_NM = "Bonton.xsd";
+	private static final String ERROR_CD = "Unmarshalling Error";
+	private static SchemaFactory btnSsf = null;
+	private static Schema btnSchema = null;
+	
+	static {
+		/** Setting schema for xml validation besides default well formedness check */
+		btnSsf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		try {
+			btnSchema = btnSsf.newSchema(Thread.currentThread().getContextClassLoader().getResource(BTN_SCHEMA_FILE_NM));
+		} catch (SAXException exception) {
+			log.error("{} occured while initializing BTN schema", exception);
+		}
+	}
 	
 	private XmlProcessor() {}
 	
@@ -81,9 +97,7 @@ public class XmlProcessor {
 			jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
 			unmarshaller = jaxbCtx.createUnmarshaller();
 			
-			/** Setting schema for xml validation besides default well formedness check */
-			SchemaFactory btnSf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema btnSchema = btnSf.newSchema(Thread.currentThread().getContextClassLoader().getResource("Bonton.xsd"));
+			/** Setting schema for validation */
 			unmarshaller.setSchema(btnSchema);
 			
 			T element = (T) unmarshaller.unmarshal(is);
@@ -109,7 +123,7 @@ public class XmlProcessor {
 			
 			return tempBuffer.toString();
 		} catch (Exception exception) {
-			//log.debug("Exception while initializing JAXBContext {}", exception.getCause());
+			log.error("{} while initializing JAXBContext", exception);
 			throw exception;
 		}
 	}
@@ -139,7 +153,7 @@ public class XmlProcessor {
 	private static <T> T getUnmarshallErrorResponse(Class<T> reqType, Exception exception) {
 		if (reqType.equals(BTNSearchResponse.class)) {
 			BTNSearchResponse.BTNError errElmnt = new BTNSearchResponse.BTNError();
-			errElmnt.setCode("Unmarshalling Error");
+			errElmnt.setCode(ERROR_CD);
 			errElmnt.setMessage(exception.getCause().toString());
 
 			BTNSearchResponse btnSearchRS = new BTNSearchResponse();
@@ -148,7 +162,7 @@ public class XmlProcessor {
 			return (T) btnSearchRS;
 		} else if (reqType.equals(BTNConfirmResponse.class)) {
 			BTNConfirmResponse.BTNError errElmnt = new BTNConfirmResponse.BTNError();
-			errElmnt.setCode("Unmarshalling Error");
+			errElmnt.setCode(ERROR_CD);
 			errElmnt.setMessage(exception.getCause().toString());
 
 			BTNConfirmResponse btnConfirmRS = new BTNConfirmResponse();
@@ -157,7 +171,7 @@ public class XmlProcessor {
 			return (T) btnConfirmRS;
 		} else if (reqType.equals(BTNRepriceResponse.class)) {
 			BTNRepriceResponse.BTNError errElmnt = new BTNRepriceResponse.BTNError();
-			errElmnt.setCode("Unmarshalling Error");
+			errElmnt.setCode(ERROR_CD);
 			errElmnt.setMessage(exception.getCause().toString());
 
 			BTNRepriceResponse btnRepriceRS = new BTNRepriceResponse();
@@ -167,7 +181,7 @@ public class XmlProcessor {
 
 		} else if (reqType.equals(BTNCancelRS.class)) {
 			BTNCancelRS.BTNError errElmnt = new BTNCancelRS.BTNError();
-			errElmnt.setCode("Unmarshalling Error");
+			errElmnt.setCode(ERROR_CD);
 			errElmnt.setMessage(exception.getCause().toString());
 
 			BTNCancelRS btnCancelRS = new BTNCancelRS();
