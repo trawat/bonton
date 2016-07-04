@@ -33,9 +33,12 @@ import com.bonton.utility.processor.XmlProcessor;
  * (in case of search) or the value of <Supplier> node for the other
  * operations. 
  * @author Tirath
+ * @see ServiceActuator
  */
 public class ServiceActuatorImpl implements ServiceActuator {
 	private static final ExecutorService es = Executors.newCachedThreadPool();
+	
+	private final HBServiceProxyAdapter hbServicePxyAdpter = new HBServiceProxyAdapter();
 	
 	@Override
 	public String search(List<? extends ServiceProxy> serviceList, final InputStream is) throws Exception {
@@ -180,7 +183,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		String supplier = btnConfirmRQ.getSupplier();
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
-			return new HBServiceProxyAdapter().confirmBooking(btnConfirmRQ, getRandonUUID());
+			return hbServicePxyAdpter.confirmBooking(btnConfirmRQ, getRandonUUID());
 		}
 		
 		return null;
@@ -199,7 +202,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		String supplier = btnCancelRQ.getSupplier();
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
-			return new HBServiceProxyAdapter().cancelBooking(btnCancelRQ, getRandonUUID());
+			return hbServicePxyAdpter.cancelBooking(btnCancelRQ, getRandonUUID());
 		}
 		return null;
 	}
@@ -217,7 +220,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		String supplier = btnRepriceRQ.getSupplier();
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
-			return new HBServiceProxyAdapter().repricing(btnRepriceRQ, getRandonUUID());
+			return hbServicePxyAdpter.repricing(btnRepriceRQ, getRandonUUID());
 		} else if (BTNProperties.DESIA.equalsIgnoreCase(supplier)) {
 			//return new DesiaServiceProxyAdapter().repricing(supplier, repriceBean);
 		}
