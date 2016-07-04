@@ -88,15 +88,21 @@ public class HBServiceHelper {
 		/* To fetch the daily price break down */
 		availabilityRQ.setDailyRate(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().isIncludePriceBreakdown());
 		
-		AvailabilityRQ.Destination destination = new AvailabilityRQ.Destination();
-		destination.setCode(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationCode());
-		//destination.setZone(searchBean.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationType());  
-
-		availabilityRQ.setDestination(destination);
+		if (btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getItemDestination() != null) {
+			AvailabilityRQ.Destination destination = new AvailabilityRQ.Destination();
+			destination.setCode(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationCode());
+			//destination.setZone(searchBean.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationType());
+			
+			availabilityRQ.setDestination(destination);
+		}
 
 		AvailabilityRQ.Filter filter = new AvailabilityRQ.Filter();
-		filter.setMinCategory(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMinStarRating());
-		filter.setMaxCategory(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMaxStarRating());
+		if (btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMinStarRating() != null) {
+			filter.setMinCategory(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMinStarRating());
+		}
+		if (btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMaxStarRating() != null) {
+			filter.setMaxCategory(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMaxStarRating());
+		}
 
 		availabilityRQ.setFilter(filter);
 
@@ -144,6 +150,18 @@ public class HBServiceHelper {
 			
 			resOccupancyLst.add(resOccupancy);
 		}
+		/** For hotel code specific search */
+		if (btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getHotels() != null) {
+			List<String> hotelCdLst = btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getHotels().getHotel();
+			AvailabilityRQ.Hotels resHotels = new AvailabilityRQ.Hotels();
+			List<String> resHotelLst = resHotels.getHotel();
+			for (String hotelCd : hotelCdLst) {
+				resHotelLst.add(hotelCd);
+			}
+			
+			availabilityRQ.setHotels(resHotels);
+		}
+		
 		rtRcmndMap.put(uuid, sb.toString());
 		rqRsLst.add(availabilityRQ);
 		

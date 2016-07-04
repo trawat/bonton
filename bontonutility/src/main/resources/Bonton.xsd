@@ -43,8 +43,8 @@
 												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
-										<xs:element type="xs:string" name="MinStarRating" />
-										<xs:element type="xs:string" name="MaxStarRating" />
+										<xs:element type="xs:string" name="MinStarRating" minOccurs="0" maxOccurs="1"/>
+										<xs:element type="xs:string" name="MaxStarRating" minOccurs="0" maxOccurs="1" />
 										<xs:element type="xs:string" name="ImmediateConfirmationOnly" />
 										<xs:element name="PeriodOfStay" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
@@ -89,6 +89,13 @@
 																use="required" />
 														</xs:complexType>
 													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Hotels" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Hotel" type="xs:string" minOccurs="1" maxOccurs="2000" />
 												</xs:sequence>
 											</xs:complexType>
 										</xs:element>
@@ -196,6 +203,7 @@
 																		<xs:attribute type="xs:int" name="Children" />
 																		<xs:attribute type="xs:string" name="ChildrenAges" />
 																		<xs:attribute type="xs:string" name="Recommended" default="0"/>
+																		<xs:attribute type="xs:string" name="HoldValue" default="0" />
 																	</xs:complexType>
 																</xs:element>
 																<xs:element type="xs:string" name="Remarks" />
