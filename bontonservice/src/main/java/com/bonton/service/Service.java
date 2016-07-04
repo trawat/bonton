@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
  * Bonton service end point interface operations available to 
  * Bonton API client . 
  * @author Tirath
+ * @see BontonService
  */
 
 @Path("/hotels")

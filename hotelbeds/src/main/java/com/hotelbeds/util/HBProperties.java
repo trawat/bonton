@@ -1,5 +1,9 @@
 package com.hotelbeds.util;
 
+/**
+ * Contains HotelBeds specific constant fields.
+ * @author Tirath
+ */
 public interface HBProperties {
 	
 	public static String API_KEY = "j7pcwypu6jw6qbax9v82b8ed";

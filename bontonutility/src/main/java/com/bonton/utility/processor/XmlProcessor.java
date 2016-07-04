@@ -32,7 +32,11 @@ import com.bonton.utility.hotelbeds.BookingCancellationRS;
 import com.bonton.utility.hotelbeds.BookingRS;
 import com.bonton.utility.hotelbeds.CheckRateRS;
 
-@SuppressWarnings("unchecked")
+/**
+ * Contains marshalling and unmarshalling logic for all the JAXB generated artifacts
+ * marshalled or unmarshalled from any dependent project.
+ * @author Tirath
+ */
 public final class XmlProcessor {
 	private static final Logger log = LoggerFactory.getLogger(XmlProcessor.class);
 	
@@ -53,38 +57,101 @@ public final class XmlProcessor {
 	
 	private XmlProcessor() {}
 	
+	/**
+	 * Returns Bonton search request object using the passed input stream.
+	 * @param is Servlet input stream
+	 * @return Bonton search request object
+	 * @throws Exception In case, unmarshalling input stream to request object fails.
+	 * @author Tirath
+	 */
 	public static BTNSearchRequest getBTNSearchRQBean(InputStream is) throws Exception {
 		return unmarshall(is, BTNSearchRequest.class);
 	}
 	
+	/**
+	 * Returns Bonton confirm request object using the passed input stream.
+	 * @param is Servlet input stream
+	 * @return Bonton confirm request object
+	 * @throws Exception In case, unmarshalling input stream to request object fails.
+	 * @author Tirath
+	 */
 	public static BTNConfirmRequest getBTNConfirmRQBean(InputStream is) throws Exception {
 		return unmarshall(is, BTNConfirmRequest.class);
 	}
 	
+	/**
+	 * Returns Bonton cancel request object using the passed input stream.
+	 * @param is Servlet input stream
+	 * @return Bonton cancel request object
+	 * @throws Exception In case, unmarshalling input stream to request object fails.
+	 * @author Tirath
+	 */
 	public static BTNCancelRQ getBTNCancelRQBean(InputStream is) throws Exception {
 		return unmarshall(is, BTNCancelRQ.class);
 	}
 
+	/**
+	 * Returns Bonton reprice request object using the passed input stream.
+	 * @param is Servlet input stream
+	 * @return Bonton reprice request object
+	 * @throws Exception In case, unmarshalling input stream to request object fails.
+	 * @author Tirath
+	 */
 	public static BTNRepriceRequest getBTNRepriceRQBean(InputStream is) throws Exception {
 		return unmarshall(is, BTNRepriceRequest.class);
 	}
 	
+	/**
+	 * Used to return string representation of any bean artifact passed to this method.
+	 * @param beanType Type of the bean to be converted to string
+	 * @return Marshalled representation of passed beanType
+	 * @throws Exception In case, any exception occurs during marshalling process.
+	 * @author Tirath
+	 */
 	public static <T> String getBeanInXml(T beanType) throws Exception {
 		return marshall(beanType);
 	}
 	
+	/**
+	 * Used to get hotel beds availability response object from XML string passed to it.
+	 * @param hbSearchResXml XML string response returned by HotelBeds API
+	 * @return HotelBeds hotel availability response object prepared using passed XML string.
+	 * @throws Exception In case, any exception occurs during unmarshalling process.
+	 * @author Tirath
+	 */
 	public static AvailabilityRS getHBSearchRSBean(String hbSearchResXml) throws Exception {
 		return unmarshall(new ByteArrayInputStream(hbSearchResXml.getBytes("UTF-8")), AvailabilityRS.class);
 	}
 	
+	/**
+	 * Used to get hotel beds confirm response object from XML string passed to it.
+	 * @param hbConfirmResXml XML string response returned by HotelBeds API
+	 * @return HotelBeds hotel confirm response object prepared using passed XML string.
+	 * @throws Exception In case, any exception occurs during unmarshalling process.
+	 * @author Tirath
+	 */
 	public static BookingRS getHBConfirmRSBean(String hbConfirmResXml) throws Exception {
 		return unmarshall(new ByteArrayInputStream(hbConfirmResXml.getBytes("UTF-8")), BookingRS.class);
 	}
 	
+	/**
+	 * Used to get hotel beds cancel response object from XML string passed to it.
+	 * @param hbCancelResXml XML string response returned by HotelBeds API
+	 * @return HotelBeds hotel cancel response object prepared using passed XML string.
+	 * @throws Exception In case, any exception occurs during unmarshalling process.
+	 * @author Tirath
+	 */
 	public static BookingCancellationRS getHBCancelRSBean(String hbCancelResXml) throws Exception {
 		return unmarshall(new ByteArrayInputStream(hbCancelResXml.getBytes("UTF-8")), BookingCancellationRS.class);
 	}
 	
+	/**
+	 * Used to get hotel beds reprice response object from XML string passed to it.
+	 * @param hbRepriceResXml XML string response returned by HotelBeds API
+	 * @return HotelBeds hotel reprice response object prepared using passed XML string.
+	 * @throws Exception In case, any exception occurs during unmarshalling process.
+	 * @author Tirath
+	 */
 	public static CheckRateRS getHBRepriceRSBean(String hbRepriceResXml) throws Exception {
 		return unmarshall(new ByteArrayInputStream(hbRepriceResXml.getBytes("UTF-8")), CheckRateRS.class);
 	}
@@ -128,18 +195,46 @@ public final class XmlProcessor {
 		}
 	}
 	
+	/**
+	 * Helper method to return Bonton error response in case the submitted
+	 * request cannot be unmarshalled properly.
+	 * @param exception Unmarshalling exception
+	 * @return Bonton search response which contains error code and message.
+	 * @author Tirath
+	 */
 	public static BTNSearchResponse getBTNSearchErrorRS(Exception exception) {
 		return getUnmarshallErrorResponse(BTNSearchResponse.class, exception);
 	}
 	
+	/**
+	 * Helper method to return Bonton error response in case the submitted
+	 * request cannot be unmarshalled properly.
+	 * @param exception Unmarshalling exception
+	 * @return Bonton confirm response which contains error code and message.
+	 * @author Tirath
+	 */
 	public static BTNConfirmResponse getBTNConfirmErrorRS(Exception exception) {
 		return getUnmarshallErrorResponse(BTNConfirmResponse.class, exception);
 	}
 	
+	/**
+	 * Helper method to return Bonton error response in case the submitted
+	 * request cannot be unmarshalled properly.
+	 * @param exception Unmarshalling exception
+	 * @return Bonton cancel response which contains error code and message.
+	 * @author Tirath
+	 */
 	public static BTNCancelRS getBTNCancelErrorRS(Exception exception) {
 		return getUnmarshallErrorResponse(BTNCancelRS.class, exception);
 	}
 	
+	/**
+	 * Helper method to return Bonton error response in case the submitted
+	 * request cannot be unmarshalled properly.
+	 * @param exception Unmarshalling exception
+	 * @return Bonton reprice response which contains error code and message.
+	 * @author Tirath
+	 */
 	public static BTNRepriceResponse getBTNRepriceErrorRS(Exception exception) {
 		return getUnmarshallErrorResponse(BTNRepriceResponse.class, exception);
 	}

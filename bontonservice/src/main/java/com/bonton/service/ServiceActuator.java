@@ -3,10 +3,13 @@ package com.bonton.service;
 import java.io.InputStream;
 import java.util.List;
 
+import com.bonton.service.impl.ServiceActuatorImpl;
+
 /**
  * Acts as a facade for the services provided by different
- * service provides.
+ * service providers.
  * @author Tirath
+ * @see ServiceActuatorImpl
  */
 public interface ServiceActuator {
 	public String search(List<? extends ServiceProxy> serviceList, InputStream is) throws Exception;

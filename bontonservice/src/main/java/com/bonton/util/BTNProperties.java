@@ -6,8 +6,4 @@ public interface BTNProperties {
 	public static final String EXPEDIA = "EXPEDIA";
 	public static final String DESIA = "DESIA";
 	
-	public static final String JDBC_URL = "";
-	public static final String JDBC_USERNAME = "";
-	public static final String JDBC_PASSWORD = "";
-	
 }

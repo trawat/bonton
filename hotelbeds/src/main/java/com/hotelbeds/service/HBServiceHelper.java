@@ -38,6 +38,11 @@ import com.hotelbeds.util.HBClient;
 import com.hotelbeds.util.HBDBConnection;
 import com.hotelbeds.util.HBProperties;
 
+/**
+ * Helper class - contains static methods for request and response mapping methods.
+ * @author Tirath
+ * @see HBService
+ */
 public class HBServiceHelper {
 	private static Logger logger = LoggerFactory.getLogger(HBServiceHelper.class);
 	
@@ -53,7 +58,7 @@ public class HBServiceHelper {
 	 **/
 	private static final Map<String, String> rtRcmndMap = new HashMap<>();
 	
-	/* To get the rate response sorted on the basis of board code */
+	/** To get the rate response sorted on the basis of board code */
 	public static final Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> rateListCmptr = 
 			new Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> () {
 

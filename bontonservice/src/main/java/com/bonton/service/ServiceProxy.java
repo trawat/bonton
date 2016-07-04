@@ -9,6 +9,9 @@ import com.bonton.utility.artifacts.BTNSearchRequest;
  * This class acts as a proxy interface for the services provided by 
  * different service providers.
  * @author Tirath
+ * @see HBServiceProxyAdapter, 
+ * @see DesiaServiceProxyAdapter, 
+ * @see ExpediaServiceProxyAdapter
  */
 public abstract class ServiceProxy {
 	public abstract void search(BTNSearchRequest btnSearchRQ, String uuid, boolean moreThanOneProvider) throws Exception;
