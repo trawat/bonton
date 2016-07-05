@@ -210,8 +210,8 @@ public class DesiaServiceHelper {
 		btnSearchRS.setHotelOptions(btnHotels);
 		List<BTNSearchResponse.HotelOptions.Hotel> btnHotelLst = btnHotels.getHotel();
 		
-		List<OTAHotelAvailRS.RoomStays.RoomStay> otahotelLst = otaHotelAvailRS.getRoomStays().getRoomStay();
-		for (OTAHotelAvailRS.RoomStays.RoomStay otaHotel : otahotelLst) {
+		List<OTAHotelAvailRS.RoomStays.RoomStay> otaHotelLst = otaHotelAvailRS.getRoomStays().getRoomStay();
+		for (OTAHotelAvailRS.RoomStays.RoomStay otaHotel : otaHotelLst) {
 			BTNSearchResponse.HotelOptions.Hotel btnHotel = new BTNSearchResponse.HotelOptions.Hotel();
 
 			BasicPropertyInfoType otaBasicPropertyInfoType = otaHotel.getBasicPropertyInfo();
@@ -313,6 +313,7 @@ public class DesiaServiceHelper {
 					
 					btnRate.getDailyRates().getDailyRate().add(btnDailyRate);
 				}
+				btnRoomLst.add(btnRoom);
 			}
 			btnHotelLst.add(btnHotel);
 		}		
