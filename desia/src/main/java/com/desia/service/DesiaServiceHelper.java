@@ -35,20 +35,26 @@ import com.desia.artifacts.booking.TGBookingServiceEndPoint;
 import com.desia.artifacts.booking.TGBookingServiceEndPointImplService;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment.HotelSearchCriteria;
+import com.desia.artifacts.search.BasicPropertyInfoType;
 import com.desia.artifacts.search.CountryNameType;
 import com.desia.artifacts.search.DateTimeSpanType;
 import com.desia.artifacts.search.GuestCountType;
+import com.desia.artifacts.search.HotelSearchCriterionType;
 import com.desia.artifacts.search.GuestCountType.GuestCount;
 import com.desia.artifacts.search.HotelSearchCriteriaType.Criterion;
 import com.desia.artifacts.search.HotelSearchCriterionType.RoomStayCandidates;
+import com.desia.artifacts.search.ItemSearchCriterionType;
 import com.desia.artifacts.search.ItemSearchCriterionType.Address;
+import com.desia.artifacts.search.ItemSearchCriterionType.HotelRef;
 import com.desia.artifacts.search.OTAHotelAvailRQ;
 import com.desia.artifacts.search.OTAHotelAvailRQ.AvailRequestSegments;
 import com.desia.artifacts.search.OTAHotelAvailRS;
 import com.desia.artifacts.search.OTAHotelAvailRS.RoomStays.RoomStay;
 import com.desia.artifacts.search.Pagination;
 import com.desia.artifacts.search.RatePlanType;
+import com.desia.artifacts.search.RateType;
 import com.desia.artifacts.search.RoomStayCandidateType;
+import com.desia.artifacts.search.RoomStayType;
 import com.desia.artifacts.search.RoomStayType.RoomRates.RoomRate;
 import com.desia.artifacts.search.RoomTypeType;
 import com.desia.artifacts.search.TGServiceEndPoint;
@@ -78,69 +84,107 @@ public class DesiaServiceHelper {
 				return handler;
 			}
 		};
-		//searchSIB.setHandlerResolver(handlerResolver);//TODO: uncomment this later
+		searchSIB.setHandlerResolver(handlerResolver);//TODO: uncomment this later
 		bookingSIB.setHandlerResolver(handlerResolver);
 		
 		searchSEI = (TGServiceEndPoint) searchSIB.getTGServiceEndPointImplPort();
 		bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
 	}
 	
-	public static OTAHotelAvailRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRequest) throws Exception {
-		/* Add appropriate mapping */
-
-		/* Use below set of mapping to start and prepare final set of mapping */
+	public static OTAHotelAvailRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRQ) throws Exception {
 		//Request preparation
 		OTAHotelAvailRQ otaHotelAvailRQ = new OTAHotelAvailRQ();
 
-		/* Assumption. Might change in future */
-		String min = btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getMinStarRating();
-		String max = btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getMaxStarRating();
+		/** Bonton city or hotel search detail node */
+		BTNSearchRequest.RequestDetails.SearchHotelPriceRequest btnHotelDetailRQNode =  btnSearchRQ.getRequestDetails().getSearchHotelPriceRequest();
+		
+		/* Award rating */
+		String min = btnHotelDetailRQNode.getMinStarRating();
+		String max = btnHotelDetailRQNode.getMaxStarRating();
 		if (null != min && null != max) {
 			otaHotelAvailRQ.setSortOrder("STAR_RATING_ASCENDING");
 		} else {
 			otaHotelAvailRQ.setSortOrder("TG_RANKING");
 		}
-		/***********/
 
 		AvailRequestSegments reqSgmnts = new AvailRequestSegments();
 		List<AvailRequestSegment> reqSgmntLst = reqSgmnts.getAvailRequestSegment();
 		AvailRequestSegment reqSgmnt = new AvailRequestSegment();
 
-		HotelSearchCriteria searchCriteria = new HotelSearchCriteria();
-		List<Criterion> criterionLst = searchCriteria.getCriterion();
+		HotelSearchCriteria otaSearchCriteria = new HotelSearchCriteria();
+		List<Criterion> otaCriterionLst = otaSearchCriteria.getCriterion();
 
-		Criterion tmpCriterion = new Criterion();
-		Address address = new Address();
-		//set city name
-		address.setCityName(btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationCode());
+		Criterion otaCriterion = new Criterion();
+		List<ItemSearchCriterionType.HotelRef> otaHotelRefLst = otaCriterion.getHotelRef();
+		
+		/** In case ItemDestination node is present, search will be based on City, otherwise hotel code. */
+		if (btnHotelDetailRQNode.getItemDestination() != null) {
+			Address address = new Address();
+			address.setCityName(btnHotelDetailRQNode.getItemDestination().getDestinationCode());
 
-		CountryNameType c = new CountryNameType();
+			CountryNameType otaCountryNameType = new CountryNameType();
+			/** we need to have this always set to India */
+			//btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationType();
+			otaCountryNameType.setCode("India");
+			address.setCountryName(otaCountryNameType);
+			otaCriterion.setAddress(address);
+		} else if (btnHotelDetailRQNode.getHotels() != null) {
+			List<String> hotelCdLst = btnHotelDetailRQNode.getHotels().getHotel();
+			for (String hotelCd : hotelCdLst) {
+				HotelRef hotelRef = new HotelRef();
+				hotelRef.setHotelCode(hotelCd);
+				otaHotelRefLst.add(hotelRef);
+			}
+		}
+		
+		/** Set checkin and checkout date. */
+		DateTimeSpanType otaDateTimeSpanType = new DateTimeSpanType();
+		otaDateTimeSpanType.setStart(btnHotelDetailRQNode.getPeriodOfStay().getCheckInDate().toString());
+		otaDateTimeSpanType.setEnd(btnHotelDetailRQNode.getPeriodOfStay().getCheckOutDate().toString());
 
-		/* we need to have this always set to India */
-		//btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationType();
-		c.setCode("India");
-		address.setCountryName(c);
-
-		DateTimeSpanType dateRange = new DateTimeSpanType();
-		//need to check the date format
-		dateRange.setStart(btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckInDate().toString());
-		dateRange.setEnd(btnSearchRequest.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckOutDate().toString());
-
+		/** Set occupancy data from the BTN request. */
+		otaCriterion.setRoomStayCandidates(new HotelSearchCriterionType.RoomStayCandidates());
+		HotelSearchCriterionType.RoomStayCandidates otaRooms = otaCriterion.getRoomStayCandidates();
+		List<RoomStayCandidateType> otaRoomLst = otaRooms.getRoomStayCandidate();
+		List<BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.Rooms.Room> btnRoomLst = btnHotelDetailRQNode.getRooms().getRoom();
+		for (BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.Rooms.Room btnRoom : btnRoomLst) {
+			RoomStayCandidateType otaRoom = new RoomStayCandidateType();
+			otaRoom.setGuestCounts(new GuestCountType());
+			GuestCountType otaGuestCountType = otaRoom.getGuestCounts();
+			List<GuestCountType.GuestCount> otaGuestCountLst = otaGuestCountType.getGuestCount();
+			
+			
+			/** Setting the available adults distribution. */
+			int adultCount = btnRoom.getAdults();
+			GuestCountType.GuestCount otaGuestAdultCount = new GuestCountType.GuestCount();
+			otaGuestAdultCount.setAgeQualifyingCode("10");
+			otaGuestAdultCount.setCount(adultCount);
+			otaGuestCountLst.add(otaGuestAdultCount);
+			
+			List<BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.Rooms.Room.Occupant> btnOccupantLst = btnRoom.getOccupant();
+			for (BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.Rooms.Room.Occupant btnOccupant : btnOccupantLst) {
+				if (btnOccupant.getType().equalsIgnoreCase("CH")) {
+					GuestCountType.GuestCount otaGuestChildCount = new GuestCountType.GuestCount();
+					otaGuestChildCount.setAgeQualifyingCode("8");
+					otaGuestChildCount.setAge(btnOccupant.getAge());
+					otaGuestChildCount.setCount(1);
+					
+					otaGuestCountLst.add(otaGuestChildCount);
+				}
+			}
+			otaRoomLst.add(otaRoom);
+		}
+		
 		TPAExtensionsType extnsn = new TPAExtensionsType();
-
-
 		UserAuthentication userAuth = new UserAuthentication();
 		userAuth.setUsername("bontonnet");userAuth.setPassword("test@567");userAuth.setPropertyId("1300001210");
-
 		extnsn.setUserAuthentication(userAuth);
-		tmpCriterion.setTPAExtensions(extnsn);
+		
+		otaCriterion.setTPAExtensions(extnsn);
+		otaCriterion.setStayDateRange(otaDateTimeSpanType);
+		otaCriterionLst.add(otaCriterion);
 
-		tmpCriterion.setStayDateRange(dateRange);
-		tmpCriterion.setAddress(address);
-
-		criterionLst.add(tmpCriterion);
-
-		reqSgmnt.setHotelSearchCriteria(searchCriteria);
+		reqSgmnt.setHotelSearchCriteria(otaSearchCriteria);
 		reqSgmntLst.add(reqSgmnt);
 
 		otaHotelAvailRQ.setAvailRequestSegments(reqSgmnts);
@@ -156,71 +200,122 @@ public class DesiaServiceHelper {
 		btnSearchRS.setServiceRequestID("");
 		btnSearchRS.setOptionsCount(otaHotelAvailRS.getTPAExtensions().getHotelsInfo().getAvailable());
 		
-		/* don't know from where to get this*/
-		//hotelResponse.getCity().setCityCode(value);
-		//hotelResponse.getCity().setCityName(value);
+		String fromStaticDump = "fromstaticdump";
+		BTNSearchResponse.City btnCity = new BTNSearchResponse.City();
+		btnCity.setCityCode(fromStaticDump);//from dump
+		btnCity.setCityName(fromStaticDump);//from dump
+		btnSearchRS.setCity(btnCity);
 		
-		Hotels hotels = getHotelList(otaHotelAvailRS.getRoomStays().getRoomStay());
-		List<Hotels.Hotel> hotelLst = hotels.getHotel();
+		BTNSearchResponse.HotelOptions btnHotels = new BTNSearchResponse.HotelOptions();
+		btnSearchRS.setHotelOptions(btnHotels);
+		List<BTNSearchResponse.HotelOptions.Hotel> btnHotelLst = btnHotels.getHotel();
 		
-		BTNSearchResponse.HotelOptions resHotels = new BTNSearchResponse.HotelOptions();
-		btnSearchRS.setHotelOptions(resHotels);
-		List<BTNSearchResponse.HotelOptions.Hotel> resHotelLst = resHotels.getHotel();
-		
-		for (Hotels.Hotel hotel : hotelLst) {
-			/* Using fully qualified names in order to avoid confusion */
-			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
-			
-			resHotel.setHotelCode(hotel.getHotelCode());
-			resHotel.setHotelName(hotel.getHotelName());
-			resHotel.setLocation("");
-			resHotel.setSupplier(hotel.getSupplier());
-			resHotel.setStarRating(hotel.getRating());
-			resHotel.setMainImage(hotel.getImageUrl());
-			resHotel.setFullAddress("");
-			//resHotel.setLatitude("");//TODO: set these later
-			//resHotel.setLongitude("");
-			resHotel.setDescription(hotel.getDescription());
-			resHotel.setRemarks(hotel.getDescription());
-			resHotel.setEssentialInformation("");
-			
-			//List<String> btnHotelAmenityLst = btnHotel.getAmenities().getAmenity();
-			/* loop through the amenities and add them to this list */
-			
-			BTNSearchResponse.HotelOptions.Hotel.RoomOptions resRoomOptions = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions();
-			resHotel.setRoomOptions(resRoomOptions);
-			
-			List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> resRoomLst = resHotel.getRoomOptions().getRoom();
-			List<Hotels.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
-			
-			for (Hotels.Hotel.Rooms.Room room : roomLst){
+		List<OTAHotelAvailRS.RoomStays.RoomStay> otahotelLst = otaHotelAvailRS.getRoomStays().getRoomStay();
+		for (OTAHotelAvailRS.RoomStays.RoomStay otaHotel : otahotelLst) {
+			BTNSearchResponse.HotelOptions.Hotel btnHotel = new BTNSearchResponse.HotelOptions.Hotel();
 
-				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
-				resRoom.setSupplier(room.getSupplier());
-				resRoom.setRateKey(room.getRate().getUniqueKey());
-				resRoom.setRoomDescription(room.getName());
-				
-				/* check this .. using first index for now*/
-				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.FinalPrice resFinalPrice = 
-						new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.FinalPrice();
-				
-				/* narrowing the value. Change it late to use BigDecimal */
-				resFinalPrice.setSupplierPrice(room.getRate().getNet().floatValue());
-				resFinalPrice.setOtaFee(0.0f);
-				resFinalPrice.setOtaDiscountAmount(0.0f);
-				
-//				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.CancellationPolicies resCancPlcy = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.CancellationPolicies();
-//				resCancPlcy.setAmount(rate.getCancellationPolicies().getCancellationPolicy().getAmount());
-//				resCancPlcy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom());
-				
-				resRoom.setFinalPrice(resFinalPrice);
-				//resRoom.setCancellationPolicies(resCancPlcy);
-				resRoomLst.add(resRoom);
+			BasicPropertyInfoType otaBasicPropertyInfoType = otaHotel.getBasicPropertyInfo();
+			btnHotel.setHotelCode(otaBasicPropertyInfoType.getHotelCode());
+			btnHotel.setHotelName(fromStaticDump);
+			btnHotel.setLocation(fromStaticDump);
+			btnHotel.setSupplier("Desia");
+			btnHotel.setStarRating(fromStaticDump);
+			btnHotel.setMainImage(fromStaticDump);
+			btnHotel.setFullAddress(fromStaticDump);
+			btnHotel.setLatitude(0.0f);//TODO: set these later
+			btnHotel.setLongitude(0.0f);
+			btnHotel.setDescription(fromStaticDump);
+			btnHotel.setRemarks(fromStaticDump);
+			btnHotel.setEssentialInformation(fromStaticDump);
+			
+			List<RoomTypeType> roomTypeLst = otaHotel.getRoomTypes().getRoomType();
+			List<RatePlanType> rateTypeLst = otaHotel.getRatePlans().getRatePlan();
+			
+			List<RoomRate> roomRateLst = otaHotel.getRoomRates().getRoomRate();
+			
+			Map<String, RoomTypeType> roomTypeMap = new HashMap<>();
+			Map<String, RatePlanType> ratePlanMap = new HashMap<>();
+			
+			/* Populating values in map types */ 
+			for (RoomTypeType tmpRoomType : roomTypeLst) {
+				roomTypeMap.put(tmpRoomType.getRoomTypeCode(), tmpRoomType);
 			}
 			
-			resHotelLst.add(resHotel);
-		}
-		
+			for (RatePlanType tmpRatePlan : rateTypeLst) {
+				ratePlanMap.put(tmpRatePlan.getRatePlanCode(), tmpRatePlan);
+			}
+			
+			BTNSearchResponse.HotelOptions.Hotel.RoomOptions btnRoomOptions = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions();
+			btnHotel.setRoomOptions(btnRoomOptions);
+			List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> btnRoomLst = btnRoomOptions.getRoom();
+			
+			List<RoomStayType.RoomRates.RoomRate> otaRoomRateLst = otaHotel.getRoomRates().getRoomRate();
+			
+			Map<String, BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> roomRateMap = new HashMap<>();
+			for (RoomStayType.RoomRates.RoomRate otaRoomRate : otaRoomRateLst) {
+				String otaRoomId = otaRoomRate.getRoomID();
+				String otaRatePlanId = otaRoomRate.getRatePlanCode();
+				String mapId = otaRoomId.concat(otaRatePlanId);
+				
+				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room btnRoom = roomRateMap.get(mapId);
+				if (btnRoom == null) {
+					btnRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
+					roomRateMap.put(mapId, btnRoom);
+				}
+				
+				btnRoom.setRoomType(roomTypeMap.get(otaRoomId).getRoomType());
+				btnRoom.setSupplier("DESIA");
+				
+				/** Their is always be a one rate key for a room which we prepare while preparing this response */
+				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> btnRateLst = btnRoom.getRate();
+				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate btnRate = null;
+				if (btnRateLst.size() == 0) {
+					btnRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate();
+					btnRate.setRateKey("prepare");
+					btnRate.setPackaging("false");
+					btnRate.setMealCode("mealcode");
+					btnRate.setMealCode("mealcode");
+					
+					float amountBeforeTax = ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getAmountBeforeTax().floatValue();
+					float amountAfterTax = amountBeforeTax + ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getTaxes().getAmount().floatValue();
+					btnRate.setSupplierPrice(amountAfterTax);
+					btnRate.setOtaFee(0.0f);
+					btnRate.setOtaDiscountAmount(0.0f);
+					
+					btnRate.setAdults(((RoomTypeType.Occupancy)roomTypeMap.get(otaRoomId).getOccupancy().get(0)).getMaxOccupancy());
+					btnRate.setChildren(((RoomTypeType.Occupancy)roomTypeMap.get(otaRoomId).getOccupancy().get(1)).getMaxOccupancy());
+					btnRate.setRecommended("1");
+					btnRate.setHoldValue("15");
+					
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates btnDailyRates = 
+							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates();
+					List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate> btnDailyRateLst = btnDailyRates.getDailyRate();
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate btnDailyRate = 
+							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
+					
+					btnDailyRate.setDailySellingRate(amountBeforeTax);
+					btnDailyRate.setDailyNet(amountAfterTax);
+					
+					btnRate.setDailyRates(btnDailyRates);
+					btnRateLst.add(btnRate);
+				} else {
+					btnRate = btnRateLst.get(0);
+					
+					float amountBeforeTax = ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getAmountBeforeTax().floatValue();
+					float amountAfterTax = amountBeforeTax + ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getTaxes().getAmount().floatValue();
+					btnRate.setSupplierPrice(btnRate.getSupplierPrice() + amountAfterTax);
+					
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate btnDailyRate = 
+							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
+					
+					btnDailyRate.setDailySellingRate(amountBeforeTax);
+					btnDailyRate.setDailyNet(amountAfterTax);
+					
+					btnRate.getDailyRates().getDailyRate().add(btnDailyRate);
+				}
+			}
+			btnHotelLst.add(btnHotel);
+		}		
 		return btnSearchRS;
 	}
 	
@@ -301,14 +396,14 @@ public class DesiaServiceHelper {
 				Hotels.Hotel resHotel = new Hotels.Hotel();
 				resHotel.setSupplier("DESIA");	//TODO: hard coded
 				resHotel.setHotelCode(hotel.getBasicPropertyInfo().getHotelCode());
-				resHotel.setHotelName("");	//TODO: not available
-				resHotel.setHotelZone("");
-				resHotel.setDestinationCode("");
-				resHotel.setDestinationName("");
-				resHotel.setRating("");
-				resHotel.setImageUrl("");
-				resHotel.setDescription("");
-				resHotel.setRemarks("");
+//				resHotel.setHotelName("");//From static dump
+//				resHotel.setHotelZone("");
+//				resHotel.setDestinationCode("");
+//				resHotel.setDestinationName("");
+//				resHotel.setRating("");//from dump
+//				resHotel.setImageUrl("");//from dump
+//				resHotel.setDescription("");//dump
+//				resHotel.setRemarks("");
 				
 				List<RoomTypeType> roomTypeLst = hotel.getRoomTypes().getRoomType();
 				List<RatePlanType> rateTypeLst = hotel.getRatePlans().getRatePlan();
@@ -343,7 +438,7 @@ public class DesiaServiceHelper {
 					
 					String tempId = roomId + rateId;
 					BigDecimal net = new BigDecimal(0);
-					net = net.add(roomRate.getRates().getRate().get(0).getTPAExtensions().getRate().getBase().getAmountBeforeTax());
+//					net = net.add(roomRate.getRates().getRate().get(0).getTPAExtensions().getRate().getBase().getAmountBeforeTax());
 					
 					if (roomTypeIdMap.get(tempId) == null) {
 						Hotels.Hotel.Rooms.Room resRoom = new Hotels.Hotel.Rooms.Room();

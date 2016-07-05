@@ -39,6 +39,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	private static final ExecutorService es = Executors.newCachedThreadPool();
 	
 	private final HBServiceProxyAdapter hbServicePxyAdpter = new HBServiceProxyAdapter();
+	private final DesiaServiceProxyAdapter desiaServicePxyAdpter = new DesiaServiceProxyAdapter();
 	
 	@Override
 	public String search(List<? extends ServiceProxy> serviceList, final InputStream is) throws Exception {

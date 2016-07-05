@@ -22,10 +22,10 @@ public class BTNUtility {
 	/* Fetch the list of active services */
 	public static List<? extends ServiceProxy> getEnabledEndPointsList() {
 		List<ServiceProxy> enabledApiServiceList = new LinkedList<>();
-		if (true) {
+		if (false) {
 			enabledApiServiceList.add(new HBServiceProxyAdapter());
 		}
-		if (false) {
+		if (true) {
 			enabledApiServiceList.add(new DesiaServiceProxyAdapter());
 		}
 		if (false) {System.out.println();}    	
