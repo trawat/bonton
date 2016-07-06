@@ -61,7 +61,7 @@ public class DesiaService {
 	 * @throws Exception
 	 * @author Tirath
 	 */
-	public String confirmBooking(BTNConfirmRequest btnConfirmRQ) throws Exception {
+	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		logger.info("desia confirm booking operation started ---->");
 		OTAHotelResRQ otaHotelResRQ = DesiaServiceHelper.confirmBeanRequestMapper(btnConfirmRQ);
 		
@@ -79,7 +79,7 @@ public class DesiaService {
 	 * @throws Exception
 	 * @author Tirath
 	 */
-	public String cancelBooking(BTNCancelRQ btnCancelRQ) throws Exception {
+	public String cancelBooking(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
 		logger.info("desia cancel booking operation started ---->");
 		OTACancelRQ otaCancelRQ = DesiaServiceHelper.cancelBeanRequestMapper(btnCancelRQ);
 
@@ -97,7 +97,7 @@ public class DesiaService {
 	 * @throws Exception
 	 * @author Tirath
 	 */
-	public String repricing(BTNRepriceRequest btnRepriceRQ) throws Exception {
+	public String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
 		logger.info("desia reprice operation started ---->");
 		OTAHotelResRQ otaHotelResRQ = DesiaServiceHelper.repriceBeanRequestMapper(btnRepriceRQ);
 

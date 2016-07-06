@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,10 +39,11 @@ import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment.H
 import com.desia.artifacts.search.BasicPropertyInfoType;
 import com.desia.artifacts.search.CountryNameType;
 import com.desia.artifacts.search.DateTimeSpanType;
+import com.desia.artifacts.search.ErrorType;
 import com.desia.artifacts.search.GuestCountType;
-import com.desia.artifacts.search.HotelSearchCriterionType;
 import com.desia.artifacts.search.GuestCountType.GuestCount;
 import com.desia.artifacts.search.HotelSearchCriteriaType.Criterion;
+import com.desia.artifacts.search.HotelSearchCriterionType;
 import com.desia.artifacts.search.HotelSearchCriterionType.RoomStayCandidates;
 import com.desia.artifacts.search.ItemSearchCriterionType;
 import com.desia.artifacts.search.ItemSearchCriterionType.Address;
@@ -62,6 +64,7 @@ import com.desia.artifacts.search.TGServiceEndPointImplService;
 import com.desia.artifacts.search.TPAExtensionsType;
 import com.desia.artifacts.search.TPAExtensionsType.UserAuthentication;
 import com.desia.handler.MessageHandler;
+import com.desia.util.DesiaProperties;
 
 /**
  * Helper class - contains static methods for request and response mapping methods.
@@ -125,11 +128,11 @@ public class DesiaServiceHelper {
 		AvailRequestSegment reqSgmnt = new AvailRequestSegment();
 
 		HotelSearchCriteria otaSearchCriteria = new HotelSearchCriteria();
-		otaSearchCriteria.setAvailableOnlyIndicator(true);
+//		otaSearchCriteria.setAvailableOnlyIndicator(true);
 		List<Criterion> otaCriterionLst = otaSearchCriteria.getCriterion();
 
 		Criterion otaCriterion = new Criterion();
-		otaCriterion.setExactMatch(true);
+//		otaCriterion.setExactMatch(true);
 		List<ItemSearchCriterionType.HotelRef> otaHotelRefLst = otaCriterion.getHotelRef();
 		
 		/** In case ItemDestination node is present, search will be based on City, otherwise hotel code. */
@@ -220,9 +223,38 @@ public class DesiaServiceHelper {
 		logger.info("search response mapping started ---->");
 		BTNSearchResponse btnSearchRS = new BTNSearchResponse();
 		
+		if (otaHotelAvailRS.getErrors() != null) {
+			BTNSearchResponse.BTNError errElmnt = new BTNSearchResponse.BTNError();
+			
+			List<ErrorType> otaErrorLst = otaHotelAvailRS.getErrors().getError();
+			StringBuilder errCode = new StringBuilder();
+			StringBuilder errMsg = new StringBuilder();
+			for (ErrorType otaErrorType : otaErrorLst) {
+				if (errCode.length() != 0) {
+					errCode.append(DesiaProperties.SEP2);
+					errMsg.append(DesiaProperties.SEP2);
+				}
+				errCode.append(otaErrorType.getCode());
+				errMsg.append(otaErrorType.getShortText());
+				
+			}
+			errElmnt.setCode(errCode.toString());
+			errElmnt.setMessage(errMsg.toString());
+
+			btnSearchRS.setBTNError(errElmnt);
+			
+			logger.info("search response contains error. Returning ---->");
+			return btnSearchRS;
+		}
+
+		
 		btnSearchRS.setTravelRequestID("");
 		btnSearchRS.setServiceRequestID("");
-		btnSearchRS.setOptionsCount(otaHotelAvailRS.getTPAExtensions().getHotelsInfo().getAvailable());
+		
+		/** Setting the available no of hotels differently for City and Hotel search */
+		if (otaHotelAvailRS.getTPAExtensions().getHotelsInfo() != null) {
+			btnSearchRS.setOptionsCount(otaHotelAvailRS.getTPAExtensions().getHotelsInfo().getAvailable());
+		}
 		
 		String fromStaticDump = "fromstaticdump";
 		BTNSearchResponse.City btnCity = new BTNSearchResponse.City();
@@ -233,6 +265,13 @@ public class DesiaServiceHelper {
 		BTNSearchResponse.HotelOptions btnHotels = new BTNSearchResponse.HotelOptions();
 		btnSearchRS.setHotelOptions(btnHotels);
 		List<BTNSearchResponse.HotelOptions.Hotel> btnHotelLst = btnHotels.getHotel();
+		
+		/** Hard coding checkin and checkout date for now */
+		String checkin = "29-07-2016";
+		String checkout = "30-07-2016";
+		StringBuilder rtDateDetails = new StringBuilder();
+		rtDateDetails.append(checkin);rtDateDetails.append(DesiaProperties.SEP2);
+		rtDateDetails.append(checkout);rtDateDetails.append(DesiaProperties.SEP2);
 		
 		List<OTAHotelAvailRS.RoomStays.RoomStay> otaHotelLst = otaHotelAvailRS.getRoomStays().getRoomStay();
 		for (OTAHotelAvailRS.RoomStays.RoomStay otaHotel : otaHotelLst) {
@@ -251,6 +290,9 @@ public class DesiaServiceHelper {
 			btnHotel.setDescription(fromStaticDump);
 			btnHotel.setRemarks(fromStaticDump);
 			btnHotel.setEssentialInformation(fromStaticDump);
+			
+			StringBuilder hotelDetails = new StringBuilder();
+			hotelDetails.append(otaBasicPropertyInfoType.getHotelCode());hotelDetails.append(DesiaProperties.SEP2);
 			
 			List<RoomTypeType> roomTypeLst = otaHotel.getRoomTypes().getRoomType();
 			List<RatePlanType> rateTypeLst = otaHotel.getRatePlans().getRatePlan();
@@ -276,6 +318,10 @@ public class DesiaServiceHelper {
 			List<RoomStayType.RoomRates.RoomRate> otaRoomRateLst = otaHotel.getRoomRates().getRoomRate();
 			
 			Map<String, BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> roomRateMap = new HashMap<>();
+			
+			/** To keep track of Amount before tax and tax amount associated with a rate node. */
+			Map<String, List<String>> roomRateAmtMap = new HashMap<>();
+			
 			for (RoomStayType.RoomRates.RoomRate otaRoomRate : otaRoomRateLst) {
 				String otaRoomId = otaRoomRate.getRoomID();
 				String otaRatePlanId = otaRoomRate.getRatePlanCode();
@@ -284,31 +330,53 @@ public class DesiaServiceHelper {
 				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room btnRoom = roomRateMap.get(mapId);
 				if (btnRoom == null) {
 					btnRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
+					btnRoom.setRoomType(roomTypeMap.get(otaRoomId).getRoomType());
+					btnRoom.setSupplier("DESIA");
+					
+					/** Add room to room list only when a new room is created */
+					btnRoomLst.add(btnRoom);
 					roomRateMap.put(mapId, btnRoom);
 				}
 				
-				btnRoom.setRoomType(roomTypeMap.get(otaRoomId).getRoomType());
-				btnRoom.setSupplier("DESIA");
-				
-				/** Their is always be a one rate key for a room which we prepare while preparing this response */
+				/** Their will always be one rate key for a room which we prepare while preparing this response */
 				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> btnRateLst = btnRoom.getRate();
 				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate btnRate = null;
 				if (btnRateLst.size() == 0) {
+					/** For rate key preparation. Indexes should not be changed.
+					 * Otherwise, change the logic of fetching and resetting rate key
+					 * components in the else block. */
+					List<String> rateKeyItemLst = new ArrayList<>();
+					rateKeyItemLst.add(otaRoomId);		//0
+					rateKeyItemLst.add(otaRatePlanId);	//1
+					
+					Float amountBeforeTax = ((RateType.Rate) otaRoomRate.getRates().getRate().get(0)).getBase().getAmountBeforeTax().floatValue();
+					Float taxAmount = ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getTaxes().getAmount().floatValue();
+					float amountAfterTax = amountBeforeTax + taxAmount;
+					
+					rateKeyItemLst.add(amountBeforeTax.toString());	//2
+					rateKeyItemLst.add(taxAmount.toString());		//3
+					roomRateAmtMap.put(mapId, rateKeyItemLst);
+					
 					btnRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate();
-					btnRate.setRateKey("prepare");
 					btnRate.setPackaging("false");
 					btnRate.setMealCode("mealcode");
 					btnRate.setMealCode("mealcode");
 					
-					float amountBeforeTax = ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getAmountBeforeTax().floatValue();
-					float amountAfterTax = amountBeforeTax + ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getTaxes().getAmount().floatValue();
+					/** Setting the prepared rate key */
+					String rateKey = rateKeyItemLst.toString();
+					rateKey = rateKey.substring(1, rateKey.length() - 1);
+					rateKey = rateKey.replaceAll(",", "|");
+					btnRate.setRateKey(rtDateDetails.toString().concat(rateKey));
+					
 					btnRate.setSupplierPrice(amountAfterTax);
 					btnRate.setOtaFee(0.0f);
 					btnRate.setOtaDiscountAmount(0.0f);
 					
+					/** below setters are wrong */
 					btnRate.setAdults(((RoomTypeType.Occupancy)roomTypeMap.get(otaRoomId).getOccupancy().get(0)).getMaxOccupancy());
 					btnRate.setChildren(((RoomTypeType.Occupancy)roomTypeMap.get(otaRoomId).getOccupancy().get(1)).getMaxOccupancy());
-					btnRate.setRecommended("1");
+					
+					btnRate.setRecommended("0");
 					btnRate.setHoldValue("15");
 					
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates btnDailyRates = 
@@ -319,14 +387,21 @@ public class DesiaServiceHelper {
 					
 					btnDailyRate.setDailySellingRate(amountBeforeTax);
 					btnDailyRate.setDailyNet(amountAfterTax);
+					btnDailyRateLst.add(btnDailyRate);
 					
 					btnRate.setDailyRates(btnDailyRates);
 					btnRateLst.add(btnRate);
 				} else {
+					/** As there's always going to be only one rate key associated with a room */
 					btnRate = btnRateLst.get(0);
 					
-					float amountBeforeTax = ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getAmountBeforeTax().floatValue();
-					float amountAfterTax = amountBeforeTax + ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getTaxes().getAmount().floatValue();
+					/** For rate key modification */
+					List<String> rateKeyItemLst = roomRateAmtMap.get(mapId);
+					
+					Float amountBeforeTax = ((RateType.Rate) otaRoomRate.getRates().getRate().get(0)).getBase().getAmountBeforeTax().floatValue();
+					Float taxAmount = ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getTaxes().getAmount().floatValue();
+					float amountAfterTax = amountBeforeTax + taxAmount;
+					
 					btnRate.setSupplierPrice(btnRate.getSupplierPrice() + amountAfterTax);
 					
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate btnDailyRate = 
@@ -335,9 +410,21 @@ public class DesiaServiceHelper {
 					btnDailyRate.setDailySellingRate(amountBeforeTax);
 					btnDailyRate.setDailyNet(amountAfterTax);
 					
+					/** Adding amounts from new room rate node to the existing one */
+					amountBeforeTax = amountBeforeTax + new Float(rateKeyItemLst.get(2)).floatValue();
+					taxAmount = taxAmount + new Float(rateKeyItemLst.get(3)).floatValue();
+					
+					rateKeyItemLst.set(2, amountBeforeTax.toString());
+					rateKeyItemLst.set(3, taxAmount.toString());
+					
+					/** Setting the prepared rate key */
+					String rateKey = rateKeyItemLst.toString();
+					rateKey = rateKey.substring(1, rateKey.length() - 1);
+					rateKey = rateKey.replaceAll(",", "|");
+					btnRate.setRateKey(rtDateDetails.toString().concat(rateKey));
+					
 					btnRate.getDailyRates().getDailyRate().add(btnDailyRate);
 				}
-				btnRoomLst.add(btnRoom);
 			}
 			btnHotelLst.add(btnHotel);
 		}		

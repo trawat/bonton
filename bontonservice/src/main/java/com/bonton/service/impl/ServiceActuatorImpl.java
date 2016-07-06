@@ -185,6 +185,8 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
 			return hbServicePxyAdpter.confirmBooking(btnConfirmRQ, getRandonUUID());
+		} else if (BTNProperties.DESIA.equalsIgnoreCase(supplier)) {
+			return desiaServicePxyAdpter.confirmBooking(btnConfirmRQ, getRandonUUID());
 		}
 		
 		return null;
@@ -204,6 +206,8 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
 			return hbServicePxyAdpter.cancelBooking(btnCancelRQ, getRandonUUID());
+		} else if (BTNProperties.DESIA.equalsIgnoreCase(supplier)) {
+			return desiaServicePxyAdpter.cancelBooking(btnCancelRQ, getRandonUUID());
 		}
 		return null;
 	}
@@ -223,7 +227,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
 			return hbServicePxyAdpter.repricing(btnRepriceRQ, getRandonUUID());
 		} else if (BTNProperties.DESIA.equalsIgnoreCase(supplier)) {
-			//return new DesiaServiceProxyAdapter().repricing(supplier, repriceBean);
+			return desiaServicePxyAdpter.repricing(btnRepriceRQ, getRandonUUID());
 		}
 		return null;
 	}

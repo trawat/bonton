@@ -29,20 +29,17 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 
 	@Override
 	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return desiaService.confirmBooking(btnConfirmRQ, uuid);
 	}
 
 	@Override
 	public String cancelBooking(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return desiaService.cancelBooking(btnCancelRQ, uuid);
 	}
 
 	@Override
 	public String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return desiaService.repricing(btnRepriceRQ, uuid);
 	}
 	
 	@Override
