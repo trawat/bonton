@@ -26,7 +26,7 @@ import com.desia.artifacts.search.OTAHotelAvailRS;
  * Entry point into Desia API.
  * Contains methods for each operation possible/ provided by Desia Service API.
  * @author Tirath
- * @see DesiaServiceHelper
+ * @see DesiaSearchServiceHelper
  */
 public class DesiaService {
 	private static Logger logger = LoggerFactory.getLogger(DesiaService.class);
@@ -45,17 +45,17 @@ public class DesiaService {
 	 */
 	public void search(BTNSearchRequest btnSearchRQ, String uuid) throws Exception {
 		logger.info("desia search operation started ---->");
-		OTAHotelAvailRQ otaHotelAvailRQ = DesiaServiceHelper.searchBeanRequestMapper(btnSearchRQ);
+		OTAHotelAvailRQ otaHotelAvailRQ = DesiaSearchServiceHelper.searchBeanRequestMapper(btnSearchRQ);
 		
-		OTAHotelAvailRS otaHotelAvailRS = DesiaServiceHelper.sendSearchRequest(otaHotelAvailRQ);
+		OTAHotelAvailRS otaHotelAvailRS = DesiaSearchServiceHelper.sendSearchRequest(otaHotelAvailRQ);
 		
-		BTNSearchResponse btnSearchResponse = DesiaServiceHelper.searchBeanResponseMapper(otaHotelAvailRS);
+		BTNSearchResponse btnSearchResponse = DesiaSearchServiceHelper.searchBeanResponseMapper(otaHotelAvailRS);
 		logger.info("desia search operation done ---->");
 		rqRsMap.put(uuid, btnSearchResponse);
 	}
 	
 	/**
-	 * Used to trigger Desia confirm booking operation.
+	 * Used to trigger Desia PROVISIONAL booking operation.
 	 * @param btnConfirmRQ Bonton confirm request bean
 	 * @return XML representation of Bonton confirm response
 	 * @throws Exception
@@ -63,11 +63,11 @@ public class DesiaService {
 	 */
 	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		logger.info("desia confirm booking operation started ---->");
-		OTAHotelResRQ otaHotelResRQ = DesiaServiceHelper.confirmBeanRequestMapper(btnConfirmRQ);
+		OTAHotelResRQ otaHotelResRQ = DesiaSearchServiceHelper.confirmBeanRequestMapper(btnConfirmRQ);
 		
-		OTAHotelResRS otaHotelResRS = DesiaServiceHelper.sendConfirmRequest(otaHotelResRQ);
+		OTAHotelResRS otaHotelResRS = DesiaSearchServiceHelper.sendConfirmRequest(otaHotelResRQ);
 		
-		BTNConfirmResponse btnConfirmResponse = DesiaServiceHelper.confirmBeanResponseMapper(otaHotelResRS);
+		BTNConfirmResponse btnConfirmResponse = DesiaSearchServiceHelper.confirmBeanResponseMapper(otaHotelResRS);
 		logger.info("desia confirm booking operation done ---->");
 		return XmlProcessor.getBeanInXml(btnConfirmResponse);
 	}
@@ -81,11 +81,11 @@ public class DesiaService {
 	 */
 	public String cancelBooking(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
 		logger.info("desia cancel booking operation started ---->");
-		OTACancelRQ otaCancelRQ = DesiaServiceHelper.cancelBeanRequestMapper(btnCancelRQ);
+		OTACancelRQ otaCancelRQ = DesiaSearchServiceHelper.cancelBeanRequestMapper(btnCancelRQ);
 
-		OTACancelRS otaCancelRS = DesiaServiceHelper.sendCancelRequest(otaCancelRQ);
+		OTACancelRS otaCancelRS = DesiaSearchServiceHelper.sendCancelRequest(otaCancelRQ);
 
-		BTNCancelRS btnCancelRS = DesiaServiceHelper.cancelBeanResponseMapper(otaCancelRS);
+		BTNCancelRS btnCancelRS = DesiaSearchServiceHelper.cancelBeanResponseMapper(otaCancelRS);
 		logger.info("desia cancel booking operation done ---->");
 		return XmlProcessor.getBeanInXml(btnCancelRS);
 	}
@@ -99,11 +99,11 @@ public class DesiaService {
 	 */
 	public String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
 		logger.info("desia reprice operation started ---->");
-		OTAHotelResRQ otaHotelResRQ = DesiaServiceHelper.repriceBeanRequestMapper(btnRepriceRQ);
+		OTAHotelResRQ otaHotelResRQ = DesiaSearchServiceHelper.repriceBeanRequestMapper(btnRepriceRQ);
 
-		OTAHotelResRS otaHotelResRS = DesiaServiceHelper.sendRepriceRequest(otaHotelResRQ);
+		OTAHotelResRS otaHotelResRS = DesiaSearchServiceHelper.sendRepriceRequest(otaHotelResRQ);
 
-		BTNRepriceResponse btnRepriceResponse = DesiaServiceHelper.repriceBeanResponseMapper(otaHotelResRS);
+		BTNRepriceResponse btnRepriceResponse = DesiaSearchServiceHelper.repriceBeanResponseMapper(otaHotelResRS);
 		logger.info("desia reprice operation done ---->");
 		return XmlProcessor.getBeanInXml(btnRepriceResponse);
 	}

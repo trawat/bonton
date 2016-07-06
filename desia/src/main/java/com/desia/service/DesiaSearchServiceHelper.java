@@ -19,21 +19,9 @@ import javax.xml.ws.handler.PortInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bonton.utility.artifacts.BTNCancelRQ;
-import com.bonton.utility.artifacts.BTNCancelRS;
-import com.bonton.utility.artifacts.BTNConfirmRequest;
-import com.bonton.utility.artifacts.BTNConfirmResponse;
-import com.bonton.utility.artifacts.BTNRepriceRequest;
-import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.desia.Hotels;
-import com.desia.artifacts.booking.OTACancelRQ;
-import com.desia.artifacts.booking.OTACancelRS;
-import com.desia.artifacts.booking.OTAHotelResRQ;
-import com.desia.artifacts.booking.OTAHotelResRS;
-import com.desia.artifacts.booking.TGBookingServiceEndPoint;
-import com.desia.artifacts.booking.TGBookingServiceEndPointImplService;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment.HotelSearchCriteria;
 import com.desia.artifacts.search.BasicPropertyInfoType;
@@ -70,17 +58,14 @@ import com.desia.util.DesiaProperties;
  * Helper class - contains static methods for request and response mapping methods.
  * @author Tirath
  */
-public class DesiaServiceHelper {
-	private static Logger logger = LoggerFactory.getLogger(DesiaServiceHelper.class);
+public class DesiaSearchServiceHelper {
+	private static Logger logger = LoggerFactory.getLogger(DesiaSearchServiceHelper.class);
 	
 	private static final TGServiceEndPointImplService searchSIB = new TGServiceEndPointImplService();
-	private static final TGBookingServiceEndPointImplService bookingSIB = new TGBookingServiceEndPointImplService();
-	
 	private static TGServiceEndPoint searchSEI = null;
-	private static TGBookingServiceEndPoint bookingSEI = null;
 	
 	
-	private DesiaServiceHelper() {}
+	private DesiaSearchServiceHelper() {}
 	
 	static {
 		HandlerResolver handlerResolver = new HandlerResolver() {
@@ -92,10 +77,7 @@ public class DesiaServiceHelper {
 			}
 		};
 		searchSIB.setHandlerResolver(handlerResolver);//TODO: uncomment this later
-		bookingSIB.setHandlerResolver(handlerResolver);
-		
 		searchSEI = (TGServiceEndPoint) searchSIB.getTGServiceEndPointImplPort();
-		bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
 	}
 	
 	/**
@@ -110,6 +92,7 @@ public class DesiaServiceHelper {
 		logger.info("search request mapping started ---->");
 		//Request preparation
 		OTAHotelAvailRQ otaHotelAvailRQ = new OTAHotelAvailRQ();
+		otaHotelAvailRQ.setRequestedCurrency("INR");//Hard coding the currrency
 
 		/** Bonton city or hotel search detail node */
 		BTNSearchRequest.RequestDetails.SearchHotelPriceRequest btnHotelDetailRQNode =  btnSearchRQ.getRequestDetails().getSearchHotelPriceRequest();
@@ -433,113 +416,11 @@ public class DesiaServiceHelper {
 	}
 	
 	
-	public static OTAHotelResRQ repriceBeanRequestMapper(BTNRepriceRequest btnRepriceRQ) throws Exception {
-		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
-		
-		/* Add appropriate mapping here. */
-		
-		return otaHotelResRQ;
-	}
-	
-	public static BTNRepriceResponse repriceBeanResponseMapper(OTAHotelResRS otaHotelResRS) throws Exception {
-		BTNRepriceResponse btnRepriceRS = new BTNRepriceResponse();
-		
-		/* Add appropriate mapping here. */
-		
-		return btnRepriceRS;
-	}
-	
-	/**
-	 * Used to map Bonton booking confirmation RQ object to Desia
-	 * specific booking confirmation RQ object.
-	 * @param btnConfirmRQ Bonton booking confirmation RQ object
-	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
-	 * @return Desia specific booking confirmation RQ object
-	 * @throws Exception In case any mapping error occurs
-	 * @author Tirath
-	 */
-	public static OTAHotelResRQ confirmBeanRequestMapper(BTNConfirmRequest btnConfirmRQ) throws Exception {
-		logger.info("confirm request mapping started ---->");
-		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
-		
-		/* Add appropriate mapping here. */
-		
-		logger.info("confirm request mapping done ---->");
-		return otaHotelResRQ;
-	}
-	
-	/**
-	 * Used to map Desia specific booking RS to Bonton specific 
-	 * booking confirmation RS object.
-	 * @param bookingRS Desia booking confirmation RS object
-	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
-	 * @return Booking confirmation RS object specific to Bonton API
-	 * @throws Exception In case any mapping error occurs
-	 * @author Tirath
-	 */
-	public static BTNConfirmResponse confirmBeanResponseMapper(OTAHotelResRS otaHotelResRS) throws Exception {
-		logger.info("confirm response mapping started ---->");
-		BTNConfirmResponse btnConfirmRS = new BTNConfirmResponse();
-		
-		/* Add appropriate mapping here. */
-		
-		logger.info("confirm response mapping done ---->");
-		return btnConfirmRS;
-	}
-	
-	/**
-	 * Used to map Bonton booking cancellation RQ object to Desia
-	 * specific RQ object.
-	 * @param btnCancelRQ Bonton cancellation RQ object
-	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
-	 * @return Booking cancellation RS object specific to Desia API
-	 * @throws Exception In case any mapping error occurs
-	 * @author Tirath
-	 */
-	public static OTACancelRQ cancelBeanRequestMapper(BTNCancelRQ btnCancelRQ) throws Exception {
-		logger.info("confirm request mapping started ---->");
-		OTACancelRQ otaCancelRQ = new OTACancelRQ();
-		
-		/* Add appropriate mapping here. */
-		
-		logger.info("confirm response mapping done ---->");
-		return otaCancelRQ;
-	}
-	
-	/**
-	 * Used to map the Desia booking cancellation RS to Bonton
-	 * specific cancellation RS object.
-	 * @param cancelRS Cancellation RS object returned by Desia API
-	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
-	 * @return Cancellation RS object specific to Bonton API
-	 * @throws Exception In case any mapping error occurs
-	 * @author Tirath
-	 */
-	public static BTNCancelRS cancelBeanResponseMapper(OTACancelRS otaCancelRS) throws Exception {
-		logger.info("cancel response mapping started ---->");
-		BTNCancelRS btnCancelRS = new BTNCancelRS();
-		
-		/* Add appropriate mapping here. */
-		
-		logger.info("cancel response mapping done ---->");
-		return btnCancelRS;
-	}
 	
 	public static OTAHotelAvailRS sendSearchRequest(OTAHotelAvailRQ otaHotelAvailRQ) throws Exception {
 		return searchSEI.fetchResponse(otaHotelAvailRQ);
 	}
 	
-	public static OTAHotelResRS sendRepriceRequest(OTAHotelResRQ otaHotelResRQ) throws Exception {
-		return bookingSEI.createBooking(otaHotelResRQ);
-	}
-	
-	public static OTAHotelResRS sendConfirmRequest(OTAHotelResRQ otaHotelResRQ) throws Exception {
-		return bookingSEI.createBooking(otaHotelResRQ);
-	}
-	
-	public static OTACancelRS sendCancelRequest(OTACancelRQ otaCancelRQ) throws Exception {
-		return bookingSEI.cancelBooking(otaCancelRQ);
-	}
 	
 	private static Hotels getHotelList(List<OTAHotelAvailRS.RoomStays.RoomStay> hotelLst) throws Exception {
 		Hotels hotels = new Hotels();
