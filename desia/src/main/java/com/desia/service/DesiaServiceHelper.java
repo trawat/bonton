@@ -63,6 +63,10 @@ import com.desia.artifacts.search.TPAExtensionsType;
 import com.desia.artifacts.search.TPAExtensionsType.UserAuthentication;
 import com.desia.handler.MessageHandler;
 
+/**
+ * Helper class - contains static methods for request and response mapping methods.
+ * @author Tirath
+ */
 public class DesiaServiceHelper {
 	private static Logger logger = LoggerFactory.getLogger(DesiaServiceHelper.class);
 	
@@ -91,7 +95,16 @@ public class DesiaServiceHelper {
 		bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
 	}
 	
+	/**
+	 * Used to map Bonton hotel availability RQ object to Desia API
+	 * specific RQ object.
+	 * @param btnSearchRQ Bonton specific search RQ object
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return Desia specific hotel availability RQ object
+	 * @author Tirath
+	 */
 	public static OTAHotelAvailRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRQ) throws Exception {
+		logger.info("search request mapping started ---->");
 		//Request preparation
 		OTAHotelAvailRQ otaHotelAvailRQ = new OTAHotelAvailRQ();
 
@@ -112,9 +125,11 @@ public class DesiaServiceHelper {
 		AvailRequestSegment reqSgmnt = new AvailRequestSegment();
 
 		HotelSearchCriteria otaSearchCriteria = new HotelSearchCriteria();
+		otaSearchCriteria.setAvailableOnlyIndicator(true);
 		List<Criterion> otaCriterionLst = otaSearchCriteria.getCriterion();
 
 		Criterion otaCriterion = new Criterion();
+		otaCriterion.setExactMatch(true);
 		List<ItemSearchCriterionType.HotelRef> otaHotelRefLst = otaCriterion.getHotelRef();
 		
 		/** In case ItemDestination node is present, search will be based on City, otherwise hotel code. */
@@ -189,11 +204,20 @@ public class DesiaServiceHelper {
 
 		otaHotelAvailRQ.setAvailRequestSegments(reqSgmnts);
 
+		logger.info("search request mapping done ---->");
 		return otaHotelAvailRQ;
 	}
 	
-	
+	/**
+	 * Used to map the Desia availability response to Bonton response.
+	 * @param otaHotelAvailRS Hotel availability RS object returned by Desia API
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return BTNSearchResponse Bonton specific RS object after mapping
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static BTNSearchResponse searchBeanResponseMapper(OTAHotelAvailRS otaHotelAvailRS) throws Exception {
+		logger.info("search response mapping started ---->");
 		BTNSearchResponse btnSearchRS = new BTNSearchResponse();
 		
 		btnSearchRS.setTravelRequestID("");
@@ -317,6 +341,7 @@ public class DesiaServiceHelper {
 			}
 			btnHotelLst.add(btnHotel);
 		}		
+		logger.info("search response mapping done ---->");
 		return btnSearchRS;
 	}
 	
@@ -337,35 +362,79 @@ public class DesiaServiceHelper {
 		return btnRepriceRS;
 	}
 	
+	/**
+	 * Used to map Bonton booking confirmation RQ object to Desia
+	 * specific booking confirmation RQ object.
+	 * @param btnConfirmRQ Bonton booking confirmation RQ object
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return Desia specific booking confirmation RQ object
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static OTAHotelResRQ confirmBeanRequestMapper(BTNConfirmRequest btnConfirmRQ) throws Exception {
+		logger.info("confirm request mapping started ---->");
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
 		
 		/* Add appropriate mapping here. */
 		
+		logger.info("confirm request mapping done ---->");
 		return otaHotelResRQ;
 	}
 	
+	/**
+	 * Used to map Desia specific booking RS to Bonton specific 
+	 * booking confirmation RS object.
+	 * @param bookingRS Desia booking confirmation RS object
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return Booking confirmation RS object specific to Bonton API
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static BTNConfirmResponse confirmBeanResponseMapper(OTAHotelResRS otaHotelResRS) throws Exception {
+		logger.info("confirm response mapping started ---->");
 		BTNConfirmResponse btnConfirmRS = new BTNConfirmResponse();
 		
 		/* Add appropriate mapping here. */
 		
+		logger.info("confirm response mapping done ---->");
 		return btnConfirmRS;
 	}
 	
+	/**
+	 * Used to map Bonton booking cancellation RQ object to Desia
+	 * specific RQ object.
+	 * @param btnCancelRQ Bonton cancellation RQ object
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return Booking cancellation RS object specific to Desia API
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static OTACancelRQ cancelBeanRequestMapper(BTNCancelRQ btnCancelRQ) throws Exception {
+		logger.info("confirm request mapping started ---->");
 		OTACancelRQ otaCancelRQ = new OTACancelRQ();
 		
 		/* Add appropriate mapping here. */
 		
+		logger.info("confirm response mapping done ---->");
 		return otaCancelRQ;
 	}
 	
+	/**
+	 * Used to map the Desia booking cancellation RS to Bonton
+	 * specific cancellation RS object.
+	 * @param cancelRS Cancellation RS object returned by Desia API
+	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
+	 * @return Cancellation RS object specific to Bonton API
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static BTNCancelRS cancelBeanResponseMapper(OTACancelRS otaCancelRS) throws Exception {
+		logger.info("cancel response mapping started ---->");
 		BTNCancelRS btnCancelRS = new BTNCancelRS();
 		
 		/* Add appropriate mapping here. */
 		
+		logger.info("cancel response mapping done ---->");
 		return btnCancelRS;
 	}
 	
