@@ -125,6 +125,25 @@ public class DesiaService {
 		return XmlProcessor.getBeanInXml(btnFinalBookingRS);
 	}
 
+	/**
+	 * Used to trigger Desia PROVISIONAL plus FINAL booking operation.
+	 * @param btnConfirmRQ Bonton confirm request bean
+	 * @return XML representation of Bonton confirm response
+	 * @throws Exception
+	 * @author Tirath
+	 */
+	public String provisionalFinalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
+		logger.info("desia provisional plus final booking operation started ---->");
+		OTAHotelResRQ otaHotelResProvisionalRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ);
+		OTAHotelResRS otaHotelResProvisionalRS = DesiaBookingServiceHelper.sendProvisionalBookingRQ(otaHotelResProvisionalRQ);
+		
+		OTAHotelResRQ otaHotelResFinalRQ = DesiaBookingServiceHelper.provisinalFinalRQMapper(otaHotelResProvisionalRS);
+		OTAHotelResRS otaHotelResFinalRS = DesiaBookingServiceHelper.sendFinalBookingRQ(otaHotelResFinalRQ);
+		
+		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResFinalRS);
+		logger.info("desia provisional plus final booking operation done ---->");
+		return XmlProcessor.getBeanInXml(btnFinalBookingRS);
+	}
 	
 	
 	/**

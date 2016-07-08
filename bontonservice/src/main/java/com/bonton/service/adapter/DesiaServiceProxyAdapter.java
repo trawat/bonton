@@ -32,7 +32,19 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		return desiaService.confirmBooking(btnConfirmRQ, uuid);
 	}
-
+	
+	/**
+	 * This method is to trigger provisional and final booking in one request.
+	 * @param btnConfirmRQ Provisional booking request
+	 * @param uuid Unique identifier to request and response logging
+	 * @return Bonton final booking response returned from Desia.
+	 * @throws Exception In case, the request fails to hit the Desia API or some 
+	 * RQ-RS mapping exception occurs.
+	 */
+	public String provisionalFinalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
+		return desiaService.confirmBooking(btnConfirmRQ, uuid);
+	}
+	
 	@Override
 	public String cancelBooking(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
 		return desiaService.cancelBooking(btnCancelRQ, uuid);
