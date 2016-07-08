@@ -322,16 +322,17 @@ public class DesiaBookingServiceHelper {
 		CustomerType otaCustomerType = new CustomerType();
 		
 		List<PersonNameType> otaPersonNameTypeLst = otaCustomerType.getPersonName();
-		PersonNameType otaFirstNameType = new PersonNameType();
-		otaFirstNameType.setNameType(btnConfirmRQ.getContactData().getPersonName().getFirstName());
-		PersonNameType otaLastNameType = new PersonNameType();
-		otaLastNameType.setNameType(btnConfirmRQ.getContactData().getPersonName().getLastName());
-		otaPersonNameTypeLst.add(otaFirstNameType);
-		otaPersonNameTypeLst.add(otaLastNameType);
+		PersonNameType otaPersonNameType = new PersonNameType();
 		
+		List<String> otaGivenName = otaPersonNameType.getGivenName();
+		otaGivenName.add(btnConfirmRQ.getContactData().getPersonName().getFirstName());
+		
+		otaPersonNameType.setSurname(btnConfirmRQ.getContactData().getPersonName().getLastName());
+		otaPersonNameTypeLst.add(otaPersonNameType);
+				
 		List<Email> otaEmailLst = otaCustomerType.getEmail();
 		Email otaEmail = new Email();
-		otaEmail.setEmailType(btnConfirmRQ.getContactData().getEmail());
+		otaEmail.setValue(btnConfirmRQ.getContactData().getEmail());
 		otaEmailLst.add(otaEmail);
 		
 		List<Address> otaAddressLst = otaCustomerType.getAddress();
@@ -350,10 +351,12 @@ public class DesiaBookingServiceHelper {
 		otaAddress.setCountryName(otaCountryNameType);
 		otaAddressLst.add(otaAddress);
 		
+		/*
 		List<CustomerType.Telephone> otaTelephoneLst = otaCustomerType.getTelephone();
 		Telephone otaTelephone = new Telephone();
 		otaTelephone.setPhoneNumber(btnConfirmRQ.getContactData().getPhoneNumber().toString());
 		otaTelephoneLst.add(otaTelephone);
+		*/
 		
 		ResGlobalInfoType otaResGlobalInfoType = new ResGlobalInfoType();
 		GuaranteeType otaGuaranteeType = new GuaranteeType();
