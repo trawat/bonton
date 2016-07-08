@@ -372,6 +372,14 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element type="xs:string" name="ClientReference" />
+				<xs:element name="PeriodOfStay" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:date" name="CheckOutDate" minOccurs="1" maxOccurs="1" />
+							<xs:element type="xs:date" name="CheckInDate" minOccurs="1" maxOccurs="1" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="Rooms">
 					<xs:complexType>
 						<xs:sequence>
@@ -405,8 +413,7 @@
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
-									<xs:attribute type="xs:string" name="uniqueKey"
-										use="optional" />
+									<xs:attribute type="xs:string" name="uniqueKey" />
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
@@ -415,10 +422,19 @@
 				<xs:element name="ContactData">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element type="xs:string" name="Email" />
-							<xs:element type="xs:int" name="PhoneNumber" />
-							<xs:element type="xs:string" name="Address" />
-							<xs:element type="xs:string" name="BillingAddress" />
+						<xs:element name="PersonName" minOccurs="0" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FirstName" type="xs:string" minOccurs="1" maxOccurs="1" />
+									<xs:element name="LastName" type="xs:string" minOccurs="1" maxOccurs="1" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+							<xs:element type="xs:string" name="Email" minOccurs="0" maxOccurs="1"/>
+							<xs:element type="xs:int" name="PhoneNumber" minOccurs="0" maxOccurs="1"/>
+							<xs:element type="xs:string" name="CountryCd" minOccurs="0" maxOccurs="1"/>
+							<xs:element type="xs:string" name="Address" minOccurs="0" maxOccurs="1"/>
+							<xs:element type="xs:string" name="BillingAddress" minOccurs="0" maxOccurs="1"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -580,6 +596,14 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element type="xs:string" name="Supplier" />
+				<xs:element name="PeriodOfStay" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:date" name="CheckOutDate" minOccurs="1" maxOccurs="1" />
+							<xs:element type="xs:date" name="CheckInDate" minOccurs="1" maxOccurs="1" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="CancelDetails">
 					<xs:complexType>
 						<xs:simpleContent>
@@ -786,6 +810,23 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="ProvBookingId" type="xs:string" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BTNFinalBookingRS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ReferenceId" type="xs:string" minOccurs="1" maxOccurs="1" />
+				<xs:element name="BTNError">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string" minOccurs="1"
+								maxOccurs="1" />
+							<xs:element name="message" type="xs:string" minOccurs="1"
+								maxOccurs="1" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
