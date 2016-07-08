@@ -36,4 +36,9 @@ public interface Service {
 	@Path("/reprice")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public String repricing(@Context HttpServletRequest request) throws Exception;
+	
+	@POST
+	@Path("/finalbooking")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public String finalBooking(@Context HttpServletRequest request) throws Exception;
 }

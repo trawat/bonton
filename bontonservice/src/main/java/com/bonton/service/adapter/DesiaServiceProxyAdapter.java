@@ -3,6 +3,7 @@ package com.bonton.service.adapter;
 import com.bonton.service.ServiceProxy;
 import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
+import com.bonton.utility.artifacts.BTNFinalBookingRQ;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.desia.service.DesiaService;
@@ -40,6 +41,10 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 	@Override
 	public String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
 		return desiaService.repricing(btnRepriceRQ, uuid);
+	}
+	
+	public String finalBooking(BTNFinalBookingRQ btnFinalBookingRQ, String uuid) throws Exception {
+		return desiaService.finalBooking(btnFinalBookingRQ, uuid);
 	}
 	
 	@Override

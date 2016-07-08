@@ -16,4 +16,5 @@ public interface ServiceActuator {
 	public String confirm(InputStream is) throws Exception;
 	public String cancel(InputStream is) throws Exception;
 	public String repricing(InputStream is) throws Exception;
+	public String finalBooking(InputStream is) throws Exception;
 }

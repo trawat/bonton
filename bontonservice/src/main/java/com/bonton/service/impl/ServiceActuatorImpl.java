@@ -22,6 +22,7 @@ import com.bonton.service.adapter.HBServiceProxyAdapter;
 import com.bonton.util.BTNProperties;
 import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
+import com.bonton.utility.artifacts.BTNFinalBookingRQ;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
@@ -230,6 +231,21 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			return desiaServicePxyAdpter.repricing(btnRepriceRQ, getRandonUUID());
 		}
 		return null;
+	}
+	
+	@Override
+	public String finalBooking(InputStream is) throws Exception {
+		BTNFinalBookingRQ btnFinalBookingRQ = null;
+		
+		try {
+			btnFinalBookingRQ = XmlProcessor.getBTNFinalBookingRQBean(is);
+		} catch (Exception exception) {
+			/** Return informative error message in case the submitted request is not proper */
+			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNFinalBookingErrorRS(exception));
+		}
+		
+		/** As final bookong is designed for Desia API only */
+		return desiaServicePxyAdpter.finalBooking(btnFinalBookingRQ, getRandonUUID());
 	}
 	
 	private static String getRandonUUID() {
