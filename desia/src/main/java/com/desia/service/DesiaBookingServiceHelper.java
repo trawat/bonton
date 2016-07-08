@@ -134,11 +134,48 @@ public class DesiaBookingServiceHelper {
 		return otaHotelResRQ;
 	}
 	
+	/**
+	 * Used to map the final booking RS object returned from Desia API to 
+	 * Bonton specific Final booking RS object.
+	 * @param otaHotelResRS final booking response from Desia API
+	 * @return BTNFinalBookingRS Bonton final booking response
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static BTNFinalBookingRS finalBookingRSMapper(OTAHotelResRS otaHotelResRS) throws Exception {
+		logger.info("final booking response mapping started ---->");
 		BTNFinalBookingRS btnFinalBookingRS = new BTNFinalBookingRS();
 		
-		/* Add appropriate mapping here. */
+		if (otaHotelResRS.getErrors() != null) {
+			BTNFinalBookingRS.BTNError errElmnt = new BTNFinalBookingRS.BTNError();
+			
+			List<ErrorType> otaErrorLst = otaHotelResRS.getErrors().getError();
+			StringBuilder errCode = new StringBuilder();
+			StringBuilder errMsg = new StringBuilder();
+			for (ErrorType otaErrorType : otaErrorLst) {
+				if (errCode.length() != 0) {
+					errCode.append(DesiaProperties.SEP2);
+					errMsg.append(DesiaProperties.SEP2);
+				}
+				errCode.append(otaErrorType.getCode());
+				errMsg.append(otaErrorType.getShortText());
+				
+			}
+			errElmnt.setCode(errCode.toString());
+			errElmnt.setMessage(errMsg.toString());
+
+			btnFinalBookingRS.setBTNError(errElmnt);
+			
+			logger.info("final booking response contains error. Returning ---->");
+			return btnFinalBookingRS;
+		}
+		List<HotelReservation> otaHotelReservationLst = otaHotelResRS.getHotelReservations().getHotelReservation();
+		HotelReservation otaHotelReservation = otaHotelReservationLst.get(0);
+		List<UniqueIDType> otaUniqueIDTypeLst = otaHotelReservation.getUniqueID();
+		UniqueIDType otaUniqueIDType = new UniqueIDType();
+		btnFinalBookingRS.setReferenceId(otaUniqueIDType.getID());
 		
+		logger.info("final booking response mapping done ---->");
 		return btnFinalBookingRS;
 	}
 	
