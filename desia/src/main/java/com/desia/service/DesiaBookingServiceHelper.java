@@ -547,6 +547,56 @@ public class DesiaBookingServiceHelper {
 		logger.info("cancel response mapping done ---->");
 		return btnCancelRS;
 	}
+	
+	public static OTAHotelResRQ provisinalFinalRQMapper(OTAHotelResRS otaHotelResRS) throws Exception {
+		logger.info("provisiona plus final booking request mapping started ---->");
+		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
+		
+		POSType otaPOSType = new POSType();
+		
+		SourceType otaSourceType = new SourceType();
+		otaSourceType.setISOCurrency("INR");
+		
+		RequestorID otaRequestorID = new RequestorID();
+		otaRequestorID.setID("1300001211");
+		otaRequestorID.setMessagePassword("test@789");
+		
+		CompanyNameType otaCompanyNameType = new CompanyNameType();
+		otaCompanyNameType.setCode("bontonsell");
+		
+		otaRequestorID.setCompanyName(otaCompanyNameType);
+		otaSourceType.setRequestorID(otaRequestorID);
+		List<SourceType> otaPOSTypeLst = otaPOSType.getSource();
+		otaPOSTypeLst.add(otaSourceType);
+		
+		/** Tag goes to final booking */
+		List<UniqueIDType> otaUniqueIDTypeLst = otaHotelResRQ.getUniqueID();
+		UniqueIDType otaUniqueIDType = new UniqueIDType();
+		
+		/** Setting provisional booking id */
+		otaUniqueIDType.setID(((UniqueIDType)((HotelReservation) otaHotelResRS.getHotelReservations().getHotelReservation().get(0)).getUniqueID().get(0)).getID());
+		otaUniqueIDType.setType("23");
+		otaUniqueIDTypeLst.add(otaUniqueIDType);
+		
+		HotelReservationsType otaHotelReservationsType = new HotelReservationsType();
+		List<HotelReservationsType.HotelReservation> otaHotelReservationsTypeLst = otaHotelReservationsType.getHotelReservation();
+		
+		HotelReservation otaHotelReservation = new HotelReservation();
+		ResGlobalInfoType otaResGlobalInfoType = new ResGlobalInfoType();
+		
+		GuaranteeType otaGuaranteeType = new GuaranteeType();
+		otaGuaranteeType.setGuaranteeType("PrePay");
+		
+		otaResGlobalInfoType.setGuarantee(otaGuaranteeType);
+		otaHotelReservation.setResGlobalInfo(otaResGlobalInfoType);
+		otaHotelReservationsTypeLst.add(otaHotelReservation);
+		
+		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
+		otaHotelResRQ.setPOS(otaPOSType);
+		
+		logger.info("provisiona plus final booking request mapping done ---->");
+		return otaHotelResRQ;
+	}
 		
 	public static OTAHotelResRS sendFinalBookingRQ(OTAHotelResRQ otaHotelResRQ) throws Exception {
 		return bookingSEI.createBooking(otaHotelResRQ);

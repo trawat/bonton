@@ -251,4 +251,18 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	private static String getRandonUUID() {
 		return UUID.randomUUID().toString();
 	}
+
+	@Override
+	public String provisionalFinalBooking(InputStream is) throws Exception {
+		BTNConfirmRequest btnConfirmRQ = null;
+		
+		try {
+			btnConfirmRQ = XmlProcessor.getBTNConfirmRQBean(is);
+		} catch (Exception exception) {
+			/** Return informative error message in case the submitted request is not proper */
+			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNFinalBookingErrorRS(exception));
+		}
+			
+		return desiaServicePxyAdpter.provisionalFinalBooking(btnConfirmRQ, getRandonUUID());
+	}
 }
