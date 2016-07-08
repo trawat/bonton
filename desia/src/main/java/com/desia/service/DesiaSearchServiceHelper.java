@@ -88,7 +88,7 @@ public class DesiaSearchServiceHelper {
 	 * @return Desia specific hotel availability RQ object
 	 * @author Tirath
 	 */
-	public static OTAHotelAvailRQ searchBeanRequestMapper(BTNSearchRequest btnSearchRQ) throws Exception {
+	public static OTAHotelAvailRQ searchBeanRQMapper(BTNSearchRequest btnSearchRQ) throws Exception {
 		logger.info("search request mapping started ---->");
 		//Request preparation
 		OTAHotelAvailRQ otaHotelAvailRQ = new OTAHotelAvailRQ();
@@ -178,7 +178,7 @@ public class DesiaSearchServiceHelper {
 		
 		TPAExtensionsType extnsn = new TPAExtensionsType();
 		UserAuthentication userAuth = new UserAuthentication();
-		userAuth.setUsername("bontonnet");userAuth.setPassword("test@567");userAuth.setPropertyId("1300001210");
+		userAuth.setUsername("bontonsell");userAuth.setPassword("test@789");userAuth.setPropertyId("1300001211");
 		extnsn.setUserAuthentication(userAuth);
 		
 		otaCriterion.setTPAExtensions(extnsn);
@@ -202,7 +202,7 @@ public class DesiaSearchServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static BTNSearchResponse searchBeanResponseMapper(OTAHotelAvailRS otaHotelAvailRS) throws Exception {
+	public static BTNSearchResponse searchBeanRSMapper(OTAHotelAvailRS otaHotelAvailRS) throws Exception {
 		logger.info("search response mapping started ---->");
 		BTNSearchResponse btnSearchRS = new BTNSearchResponse();
 		
@@ -235,7 +235,7 @@ public class DesiaSearchServiceHelper {
 		btnSearchRS.setServiceRequestID("");
 		
 		/** Setting the available no of hotels differently for City and Hotel search */
-		if (otaHotelAvailRS.getTPAExtensions().getHotelsInfo() != null) {
+		if (otaHotelAvailRS.getTPAExtensions() != null && otaHotelAvailRS.getTPAExtensions().getHotelsInfo() != null) {
 			btnSearchRS.setOptionsCount(otaHotelAvailRS.getTPAExtensions().getHotelsInfo().getAvailable());
 		}
 		
@@ -250,11 +250,13 @@ public class DesiaSearchServiceHelper {
 		List<BTNSearchResponse.HotelOptions.Hotel> btnHotelLst = btnHotels.getHotel();
 		
 		/** Hard coding checkin and checkout date for now */
-		String checkin = "29-07-2016";
+		//UI is expected to share checkin and checkout details
+		/*String checkin = "29-07-2016";
 		String checkout = "30-07-2016";
 		StringBuilder rtDateDetails = new StringBuilder();
 		rtDateDetails.append(checkin);rtDateDetails.append(DesiaProperties.SEP2);
 		rtDateDetails.append(checkout);rtDateDetails.append(DesiaProperties.SEP2);
+		*/
 		
 		List<OTAHotelAvailRS.RoomStays.RoomStay> otaHotelLst = otaHotelAvailRS.getRoomStays().getRoomStay();
 		for (OTAHotelAvailRS.RoomStays.RoomStay otaHotel : otaHotelLst) {
@@ -329,15 +331,16 @@ public class DesiaSearchServiceHelper {
 					 * Otherwise, change the logic of fetching and resetting rate key
 					 * components in the else block. */
 					List<String> rateKeyItemLst = new ArrayList<>();
-					rateKeyItemLst.add(otaRoomId);		//0
-					rateKeyItemLst.add(otaRatePlanId);	//1
+					rateKeyItemLst.add(btnHotel.getHotelCode());	//0
+					rateKeyItemLst.add(otaRoomId);					//1
+					rateKeyItemLst.add(otaRatePlanId);				//2
 					
 					Float amountBeforeTax = ((RateType.Rate) otaRoomRate.getRates().getRate().get(0)).getBase().getAmountBeforeTax().floatValue();
 					Float taxAmount = ((RateType.Rate)otaRoomRate.getRates().getRate().get(0)).getBase().getTaxes().getAmount().floatValue();
 					float amountAfterTax = amountBeforeTax + taxAmount;
 					
-					rateKeyItemLst.add(amountBeforeTax.toString());	//2
-					rateKeyItemLst.add(taxAmount.toString());		//3
+					rateKeyItemLst.add(amountBeforeTax.toString());	//3
+					rateKeyItemLst.add(taxAmount.toString());		//4
 					roomRateAmtMap.put(mapId, rateKeyItemLst);
 					
 					btnRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate();
@@ -349,7 +352,8 @@ public class DesiaSearchServiceHelper {
 					String rateKey = rateKeyItemLst.toString();
 					rateKey = rateKey.substring(1, rateKey.length() - 1);
 					rateKey = rateKey.replaceAll(",", "|");
-					btnRate.setRateKey(rtDateDetails.toString().concat(rateKey));
+					//btnRate.setRateKey(rtDateDetails.toString().concat(rateKey));
+					btnRate.setRateKey(rateKey);
 					
 					btnRate.setSupplierPrice(amountAfterTax);
 					btnRate.setOtaFee(0.0f);
@@ -394,17 +398,18 @@ public class DesiaSearchServiceHelper {
 					btnDailyRate.setDailyNet(amountAfterTax);
 					
 					/** Adding amounts from new room rate node to the existing one */
-					amountBeforeTax = amountBeforeTax + new Float(rateKeyItemLst.get(2)).floatValue();
-					taxAmount = taxAmount + new Float(rateKeyItemLst.get(3)).floatValue();
+					amountBeforeTax = amountBeforeTax + new Float(rateKeyItemLst.get(3)).floatValue();
+					taxAmount = taxAmount + new Float(rateKeyItemLst.get(4)).floatValue();
 					
-					rateKeyItemLst.set(2, amountBeforeTax.toString());
-					rateKeyItemLst.set(3, taxAmount.toString());
+					rateKeyItemLst.set(3, amountBeforeTax.toString());
+					rateKeyItemLst.set(4, taxAmount.toString());
 					
 					/** Setting the prepared rate key */
 					String rateKey = rateKeyItemLst.toString();
 					rateKey = rateKey.substring(1, rateKey.length() - 1);
 					rateKey = rateKey.replaceAll(",", "|");
-					btnRate.setRateKey(rtDateDetails.toString().concat(rateKey));
+					//btnRate.setRateKey(rtDateDetails.toString().concat(rateKey));
+					btnRate.setRateKey(rateKey);
 					
 					btnRate.getDailyRates().getDailyRate().add(btnDailyRate);
 				}
@@ -417,7 +422,7 @@ public class DesiaSearchServiceHelper {
 	
 	
 	
-	public static OTAHotelAvailRS sendSearchRequest(OTAHotelAvailRQ otaHotelAvailRQ) throws Exception {
+	public static OTAHotelAvailRS sendSearchRQ(OTAHotelAvailRQ otaHotelAvailRQ) throws Exception {
 		return searchSEI.fetchResponse(otaHotelAvailRQ);
 	}
 	

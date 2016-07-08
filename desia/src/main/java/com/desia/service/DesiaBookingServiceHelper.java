@@ -1,5 +1,7 @@
 package com.desia.service;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,11 +16,20 @@ import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNCancelRS;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
-import com.bonton.utility.artifacts.BTNRepriceRequest;
-import com.bonton.utility.artifacts.BTNRepriceResponse;
+import com.bonton.utility.artifacts.BTNFinalBookingRQ;
+import com.bonton.utility.artifacts.BTNFinalBookingRS;
 import com.desia.artifacts.booking.BasicPropertyInfoType;
 import com.desia.artifacts.booking.CompanyNameType;
+import com.desia.artifacts.booking.CountryNameType;
+import com.desia.artifacts.booking.CustomerType;
+import com.desia.artifacts.booking.CustomerType.Address;
+import com.desia.artifacts.booking.CustomerType.Email;
+import com.desia.artifacts.booking.CustomerType.Telephone;
+import com.desia.artifacts.booking.DateTimeSpanType;
+import com.desia.artifacts.booking.ErrorType;
+import com.desia.artifacts.booking.GuaranteeType;
 import com.desia.artifacts.booking.GuestCountType;
+import com.desia.artifacts.booking.GuestCountType.GuestCount;
 import com.desia.artifacts.booking.HotelReservationsType;
 import com.desia.artifacts.booking.HotelReservationsType.HotelReservation;
 import com.desia.artifacts.booking.OTACancelRQ;
@@ -26,22 +37,29 @@ import com.desia.artifacts.booking.OTACancelRS;
 import com.desia.artifacts.booking.OTAHotelResRQ;
 import com.desia.artifacts.booking.OTAHotelResRS;
 import com.desia.artifacts.booking.POSType;
+import com.desia.artifacts.booking.PersonNameType;
+import com.desia.artifacts.booking.ProfileType;
+import com.desia.artifacts.booking.ProfilesType;
+import com.desia.artifacts.booking.ProfilesType.ProfileInfo;
 import com.desia.artifacts.booking.RatePlanType;
-import com.desia.artifacts.booking.ResCommonDetailType.TimeSpan;
+import com.desia.artifacts.booking.ResGlobalInfoType;
+import com.desia.artifacts.booking.ResGuestType;
+import com.desia.artifacts.booking.ResGuestsType;
 import com.desia.artifacts.booking.RoomStayType.RatePlans;
-import com.desia.artifacts.booking.RoomStayType.RoomRates.RoomRate.GuestCounts.GuestCount;
 import com.desia.artifacts.booking.RoomStayType.RoomTypes;
 import com.desia.artifacts.booking.RoomStaysType;
-import com.desia.artifacts.booking.RoomTypeType;
 import com.desia.artifacts.booking.RoomStaysType.RoomStay;
+import com.desia.artifacts.booking.RoomTypeType;
 import com.desia.artifacts.booking.SourceType;
 import com.desia.artifacts.booking.SourceType.RequestorID;
+import com.desia.artifacts.booking.StateProvType;
 import com.desia.artifacts.booking.TGBookingServiceEndPoint;
 import com.desia.artifacts.booking.TGBookingServiceEndPointImplService;
 import com.desia.artifacts.booking.TaxesType;
 import com.desia.artifacts.booking.TotalType;
 import com.desia.artifacts.booking.UniqueIDType;
 import com.desia.handler.MessageHandler;
+import com.desia.util.DesiaProperties;
 
 public class DesiaBookingServiceHelper {
 	private static Logger logger = LoggerFactory.getLogger(DesiaSearchServiceHelper.class);
@@ -67,20 +85,61 @@ public class DesiaBookingServiceHelper {
 	
 		
 	
-	public static OTAHotelResRQ repriceBeanRequestMapper(BTNRepriceRequest btnRepriceRQ) throws Exception {
+	public static OTAHotelResRQ finalBookingRQMapper(BTNFinalBookingRQ btnFinalBookingRQ) throws Exception {
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
+//		otaHotelResRQ.setVersion();	//TODO: uncomment if required
 		
-		/* Add appropriate mapping here. */
+		POSType otaPOSType = new POSType();
+		
+		SourceType otaSourceType = new SourceType();
+		otaSourceType.setISOCurrency("INR");
+		
+		RequestorID otaRequestorID = new RequestorID();
+		otaRequestorID.setID("1300001211");
+		otaRequestorID.setMessagePassword("test@789");
+		
+		CompanyNameType otaCompanyNameType = new CompanyNameType();
+		otaCompanyNameType.setCode("bontonsell");
+		
+		otaRequestorID.setCompanyName(otaCompanyNameType);
+		otaSourceType.setRequestorID(otaRequestorID);
+		List<SourceType> otaPOSTypeLst = otaPOSType.getSource();
+		otaPOSTypeLst.add(otaSourceType);
+		
+		/** Tag goes to final booking */
+		List<UniqueIDType> otaUniqueIDTypeLst = otaHotelResRQ.getUniqueID();
+		UniqueIDType otaUniqueIDType = new UniqueIDType();
+		
+		/** Setting provisional booking id */
+		otaUniqueIDType.setID(btnFinalBookingRQ.getProvBookingId());
+		otaUniqueIDType.setType("23");
+		otaUniqueIDTypeLst.add(otaUniqueIDType);
+		
+		HotelReservationsType otaHotelReservationsType = new HotelReservationsType();
+		List<HotelReservationsType.HotelReservation> otaHotelReservationsTypeLst = otaHotelReservationsType.getHotelReservation();
+		
+		HotelReservation otaHotelReservation = new HotelReservation();
+		ResGlobalInfoType otaResGlobalInfoType = new ResGlobalInfoType();
+		
+		GuaranteeType otaGuaranteeType = new GuaranteeType();
+		otaGuaranteeType.setGuaranteeType("PrePay");
+		
+		otaResGlobalInfoType.setGuarantee(otaGuaranteeType);
+		otaHotelReservation.setResGlobalInfo(otaResGlobalInfoType);
+		otaHotelReservationsTypeLst.add(otaHotelReservation);
+		
+		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
+		otaHotelResRQ.setPOS(otaPOSType);
 		
 		return otaHotelResRQ;
 	}
 	
-	public static BTNRepriceResponse repriceBeanResponseMapper(OTAHotelResRS otaHotelResRS) throws Exception {
-		BTNRepriceResponse btnRepriceRS = new BTNRepriceResponse();
+	public static BTNFinalBookingRS finalBookingRSMapper(OTAHotelResRS otaHotelResRS) throws Exception {
+		BTNFinalBookingRS btnFinalBookingRS = new BTNFinalBookingRS();
 		
 		/* Add appropriate mapping here. */
 		
-		return btnRepriceRS;
+		return btnFinalBookingRS;
 	}
 	
 	/**
@@ -95,17 +154,18 @@ public class DesiaBookingServiceHelper {
 	public static OTAHotelResRQ provisionalBeanRQMapper(BTNConfirmRequest btnConfirmRQ) throws Exception {
 		logger.info("confirm request mapping started ---->");
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
+		
 		POSType otaPOSType = new POSType();
 		
 		SourceType otaSourceType = new SourceType();
 		otaSourceType.setISOCurrency("INR");
 		
 		RequestorID otaRequestorID = new RequestorID();
-		otaRequestorID.setID("1300001210");
-		otaRequestorID.setMessagePassword("test@567");
+		otaRequestorID.setID("1300001211");
+		otaRequestorID.setMessagePassword("test@789");
 		
 		CompanyNameType otaCompanyNameType = new CompanyNameType();
-		otaCompanyNameType.setCode("bontonnet");
+		otaCompanyNameType.setCode("bontonsell");
 		
 		otaRequestorID.setCompanyName(otaCompanyNameType);
 		otaSourceType.setRequestorID(otaRequestorID);
@@ -117,7 +177,7 @@ public class DesiaBookingServiceHelper {
 		UniqueIDType otaUniqueIDType = new UniqueIDType();
 		otaUniqueIDType.setID("");
 		otaUniqueIDType.setType("");
-		//otaUniqueIDTypeLst.add(otaUniqueIDType); //TODO: for final
+		otaUniqueIDTypeLst.add(otaUniqueIDType);
 		
 		HotelReservationsType otaHotelReservationsType = new HotelReservationsType();
 		List<HotelReservationsType.HotelReservation> otaHotelReservationsTypeLst = otaHotelReservationsType.getHotelReservation();
@@ -127,61 +187,138 @@ public class DesiaBookingServiceHelper {
 		List<RoomStaysType.RoomStay> otaRoomStayLst = otaRoomStaysType.getRoomStay();
 		
 		List<BTNConfirmRequest.Rooms.Room> btnRoomLst = btnConfirmRQ.getRooms().getRoom();
+		/** As the rate key passed is going to be same for all the rooms. We will fetch 
+		 * only rate key and get the required details out. */
+		String rateKey = btnRoomLst.get(0).getUniqueKey();
+		rateKey = rateKey.replaceAll("\\s+", "");
+		String[] rateKeyAry = rateKey.split(DesiaProperties.SPLIT);
+		
+		
+		GuestCountType otaGuestCountType = new GuestCountType();
+		otaGuestCountType.setIsPerRoom(false);
+		List<GuestCountType.GuestCount> otaGuestCountTypeLst = otaGuestCountType.getGuestCount();
+		
+		
+		int resGuestRPHIndex = 0;
 		for (BTNConfirmRequest.Rooms.Room btnRoom : btnRoomLst) {
-			String rateKey = btnRoom.getUniqueKey();
-			rateKey = "2016-07-29|2016-07-30|0000014662| 0000040508| 73680.0| 0.0";
-			String[] rateKeyAry = rateKey.split("\\|");
-			
-			
 			List<BTNConfirmRequest.Rooms.Room.Paxes.Pax> btnPaxLst = btnRoom.getPaxes().getPax();
 			for (BTNConfirmRequest.Rooms.Room.Paxes.Pax btnPax : btnPaxLst) {
+				GuestCount otaGuestCount = new GuestCount();
 				
+				if (btnPax.getType().equalsIgnoreCase("AD")) {
+					otaGuestCount.setAgeQualifyingCode("10");
+				} else if (btnPax.getType().equalsIgnoreCase("CH")) {
+					otaGuestCount.setAgeQualifyingCode("8");
+				}
+				
+				otaGuestCount.setCount(1);
+				otaGuestCount.setResGuestRPH("" + resGuestRPHIndex);
+				
+				otaGuestCountTypeLst.add(otaGuestCount);
 			}
+			/** Increasing the resGuestRPHIndex count */
+			resGuestRPHIndex++;
 		}
-		RoomStay otaRoomStay = new RoomStay();
 		
 		RoomTypes otaRoomTypes = new RoomTypes();
 		List<RoomTypeType> otaRoomTypeLst = otaRoomTypes.getRoomType();
+		RoomStay otaRoomStay = new RoomStay();
 		
 		RoomTypeType otaRoomTypeType = new RoomTypeType();
-		otaRoomTypeType.setNumberOfUnits(1);
-		otaRoomTypeType.setRoomTypeCode(value);
-		
+		otaRoomTypeType.setNumberOfUnits(new BigInteger("" + btnRoomLst.size()));
+		otaRoomTypeType.setRoomTypeCode(rateKeyAry[1]);
 		
 		RatePlans otaRatePlans = new RatePlans();
 		List<RatePlanType> otaRatePlanLst = otaRatePlans.getRatePlan();
 		
-		RatePlanType otaRatePlanType = new RatePlanType();
-		otaRatePlanType.setRatePlanCode("");
+		RatePlanType otaRatePlanType = new RatePlanType();		
+		otaRatePlanType.setRatePlanCode(rateKeyAry[2]);
 		
-		GuestCountType otaGuestCountType = new GuestCountType();
-		List<GuestCountType.GuestCount> otaGuestCountTypeLst = otaGuestCountType.getGuestCount();
-		GuestCount otaGuestCount = new GuestCount();
-		otaGuestCount.setAgeQualifyingCode(value);
-		otaGuestCount.setCount(value);
-		otaGuestCount.setResGuestRPH(value);
-		
-		TimeSpan otaTimeSpan = new TimeSpan();
-		otaTimeSpan.setStart(value);
-		otaTimeSpan.setStart(value);
+		DateTimeSpanType otaTimeSpan = new DateTimeSpanType();
+		otaTimeSpan.setStart(btnConfirmRQ.getPeriodOfStay().getCheckInDate().toString());
+		otaTimeSpan.setEnd(btnConfirmRQ.getPeriodOfStay().getCheckOutDate().toString());
 		
 		TotalType otaTotalType = new TotalType();
-		otaTotalType.setAmountBeforeTax(value);
+		otaTotalType.setAmountBeforeTax(new BigDecimal("" + rateKeyAry[3]));
+		otaTotalType.setCurrencyCode("INR");
 		
 		TaxesType otaTaxesType = new TaxesType();
-		otaTaxesType.setAmount(value);
+		otaTaxesType.setAmount(new BigDecimal("" + rateKeyAry[4]));
+		otaTaxesType.setCurrencyCode("INR");
 		
 		otaTotalType.setTaxes(otaTaxesType);
 		
 		BasicPropertyInfoType otaBasicPropertyInfoType = new BasicPropertyInfoType();
-		otaBasicPropertyInfoType.setHotelCode(value);
+		otaBasicPropertyInfoType.setHotelCode(rateKeyAry[0]);
 		
+		ResGuestsType otaResGuestsType = new ResGuestsType();
+		List<ResGuestType> otaResGuestTypeLst = otaResGuestsType.getResGuest();
+		ResGuestType otaResGuestType = new ResGuestType();
+		otaResGuestTypeLst.add(otaResGuestType);
+		
+		ProfilesType otaProfilesType = new ProfilesType();
+		List<ProfilesType.ProfileInfo> otaProfileInfoLst = otaProfilesType.getProfileInfo();
+		
+		ProfileInfo otaProfileInfo = new ProfileInfo();
+		otaProfileInfoLst.add(otaProfileInfo);
+		
+		ProfileType otaProfileType = new ProfileType();
+		otaProfileType.setProfileType("1");
+		
+		CustomerType otaCustomerType = new CustomerType();
+		
+		List<PersonNameType> otaPersonNameTypeLst = otaCustomerType.getPersonName();
+		PersonNameType otaFirstNameType = new PersonNameType();
+		otaFirstNameType.setNameType(btnConfirmRQ.getContactData().getPersonName().getFirstName());
+		PersonNameType otaLastNameType = new PersonNameType();
+		otaLastNameType.setNameType(btnConfirmRQ.getContactData().getPersonName().getLastName());
+		otaPersonNameTypeLst.add(otaFirstNameType);
+		otaPersonNameTypeLst.add(otaLastNameType);
+		
+		List<Email> otaEmailLst = otaCustomerType.getEmail();
+		Email otaEmail = new Email();
+		otaEmail.setEmailType(btnConfirmRQ.getContactData().getEmail());
+		otaEmailLst.add(otaEmail);
+		
+		List<Address> otaAddressLst = otaCustomerType.getAddress();
+		Address otaAddress = new Address();
+		List<String> otaAddressString = otaAddress.getAddressLine();
+		otaAddressString.add(btnConfirmRQ.getContactData().getAddress());
+		
+		StateProvType otaStateProvType = new StateProvType();
+		otaStateProvType.setStateCode("");
+		
+		CountryNameType otaCountryNameType = new CountryNameType();
+		otaCountryNameType.setCode(btnConfirmRQ.getContactData().getCountryCd());
+		otaCountryNameType.setValue(btnConfirmRQ.getContactData().getCountryCd());
+		
+		otaAddress.setStateProv(otaStateProvType);
+		otaAddress.setCountryName(otaCountryNameType);
+		otaAddressLst.add(otaAddress);
+		
+		List<CustomerType.Telephone> otaTelephoneLst = otaCustomerType.getTelephone();
+		Telephone otaTelephone = new Telephone();
+		otaTelephone.setPhoneNumber(btnConfirmRQ.getContactData().getPhoneNumber().toString());
+		otaTelephoneLst.add(otaTelephone);
+		
+		ResGlobalInfoType otaResGlobalInfoType = new ResGlobalInfoType();
+		GuaranteeType otaGuaranteeType = new GuaranteeType();
+		otaGuaranteeType.setGuaranteeType("PrePay");
+		otaResGlobalInfoType.setGuarantee(otaGuaranteeType);
+		
+		otaHotelReservation.setResGlobalInfo(otaResGlobalInfoType);
+		
+		otaProfileType.setCustomer(otaCustomerType);
+		otaProfileInfo.setProfile(otaProfileType);
+		otaResGuestType.setProfiles(otaProfilesType);
+		otaHotelReservation.setResGuests(otaResGuestsType);
 		otaRoomStay.setBasicPropertyInfo(otaBasicPropertyInfoType);
 		otaRoomStay.setTotal(otaTotalType);
 		otaRoomStay.setTimeSpan(otaTimeSpan);
 		otaRoomStay.setGuestCounts(otaGuestCountType);
 		otaRoomStay.setRatePlans(otaRatePlans);
 		otaRoomTypeLst.add(otaRoomTypeType);
+		otaRatePlanLst.add(otaRatePlanType);
 		otaRoomStay.setRoomTypes(otaRoomTypes);
 		otaRoomStayLst.add(otaRoomStay);
 		otaHotelReservation.setRoomStays(otaRoomStaysType);
@@ -206,7 +343,35 @@ public class DesiaBookingServiceHelper {
 		logger.info("confirm response mapping started ---->");
 		BTNConfirmResponse btnConfirmRS = new BTNConfirmResponse();
 		
-		/* Add appropriate mapping here. */
+		if (otaHotelResRS.getErrors() != null) {
+			BTNConfirmResponse.BTNError errElmnt = new BTNConfirmResponse.BTNError();
+			
+			List<ErrorType> otaErrorLst = otaHotelResRS.getErrors().getError();
+			StringBuilder errCode = new StringBuilder();
+			StringBuilder errMsg = new StringBuilder();
+			for (ErrorType otaErrorType : otaErrorLst) {
+				if (errCode.length() != 0) {
+					errCode.append(DesiaProperties.SEP2);
+					errMsg.append(DesiaProperties.SEP2);
+				}
+				errCode.append(otaErrorType.getCode());
+				errMsg.append(otaErrorType.getShortText());
+				
+			}
+			errElmnt.setCode(errCode.toString());
+			errElmnt.setMessage(errMsg.toString());
+
+			btnConfirmRS.setBTNError(errElmnt);
+			
+			logger.info("search response contains error. Returning ---->");
+			return btnConfirmRS;
+		}
+		
+		BTNConfirmResponse.Booking btnBooking = new BTNConfirmResponse.Booking();
+		HotelReservation otaHotelReservation = (HotelReservation) otaHotelResRS.getHotelReservations().getHotelReservation().get(0);
+		UniqueIDType otaUniqueIDType = (UniqueIDType) otaHotelReservation.getUniqueID().get(0);
+		btnBooking.setReference(otaUniqueIDType.getID());
+
 		
 		logger.info("confirm response mapping done ---->");
 		return btnConfirmRS;
@@ -221,7 +386,7 @@ public class DesiaBookingServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static OTACancelRQ cancelBeanRequestMapper(BTNCancelRQ btnCancelRQ) throws Exception {
+	public static OTACancelRQ cancelBeanRQMapper(BTNCancelRQ btnCancelRQ) throws Exception {
 		logger.info("confirm request mapping started ---->");
 		OTACancelRQ otaCancelRQ = new OTACancelRQ();
 		
@@ -240,7 +405,7 @@ public class DesiaBookingServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static BTNCancelRS cancelBeanResponseMapper(OTACancelRS otaCancelRS) throws Exception {
+	public static BTNCancelRS cancelBeanRSMapper(OTACancelRS otaCancelRS) throws Exception {
 		logger.info("cancel response mapping started ---->");
 		BTNCancelRS btnCancelRS = new BTNCancelRS();
 		
@@ -250,15 +415,15 @@ public class DesiaBookingServiceHelper {
 		return btnCancelRS;
 	}
 		
-	public static OTAHotelResRS sendRepriceRequest(OTAHotelResRQ otaHotelResRQ) throws Exception {
+	public static OTAHotelResRS sendFinalBookingRQ(OTAHotelResRQ otaHotelResRQ) throws Exception {
 		return bookingSEI.createBooking(otaHotelResRQ);
 	}
 	
-	public static OTAHotelResRS sendConfirmRequest(OTAHotelResRQ otaHotelResRQ) throws Exception {
+	public static OTAHotelResRS sendProvisionalBookingRQ(OTAHotelResRQ otaHotelResRQ) throws Exception {
 		return bookingSEI.createBooking(otaHotelResRQ);
 	}
 	
-	public static OTACancelRS sendCancelRequest(OTACancelRQ otaCancelRQ) throws Exception {
+	public static OTACancelRS sendCancelRQ(OTACancelRQ otaCancelRQ) throws Exception {
 		return bookingSEI.cancelBooking(otaCancelRQ);
 	}	
 }

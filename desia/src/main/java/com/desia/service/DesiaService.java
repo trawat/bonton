@@ -10,6 +10,8 @@ import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNCancelRS;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
+import com.bonton.utility.artifacts.BTNFinalBookingRQ;
+import com.bonton.utility.artifacts.BTNFinalBookingRS;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
@@ -45,11 +47,11 @@ public class DesiaService {
 	 */
 	public void search(BTNSearchRequest btnSearchRQ, String uuid) throws Exception {
 		logger.info("desia search operation started ---->");
-		OTAHotelAvailRQ otaHotelAvailRQ = DesiaSearchServiceHelper.searchBeanRequestMapper(btnSearchRQ);
+		OTAHotelAvailRQ otaHotelAvailRQ = DesiaSearchServiceHelper.searchBeanRQMapper(btnSearchRQ);
 		
-		OTAHotelAvailRS otaHotelAvailRS = DesiaSearchServiceHelper.sendSearchRequest(otaHotelAvailRQ);
+		OTAHotelAvailRS otaHotelAvailRS = DesiaSearchServiceHelper.sendSearchRQ(otaHotelAvailRQ);
 		
-		BTNSearchResponse btnSearchResponse = DesiaSearchServiceHelper.searchBeanResponseMapper(otaHotelAvailRS);
+		BTNSearchResponse btnSearchResponse = DesiaSearchServiceHelper.searchBeanRSMapper(otaHotelAvailRS);
 		logger.info("desia search operation done ---->");
 		rqRsMap.put(uuid, btnSearchResponse);
 	}
@@ -63,11 +65,11 @@ public class DesiaService {
 	 */
 	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		logger.info("desia confirm booking operation started ---->");
-		OTAHotelResRQ otaHotelResRQ = DesiaSearchServiceHelper.confirmBeanRequestMapper(btnConfirmRQ);
+		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ);
 		
-		OTAHotelResRS otaHotelResRS = DesiaSearchServiceHelper.sendConfirmRequest(otaHotelResRQ);
+		OTAHotelResRS otaHotelResRS = DesiaBookingServiceHelper.sendProvisionalBookingRQ(otaHotelResRQ);
 		
-		BTNConfirmResponse btnConfirmResponse = DesiaSearchServiceHelper.confirmBeanResponseMapper(otaHotelResRS);
+		BTNConfirmResponse btnConfirmResponse = DesiaBookingServiceHelper.provisionalBeanRSMapper(otaHotelResRS);
 		logger.info("desia confirm booking operation done ---->");
 		return XmlProcessor.getBeanInXml(btnConfirmResponse);
 	}
@@ -81,17 +83,17 @@ public class DesiaService {
 	 */
 	public String cancelBooking(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
 		logger.info("desia cancel booking operation started ---->");
-		OTACancelRQ otaCancelRQ = DesiaSearchServiceHelper.cancelBeanRequestMapper(btnCancelRQ);
+		OTACancelRQ otaCancelRQ = DesiaBookingServiceHelper.cancelBeanRQMapper(btnCancelRQ);
 
-		OTACancelRS otaCancelRS = DesiaSearchServiceHelper.sendCancelRequest(otaCancelRQ);
+		OTACancelRS otaCancelRS = DesiaBookingServiceHelper.sendCancelRQ(otaCancelRQ);
 
-		BTNCancelRS btnCancelRS = DesiaSearchServiceHelper.cancelBeanResponseMapper(otaCancelRS);
+		BTNCancelRS btnCancelRS = DesiaBookingServiceHelper.cancelBeanRSMapper(otaCancelRS);
 		logger.info("desia cancel booking operation done ---->");
 		return XmlProcessor.getBeanInXml(btnCancelRS);
 	}
 	
 	/**
-	 * Used to trigger Desia repricing operation.
+	 * Returns a dummy response as there is no concept of repricing in Desia API.
 	 * @param btnRepriceRQ Bonton reprice request bean.
 	 * @return XML representation of Bonton reprice response
 	 * @throws Exception
@@ -99,14 +101,31 @@ public class DesiaService {
 	 */
 	public String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
 		logger.info("desia reprice operation started ---->");
-		OTAHotelResRQ otaHotelResRQ = DesiaSearchServiceHelper.repriceBeanRequestMapper(btnRepriceRQ);
 
-		OTAHotelResRS otaHotelResRS = DesiaSearchServiceHelper.sendRepriceRequest(otaHotelResRQ);
-
-		BTNRepriceResponse btnRepriceResponse = DesiaSearchServiceHelper.repriceBeanResponseMapper(otaHotelResRS);
+		BTNRepriceResponse btnRepriceResponse = new BTNRepriceResponse();
 		logger.info("desia reprice operation done ---->");
 		return XmlProcessor.getBeanInXml(btnRepriceResponse);
 	}
+
+	/**
+	 * Used to trigger Desia final booking operation.
+	 * @param btnFinalBookingRQ Bonton final booking request bean.
+	 * @return XML representation of Bonton final booking response
+	 * @throws Exception
+	 * @author Tirath
+	 */
+	public String finalBooking(BTNFinalBookingRQ btnFinalBookingRQ, String uuid) throws Exception {
+		logger.info("desia reprice operation started ---->");
+		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.finalBookingRQMapper(btnFinalBookingRQ);
+
+		OTAHotelResRS otaHotelResRS = DesiaBookingServiceHelper.sendFinalBookingRQ(otaHotelResRQ);
+
+		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResRS);
+		logger.info("desia reprice operation done ---->");
+		return XmlProcessor.getBeanInXml(btnFinalBookingRS);
+	}
+
+	
 	
 	/**
 	 * This method exist to help solely to help in the search result aggregation logic.
