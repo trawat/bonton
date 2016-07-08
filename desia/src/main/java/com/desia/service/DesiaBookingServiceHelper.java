@@ -26,6 +26,7 @@ import com.desia.artifacts.booking.CustomerType.Address;
 import com.desia.artifacts.booking.CustomerType.Email;
 import com.desia.artifacts.booking.CustomerType.Telephone;
 import com.desia.artifacts.booking.DateTimeSpanType;
+import com.desia.artifacts.booking.EmailType;
 import com.desia.artifacts.booking.ErrorType;
 import com.desia.artifacts.booking.GuaranteeType;
 import com.desia.artifacts.booking.GuestCountType;
@@ -33,6 +34,7 @@ import com.desia.artifacts.booking.GuestCountType.GuestCount;
 import com.desia.artifacts.booking.HotelReservationsType;
 import com.desia.artifacts.booking.HotelReservationsType.HotelReservation;
 import com.desia.artifacts.booking.OTACancelRQ;
+import com.desia.artifacts.booking.OTACancelRQ.UniqueID;
 import com.desia.artifacts.booking.OTACancelRS;
 import com.desia.artifacts.booking.OTAHotelResRQ;
 import com.desia.artifacts.booking.OTAHotelResRS;
@@ -55,14 +57,20 @@ import com.desia.artifacts.booking.SourceType.RequestorID;
 import com.desia.artifacts.booking.StateProvType;
 import com.desia.artifacts.booking.TGBookingServiceEndPoint;
 import com.desia.artifacts.booking.TGBookingServiceEndPointImplService;
+import com.desia.artifacts.booking.TPAExtensionsType;
+import com.desia.artifacts.booking.TPAExtensionsType.CancelDates;
 import com.desia.artifacts.booking.TaxesType;
 import com.desia.artifacts.booking.TotalType;
+import com.desia.artifacts.booking.TransactionActionType;
+import com.desia.artifacts.booking.TransactionStatusType;
 import com.desia.artifacts.booking.UniqueIDType;
+import com.desia.artifacts.booking.VerificationType;
+import com.desia.artifacts.booking.VerificationType.PersonName;
 import com.desia.handler.MessageHandler;
 import com.desia.util.DesiaProperties;
 
 public class DesiaBookingServiceHelper {
-	private static Logger logger = LoggerFactory.getLogger(DesiaSearchServiceHelper.class);
+	private static Logger logger = LoggerFactory.getLogger(DesiaBookingServiceHelper.class);
 	
 	private static final TGBookingServiceEndPointImplService bookingSIB = new TGBookingServiceEndPointImplService();
 	private static TGBookingServiceEndPoint bookingSEI = null;
@@ -83,9 +91,16 @@ public class DesiaBookingServiceHelper {
 		bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
 	}
 	
-		
-	
+	/**
+	 * Used to map the final booking RQ object send to Desia API  
+	 * prepared from Bonton specific Final booking RQ object.
+	 * @param btnFinalBookingRQ bonton final booking request object
+	 * @return OTAHotelResRQ Desia final booking request
+	 * @throws Exception In case any mapping error occurs
+	 * @author Tirath
+	 */
 	public static OTAHotelResRQ finalBookingRQMapper(BTNFinalBookingRQ btnFinalBookingRQ) throws Exception {
+		logger.info("final booking request mapping started ---->");
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
 //		otaHotelResRQ.setVersion();	//TODO: uncomment if required
 		
@@ -131,6 +146,7 @@ public class DesiaBookingServiceHelper {
 		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
 		otaHotelResRQ.setPOS(otaPOSType);
 		
+		logger.info("final booking request mapping done ---->");
 		return otaHotelResRQ;
 	}
 	
@@ -427,7 +443,55 @@ public class DesiaBookingServiceHelper {
 		logger.info("confirm request mapping started ---->");
 		OTACancelRQ otaCancelRQ = new OTACancelRQ();
 		
-		/* Add appropriate mapping here. */
+		String cancelFlag = btnCancelRQ.getCancelDetails().getCancelFlag();
+		if (cancelFlag.equalsIgnoreCase(TransactionActionType.CANCEL.toString())) {
+			otaCancelRQ.setCancelType(TransactionActionType.CANCEL);
+		} else {
+			otaCancelRQ.setCancelType(TransactionActionType.INITIATE);
+		}
+		
+		POSType otaPOSType = new POSType();
+		
+		SourceType otaSourceType = new SourceType();
+		
+		RequestorID otaRequestorID = new RequestorID();
+		otaRequestorID.setID("1300001211");
+		otaRequestorID.setMessagePassword("test@789");
+		
+		CompanyNameType otaCompanyNameType = new CompanyNameType();
+		otaCompanyNameType.setCode("bontonsell");
+		
+		otaRequestorID.setCompanyName(otaCompanyNameType);
+		otaSourceType.setRequestorID(otaRequestorID);
+		List<SourceType> otaPOSTypeLst = otaPOSType.getSource();
+		otaPOSTypeLst.add(otaSourceType);
+		
+		/** Tag goes to final booking */
+		List<OTACancelRQ.UniqueID> otaUniqueIDTypeLst = otaCancelRQ.getUniqueID();
+		UniqueID otaUniqueID = new UniqueID();
+		otaUniqueID.setID(btnCancelRQ.getCancelDetails().getReferenceId());
+		otaUniqueIDTypeLst.add(otaUniqueID);
+
+		List<VerificationType> otaVerificationLst = otaCancelRQ.getVerification();
+		VerificationType otaVerificationType = new VerificationType();
+		PersonName otaPersonName = new PersonName();
+		EmailType otaEmailType = new EmailType();
+		
+		if (btnCancelRQ.getCancelDetails().getPersonName() != null) {
+			otaPersonName.setSurname(btnCancelRQ.getCancelDetails().getPersonName().getLastName());
+			otaEmailType.setValue(btnCancelRQ.getCancelDetails().getEmail());
+		}
+
+		otaVerificationType.setPersonName(otaPersonName);
+		otaVerificationType.setEmail(otaEmailType);
+		otaVerificationLst.add(otaVerificationType);
+		
+		TPAExtensionsType otaTPAExtensions = new TPAExtensionsType();
+		CancelDates otaCancelDates = new CancelDates();
+		
+		otaTPAExtensions.setCancelDates(otaCancelDates);
+		otaCancelRQ.setTPAExtensions(otaTPAExtensions);
+		otaCancelRQ.setPOS(otaPOSType);
 		
 		logger.info("confirm response mapping done ---->");
 		return otaCancelRQ;
@@ -446,7 +510,38 @@ public class DesiaBookingServiceHelper {
 		logger.info("cancel response mapping started ---->");
 		BTNCancelRS btnCancelRS = new BTNCancelRS();
 		
-		/* Add appropriate mapping here. */
+		if (otaCancelRS.getErrors() != null) {
+			BTNCancelRS.BTNError errElmnt = new BTNCancelRS.BTNError();
+			
+			List<ErrorType> otaErrorLst = otaCancelRS.getErrors().getError();
+			StringBuilder errCode = new StringBuilder();
+			StringBuilder errMsg = new StringBuilder();
+			for (ErrorType otaErrorType : otaErrorLst) {
+				if (errCode.length() != 0) {
+					errCode.append(DesiaProperties.SEP2);
+					errMsg.append(DesiaProperties.SEP2);
+				}
+				errCode.append(otaErrorType.getCode());
+				errMsg.append(otaErrorType.getShortText());
+				
+			}
+			errElmnt.setCode(errCode.toString());
+			errElmnt.setMessage(errMsg.toString());
+
+			btnCancelRS.setBTNError(errElmnt);
+			
+			logger.info("cancel response contains error. Returning ---->");
+			return btnCancelRS;
+		}
+		BTNCancelRS.Booking btnBooking = new BTNCancelRS.Booking();
+		
+		if (TransactionStatusType.CANCELLED.equals(otaCancelRS.getStatus())) {
+			btnBooking.setStatus(TransactionStatusType.CANCELLED.toString());
+		} else {
+			btnBooking.setStatus(TransactionStatusType.PENDING_CANCELLATION.toString());
+		}
+		btnCancelRS.setBooking(btnBooking);
+		
 		
 		logger.info("cancel response mapping done ---->");
 		return btnCancelRS;
