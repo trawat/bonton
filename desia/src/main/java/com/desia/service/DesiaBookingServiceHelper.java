@@ -262,6 +262,7 @@ public class DesiaBookingServiceHelper {
 					otaGuestCount.setAgeQualifyingCode("10");
 				} else if (btnPax.getType().equalsIgnoreCase("CH")) {
 					otaGuestCount.setAgeQualifyingCode("8");
+					otaGuestCount.setAge(btnPax.getAge());
 				}
 				
 				otaGuestCount.setCount(1);
