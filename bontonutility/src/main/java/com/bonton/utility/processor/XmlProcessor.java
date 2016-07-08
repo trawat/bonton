@@ -23,6 +23,8 @@ import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNCancelRS;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
+import com.bonton.utility.artifacts.BTNFinalBookingRQ;
+import com.bonton.utility.artifacts.BTNFinalBookingRS;
 import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
@@ -99,6 +101,16 @@ public final class XmlProcessor {
 	 */
 	public static BTNRepriceRequest getBTNRepriceRQBean(InputStream is) throws Exception {
 		return unmarshall(is, BTNRepriceRequest.class);
+	}
+	
+	/**
+	 * Returns Bonton final booking request object using the passed input stream.
+	 * @param is Servlet input stream
+	 * @return Bonton final booking request object used by Desia API 
+	 * @throws Exception In case, unmarshalling input stream to request object fails.
+	 */
+	public static BTNFinalBookingRQ getBTNFinalBookingRQBean(InputStream is) throws Exception {
+		return unmarshall(is, BTNFinalBookingRQ.class);
 	}
 	
 	/**
@@ -239,6 +251,18 @@ public final class XmlProcessor {
 		return getUnmarshallErrorResponse(BTNRepriceResponse.class, exception);
 	}
 	
+	/**
+	 * Helper method to return Bonton error response in case the submitted
+	 * request cannot be unmarshalled properly.
+	 * @param exception Unmarshalling exception
+	 * @return Bonton final booking response which contains error code and message.
+	 * @author Tirath
+	 */
+	public static BTNFinalBookingRS getBTNFinalBookingErrorRS(Exception exception) {
+		return getUnmarshallErrorResponse(BTNFinalBookingRS.class, exception);
+	}
+	
+	
 	/** Displaying useful information in case of bad request.
 	 * Assuming bad request with unmarshalling error will only appear 
 	 * during testing/ integration phase. 
@@ -283,6 +307,15 @@ public final class XmlProcessor {
 			btnCancelRS.setBTNError(errElmnt);
 			
 			return (T) btnCancelRS;
+		} else if (reqType.equals(BTNFinalBookingRS.class)) {
+			BTNFinalBookingRS.BTNError errElmnt = new BTNFinalBookingRS.BTNError();
+			errElmnt.setCode(ERROR_CD);
+			errElmnt.setMessage(exception.getCause().toString());
+
+			BTNFinalBookingRS btnFinalBookingRS = new BTNFinalBookingRS();
+			btnFinalBookingRS.setBTNError(errElmnt);
+			
+			return (T) btnFinalBookingRS;
 		}
 		/** Should never reach this point */
 		return null;
