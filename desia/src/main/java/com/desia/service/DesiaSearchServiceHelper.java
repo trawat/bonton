@@ -897,8 +897,8 @@ public class DesiaSearchServiceHelper {
 					case DesiaProperties.SEARCH:
 						DesiaDBConnection.insert(op, 
 								XmlProcessor.getBeanInXml((BTNSearchRequest) reqResLst.get(0)),
-								XmlProcessor.getBeanInXml((AvailabilityRQ) reqResLst.get(1)),
-								XmlProcessor.getBeanInXml((AvailabilityRS) reqResLst.get(2)),
+								XmlProcessor.getBeanInXml((OTAHotelAvailRQ) reqResLst.get(1)),
+								XmlProcessor.getBeanInXml((OTAHotelAvailRS) reqResLst.get(2)),
 								XmlProcessor.getBeanInXml((BTNSearchResponse) reqResLst.get(3)), 
 								supplier);
 						break;
