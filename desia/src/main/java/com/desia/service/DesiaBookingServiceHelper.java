@@ -2,8 +2,15 @@ package com.desia.service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.handler.HandlerResolver;
@@ -18,6 +25,11 @@ import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
 import com.bonton.utility.artifacts.BTNFinalBookingRQ;
 import com.bonton.utility.artifacts.BTNFinalBookingRS;
+import com.bonton.utility.artifacts.BTNSearchRequest;
+import com.bonton.utility.artifacts.BTNSearchResponse;
+import com.bonton.utility.hotelbeds.AvailabilityRQ;
+import com.bonton.utility.hotelbeds.AvailabilityRS;
+import com.bonton.utility.processor.XmlProcessor;
 import com.desia.artifacts.booking.BasicPropertyInfoType;
 import com.desia.artifacts.booking.CompanyNameType;
 import com.desia.artifacts.booking.CountryNameType;
@@ -67,14 +79,19 @@ import com.desia.artifacts.booking.UniqueIDType;
 import com.desia.artifacts.booking.VerificationType;
 import com.desia.artifacts.booking.VerificationType.PersonName;
 import com.desia.handler.MessageHandler;
+import com.desia.util.DesiaDBConnection;
 import com.desia.util.DesiaProperties;
 
 public class DesiaBookingServiceHelper {
 	private static Logger logger = LoggerFactory.getLogger(DesiaBookingServiceHelper.class);
 	
+	private static final ExecutorService desiaEs = Executors.newCachedThreadPool();
+	
 	private static final TGBookingServiceEndPointImplService bookingSIB = new TGBookingServiceEndPointImplService();
 	private static TGBookingServiceEndPoint bookingSEI = null;
 	
+	/* Holds unique uuid and generated request-response list as key-value */
+	private static final Map<String, List<? super Object>> reqResMap = new HashMap<>();
 	
 	private DesiaBookingServiceHelper() {}
 	
@@ -99,8 +116,14 @@ public class DesiaBookingServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static OTAHotelResRQ finalBookingRQMapper(BTNFinalBookingRQ btnFinalBookingRQ) throws Exception {
-		logger.info("final booking request mapping started ---->");
+	public static OTAHotelResRQ finalBookingRQMapper(BTNFinalBookingRQ btnFinalBookingRQ, String uuid) throws Exception {
+		logger.info("desia final booking request mapping started ---->");
+		
+		/** Preparing request-response map for logging */
+		List<? super Object> rqRsLst = new ArrayList<>();
+		rqRsLst.add(btnFinalBookingRQ);
+		reqResMap.put(uuid, rqRsLst);
+		
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
 //		otaHotelResRQ.setVersion();	//TODO: uncomment if required
 		
@@ -146,7 +169,10 @@ public class DesiaBookingServiceHelper {
 		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
 		otaHotelResRQ.setPOS(otaPOSType);
 		
-		logger.info("final booking request mapping done ---->");
+		/** Adding Desia final booking RQ for logging */
+		rqRsLst.add(otaHotelResRQ);
+		
+		logger.info("desia final booking request mapping done ---->");
 		return otaHotelResRQ;
 	}
 	
@@ -158,8 +184,12 @@ public class DesiaBookingServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static BTNFinalBookingRS finalBookingRSMapper(OTAHotelResRS otaHotelResRS) throws Exception {
-		logger.info("final booking response mapping started ---->");
+	public static BTNFinalBookingRS finalBookingRSMapper(OTAHotelResRS otaHotelResRS, String uuid) throws Exception {
+		logger.info("desia final booking response mapping started ---->");
+		
+		/** Adding Desia final booking response for logging */
+		reqResMap.get(uuid).add(otaHotelResRS);
+		
 		BTNFinalBookingRS btnFinalBookingRS = new BTNFinalBookingRS();
 		
 		if (otaHotelResRS.getErrors() != null) {
@@ -174,7 +204,7 @@ public class DesiaBookingServiceHelper {
 					errMsg.append(DesiaProperties.SEP2);
 				}
 				errCode.append(otaErrorType.getCode());
-				errMsg.append(otaErrorType.getShortText());
+				errMsg.append(otaErrorType.getValue());
 				
 			}
 			errElmnt.setCode(errCode.toString());
@@ -182,7 +212,10 @@ public class DesiaBookingServiceHelper {
 
 			btnFinalBookingRS.setBTNError(errElmnt);
 			
-			logger.info("final booking response contains error. Returning ---->");
+			/** Adding Desia final booking response for logging */
+			reqResMap.get(uuid).add(btnFinalBookingRS);
+			
+			logger.info("desia final booking response contains error. Returning ---->");
 			return btnFinalBookingRS;
 		}
 		List<HotelReservation> otaHotelReservationLst = otaHotelResRS.getHotelReservations().getHotelReservation();
@@ -191,7 +224,10 @@ public class DesiaBookingServiceHelper {
 		UniqueIDType otaUniqueIDType = new UniqueIDType();
 		btnFinalBookingRS.setReferenceId(otaUniqueIDType.getID());
 		
-		logger.info("final booking response mapping done ---->");
+		/** Adding bonton final booking response for logging */
+		reqResMap.get(uuid).add(btnFinalBookingRS);
+		
+		logger.info("desia final booking response mapping done ---->");
 		return btnFinalBookingRS;
 	}
 	
@@ -204,8 +240,14 @@ public class DesiaBookingServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static OTAHotelResRQ provisionalBeanRQMapper(BTNConfirmRequest btnConfirmRQ) throws Exception {
-		logger.info("confirm request mapping started ---->");
+	public static OTAHotelResRQ provisionalBeanRQMapper(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
+		logger.info("desia provisional booking request mapping started ---->");
+		
+		/** Preparing request-response map for logging */
+		List<? super Object> rqRsLst = new ArrayList<>();
+		rqRsLst.add(btnConfirmRQ);
+		reqResMap.put(uuid, rqRsLst);
+		
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
 		
 		POSType otaPOSType = new POSType();
@@ -240,6 +282,7 @@ public class DesiaBookingServiceHelper {
 		List<RoomStaysType.RoomStay> otaRoomStayLst = otaRoomStaysType.getRoomStay();
 		
 		List<BTNConfirmRequest.Rooms.Room> btnRoomLst = btnConfirmRQ.getRooms().getRoom();
+		
 		/** As the rate key passed is going to be same for all the rooms. We will fetch 
 		 * only rate key and get the required details out. */
 		String rateKey = btnRoomLst.get(0).getUniqueKey();
@@ -342,6 +385,8 @@ public class DesiaBookingServiceHelper {
 		StateProvType otaStateProvType = new StateProvType();
 		otaStateProvType.setStateCode("");
 		
+		otaAddress.setPostalCode(btnConfirmRQ.getContactData().getPostalCd());
+		
 		CountryNameType otaCountryNameType = new CountryNameType();
 		otaCountryNameType.setCode(btnConfirmRQ.getContactData().getCountryCd());
 		otaCountryNameType.setValue(btnConfirmRQ.getContactData().getCountryCd());
@@ -380,7 +425,10 @@ public class DesiaBookingServiceHelper {
 		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
 		otaHotelResRQ.setPOS(otaPOSType);
 		
-		logger.info("confirm request mapping done ---->");
+		/** Adding Desia final booking RQ for logging */
+		rqRsLst.add(otaHotelResRQ);
+		
+		logger.info("desia provisional booking request mapping done ---->");
 		return otaHotelResRQ;
 	}
 	
@@ -393,8 +441,12 @@ public class DesiaBookingServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static BTNConfirmResponse provisionalBeanRSMapper(OTAHotelResRS otaHotelResRS) throws Exception {
-		logger.info("confirm response mapping started ---->");
+	public static BTNConfirmResponse provisionalBeanRSMapper(OTAHotelResRS otaHotelResRS, String uuid) throws Exception {
+		logger.info("desia provisional booking response mapping started ---->");
+		
+		/** Adding Desia provisional booking response for logging */
+		reqResMap.get(uuid).add(otaHotelResRS);
+		
 		BTNConfirmResponse btnConfirmRS = new BTNConfirmResponse();
 		
 		if (otaHotelResRS.getErrors() != null) {
@@ -409,7 +461,7 @@ public class DesiaBookingServiceHelper {
 					errMsg.append(DesiaProperties.SEP2);
 				}
 				errCode.append(otaErrorType.getCode());
-				errMsg.append(otaErrorType.getShortText());
+				errMsg.append(otaErrorType.getValue());
 				
 			}
 			errElmnt.setCode(errCode.toString());
@@ -417,7 +469,10 @@ public class DesiaBookingServiceHelper {
 
 			btnConfirmRS.setBTNError(errElmnt);
 			
-			logger.info("search response contains error. Returning ---->");
+			/** Adding Desia provisional booking response for logging */
+			reqResMap.get(uuid).add(btnConfirmRS);
+			
+			logger.info("desia provisional booking response contains error. Returning ---->");
 			return btnConfirmRS;
 		}
 		
@@ -426,8 +481,10 @@ public class DesiaBookingServiceHelper {
 		UniqueIDType otaUniqueIDType = (UniqueIDType) otaHotelReservation.getUniqueID().get(0);
 		btnBooking.setReference(otaUniqueIDType.getID());
 
+		/** Adding bonton provisional booking response for logging */
+		reqResMap.get(uuid).add(btnBooking);
 		
-		logger.info("confirm response mapping done ---->");
+		logger.info("desia provisional booking response mapping done ---->");
 		return btnConfirmRS;
 	}
 	
@@ -440,8 +497,14 @@ public class DesiaBookingServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static OTACancelRQ cancelBeanRQMapper(BTNCancelRQ btnCancelRQ) throws Exception {
-		logger.info("confirm request mapping started ---->");
+	public static OTACancelRQ cancelBeanRQMapper(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
+		logger.info("desia cancel booking request mapping started ---->");
+		
+		/** Preparing request-response map for logging */
+		List<? super Object> rqRsLst = new ArrayList<>();
+		rqRsLst.add(btnCancelRQ);
+		reqResMap.put(uuid, rqRsLst);
+		
 		OTACancelRQ otaCancelRQ = new OTACancelRQ();
 		
 		String cancelFlag = btnCancelRQ.getCancelDetails().getCancelFlag();
@@ -494,7 +557,10 @@ public class DesiaBookingServiceHelper {
 		otaCancelRQ.setTPAExtensions(otaTPAExtensions);
 		otaCancelRQ.setPOS(otaPOSType);
 		
-		logger.info("confirm response mapping done ---->");
+		/** Adding Desia cancel booking RQ for logging */
+		rqRsLst.add(otaCancelRQ);
+		
+		logger.info("desia cancel booking request mapping done ---->");
 		return otaCancelRQ;
 	}
 	
@@ -507,8 +573,12 @@ public class DesiaBookingServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static BTNCancelRS cancelBeanRSMapper(OTACancelRS otaCancelRS) throws Exception {
+	public static BTNCancelRS cancelBeanRSMapper(OTACancelRS otaCancelRS, String uuid) throws Exception {
 		logger.info("cancel response mapping started ---->");
+		
+		/** Adding Desia cancel booking response for logging */
+		reqResMap.get(uuid).add(otaCancelRS);
+		
 		BTNCancelRS btnCancelRS = new BTNCancelRS();
 		
 		if (otaCancelRS.getErrors() != null) {
@@ -523,13 +593,16 @@ public class DesiaBookingServiceHelper {
 					errMsg.append(DesiaProperties.SEP2);
 				}
 				errCode.append(otaErrorType.getCode());
-				errMsg.append(otaErrorType.getShortText());
+				errMsg.append(otaErrorType.getValue());
 				
 			}
 			errElmnt.setCode(errCode.toString());
 			errElmnt.setMessage(errMsg.toString());
 
 			btnCancelRS.setBTNError(errElmnt);
+			
+			/** Adding Desia cancel booking response for logging */
+			reqResMap.get(uuid).add(btnCancelRS);
 			
 			logger.info("cancel response contains error. Returning ---->");
 			return btnCancelRS;
@@ -543,12 +616,14 @@ public class DesiaBookingServiceHelper {
 		}
 		btnCancelRS.setBooking(btnBooking);
 		
+		/** Adding bonton cancel booking response for logging */
+		reqResMap.get(uuid).add(btnBooking);
 		
 		logger.info("cancel response mapping done ---->");
 		return btnCancelRS;
 	}
 	
-	public static OTAHotelResRQ provisinalFinalRQMapper(OTAHotelResRS otaHotelResRS) throws Exception {
+	public static OTAHotelResRQ provisionalFinalRQMapper(OTAHotelResRS otaHotelResRS) throws Exception {
 		logger.info("provisiona plus final booking request mapping started ---->");
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
 		
@@ -608,5 +683,73 @@ public class DesiaBookingServiceHelper {
 	
 	public static OTACancelRS sendCancelRQ(OTACancelRQ otaCancelRQ) throws Exception {
 		return bookingSEI.cancelBooking(otaCancelRQ);
-	}	
+	}
+	
+	/**
+	 * All the logging threads are handled by separate executor thread.
+	 * i.e: logging for each operation executes in a separate thread.
+	 * It is possible that some thing goes wrong while preparing the
+	 * request-response list. In that scenario, this method goes ahead and
+	 * logs whatever is available in the reqResLst. Also, if any exception 
+	 * occurs while inserting the request/ responses, this method will silently
+	 * log the same in the log file/
+	 * @param uuid unique identifier for request-response pairs
+	 * @param operation search, reprice, confirm or cancel
+	 * @param supplier service provider like HB, Desia or others
+	 * @throws Exception 
+	 * @author Tirath
+	 */
+	public static void logReqRes(String uuid, String op, String supplier) throws Exception {
+		desiaEs.submit(new Runnable() {
+			List<? super Object> reqResLst = reqResMap.get(uuid);
+			@Override
+			public void run() {
+				logger.info("logging for {} operation id {} started --->", op, uuid);
+
+				try {
+					switch (op) {
+					case DesiaProperties.SEARCH:
+						DesiaDBConnection.insert(op, 
+								XmlProcessor.getBeanInXml((BTNSearchRequest) reqResLst.get(0)),
+								XmlProcessor.getBeanInXml((AvailabilityRQ) reqResLst.get(1)),
+								XmlProcessor.getBeanInXml((AvailabilityRS) reqResLst.get(2)),
+								XmlProcessor.getBeanInXml((BTNSearchResponse) reqResLst.get(3)), 
+								supplier);
+						break;
+					case DesiaProperties.FINALBOOKING:
+						DesiaDBConnection.insert(op, 
+								XmlProcessor.getBeanInXml((BTNFinalBookingRQ) reqResLst.get(0)),
+								XmlProcessor.getBeanInXml((OTAHotelResRQ) reqResLst.get(1)),
+								XmlProcessor.getBeanInXml((OTAHotelResRS) reqResLst.get(2)),
+								XmlProcessor.getBeanInXml((BTNFinalBookingRS) reqResLst.get(3)),
+								supplier);
+						break;
+					case DesiaProperties.CONFIRM: 
+						DesiaDBConnection.insert(op, 
+								XmlProcessor.getBeanInXml((BTNConfirmRequest) reqResLst.get(0)),
+								XmlProcessor.getBeanInXml((OTAHotelResRQ) reqResLst.get(1)),
+								XmlProcessor.getBeanInXml((OTAHotelResRS) reqResLst.get(2)),
+								XmlProcessor.getBeanInXml((BTNConfirmResponse) reqResLst.get(3)), 
+								supplier);
+						break;
+					case DesiaProperties.CANCEL: {
+						DesiaDBConnection.insert(op, 
+								XmlProcessor.getBeanInXml((BTNCancelRQ) reqResLst.get(0)),
+								XmlProcessor.getBeanInXml((OTACancelRQ) reqResLst.get(1)),
+								XmlProcessor.getBeanInXml((OTACancelRS) reqResLst.get(2)),
+								XmlProcessor.getBeanInXml((BTNCancelRS) reqResLst.get(3)), 
+								supplier);
+						break;
+					}
+					}
+				} catch (Exception e) {
+					logger.error("Exception occured while logging {} request and responses in the DB {}", op, e);
+				}
+				/** Remove the entry once we are done logging in DB */
+				reqResMap.remove(uuid);
+				
+				logger.info("logging for {} operation id {} completed --->", op, uuid);
+			}});
+	}
+
 }

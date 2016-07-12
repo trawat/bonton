@@ -23,6 +23,7 @@ import com.desia.artifacts.booking.OTAHotelResRQ;
 import com.desia.artifacts.booking.OTAHotelResRS;
 import com.desia.artifacts.search.OTAHotelAvailRQ;
 import com.desia.artifacts.search.OTAHotelAvailRS;
+import com.desia.util.DesiaProperties;
 
 /**
  * Entry point into Desia API.
@@ -47,13 +48,15 @@ public class DesiaService {
 	 */
 	public void search(BTNSearchRequest btnSearchRQ, String uuid) throws Exception {
 		logger.info("desia search operation started ---->");
-		OTAHotelAvailRQ otaHotelAvailRQ = DesiaSearchServiceHelper.searchBeanRQMapper(btnSearchRQ);
+		OTAHotelAvailRQ otaHotelAvailRQ = DesiaSearchServiceHelper.searchBeanRQMapper(btnSearchRQ, uuid);
 		
 		OTAHotelAvailRS otaHotelAvailRS = DesiaSearchServiceHelper.sendSearchRQ(otaHotelAvailRQ);
 		
-		BTNSearchResponse btnSearchResponse = DesiaSearchServiceHelper.searchBeanRSMapper(otaHotelAvailRS);
-		logger.info("desia search operation done ---->");
+		BTNSearchResponse btnSearchResponse = DesiaSearchServiceHelper.searchBeanRSMapper(otaHotelAvailRS, uuid);
 		rqRsMap.put(uuid, btnSearchResponse);
+		
+		logger.info("desia search operation done ---->");
+		DesiaSearchServiceHelper.logReqRes(uuid, DesiaProperties.SEARCH, DesiaProperties.DESIA);
 	}
 	
 	/**
@@ -64,13 +67,15 @@ public class DesiaService {
 	 * @author Tirath
 	 */
 	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
-		logger.info("desia confirm booking operation started ---->");
-		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ);
+		logger.info("desia provisional booking operation started ---->");
+		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ, uuid);
 		
 		OTAHotelResRS otaHotelResRS = DesiaBookingServiceHelper.sendProvisionalBookingRQ(otaHotelResRQ);
 		
-		BTNConfirmResponse btnConfirmResponse = DesiaBookingServiceHelper.provisionalBeanRSMapper(otaHotelResRS);
-		logger.info("desia confirm booking operation done ---->");
+		BTNConfirmResponse btnConfirmResponse = DesiaBookingServiceHelper.provisionalBeanRSMapper(otaHotelResRS, uuid);
+		logger.info("desia provisional booking operation done ---->");
+		
+		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.CONFIRM, DesiaProperties.DESIA);
 		return XmlProcessor.getBeanInXml(btnConfirmResponse);
 	}
 	
@@ -83,12 +88,14 @@ public class DesiaService {
 	 */
 	public String cancelBooking(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
 		logger.info("desia cancel booking operation started ---->");
-		OTACancelRQ otaCancelRQ = DesiaBookingServiceHelper.cancelBeanRQMapper(btnCancelRQ);
+		OTACancelRQ otaCancelRQ = DesiaBookingServiceHelper.cancelBeanRQMapper(btnCancelRQ, uuid);
 
 		OTACancelRS otaCancelRS = DesiaBookingServiceHelper.sendCancelRQ(otaCancelRQ);
 
-		BTNCancelRS btnCancelRS = DesiaBookingServiceHelper.cancelBeanRSMapper(otaCancelRS);
+		BTNCancelRS btnCancelRS = DesiaBookingServiceHelper.cancelBeanRSMapper(otaCancelRS, uuid);
 		logger.info("desia cancel booking operation done ---->");
+		
+		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.CANCEL, DesiaProperties.DESIA);
 		return XmlProcessor.getBeanInXml(btnCancelRS);
 	}
 	
@@ -100,10 +107,10 @@ public class DesiaService {
 	 * @author Tirath
 	 */
 	public String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
-		logger.info("desia reprice operation started ---->");
+		logger.info("desia reprice operation requested---->");
 
 		BTNRepriceResponse btnRepriceResponse = new BTNRepriceResponse();
-		logger.info("desia reprice operation done ---->");
+		logger.info("desia reprice operation not supported -returning empty response  ---->");
 		return XmlProcessor.getBeanInXml(btnRepriceResponse);
 	}
 
@@ -115,13 +122,15 @@ public class DesiaService {
 	 * @author Tirath
 	 */
 	public String finalBooking(BTNFinalBookingRQ btnFinalBookingRQ, String uuid) throws Exception {
-		logger.info("desia reprice operation started ---->");
-		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.finalBookingRQMapper(btnFinalBookingRQ);
+		logger.info("desia final booking operation started ---->");
+		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.finalBookingRQMapper(btnFinalBookingRQ, uuid);
 
 		OTAHotelResRS otaHotelResRS = DesiaBookingServiceHelper.sendFinalBookingRQ(otaHotelResRQ);
 
-		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResRS);
-		logger.info("desia reprice operation done ---->");
+		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResRS, uuid);
+		logger.info("desia final booking operation done ---->");
+		
+		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.FINALBOOKING, DesiaProperties.DESIA);
 		return XmlProcessor.getBeanInXml(btnFinalBookingRS);
 	}
 
@@ -134,13 +143,13 @@ public class DesiaService {
 	 */
 	public String provisionalFinalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		logger.info("desia provisional plus final booking operation started ---->");
-		OTAHotelResRQ otaHotelResProvisionalRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ);
+		OTAHotelResRQ otaHotelResProvisionalRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ, uuid);
 		OTAHotelResRS otaHotelResProvisionalRS = DesiaBookingServiceHelper.sendProvisionalBookingRQ(otaHotelResProvisionalRQ);
 		
-		OTAHotelResRQ otaHotelResFinalRQ = DesiaBookingServiceHelper.provisinalFinalRQMapper(otaHotelResProvisionalRS);
+		OTAHotelResRQ otaHotelResFinalRQ = DesiaBookingServiceHelper.provisionalFinalRQMapper(otaHotelResProvisionalRS);
 		OTAHotelResRS otaHotelResFinalRS = DesiaBookingServiceHelper.sendFinalBookingRQ(otaHotelResFinalRQ);
 		
-		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResFinalRS);
+		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResFinalRS, uuid);
 		logger.info("desia provisional plus final booking operation done ---->");
 		return XmlProcessor.getBeanInXml(btnFinalBookingRS);
 	}
