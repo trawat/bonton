@@ -43,16 +43,16 @@ public class BontonService implements Service {
 	 */
 	@Override
 	public String confirmBooking(HttpServletRequest request) throws Exception {
-		logger.info("hotel confirm booking request received ---->");
+		logger.info("hotel provisional/ confirm booking request received ---->");
 		
 		String responseXml = "";
 		try {
 			responseXml = actuator.confirm(request.getInputStream());
 		} catch (Exception exception) {
 			exception.printStackTrace();
-			logger.error("Exception while confirm booking {}", exception);
+			logger.error("Exception while provisional/ confirm booking {}", exception);
 		}
-		logger.info("hotel confirm booking request served ---->");
+		logger.info("hotel provisional/ confirm booking request served ---->");
 		return responseXml;
 	}
 
