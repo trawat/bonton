@@ -9,10 +9,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -26,8 +24,6 @@ import org.slf4j.LoggerFactory;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.desia.Hotels;
-import com.bonton.utility.hotelbeds.AvailabilityRQ;
-import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.processor.XmlProcessor;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment.HotelSearchCriteria;
@@ -897,8 +893,8 @@ public class DesiaSearchServiceHelper {
 					case DesiaProperties.SEARCH:
 						DesiaDBConnection.insert(op, 
 								XmlProcessor.getBeanInXml((BTNSearchRequest) reqResLst.get(0)),
-								XmlProcessor.getBeanInXml((AvailabilityRQ) reqResLst.get(1)),
-								XmlProcessor.getBeanInXml((AvailabilityRS) reqResLst.get(2)),
+								XmlProcessor.getBeanInXml((OTAHotelAvailRQ) reqResLst.get(1)),
+								XmlProcessor.getBeanInXml((OTAHotelAvailRS) reqResLst.get(2)),
 								XmlProcessor.getBeanInXml((BTNSearchResponse) reqResLst.get(3)), 
 								supplier);
 						break;
