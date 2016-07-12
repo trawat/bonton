@@ -10,10 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +80,7 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static AvailabilityRQ searchBeanRQMapper(BTNSearchRequest btnSearchRq, String uuid) {
-		logger.info("search request mapping started ---->");
+		logger.info("hotelbeds search request mapping started ---->");
 		
 		/** Preparing request-response map */
 		List<? super Object> rqRsLst = new ArrayList<>();
@@ -171,7 +169,7 @@ public class HBServiceHelper {
 		rtRcmndMap.put(uuid, sb.toString());
 		rqRsLst.add(availabilityRQ);
 		
-		logger.info("search request mapping done ---->");
+		logger.info("hotelbeds search request mapping done ---->");
 		return availabilityRQ;
 	}
 	
@@ -184,7 +182,7 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static BTNSearchResponse searchBeanRSMapper(AvailabilityRS availabilityRS, String uuid) throws Exception {
-		logger.info("search response mapping started ---->");
+		logger.info("hotelbeds search response mapping started ---->");
 		
 		/** Adding HB availability response for logging */
 		reqResMap.get(uuid).add(availabilityRS);
@@ -201,7 +199,7 @@ public class HBServiceHelper {
 			/** Adding HB availability response for logging */
 			reqResMap.get(uuid).add(btnSearchResponse);
 			
-			logger.info("search response mapping done ---->");
+			logger.info("hotelbeds search response mapping done ---->");
 			return btnSearchResponse;
 		}
 
@@ -340,7 +338,7 @@ public class HBServiceHelper {
 		/** Adding HB availability response for logging */
 		reqResMap.get(uuid).add(btnSearchResponse);
 		
-		logger.info("search response mapping done ---->");
+		logger.info("hotelbeds search response mapping done ---->");
 		return btnSearchResponse;
 	}
 	
@@ -354,7 +352,7 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static BookingRQ confirmBeanRQMapper(BTNConfirmRequest btnbookingRq, String uuid) throws Exception {
-		logger.info("confirm request mapping started ---->");
+		logger.info("hotelbeds confirm request mapping started ---->");
 		
 		/** Preparing request-response map */
 		List<? super Object> rqRsLst = new ArrayList<>();
@@ -417,7 +415,7 @@ public class HBServiceHelper {
 		
 		rqRsLst.add(bookingRQ);
 		
-		logger.info("confirm request mapping done ---->");
+		logger.info("hotelbeds confirm request mapping done ---->");
 		return bookingRQ;
 	}
 	
@@ -431,7 +429,7 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static BTNConfirmResponse confirmBeanRSMapper(BookingRS bookingRS, String uuid) throws Exception {
-		logger.info("confirm response mapping started ---->");
+		logger.info("hotelbeds confirm response mapping started ---->");
 		
 		/** Adding HB confirm response for logging */
 		reqResMap.get(uuid).add(bookingRS);
@@ -448,7 +446,7 @@ public class HBServiceHelper {
 			/** Adding Bonton confirm response for logging */
 			reqResMap.get(uuid).add(btnConfirmResponse);
 			
-			logger.info("confirm response mapping done ---->");
+			logger.info("hotelbeds confirm response mapping done ---->");
 			return btnConfirmResponse;
 		}
 		
@@ -551,7 +549,7 @@ public class HBServiceHelper {
 		/** Adding Bonton confirm response for logging */
 		reqResMap.get(uuid).add(btnConfirmResponse);
 		
-		logger.info("confirm response mapping done ---->");
+		logger.info("hotelbeds confirm response mapping done ---->");
 		return btnConfirmResponse;
 	}
 	
@@ -565,7 +563,7 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static BookingCancellationRS cancelBeanRQMapper(BTNCancelRQ btnCancelRQ, String uuid) throws Exception {
-		logger.info("cancel request mapping started ---->");
+		logger.info("hotelbeds cancel request mapping started ---->");
 		
 		/** Preparing request-response map */
 		List<? super Object> rqRsLst = new ArrayList<>();
@@ -576,7 +574,7 @@ public class HBServiceHelper {
 		 * 	so there is no HotelBeds request XML */
 		rqRsLst.add(null);
 		
-		logger.info("cancel request mapping done ---->");
+		logger.info("hotelbeds cancel request mapping done ---->");
 		return HBClient.postCancelBooking(btnCancelRQ);
 	}
 	
@@ -590,7 +588,7 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static BTNCancelRS cancelBeanRSMapper(BookingCancellationRS cancelRS, String uuid) throws Exception {
-		logger.info("cancel response mapping started ---->");
+		logger.info("hotelbeds cancel response mapping started ---->");
 		
 		/** Adding HB cancel response for logging */
 		reqResMap.get(uuid).add(cancelRS);
@@ -607,7 +605,7 @@ public class HBServiceHelper {
 			/** Adding Bonton cancel response for logging */
 			reqResMap.get(uuid).add(btnCancelRS);
 			
-			logger.info("cancel response mapping done ---->");
+			logger.info("hotelbeds cancel response mapping done ---->");
 			return btnCancelRS;
 		}
 		
@@ -726,7 +724,7 @@ public class HBServiceHelper {
 		/** Adding Bonton cancel response for logging */
 		reqResMap.get(uuid).add(btnCancelRS);
 		
-		logger.info("cancel response mapping done ---->");
+		logger.info("hotelbeds cancel response mapping done ---->");
 		return btnCancelRS;
 	}
 	
@@ -739,7 +737,7 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static CheckRateRS repriceBeanRQMapper(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
-		logger.info("reprice request mapping started ---->");
+		logger.info("hotelbeds reprice request mapping started ---->");
 		
 		/** Preparing request-response map */
 		List<? super Object> rqRsLst = new ArrayList<>();
@@ -761,7 +759,7 @@ public class HBServiceHelper {
 		
 		rqRsLst.add(checkRateRQ);
 		
-		logger.info("reprice request mapping done ---->");
+		logger.info("hotelbeds reprice request mapping done ---->");
 		return HBClient.postRepricing(checkRateRQ);
 	}	
 	
@@ -774,7 +772,7 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static BTNRepriceResponse repriceBeanRSMapper(CheckRateRS checkRateRS, String uuid) throws Exception {
-		logger.info("reprice response mapping started ---->");
+		logger.info("hotelbeds reprice response mapping started ---->");
 		
 		/** Adding HB reprice response for logging */
 		reqResMap.get(uuid).add(checkRateRS);
@@ -791,7 +789,7 @@ public class HBServiceHelper {
 			/** Adding Bonton reprice response for logging */
 			reqResMap.get(uuid).add(btnRepriceRs);
 			
-			logger.info("reprice response mapping done ---->");
+			logger.info("hotelbeds reprice response mapping done ---->");
 			return btnRepriceRs;
 		}
 
@@ -852,7 +850,7 @@ public class HBServiceHelper {
 		/** Adding Bonton reprice response for logging */
 		reqResMap.get(uuid).add(btnRepriceRs);
 		
-		logger.info("reprice response mapping done ---->");
+		logger.info("hotelbeds reprice response mapping done ---->");
 		return btnRepriceRs;
 	}
 	
@@ -875,7 +873,7 @@ public class HBServiceHelper {
 
 			@Override
 			public void run() {
-				logger.info("logging for {} operation id {} started --->", op, uuid);
+				logger.info("hotelbeds RQ-RS logging for {} operation id {} started --->", op, uuid);
 				
 				List<? super Object> reqResLst = reqResMap.get(uuid);
 				try {
@@ -920,7 +918,7 @@ public class HBServiceHelper {
 				/** Remove the entry once we are done logging in DB */
 				reqResMap.remove(uuid);
 				
-				logger.info("logging for {} operation id {} completed --->", op, uuid);
+				logger.info("hotelbeds RQ-RS logging for {} operation id {} completed --->", op, uuid);
 			}});
 	}
 	
