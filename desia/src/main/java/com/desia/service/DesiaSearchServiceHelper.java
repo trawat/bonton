@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -22,6 +26,9 @@ import org.slf4j.LoggerFactory;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
 import com.bonton.utility.desia.Hotels;
+import com.bonton.utility.hotelbeds.AvailabilityRQ;
+import com.bonton.utility.hotelbeds.AvailabilityRS;
+import com.bonton.utility.processor.XmlProcessor;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment.HotelSearchCriteria;
 import com.desia.artifacts.search.BasicPropertyInfoType;
@@ -52,6 +59,7 @@ import com.desia.artifacts.search.TGServiceEndPointImplService;
 import com.desia.artifacts.search.TPAExtensionsType;
 import com.desia.artifacts.search.TPAExtensionsType.UserAuthentication;
 import com.desia.handler.MessageHandler;
+import com.desia.util.DesiaDBConnection;
 import com.desia.util.DesiaProperties;
 
 /**
@@ -64,6 +72,10 @@ public class DesiaSearchServiceHelper {
 	private static final TGServiceEndPointImplService searchSIB = new TGServiceEndPointImplService();
 	private static TGServiceEndPoint searchSEI = null;
 	
+	private static final ExecutorService desiaEs = Executors.newCachedThreadPool();
+	
+	/* Holds unique uuid and generated request-response list as key-value */
+	private static final Map<String, List<? super Object>> reqResMap = new HashMap<>();
 	
 	private DesiaSearchServiceHelper() {}
 	
@@ -88,9 +100,14 @@ public class DesiaSearchServiceHelper {
 	 * @return Desia specific hotel availability RQ object
 	 * @author Tirath
 	 */
-	public static OTAHotelAvailRQ searchBeanRQMapper(BTNSearchRequest btnSearchRQ) throws Exception {
-		logger.info("search request mapping started ---->");
-		//Request preparation
+	public static OTAHotelAvailRQ searchBeanRQMapper(BTNSearchRequest btnSearchRQ, String uuid) throws Exception {
+		logger.info("desia search request mapping started ---->");
+
+		/** Preparing request-response map for logging */
+		List<? super Object> rqRsLst = new ArrayList<>();
+		rqRsLst.add(btnSearchRQ);
+		reqResMap.put(uuid, rqRsLst);
+		
 		OTAHotelAvailRQ otaHotelAvailRQ = new OTAHotelAvailRQ();
 		otaHotelAvailRQ.setRequestedCurrency("INR");//Hard coding the currrency
 
@@ -190,7 +207,10 @@ public class DesiaSearchServiceHelper {
 
 		otaHotelAvailRQ.setAvailRequestSegments(reqSgmnts);
 
-		logger.info("search request mapping done ---->");
+		/** Adding Desia search booking RQ for logging */
+		rqRsLst.add(otaHotelAvailRQ);
+		
+		logger.info("desia search request mapping done ---->");
 		return otaHotelAvailRQ;
 	}
 	
@@ -202,8 +222,12 @@ public class DesiaSearchServiceHelper {
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
 	 */
-	public static BTNSearchResponse searchBeanRSMapper(OTAHotelAvailRS otaHotelAvailRS) throws Exception {
-		logger.info("search response mapping started ---->");
+	public static BTNSearchResponse searchBeanRSMapper(OTAHotelAvailRS otaHotelAvailRS, String uuid) throws Exception {
+		logger.info("desia search response mapping started ---->");
+		
+		/** Adding Desia search booking response for logging */
+		reqResMap.get(uuid).add(otaHotelAvailRS);
+		
 		BTNSearchResponse btnSearchRS = new BTNSearchResponse();
 		
 		if (otaHotelAvailRS.getErrors() != null) {
@@ -226,7 +250,10 @@ public class DesiaSearchServiceHelper {
 
 			btnSearchRS.setBTNError(errElmnt);
 			
-			logger.info("search response contains error. Returning ---->");
+			/** Adding Desia search booking response for logging */
+			reqResMap.get(uuid).add(btnSearchRS);
+			
+			logger.info("desia search response contains error. Returning ---->");
 			return btnSearchRS;
 		}
 
@@ -416,7 +443,11 @@ public class DesiaSearchServiceHelper {
 			}
 			btnHotelLst.add(btnHotel);
 		}		
-		logger.info("search response mapping done ---->");
+		
+		/** Adding bonton search booking response for logging */
+		reqResMap.get(uuid).add(btnSearchRS);
+		
+		logger.info("desia search response mapping done ---->");
 		return btnSearchRS;
 	}
 	
@@ -837,5 +868,48 @@ public class DesiaSearchServiceHelper {
 		Marshaller m = ctx.createMarshaller();
 		
 		m.marshal(hotelResponse, os);
+	}
+	
+	/**
+	 * All the logging threads are handled by separate executor thread.
+	 * i.e: logging for each operation executes in a separate thread.
+	 * It is possible that some thing goes wrong while preparing the
+	 * request-response list. In that scenario, this method goes ahead and
+	 * logs whatever is available in the reqResLst. Also, if any exception 
+	 * occurs while inserting the request/ responses, this method will silently
+	 * log the same in the log file/
+	 * @param uuid unique identifier for request-response pairs
+	 * @param operation search, reprice, confirm or cancel
+	 * @param supplier service provider like HB, Desia or others
+	 * @throws Exception 
+	 * @author Tirath
+	 */
+	public static void logReqRes(String uuid, String op, String supplier) throws Exception {
+		desiaEs.submit(new Runnable() {
+
+			@Override
+			public void run() {
+				logger.info("logging for {} operation id {} started --->", op, uuid);
+				
+				List<? super Object> reqResLst = reqResMap.get(uuid);
+				try {
+					switch (op) {
+					case DesiaProperties.SEARCH:
+						DesiaDBConnection.insert(op, 
+								XmlProcessor.getBeanInXml((BTNSearchRequest) reqResLst.get(0)),
+								XmlProcessor.getBeanInXml((AvailabilityRQ) reqResLst.get(1)),
+								XmlProcessor.getBeanInXml((AvailabilityRS) reqResLst.get(2)),
+								XmlProcessor.getBeanInXml((BTNSearchResponse) reqResLst.get(3)), 
+								supplier);
+						break;
+					}
+				} catch (Exception e) {
+					logger.error("Exception occured while logging {} request and responses in the DB {}", op, e);
+				}
+				/** Remove the entry once we are done logging in DB */
+				reqResMap.remove(uuid);
+				
+				logger.info("logging for {} operation id {} completed --->", op, uuid);
+			}});
 	}
 }

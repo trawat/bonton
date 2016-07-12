@@ -433,6 +433,7 @@
 							<xs:element type="xs:string" name="Email" minOccurs="0" maxOccurs="1"/>
 							<xs:element type="xs:int" name="PhoneNumber" minOccurs="0" maxOccurs="1"/>
 							<xs:element type="xs:string" name="CountryCd" minOccurs="0" maxOccurs="1"/>
+							<xs:element type="xs:string" name="PostalCd" minOccurs="0" maxOccurs="1"/>
 							<xs:element type="xs:string" name="Address" minOccurs="0" maxOccurs="1"/>
 							<xs:element type="xs:string" name="BillingAddress" minOccurs="0" maxOccurs="1"/>
 						</xs:sequence>

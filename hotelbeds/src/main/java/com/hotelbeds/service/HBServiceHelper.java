@@ -83,6 +83,7 @@ public class HBServiceHelper {
 	 */
 	public static AvailabilityRQ searchBeanRQMapper(BTNSearchRequest btnSearchRq, String uuid) {
 		logger.info("search request mapping started ---->");
+		
 		/** Preparing request-response map */
 		List<? super Object> rqRsLst = new ArrayList<>();
 		rqRsLst.add(btnSearchRq);
@@ -870,13 +871,13 @@ public class HBServiceHelper {
 	 * @author Tirath
 	 */
 	public static void logReqRes(String uuid, String op, String supplier) throws Exception {
-		logger.info("logging for {} operation id {} started --->", op, uuid);
-		List<? super Object> reqResLst = reqResMap.get(uuid);
-		
-		Future<?> loggingTask = hbEs.submit(new Runnable() {
+		hbEs.submit(new Runnable() {
 
 			@Override
 			public void run() {
+				logger.info("logging for {} operation id {} started --->", op, uuid);
+				
+				List<? super Object> reqResLst = reqResMap.get(uuid);
 				try {
 					switch (op) {
 					case HBProperties.SEARCH:
@@ -916,18 +917,11 @@ public class HBServiceHelper {
 				} catch (Exception e) {
 					logger.error("Exception occured while logging {} request and responses in the DB {}", op, e);
 				}
+				/** Remove the entry once we are done logging in DB */
+				reqResMap.remove(uuid);
+				
+				logger.info("logging for {} operation id {} completed --->", op, uuid);
 			}});
-		
-		/** Wait for the logging task to complete */
-		try {
-			loggingTask.get();
-		} catch (InterruptedException | ExecutionException e) {
-			logger.error("logging for {} operation id {} failed ---> {}", op, uuid, e);
-			throw e;
-		}
-		/** Remove the entry once we are done logging in DB */
-		reqResMap.remove(uuid);
-		logger.info("logging for {} operation id {} completed --->", op, uuid);
 	}
 	
 }
