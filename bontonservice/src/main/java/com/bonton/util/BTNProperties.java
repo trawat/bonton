@@ -20,4 +20,6 @@ public interface BTNProperties {
     public static final String ID_FIVE = "5";
     public static final String ID_SIX = "6";
     public static final String ID_SEVEN = "7";
+    
+    public static final String APIError = "500";
 }

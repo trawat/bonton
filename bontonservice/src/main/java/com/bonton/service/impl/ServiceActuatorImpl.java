@@ -45,7 +45,22 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	@Override
 	public String search(List<? extends ServiceProxy> serviceList, final InputStream is) throws Exception {
 		final String uuid = UUID.randomUUID().toString();
-		final boolean manySp = serviceList.size() > 1;
+		
+		int availableSPCount = serviceList.size();
+		
+		/** Case, when no service provider is active or in case of socket exception */
+		if (availableSPCount == 0) {
+			BTNSearchResponse.BTNError errElmnt = new BTNSearchResponse.BTNError();
+			errElmnt.setCode(BTNProperties.APIError);
+			errElmnt.setMessage("No active service provider is available to serve the request.");
+
+			BTNSearchResponse btnSearchRS = new BTNSearchResponse();
+			btnSearchRS.setBTNError(errElmnt);
+
+			return XmlProcessor.getBeanInXml(btnSearchRS);
+		}
+		
+		final boolean manySp = availableSPCount > 1;
 		
 		List<Future<Boolean>> taskLst = new LinkedList<Future<Boolean>>();
 		try {
@@ -113,6 +128,13 @@ public class ServiceActuatorImpl implements ServiceActuator {
 							//btnSearchResponse = ((ExpediaServiceProxyAdapter) sp).getServiceInstance().getAvailabilityRS(uuid);
 						}
 						
+						BTNSearchResponse.HotelOptions tmpHotelOptions = btnSearchResponse.getHotelOptions();
+						
+						/** In case, of erred response - HotelOptions will be null */
+						if (tmpHotelOptions == null) {
+							/** simply return as there is nothing in the returned response to process */
+							return;
+						}
 						List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = btnSearchResponse.getHotelOptions().getHotel();
 						
 						for (BTNSearchResponse.HotelOptions.Hotel hotel : hotelLst) {
