@@ -7,10 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.handler.HandlerResolver;
@@ -36,7 +34,6 @@ import com.desia.artifacts.booking.CountryNameType;
 import com.desia.artifacts.booking.CustomerType;
 import com.desia.artifacts.booking.CustomerType.Address;
 import com.desia.artifacts.booking.CustomerType.Email;
-import com.desia.artifacts.booking.CustomerType.Telephone;
 import com.desia.artifacts.booking.DateTimeSpanType;
 import com.desia.artifacts.booking.EmailType;
 import com.desia.artifacts.booking.ErrorType;
@@ -707,7 +704,7 @@ public class DesiaBookingServiceHelper {
 			List<? super Object> reqResLst = reqResMap.get(uuid);
 			@Override
 			public void run() {
-				logger.info("logging for {} operation id {} started --->", op, uuid);
+				logger.info("desia RQ-RS logging for {} operation id {} started --->", op, uuid);
 
 				try {
 					switch (op) {
@@ -751,7 +748,7 @@ public class DesiaBookingServiceHelper {
 				/** Remove the entry once we are done logging in DB */
 				reqResMap.remove(uuid);
 				
-				logger.info("logging for {} operation id {} completed --->", op, uuid);
+				logger.info("desia RQ-RS logging for {} operation id {} completed --->", op, uuid);
 			}});
 	}
 
