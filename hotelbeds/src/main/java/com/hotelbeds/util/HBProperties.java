@@ -49,4 +49,26 @@ public interface HBProperties {
     public static final String LOGGINGUNAME = "log.username";
     public static final String LOGGINGUPWD = "log.password";
     public static final String LOGGINGDRVR = "";
+    
+    /** 
+     * Below constants are not used directly but are present to represent
+     * various possible and common combination of noOfRooms~adults~children
+     * R - no of Rooms, A - no of Adults, C - no of Childrens
+     */
+    public static final String tilda = "~";
+    
+    public static final String _0 = "0";
+    public static final String _1 = "1";
+    public static final String _2 = "2";
+    public static final String _3 = "3";
+    
+    public static final String _0_tilda = _0 + tilda;
+    public static final String _1_tilda = _1 + tilda;
+    public static final String _2_tilda = _2 + tilda;
+    public static final String _3_tilda = _3 + tilda;
+    
+    public static final String tilda_0 = tilda + _0;
+    public static final String tilda_1 = tilda + _1;
+    public static final String tilda_2 = tilda + _2;
+    public static final String tilda_3 = tilda + _3;
 }
