@@ -64,7 +64,9 @@ public final class XmlProcessor {
 		}
 	}
 	
-	private XmlProcessor() {}
+	private XmlProcessor() {
+		//Should not be instantiated.
+	}
 	
 	/**
 	 * Returns Bonton search request object using the passed input stream.
