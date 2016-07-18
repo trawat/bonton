@@ -48,6 +48,7 @@ public final class XmlProcessor {
 	private static final String ERROR_CD = "Unmarshalling Error";
 	private static SchemaFactory btnSsf = null;
 	private static Schema btnSchema = null;
+	private static final String CHARSET = "UTF-8";
 	
 	/** To avoid JAXB context creation for every mashaling or unmarshalling request */
 	private static final Map<String, JAXBContext> ctxMap = new HashMap<>();
@@ -137,7 +138,7 @@ public final class XmlProcessor {
 	 * @author Tirath
 	 */
 	public static AvailabilityRS getHBSearchRSBean(String hbSearchResXml) throws Exception {
-		return unmarshall(new ByteArrayInputStream(hbSearchResXml.getBytes("UTF-8")), AvailabilityRS.class);
+		return unmarshall(new ByteArrayInputStream(hbSearchResXml.getBytes(CHARSET)), AvailabilityRS.class);
 	}
 	
 	/**
@@ -148,7 +149,7 @@ public final class XmlProcessor {
 	 * @author Tirath
 	 */
 	public static BookingRS getHBConfirmRSBean(String hbConfirmResXml) throws Exception {
-		return unmarshall(new ByteArrayInputStream(hbConfirmResXml.getBytes("UTF-8")), BookingRS.class);
+		return unmarshall(new ByteArrayInputStream(hbConfirmResXml.getBytes(CHARSET)), BookingRS.class);
 	}
 	
 	/**
@@ -159,7 +160,7 @@ public final class XmlProcessor {
 	 * @author Tirath
 	 */
 	public static BookingCancellationRS getHBCancelRSBean(String hbCancelResXml) throws Exception {
-		return unmarshall(new ByteArrayInputStream(hbCancelResXml.getBytes("UTF-8")), BookingCancellationRS.class);
+		return unmarshall(new ByteArrayInputStream(hbCancelResXml.getBytes(CHARSET)), BookingCancellationRS.class);
 	}
 	
 	/**
