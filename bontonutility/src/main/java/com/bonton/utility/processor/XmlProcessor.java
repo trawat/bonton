@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,7 +73,7 @@ public final class XmlProcessor {
 	 * @throws Exception In case, unmarshalling input stream to request object fails.
 	 * @author Tirath
 	 */
-	public static BTNSearchRequest getBTNSearchRQBean(InputStream is) throws Exception {
+	public static BTNSearchRequest getBTNSearchRQBean(InputStream is) throws JAXBException {
 		return unmarshall(is, BTNSearchRequest.class);
 	}
 	
@@ -83,7 +84,7 @@ public final class XmlProcessor {
 	 * @throws Exception In case, unmarshalling input stream to request object fails.
 	 * @author Tirath
 	 */
-	public static BTNConfirmRequest getBTNConfirmRQBean(InputStream is) throws Exception {
+	public static BTNConfirmRequest getBTNConfirmRQBean(InputStream is) throws JAXBException {
 		return unmarshall(is, BTNConfirmRequest.class);
 	}
 	
@@ -94,7 +95,7 @@ public final class XmlProcessor {
 	 * @throws Exception In case, unmarshalling input stream to request object fails.
 	 * @author Tirath
 	 */
-	public static BTNCancelRQ getBTNCancelRQBean(InputStream is) throws Exception {
+	public static BTNCancelRQ getBTNCancelRQBean(InputStream is) throws JAXBException {
 		return unmarshall(is, BTNCancelRQ.class);
 	}
 
@@ -105,7 +106,7 @@ public final class XmlProcessor {
 	 * @throws Exception In case, unmarshalling input stream to request object fails.
 	 * @author Tirath
 	 */
-	public static BTNRepriceRequest getBTNRepriceRQBean(InputStream is) throws Exception {
+	public static BTNRepriceRequest getBTNRepriceRQBean(InputStream is) throws JAXBException {
 		return unmarshall(is, BTNRepriceRequest.class);
 	}
 	
@@ -115,7 +116,7 @@ public final class XmlProcessor {
 	 * @return Bonton final booking request object used by Desia API 
 	 * @throws Exception In case, unmarshalling input stream to request object fails.
 	 */
-	public static BTNFinalBookingRQ getBTNFinalBookingRQBean(InputStream is) throws Exception {
+	public static BTNFinalBookingRQ getBTNFinalBookingRQBean(InputStream is) throws JAXBException {
 		return unmarshall(is, BTNFinalBookingRQ.class);
 	}
 	
@@ -126,7 +127,7 @@ public final class XmlProcessor {
 	 * @throws Exception In case, any exception occurs during marshalling process.
 	 * @author Tirath
 	 */
-	public static <T> String getBeanInXml(T beanType) throws Exception {
+	public static <T> String getBeanInXml(T beanType) throws JAXBException {
 		return marshall(beanType);
 	}
 	
@@ -136,8 +137,9 @@ public final class XmlProcessor {
 	 * @return HotelBeds hotel availability response object prepared using passed XML string.
 	 * @throws Exception In case, any exception occurs during unmarshalling process.
 	 * @author Tirath
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static AvailabilityRS getHBSearchRSBean(String hbSearchResXml) throws Exception {
+	public static AvailabilityRS getHBSearchRSBean(String hbSearchResXml) throws JAXBException, UnsupportedEncodingException {
 		return unmarshall(new ByteArrayInputStream(hbSearchResXml.getBytes(CHARSET)), AvailabilityRS.class);
 	}
 	
@@ -147,8 +149,9 @@ public final class XmlProcessor {
 	 * @return HotelBeds hotel confirm response object prepared using passed XML string.
 	 * @throws Exception In case, any exception occurs during unmarshalling process.
 	 * @author Tirath
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static BookingRS getHBConfirmRSBean(String hbConfirmResXml) throws Exception {
+	public static BookingRS getHBConfirmRSBean(String hbConfirmResXml) throws JAXBException, UnsupportedEncodingException {
 		return unmarshall(new ByteArrayInputStream(hbConfirmResXml.getBytes(CHARSET)), BookingRS.class);
 	}
 	
@@ -158,8 +161,9 @@ public final class XmlProcessor {
 	 * @return HotelBeds hotel cancel response object prepared using passed XML string.
 	 * @throws Exception In case, any exception occurs during unmarshalling process.
 	 * @author Tirath
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static BookingCancellationRS getHBCancelRSBean(String hbCancelResXml) throws Exception {
+	public static BookingCancellationRS getHBCancelRSBean(String hbCancelResXml) throws JAXBException, UnsupportedEncodingException {
 		return unmarshall(new ByteArrayInputStream(hbCancelResXml.getBytes(CHARSET)), BookingCancellationRS.class);
 	}
 	
@@ -169,12 +173,13 @@ public final class XmlProcessor {
 	 * @return HotelBeds hotel reprice response object prepared using passed XML string.
 	 * @throws Exception In case, any exception occurs during unmarshalling process.
 	 * @author Tirath
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static CheckRateRS getHBRepriceRSBean(String hbRepriceResXml) throws Exception {
-		return unmarshall(new ByteArrayInputStream(hbRepriceResXml.getBytes("UTF-8")), CheckRateRS.class);
+	public static CheckRateRS getHBRepriceRSBean(String hbRepriceResXml) throws JAXBException, UnsupportedEncodingException {
+		return unmarshall(new ByteArrayInputStream(hbRepriceResXml.getBytes(CHARSET)), CheckRateRS.class);
 	}
 	
-	private static <T> T unmarshall(InputStream is, Class<T> beanClass) throws Exception {
+	private static <T> T unmarshall(InputStream is, Class<T> beanClass) throws JAXBException {
 		String packageName = beanClass.getPackage().getName();;
 		JAXBContext jaxbCtx = ctxMap.get(packageName);
 		Unmarshaller unmarshaller = null;
@@ -197,7 +202,7 @@ public final class XmlProcessor {
 		}
 	}
 	
-	private static <T> String marshall(T beanType) throws Exception {
+	private static <T> String marshall(T beanType) throws JAXBException {
 		Class<T> beanClass = (Class<T>) beanType.getClass();
 		String packageName = beanClass.getPackage().getName();;
 		JAXBContext jaxbCtx = ctxMap.get(packageName);
@@ -214,7 +219,7 @@ public final class XmlProcessor {
 			marshaller.marshal(beanType, tempBuffer);
 			
 			return tempBuffer.toString();
-		} catch (Exception exception) {
+		} catch (JAXBException exception) {
 			logger.error("{} while initializing JAXBContext", exception);
 			throw exception;
 		}
