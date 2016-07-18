@@ -90,7 +90,7 @@ public class HBClient {
 	public static <T> AvailabilityRS postSearch(T bean) throws Exception {
 		logger.info("search request posting to HotelBeds started ---->");
 		WebTarget target = hbRsClient.target(HBProperties.HB_SEARCH_HOTELS_END_POINT);
-		logger.info("search request posting done ---->");
+		logger.info("search request posting to HotelBeds done ---->");
 		return (AvailabilityRS) post(bean, target, AvailabilityRS.class);
 	}
 	
@@ -105,7 +105,7 @@ public class HBClient {
 	public static <T> BookingRS postConfirmBooking(T bean) throws Exception {
 		logger.info("booking confirmation request posting to HotelBeds started ---->");
 		WebTarget target = hbRsClient.target(HBProperties.HB_CONFIRM_BOOKING_END_POINT);
-		logger.info("booking confirmation request posting done ---->");
+		logger.info("booking confirmation request posting to HotelBeds done ---->");
 		return (BookingRS) post(bean, target, BookingRS.class);
 	}
 	
@@ -133,7 +133,7 @@ public class HBClient {
 		Invocation invoker = builder.buildDelete();
 		Response response = invoker.invoke();
 		
-		logger.info("cancel request posting done ---->");
+		logger.info("cancel request posting to HotelBeds done ---->");
 		return response.readEntity(BookingCancellationRS.class);
 	}
 	
@@ -149,7 +149,7 @@ public class HBClient {
 		logger.info("reprice request posting to HotelBeds started ---->");
 		WebTarget target = hbRsClient.target(HBProperties.HB_REPRICE_POST_END_POINT);
 		
-		logger.info("reprice request posting done ---->");
+		logger.info("reprice request posting to HotelBeds done ---->");
 		return (CheckRateRS) post(bean, target, CheckRateRS.class);
 	}
 	

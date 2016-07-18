@@ -120,8 +120,8 @@ public class DesiaSearchServiceHelper {
 		}
 
 		AvailRequestSegments reqSgmnts = new AvailRequestSegments();
-		List<AvailRequestSegment> reqSgmntLst = reqSgmnts.getAvailRequestSegment();
-		AvailRequestSegment reqSgmnt = new AvailRequestSegment();
+		List<AvailRequestSegment> otaAvailRequestSegmentLst = reqSgmnts.getAvailRequestSegment();
+		AvailRequestSegment otaAvailRequestSegment = new AvailRequestSegment();
 
 		HotelSearchCriteria otaSearchCriteria = new HotelSearchCriteria();
 //		otaSearchCriteria.setAvailableOnlyIndicator(true);
@@ -131,10 +131,13 @@ public class DesiaSearchServiceHelper {
 //		otaCriterion.setExactMatch(true);
 		List<ItemSearchCriterionType.HotelRef> otaHotelRefLst = otaCriterion.getHotelRef();
 		
-		/** In case ItemDestination node is present, search will be based on City, otherwise hotel code. */
-		if (btnHotelDetailRQNode.getItemDestination() != null) {
+		/** In case ItemDestination node is present, search will be based on City, otherwise hotel code. 
+		 * Also, in case of Desia - if item destination code is passed as "", Desia API returns some results
+		 * and on the contrary HB API returns ZERO hotels in search result. */
+		BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.ItemDestination btnItemDestination = btnHotelDetailRQNode.getItemDestination();
+		if (btnItemDestination != null && !"".equals(btnItemDestination.getDestinationCode().trim())) {
 			Address address = new Address();
-			address.setCityName(btnHotelDetailRQNode.getItemDestination().getDestinationCode());
+			address.setCityName(btnItemDestination.getDestinationCode());
 
 			CountryNameType otaCountryNameType = new CountryNameType();
 			/** we need to have this always set to India */
@@ -189,17 +192,24 @@ public class DesiaSearchServiceHelper {
 			otaRoomLst.add(otaRoom);
 		}
 		
-		TPAExtensionsType extnsn = new TPAExtensionsType();
+		TPAExtensionsType otaTPAExtensionsType = new TPAExtensionsType();
 		UserAuthentication userAuth = new UserAuthentication();
 		userAuth.setUsername("bontonsell");userAuth.setPassword("test@789");userAuth.setPropertyId("1300001211");
-		extnsn.setUserAuthentication(userAuth);
+		otaTPAExtensionsType.setUserAuthentication(userAuth);
 		
-		otaCriterion.setTPAExtensions(extnsn);
+		/** To fetch all the hotels instead of only 20 (default behavior) */
+		Pagination otaPagination = new Pagination();
+		otaPagination.setEnabled(false);
+		
+		otaTPAExtensionsType.setPagination(otaPagination);
+		otaCriterion.setTPAExtensions(otaTPAExtensionsType);
 		otaCriterion.setStayDateRange(otaDateTimeSpanType);
 		otaCriterionLst.add(otaCriterion);
-
-		reqSgmnt.setHotelSearchCriteria(otaSearchCriteria);
-		reqSgmntLst.add(reqSgmnt);
+	
+		
+		
+		otaAvailRequestSegment.setHotelSearchCriteria(otaSearchCriteria);
+		otaAvailRequestSegmentLst.add(otaAvailRequestSegment);
 
 		otaHotelAvailRQ.setAvailRequestSegments(reqSgmnts);
 
@@ -885,7 +895,7 @@ public class DesiaSearchServiceHelper {
 
 			@Override
 			public void run() {
-				logger.info("logging for {} operation id {} started --->", op, uuid);
+				logger.info("desia RQ-RS logging for {} operation id {} started --->", op, uuid);
 				
 				List<? super Object> reqResLst = reqResMap.get(uuid);
 				try {
@@ -905,7 +915,7 @@ public class DesiaSearchServiceHelper {
 				/** Remove the entry once we are done logging in DB */
 				reqResMap.remove(uuid);
 				
-				logger.info("logging for {} operation id {} completed --->", op, uuid);
+				logger.info("desia RQ-RS logging for {} operation id {} completed --->", op, uuid);
 			}});
 	}
 }

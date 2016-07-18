@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -40,12 +42,15 @@ import com.bonton.utility.hotelbeds.CheckRateRS;
  * @author Tirath
  */
 public final class XmlProcessor {
-	private static final Logger log = LoggerFactory.getLogger(XmlProcessor.class);
+	private static final Logger logger = LoggerFactory.getLogger(XmlProcessor.class);
 	
 	private static final String BTN_SCHEMA_FILE_NM = "Bonton.xsd";
 	private static final String ERROR_CD = "Unmarshalling Error";
 	private static SchemaFactory btnSsf = null;
 	private static Schema btnSchema = null;
+	
+	/** To avoid JAXB context creation for every mashaling or unmarshalling request */
+	private static final Map<String, JAXBContext> ctxMap = new HashMap<>();
 	
 	static {
 		/** Setting schema for xml validation besides default well formedness check */
@@ -53,7 +58,7 @@ public final class XmlProcessor {
 		try {
 			btnSchema = btnSsf.newSchema(Thread.currentThread().getContextClassLoader().getResource(BTN_SCHEMA_FILE_NM));
 		} catch (SAXException exception) {
-			log.error("{} occured while initializing BTN schema", exception);
+			logger.error("{} occured while initializing BTN schema", exception);
 		}
 	}
 	
@@ -169,11 +174,15 @@ public final class XmlProcessor {
 	}
 	
 	private static <T> T unmarshall(InputStream is, Class<T> beanClass) throws Exception {
-		JAXBContext jaxbCtx = null;
+		String packageName = beanClass.getPackage().getName();;
+		JAXBContext jaxbCtx = ctxMap.get(packageName);
 		Unmarshaller unmarshaller = null;
 		
 		try {
-			jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
+			if (null == jaxbCtx) {
+				jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
+				ctxMap.put(packageName, jaxbCtx);
+			}
 			unmarshaller = jaxbCtx.createUnmarshaller();
 			
 			/** Setting schema for validation */
@@ -182,19 +191,22 @@ public final class XmlProcessor {
 			T element = (T) unmarshaller.unmarshal(is);
 			return element;
 		} catch (JAXBException exception) {
-			log.debug("Exception while initializing JAXBContext {}", exception);
+			logger.debug("Exception while initializing JAXBContext {}", exception);
 			throw exception;
 		}
 	}
 	
 	private static <T> String marshall(T beanType) throws Exception {
-		JAXBContext jaxbCtx = null;
+		Class<T> beanClass = (Class<T>) beanType.getClass();
+		String packageName = beanClass.getPackage().getName();;
+		JAXBContext jaxbCtx = ctxMap.get(packageName);
 		Marshaller marshaller = null;
 		
 		try {
-			Class<T> beanClass = (Class<T>) beanType.getClass();
-
-			jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
+			if (null == jaxbCtx) {
+				jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
+				ctxMap.put(packageName, jaxbCtx);
+			}
 			marshaller = jaxbCtx.createMarshaller();
 			
 			StringWriter tempBuffer = new StringWriter();
@@ -202,7 +214,7 @@ public final class XmlProcessor {
 			
 			return tempBuffer.toString();
 		} catch (Exception exception) {
-			log.error("{} while initializing JAXBContext", exception);
+			logger.error("{} while initializing JAXBContext", exception);
 			throw exception;
 		}
 	}
