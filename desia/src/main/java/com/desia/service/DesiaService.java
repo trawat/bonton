@@ -151,6 +151,8 @@ public class DesiaService {
 		
 		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResFinalRS, uuid);
 		logger.info("desia provisional plus final booking operation done ---->");
+		
+		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.PROVFINAL, DesiaProperties.DESIA);
 		return XmlProcessor.getBeanInXml(btnFinalBookingRS);
 	}
 	

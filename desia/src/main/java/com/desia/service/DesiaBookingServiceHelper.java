@@ -90,6 +90,15 @@ public class DesiaBookingServiceHelper {
 	/* Holds unique uuid and generated request-response list as key-value */
 	private static final Map<String, List<? super Object>> reqResMap = new HashMap<>();
 	
+	/** Default unique ID type */
+	private static final String DFLTUNIQUEIDTYPE = "23";
+	
+	/** Default guarantee type */
+	private static final String DFLTGUARANTEETYPE = "PrePay";
+	
+	/** Default profile type */
+	private static final String DFLTPROFILETYPE = "1";
+	
 	private DesiaBookingServiceHelper() {}
 	
 	static {
@@ -127,14 +136,14 @@ public class DesiaBookingServiceHelper {
 		POSType otaPOSType = new POSType();
 		
 		SourceType otaSourceType = new SourceType();
-		otaSourceType.setISOCurrency("INR");
+		otaSourceType.setISOCurrency(DesiaProperties.CURRENCY);
 		
 		RequestorID otaRequestorID = new RequestorID();
-		otaRequestorID.setID("1300001211");
-		otaRequestorID.setMessagePassword("test@789");
+		otaRequestorID.setID(DesiaProperties.DPROPERTYID);
+		otaRequestorID.setMessagePassword(DesiaProperties.DPASSWORD);
 		
 		CompanyNameType otaCompanyNameType = new CompanyNameType();
-		otaCompanyNameType.setCode("bontonsell");
+		otaCompanyNameType.setCode(DesiaProperties.DUSERNAME);
 		
 		otaRequestorID.setCompanyName(otaCompanyNameType);
 		otaSourceType.setRequestorID(otaRequestorID);
@@ -147,7 +156,7 @@ public class DesiaBookingServiceHelper {
 		
 		/** Setting provisional booking id */
 		otaUniqueIDType.setID(btnFinalBookingRQ.getProvBookingId());
-		otaUniqueIDType.setType("23");
+		otaUniqueIDType.setType(DFLTUNIQUEIDTYPE);
 		otaUniqueIDTypeLst.add(otaUniqueIDType);
 		
 		HotelReservationsType otaHotelReservationsType = new HotelReservationsType();
@@ -157,7 +166,7 @@ public class DesiaBookingServiceHelper {
 		ResGlobalInfoType otaResGlobalInfoType = new ResGlobalInfoType();
 		
 		GuaranteeType otaGuaranteeType = new GuaranteeType();
-		otaGuaranteeType.setGuaranteeType("PrePay");
+		otaGuaranteeType.setGuaranteeType(DFLTGUARANTEETYPE);
 		
 		otaResGlobalInfoType.setGuarantee(otaGuaranteeType);
 		otaHotelReservation.setResGlobalInfo(otaResGlobalInfoType);
@@ -218,7 +227,7 @@ public class DesiaBookingServiceHelper {
 		List<HotelReservation> otaHotelReservationLst = otaHotelResRS.getHotelReservations().getHotelReservation();
 		HotelReservation otaHotelReservation = otaHotelReservationLst.get(0);
 		List<UniqueIDType> otaUniqueIDTypeLst = otaHotelReservation.getUniqueID();
-		UniqueIDType otaUniqueIDType = new UniqueIDType();
+		UniqueIDType otaUniqueIDType = otaUniqueIDTypeLst.get(0);
 		btnFinalBookingRS.setReferenceId(otaUniqueIDType.getID());
 		
 		/** Adding bonton final booking response for logging */
@@ -250,14 +259,14 @@ public class DesiaBookingServiceHelper {
 		POSType otaPOSType = new POSType();
 		
 		SourceType otaSourceType = new SourceType();
-		otaSourceType.setISOCurrency("INR");
+		otaSourceType.setISOCurrency(DesiaProperties.CURRENCY);
 		
 		RequestorID otaRequestorID = new RequestorID();
-		otaRequestorID.setID("1300001211");
-		otaRequestorID.setMessagePassword("test@789");
+		otaRequestorID.setID(DesiaProperties.DPROPERTYID);
+		otaRequestorID.setMessagePassword(DesiaProperties.DPASSWORD);
 		
 		CompanyNameType otaCompanyNameType = new CompanyNameType();
-		otaCompanyNameType.setCode("bontonsell");
+		otaCompanyNameType.setCode(DesiaProperties.DUSERNAME);
 		
 		otaRequestorID.setCompanyName(otaCompanyNameType);
 		otaSourceType.setRequestorID(otaRequestorID);
@@ -267,8 +276,8 @@ public class DesiaBookingServiceHelper {
 		/** Tag goes to final booking */
 		List<UniqueIDType> otaUniqueIDTypeLst = otaHotelResRQ.getUniqueID();
 		UniqueIDType otaUniqueIDType = new UniqueIDType();
-		otaUniqueIDType.setID("");
-		otaUniqueIDType.setType("");
+		otaUniqueIDType.setID(DesiaProperties.EMPTY);
+		otaUniqueIDType.setType(DesiaProperties.EMPTY);
 		otaUniqueIDTypeLst.add(otaUniqueIDType);
 		
 		HotelReservationsType otaHotelReservationsType = new HotelReservationsType();
@@ -283,7 +292,7 @@ public class DesiaBookingServiceHelper {
 		/** As the rate key passed is going to be same for all the rooms. We will fetch 
 		 * only rate key and get the required details out. */
 		String rateKey = btnRoomLst.get(0).getUniqueKey();
-		rateKey = rateKey.replaceAll("\\s+", "");
+		rateKey = rateKey.replaceAll(DesiaProperties.SPLITSTR, DesiaProperties.EMPTY);
 		String[] rateKeyAry = rateKey.split(DesiaProperties.SPLIT);
 		
 		
@@ -298,15 +307,15 @@ public class DesiaBookingServiceHelper {
 			for (BTNConfirmRequest.Rooms.Room.Paxes.Pax btnPax : btnPaxLst) {
 				GuestCount otaGuestCount = new GuestCount();
 				
-				if (btnPax.getType().equalsIgnoreCase("AD")) {
-					otaGuestCount.setAgeQualifyingCode("10");
-				} else if (btnPax.getType().equalsIgnoreCase("CH")) {
-					otaGuestCount.setAgeQualifyingCode("8");
+				if (btnPax.getType().equalsIgnoreCase(DesiaProperties.ADULTCD)) {
+					otaGuestCount.setAgeQualifyingCode(DesiaProperties.ADULTAGECD);
+				} else if (btnPax.getType().equalsIgnoreCase(DesiaProperties.CHILDCD)) {
+					otaGuestCount.setAgeQualifyingCode(DesiaProperties.CHILDAGECD);
 					otaGuestCount.setAge(btnPax.getAge());
 				}
 				
 				otaGuestCount.setCount(1);
-				otaGuestCount.setResGuestRPH("" + resGuestRPHIndex);
+				otaGuestCount.setResGuestRPH(DesiaProperties.EMPTY + resGuestRPHIndex);
 				
 				otaGuestCountTypeLst.add(otaGuestCount);
 			}
@@ -319,7 +328,7 @@ public class DesiaBookingServiceHelper {
 		RoomStay otaRoomStay = new RoomStay();
 		
 		RoomTypeType otaRoomTypeType = new RoomTypeType();
-		otaRoomTypeType.setNumberOfUnits(new BigInteger("" + btnRoomLst.size()));
+		otaRoomTypeType.setNumberOfUnits(new BigInteger(DesiaProperties.EMPTY + btnRoomLst.size()));
 		otaRoomTypeType.setRoomTypeCode(rateKeyAry[1]);
 		
 		RatePlans otaRatePlans = new RatePlans();
@@ -333,12 +342,12 @@ public class DesiaBookingServiceHelper {
 		otaTimeSpan.setEnd(btnConfirmRQ.getPeriodOfStay().getCheckOutDate().toString());
 		
 		TotalType otaTotalType = new TotalType();
-		otaTotalType.setAmountBeforeTax(new BigDecimal("" + rateKeyAry[3]));
-		otaTotalType.setCurrencyCode("INR");
+		otaTotalType.setAmountBeforeTax(new BigDecimal(DesiaProperties.EMPTY + rateKeyAry[3]));
+		otaTotalType.setCurrencyCode(DesiaProperties.CURRENCY);
 		
 		TaxesType otaTaxesType = new TaxesType();
-		otaTaxesType.setAmount(new BigDecimal("" + rateKeyAry[4]));
-		otaTaxesType.setCurrencyCode("INR");
+		otaTaxesType.setAmount(new BigDecimal(DesiaProperties.EMPTY + rateKeyAry[4]));
+		otaTaxesType.setCurrencyCode(DesiaProperties.CURRENCY);
 		
 		otaTotalType.setTaxes(otaTaxesType);
 		
@@ -357,7 +366,7 @@ public class DesiaBookingServiceHelper {
 		otaProfileInfoLst.add(otaProfileInfo);
 		
 		ProfileType otaProfileType = new ProfileType();
-		otaProfileType.setProfileType("1");
+		otaProfileType.setProfileType(DFLTPROFILETYPE);
 		
 		CustomerType otaCustomerType = new CustomerType();
 		
@@ -381,7 +390,7 @@ public class DesiaBookingServiceHelper {
 		otaAddressString.add(btnConfirmRQ.getContactData().getAddress());
 		
 		StateProvType otaStateProvType = new StateProvType();
-		otaStateProvType.setStateCode("");
+		otaStateProvType.setStateCode(DesiaProperties.EMPTY);
 		
 		otaAddress.setPostalCode(btnConfirmRQ.getContactData().getPostalCd());
 		
@@ -402,7 +411,7 @@ public class DesiaBookingServiceHelper {
 		
 		ResGlobalInfoType otaResGlobalInfoType = new ResGlobalInfoType();
 		GuaranteeType otaGuaranteeType = new GuaranteeType();
-		otaGuaranteeType.setGuaranteeType("PrePay");
+		otaGuaranteeType.setGuaranteeType(DFLTGUARANTEETYPE);
 		otaResGlobalInfoType.setGuarantee(otaGuaranteeType);
 		
 		otaHotelReservation.setResGlobalInfo(otaResGlobalInfoType);
@@ -480,9 +489,10 @@ public class DesiaBookingServiceHelper {
 		HotelReservation otaHotelReservation = (HotelReservation) otaHotelResRS.getHotelReservations().getHotelReservation().get(0);
 		UniqueIDType otaUniqueIDType = (UniqueIDType) otaHotelReservation.getUniqueID().get(0);
 		btnBooking.setReference(otaUniqueIDType.getID());
-
+		btnConfirmRS.setBooking(btnBooking);
+		
 		/** Adding bonton provisional booking response for logging */
-		reqResMap.get(uuid).add(btnBooking);
+		reqResMap.get(uuid).add(btnConfirmRS);
 		
 		logger.info("desia provisional booking response mapping done ---->");
 		return btnConfirmRS;
@@ -519,11 +529,11 @@ public class DesiaBookingServiceHelper {
 		SourceType otaSourceType = new SourceType();
 		
 		RequestorID otaRequestorID = new RequestorID();
-		otaRequestorID.setID("1300001211");
-		otaRequestorID.setMessagePassword("test@789");
+		otaRequestorID.setID(DesiaProperties.DPROPERTYID);
+		otaRequestorID.setMessagePassword(DesiaProperties.DPASSWORD);
 		
 		CompanyNameType otaCompanyNameType = new CompanyNameType();
-		otaCompanyNameType.setCode("bontonsell");
+		otaCompanyNameType.setCode(DesiaProperties.DUSERNAME);
 		
 		otaRequestorID.setCompanyName(otaCompanyNameType);
 		otaSourceType.setRequestorID(otaRequestorID);
@@ -574,7 +584,7 @@ public class DesiaBookingServiceHelper {
 	 * @author Tirath
 	 */
 	public static BTNCancelRS cancelBeanRSMapper(OTACancelRS otaCancelRS, String uuid) throws Exception {
-		logger.info("cancel response mapping started ---->");
+		logger.info("desia cancel response mapping started ---->");
 		
 		/** Adding Desia cancel booking response for logging */
 		reqResMap.get(uuid).add(otaCancelRS);
@@ -604,7 +614,7 @@ public class DesiaBookingServiceHelper {
 			/** Adding Desia cancel booking response for logging */
 			reqResMap.get(uuid).add(btnCancelRS);
 			
-			logger.info("cancel response contains error. Returning ---->");
+			logger.info("desia cancel response contains error. Returning ---->");
 			return btnCancelRS;
 		}
 		BTNCancelRS.Booking btnBooking = new BTNCancelRS.Booking();
@@ -617,9 +627,9 @@ public class DesiaBookingServiceHelper {
 		btnCancelRS.setBooking(btnBooking);
 		
 		/** Adding bonton cancel booking response for logging */
-		reqResMap.get(uuid).add(btnBooking);
+		reqResMap.get(uuid).add(btnCancelRS);
 		
-		logger.info("cancel response mapping done ---->");
+		logger.info("desia cancel response mapping done ---->");
 		return btnCancelRS;
 	}
 	
@@ -630,14 +640,14 @@ public class DesiaBookingServiceHelper {
 		POSType otaPOSType = new POSType();
 		
 		SourceType otaSourceType = new SourceType();
-		otaSourceType.setISOCurrency("INR");
+		otaSourceType.setISOCurrency(DesiaProperties.CURRENCY);
 		
 		RequestorID otaRequestorID = new RequestorID();
-		otaRequestorID.setID("1300001211");
-		otaRequestorID.setMessagePassword("test@789");
+		otaRequestorID.setID(DesiaProperties.DPROPERTYID);
+		otaRequestorID.setMessagePassword(DesiaProperties.DPASSWORD);
 		
 		CompanyNameType otaCompanyNameType = new CompanyNameType();
-		otaCompanyNameType.setCode("bontonsell");
+		otaCompanyNameType.setCode(DesiaProperties.DUSERNAME);
 		
 		otaRequestorID.setCompanyName(otaCompanyNameType);
 		otaSourceType.setRequestorID(otaRequestorID);
@@ -650,7 +660,7 @@ public class DesiaBookingServiceHelper {
 		
 		/** Setting provisional booking id */
 		otaUniqueIDType.setID(((UniqueIDType)((HotelReservation) otaHotelResRS.getHotelReservations().getHotelReservation().get(0)).getUniqueID().get(0)).getID());
-		otaUniqueIDType.setType("23");
+		otaUniqueIDType.setType(DFLTUNIQUEIDTYPE);
 		otaUniqueIDTypeLst.add(otaUniqueIDType);
 		
 		HotelReservationsType otaHotelReservationsType = new HotelReservationsType();
@@ -660,7 +670,7 @@ public class DesiaBookingServiceHelper {
 		ResGlobalInfoType otaResGlobalInfoType = new ResGlobalInfoType();
 		
 		GuaranteeType otaGuaranteeType = new GuaranteeType();
-		otaGuaranteeType.setGuaranteeType("PrePay");
+		otaGuaranteeType.setGuaranteeType(DFLTGUARANTEETYPE);
 		
 		otaResGlobalInfoType.setGuarantee(otaGuaranteeType);
 		otaHotelReservation.setResGlobalInfo(otaResGlobalInfoType);
@@ -669,7 +679,7 @@ public class DesiaBookingServiceHelper {
 		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
 		otaHotelResRQ.setPOS(otaPOSType);
 		
-		logger.info("provisiona plus final booking request mapping done ---->");
+		logger.info("provisional plus final booking request mapping done ---->");
 		return otaHotelResRQ;
 	}
 		
@@ -738,6 +748,15 @@ public class DesiaBookingServiceHelper {
 								XmlProcessor.getBeanInXml((OTACancelRQ) reqResLst.get(1)),
 								XmlProcessor.getBeanInXml((OTACancelRS) reqResLst.get(2)),
 								XmlProcessor.getBeanInXml((BTNCancelRS) reqResLst.get(3)), 
+								supplier);
+						break;
+					}
+					case DesiaProperties.PROVFINAL: {
+						DesiaDBConnection.insert(op, 
+								XmlProcessor.getBeanInXml((BTNConfirmRequest) reqResLst.get(0)),
+								XmlProcessor.getBeanInXml((OTAHotelResRQ) reqResLst.get(1)),
+								XmlProcessor.getBeanInXml((OTAHotelResRS) reqResLst.get(2)),
+								XmlProcessor.getBeanInXml((BTNFinalBookingRS) reqResLst.get(3)), 
 								supplier);
 						break;
 					}

@@ -6,14 +6,17 @@ package com.desia.util;
  */
 public interface DesiaProperties {
 	
-	public static String DUSERNAME = "bontonnet";
-	public static String DPASSWORD = "test@567";
-	public static final String DPROPERTYID = "1300001210";
+	public static String DUSERNAME = "bontonsell";
+	public static String DPASSWORD = "test@789";
+	public static final String DPROPERTYID = "1300001211";
+	public static final String CURRENCY = "INR";
 	
     /** Used in Desia Search operations */
     public static final String SEP1 = "~";
     public static final String SEP2 = "|";
     public static final String SPLIT = "\\|";
+    public static final String SPLITSTR = "\\s+";
+    public static final String COMMA = ",";
     
     /** Desia operation/ function names */
     public static final String SEARCH = "Search";
@@ -33,5 +36,12 @@ public interface DesiaProperties {
     public static final String LOGGINGUPWD = "log.password";
     public static final String LOGGINGDRVR = "";
     
-    public static final String DESIA = "Desia";
+    public static final String DESIA = "DESIA";
+    
+    public static final String ADULTCD = "AD";
+    public static final String CHILDCD = "CH";
+    public static final String ADULTAGECD = "10";
+    public static final String CHILDAGECD = "8";
+    
+    public static final String EMPTY = "";
 }
