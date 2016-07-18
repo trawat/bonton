@@ -4,13 +4,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Desia utility class
  * @author Tirath
  */
 public class DesiaUtility {
+	private static final Logger logger = LoggerFactory.getLogger(DesiaUtility.class);
 	
-	private DesiaUtility() {}
+	private DesiaUtility() {
+		//To avoid instantiablity
+	}
 	
 	private static Properties properties = null;
 	static {
@@ -21,7 +27,7 @@ public class DesiaUtility {
 		try {
 			properties.load(input);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("{} occured while loading property file", e);
 		}
 	}
 	

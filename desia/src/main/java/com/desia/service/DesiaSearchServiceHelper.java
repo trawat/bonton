@@ -749,7 +749,7 @@ public class DesiaSearchServiceHelper {
 		otaHotelAvailRQ.setRequestedCurrency("INR");
 		otaHotelAvailRQ.setSortOrder("TG_RANKING");
 		otaHotelAvailRQ.setPrimaryLangID("en");
-		otaHotelAvailRQ.setVersion(new BigDecimal(0.0));
+//		otaHotelAvailRQ.setVersion(BigDecimal(0.0));
 		otaHotelAvailRQ.setSearchCacheLevel("VeryRecent");
 
 		AvailRequestSegments reqSgmnts = new AvailRequestSegments();

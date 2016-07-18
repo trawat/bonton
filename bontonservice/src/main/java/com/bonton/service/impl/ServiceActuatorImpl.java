@@ -14,6 +14,9 @@ import java.util.concurrent.Future;
 
 import javax.xml.bind.UnmarshalException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bonton.service.ServiceActuator;
 import com.bonton.service.ServiceProxy;
 import com.bonton.service.adapter.DesiaServiceProxyAdapter;
@@ -37,6 +40,7 @@ import com.bonton.utility.processor.XmlProcessor;
  * @see ServiceActuator
  */
 public class ServiceActuatorImpl implements ServiceActuator {
+	private static final Logger logger = LoggerFactory.getLogger(ServiceActuatorImpl.class);
 	private static final ExecutorService es = Executors.newCachedThreadPool();
 	
 	private final HBServiceProxyAdapter hbServicePxyAdpter = new HBServiceProxyAdapter();
@@ -80,6 +84,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 				taskLst.add(submtedTask);
 			}
 		} catch (Exception exception) {
+			logger.error("{} occured while triggering search operation", exception);
 			if (exception instanceof UnmarshalException) {
 				/** Return informative error message in case the submitted request is not proper */
 				return XmlProcessor.getBeanInXml(XmlProcessor.getBTNSearchErrorRS(exception));
@@ -124,8 +129,6 @@ public class ServiceActuatorImpl implements ServiceActuator {
 							btnSearchResponse = ((HBServiceProxyAdapter) sp).getServiceInstance().getAvailabilityRS(uuid);
 						} else if (sp instanceof DesiaServiceProxyAdapter) {
 							btnSearchResponse = ((DesiaServiceProxyAdapter) sp).getServiceInstance().getAvailabilityRS(uuid);
-						} else if (false) {
-							//btnSearchResponse = ((ExpediaServiceProxyAdapter) sp).getServiceInstance().getAvailabilityRS(uuid);
 						}
 						
 						BTNSearchResponse.HotelOptions tmpHotelOptions = btnSearchResponse.getHotelOptions();
@@ -154,7 +157,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 							
 						}
 					} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("{} occured", e);
 					}
 				}}, true);
 			taskLst.add(submtedTask);

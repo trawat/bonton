@@ -49,7 +49,6 @@ public class BontonService implements Service {
 		try {
 			responseXml = actuator.confirm(request.getInputStream());
 		} catch (Exception exception) {
-			exception.printStackTrace();
 			logger.error("Exception while provisional/ confirm booking {}", exception);
 		}
 		logger.info("hotel provisional/ confirm booking request served ---->");
@@ -68,7 +67,6 @@ public class BontonService implements Service {
 		try {
 			responseXml = actuator.cancel(request.getInputStream());
 		} catch(Exception exception) {
-			exception.printStackTrace();
 			logger.error("Exception while cancel Booking {}", exception);
 		}
 		logger.info("hotel cancel booking request served ---->");
@@ -87,7 +85,6 @@ public class BontonService implements Service {
 			responseXml = actuator.repricing(request.getInputStream());
 			
 		} catch(Exception exception) {
-			exception.printStackTrace();
 			logger.error("Exception while checking rate for Key {}", exception);
 		}
 		logger.info("hotel reprice booking request served ---->");
@@ -103,7 +100,6 @@ public class BontonService implements Service {
 			responseXml = actuator.finalBooking(request.getInputStream());
 			
 		} catch(Exception exception) {
-			exception.printStackTrace();
 			logger.error("Exception while making the final booking	 {}", exception);
 		}
 		logger.info("hotel final booking request served ---->");
@@ -119,7 +115,6 @@ public class BontonService implements Service {
 			responseXml = actuator.provisionalFinalBooking(request.getInputStream());
 			
 		} catch(Exception exception) {
-			exception.printStackTrace();
 			logger.error("Exception while making the final booking	 {}", exception);
 		}
 		logger.info("hotel final plus provisional booking request served ---->");
