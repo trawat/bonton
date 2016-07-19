@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import com.bonton.service.ServiceActuator;
 import com.bonton.service.ServiceProxy;
 import com.bonton.service.adapter.DesiaServiceProxyAdapter;
-import com.bonton.service.adapter.ExpediaServiceProxyAdapter;
 import com.bonton.service.adapter.HBServiceProxyAdapter;
 import com.bonton.util.BTNProperties;
 import com.bonton.utility.artifacts.BTNCancelRQ;
@@ -48,7 +47,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	
 	@Override
 	public String search(List<? extends ServiceProxy> serviceList, final InputStream is) throws Exception {
-		final String uuid = UUID.randomUUID().toString();
+		final String uuid = getRandonUUID();
 		
 		int availableSPCount = serviceList.size();
 		
@@ -106,10 +105,6 @@ public class ServiceActuatorImpl implements ServiceActuator {
 				return XmlProcessor.getBeanInXml(((HBServiceProxyAdapter) serviceList.get(0)).getServiceInstance().getAvailabilityRS(uuid));
 			} else if (serviceList.get(0) instanceof DesiaServiceProxyAdapter) {
 				return XmlProcessor.getBeanInXml(((DesiaServiceProxyAdapter) serviceList.get(0)).getServiceInstance().getAvailabilityRS(uuid));
-			} else if (serviceList.get(0) instanceof ExpediaServiceProxyAdapter) {
-				//return XmlProcessor.getBeanInXml(serviceList.get(0).getHBServiceInstance().getAvailabilityRS(uuid));
-			} else {
-				//TODO: put in a check for the case none of the services are available
 			}
 		}
 		
