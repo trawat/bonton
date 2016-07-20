@@ -67,8 +67,21 @@ public interface HBProperties {
     public static final String _2_tilda = _2 + tilda;
     public static final String _3_tilda = _3 + tilda;
     
-    public static final String tilda_0 = tilda + _0;
-    public static final String tilda_1 = tilda + _1;
-    public static final String tilda_2 = tilda + _2;
-    public static final String tilda_3 = tilda + _3;
+    public static final String _0_tilda_0 = _0_tilda + _0;
+    public static final String _1_tilda_1 = _1_tilda + _1;
+    public static final String _2_tilda_2 = _2_tilda + _2;
+    public static final String _3_tilda_3 = _3_tilda + _3;
+    
+    public static final String _0_tilda_0_ = _0_tilda_0 + tilda;
+    public static final String _1_tilda_1_ = _1_tilda_1 + tilda;
+    public static final String _2_tilda_2_ = _2_tilda_2 + tilda;
+    public static final String _3_tilda_3_ = _3_tilda_3 + tilda;
+    
+    public static final String _0_tilda_0_0 = _0_tilda_0_ + _0;
+    public static final String _1_tilda_1_1 = _1_tilda_1_ + _1;
+    public static final String _2_tilda_2_2 = _2_tilda_2_ + _2;
+    public static final String _3_tilda_3_3 = _3_tilda_3_ + _3;
+    
+    
+    public static final String EMPTY = "";
 }
