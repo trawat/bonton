@@ -210,8 +210,8 @@ public class HBServiceHelper {
 		Set<String> keySet = new HashSet<>(Arrays.asList(keySetArray));
 		
 		/** do the appropriate mapping*/
-		btnSearchResponse.setServiceRequestID("");
-		btnSearchResponse.setServiceRequestID("");
+		btnSearchResponse.setTravelRequestID(HBProperties.EMPTY);
+		btnSearchResponse.setServiceRequestID(HBProperties.EMPTY);
 
 		btnSearchResponse.setOptionsCount(availabilityRS.getHotels().getTotal());
 
@@ -227,8 +227,8 @@ public class HBServiceHelper {
 			resHotel.setHotelCode(hotel.getCode());
 			resHotel.setHotelName(hotel.getName());
 			resHotel.setStarRating(hotel.getCategoryName());
-			resHotel.setLatitude(hotel.getLatitude() == null? 0f: hotel.getLatitude());
-			resHotel.setLongitude(hotel.getLongitude() == null? 0f: hotel.getLongitude());
+//			resHotel.setLatitude(hotel.getLatitude() == null? 0f: hotel.getLatitude());
+//			resHotel.setLongitude(hotel.getLongitude() == null? 0f: hotel.getLongitude());
 			resHotel.setFullAddress(hotel.getAddress());
 
 			/** As this is common for all the hotels */
