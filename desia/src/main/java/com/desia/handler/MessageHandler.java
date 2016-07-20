@@ -11,6 +11,10 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
+/**
+ * Design to aid in manual testing.
+ * @author Tirath
+ */
 public class MessageHandler implements SOAPHandler<SOAPMessageContext>{
 
 	@Override
