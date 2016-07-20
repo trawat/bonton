@@ -4,15 +4,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import javax.xml.ws.handler.Handler;
-import javax.xml.ws.handler.HandlerResolver;
-import javax.xml.ws.handler.PortInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +70,6 @@ import com.desia.artifacts.booking.TransactionStatusType;
 import com.desia.artifacts.booking.UniqueIDType;
 import com.desia.artifacts.booking.VerificationType;
 import com.desia.artifacts.booking.VerificationType.PersonName;
-import com.desia.handler.MessageHandler;
 import com.desia.util.DesiaDBConnection;
 import com.desia.util.DesiaProperties;
 
@@ -102,6 +96,10 @@ public class DesiaBookingServiceHelper {
 	private DesiaBookingServiceHelper() {}
 	
 	static {
+		/** Uncomment, if request and responses are supposed to be printed 
+		 * on the console for manual testing.
+		*/
+		/*
 		HandlerResolver handlerResolver = new HandlerResolver() {
 			@Override
 			public List<Handler> getHandlerChain(PortInfo portInfo) {
@@ -111,6 +109,7 @@ public class DesiaBookingServiceHelper {
 			}
 		};
 		bookingSIB.setHandlerResolver(handlerResolver);
+		*/
 		bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
 	}
 	
@@ -132,23 +131,6 @@ public class DesiaBookingServiceHelper {
 		
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
 //		otaHotelResRQ.setVersion();	//TODO: uncomment if required
-		
-		POSType otaPOSType = new POSType();
-		
-		SourceType otaSourceType = new SourceType();
-		otaSourceType.setISOCurrency(DesiaProperties.CURRENCY);
-		
-		RequestorID otaRequestorID = new RequestorID();
-		otaRequestorID.setID(DesiaProperties.DPROPERTYID);
-		otaRequestorID.setMessagePassword(DesiaProperties.DPASSWORD);
-		
-		CompanyNameType otaCompanyNameType = new CompanyNameType();
-		otaCompanyNameType.setCode(DesiaProperties.DUSERNAME);
-		
-		otaRequestorID.setCompanyName(otaCompanyNameType);
-		otaSourceType.setRequestorID(otaRequestorID);
-		List<SourceType> otaPOSTypeLst = otaPOSType.getSource();
-		otaPOSTypeLst.add(otaSourceType);
 		
 		/** Tag goes to final booking */
 		List<UniqueIDType> otaUniqueIDTypeLst = otaHotelResRQ.getUniqueID();
@@ -173,7 +155,7 @@ public class DesiaBookingServiceHelper {
 		otaHotelReservationsTypeLst.add(otaHotelReservation);
 		
 		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
-		otaHotelResRQ.setPOS(otaPOSType);
+		otaHotelResRQ.setPOS(getPOSType());
 		
 		/** Adding Desia final booking RQ for logging */
 		rqRsLst.add(otaHotelResRQ);
@@ -255,24 +237,7 @@ public class DesiaBookingServiceHelper {
 		reqResMap.put(uuid, rqRsLst);
 		
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
-		
-		POSType otaPOSType = new POSType();
-		
-		SourceType otaSourceType = new SourceType();
-		otaSourceType.setISOCurrency(DesiaProperties.CURRENCY);
-		
-		RequestorID otaRequestorID = new RequestorID();
-		otaRequestorID.setID(DesiaProperties.DPROPERTYID);
-		otaRequestorID.setMessagePassword(DesiaProperties.DPASSWORD);
-		
-		CompanyNameType otaCompanyNameType = new CompanyNameType();
-		otaCompanyNameType.setCode(DesiaProperties.DUSERNAME);
-		
-		otaRequestorID.setCompanyName(otaCompanyNameType);
-		otaSourceType.setRequestorID(otaRequestorID);
-		List<SourceType> otaPOSTypeLst = otaPOSType.getSource();
-		otaPOSTypeLst.add(otaSourceType);
-		
+				
 		/** Tag goes to final booking */
 		List<UniqueIDType> otaUniqueIDTypeLst = otaHotelResRQ.getUniqueID();
 		UniqueIDType otaUniqueIDType = new UniqueIDType();
@@ -432,7 +397,7 @@ public class DesiaBookingServiceHelper {
 		otaHotelReservation.setRoomStays(otaRoomStaysType);
 		otaHotelReservationsTypeLst.add(otaHotelReservation);
 		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
-		otaHotelResRQ.setPOS(otaPOSType);
+		otaHotelResRQ.setPOS(getPOSType());
 		
 		/** Adding Desia final booking RQ for logging */
 		rqRsLst.add(otaHotelResRQ);
@@ -524,22 +489,6 @@ public class DesiaBookingServiceHelper {
 			otaCancelRQ.setCancelType(TransactionActionType.INITIATE);
 		}
 		
-		POSType otaPOSType = new POSType();
-		
-		SourceType otaSourceType = new SourceType();
-		
-		RequestorID otaRequestorID = new RequestorID();
-		otaRequestorID.setID(DesiaProperties.DPROPERTYID);
-		otaRequestorID.setMessagePassword(DesiaProperties.DPASSWORD);
-		
-		CompanyNameType otaCompanyNameType = new CompanyNameType();
-		otaCompanyNameType.setCode(DesiaProperties.DUSERNAME);
-		
-		otaRequestorID.setCompanyName(otaCompanyNameType);
-		otaSourceType.setRequestorID(otaRequestorID);
-		List<SourceType> otaPOSTypeLst = otaPOSType.getSource();
-		otaPOSTypeLst.add(otaSourceType);
-		
 		/** Tag goes to final booking */
 		List<OTACancelRQ.UniqueID> otaUniqueIDTypeLst = otaCancelRQ.getUniqueID();
 		UniqueID otaUniqueID = new UniqueID();
@@ -565,7 +514,7 @@ public class DesiaBookingServiceHelper {
 		
 		otaTPAExtensions.setCancelDates(otaCancelDates);
 		otaCancelRQ.setTPAExtensions(otaTPAExtensions);
-		otaCancelRQ.setPOS(otaPOSType);
+		otaCancelRQ.setPOS(getPOSType());
 		
 		/** Adding Desia cancel booking RQ for logging */
 		rqRsLst.add(otaCancelRQ);
@@ -637,23 +586,6 @@ public class DesiaBookingServiceHelper {
 		logger.info("provisiona plus final booking request mapping started ---->");
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
 		
-		POSType otaPOSType = new POSType();
-		
-		SourceType otaSourceType = new SourceType();
-		otaSourceType.setISOCurrency(DesiaProperties.CURRENCY);
-		
-		RequestorID otaRequestorID = new RequestorID();
-		otaRequestorID.setID(DesiaProperties.DPROPERTYID);
-		otaRequestorID.setMessagePassword(DesiaProperties.DPASSWORD);
-		
-		CompanyNameType otaCompanyNameType = new CompanyNameType();
-		otaCompanyNameType.setCode(DesiaProperties.DUSERNAME);
-		
-		otaRequestorID.setCompanyName(otaCompanyNameType);
-		otaSourceType.setRequestorID(otaRequestorID);
-		List<SourceType> otaPOSTypeLst = otaPOSType.getSource();
-		otaPOSTypeLst.add(otaSourceType);
-		
 		/** Tag goes to final booking */
 		List<UniqueIDType> otaUniqueIDTypeLst = otaHotelResRQ.getUniqueID();
 		UniqueIDType otaUniqueIDType = new UniqueIDType();
@@ -677,7 +609,7 @@ public class DesiaBookingServiceHelper {
 		otaHotelReservationsTypeLst.add(otaHotelReservation);
 		
 		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
-		otaHotelResRQ.setPOS(otaPOSType);
+		otaHotelResRQ.setPOS(getPOSType());
 		
 		logger.info("provisional plus final booking request mapping done ---->");
 		return otaHotelResRQ;
@@ -693,6 +625,27 @@ public class DesiaBookingServiceHelper {
 	
 	public static OTACancelRS sendCancelRQ(OTACancelRQ otaCancelRQ) throws Exception {
 		return bookingSEI.cancelBooking(otaCancelRQ);
+	}
+	
+	private static final POSType getPOSType() {
+		POSType otaPOSType = new POSType();
+		
+		SourceType otaSourceType = new SourceType();
+		otaSourceType.setISOCurrency(DesiaProperties.CURRENCY);
+		
+		RequestorID otaRequestorID = new RequestorID();
+		otaRequestorID.setID(DesiaProperties.DPROPERTYID);
+		otaRequestorID.setMessagePassword(DesiaProperties.DPASSWORD);
+		
+		CompanyNameType otaCompanyNameType = new CompanyNameType();
+		otaCompanyNameType.setCode(DesiaProperties.DUSERNAME);
+		
+		otaRequestorID.setCompanyName(otaCompanyNameType);
+		otaSourceType.setRequestorID(otaRequestorID);
+		List<SourceType> otaPOSTypeLst = otaPOSType.getSource();
+		otaPOSTypeLst.add(otaSourceType);
+		
+		return otaPOSType;
 	}
 	
 	/**
