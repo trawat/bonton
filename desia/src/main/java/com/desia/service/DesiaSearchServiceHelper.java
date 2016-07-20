@@ -2,15 +2,10 @@ package com.desia.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import javax.xml.ws.handler.Handler;
-import javax.xml.ws.handler.HandlerResolver;
-import javax.xml.ws.handler.PortInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,13 +33,11 @@ import com.desia.artifacts.search.RatePlanType;
 import com.desia.artifacts.search.RateType;
 import com.desia.artifacts.search.RoomStayCandidateType;
 import com.desia.artifacts.search.RoomStayType;
-import com.desia.artifacts.search.RoomStayType.RoomRates.RoomRate;
 import com.desia.artifacts.search.RoomTypeType;
 import com.desia.artifacts.search.TGServiceEndPoint;
 import com.desia.artifacts.search.TGServiceEndPointImplService;
 import com.desia.artifacts.search.TPAExtensionsType;
 import com.desia.artifacts.search.TPAExtensionsType.UserAuthentication;
-import com.desia.handler.MessageHandler;
 import com.desia.util.DesiaDBConnection;
 import com.desia.util.DesiaProperties;
 
@@ -70,6 +63,11 @@ public class DesiaSearchServiceHelper {
 	private DesiaSearchServiceHelper() {}
 	
 	static {
+		/** 
+		 * Uncomment, if request and responses are supposed to be printed 
+		 * on the console for manual testing.
+		 */
+		/*
 		HandlerResolver handlerResolver = new HandlerResolver() {
 			@Override
 			public List<Handler> getHandlerChain(PortInfo portInfo) {
@@ -78,7 +76,8 @@ public class DesiaSearchServiceHelper {
 				return handler;
 			}
 		};
-		searchSIB.setHandlerResolver(handlerResolver);//TODO: uncomment this later
+		searchSIB.setHandlerResolver(handlerResolver);
+		*/
 		searchSEI = (TGServiceEndPoint) searchSIB.getTGServiceEndPointImplPort();
 	}
 	
@@ -267,10 +266,9 @@ public class DesiaSearchServiceHelper {
 			btnSearchRS.setOptionsCount(otaHotelAvailRS.getTPAExtensions().getHotelsInfo().getAvailable());
 		}
 		
-		String fromStaticDump = "fromstaticdump";
 		BTNSearchResponse.City btnCity = new BTNSearchResponse.City();
-		btnCity.setCityCode(fromStaticDump);//from dump
-		btnCity.setCityName(fromStaticDump);//from dump
+		btnCity.setCityCode(DesiaProperties.EMPTY);
+		btnCity.setCityName(DesiaProperties.EMPTY);
 		btnSearchRS.setCity(btnCity);
 		
 		BTNSearchResponse.HotelOptions btnHotels = new BTNSearchResponse.HotelOptions();
@@ -283,25 +281,26 @@ public class DesiaSearchServiceHelper {
 
 			BasicPropertyInfoType otaBasicPropertyInfoType = otaHotel.getBasicPropertyInfo();
 			btnHotel.setHotelCode(otaBasicPropertyInfoType.getHotelCode());
-			btnHotel.setHotelName(fromStaticDump);
-			btnHotel.setLocation(fromStaticDump);
+			btnHotel.setHotelName(getNodeValue(otaBasicPropertyInfoType.getHotelName()));
 			btnHotel.setSupplier(DesiaProperties.DESIA);
-			btnHotel.setStarRating(fromStaticDump);
-			btnHotel.setMainImage(fromStaticDump);
-			btnHotel.setFullAddress(fromStaticDump);
-			btnHotel.setLatitude(0.0f);//TODO: set these later
-			btnHotel.setLongitude(0.0f);
-			btnHotel.setDescription(fromStaticDump);
-			btnHotel.setRemarks(fromStaticDump);
-			btnHotel.setEssentialInformation(fromStaticDump);
+			
+			/** To counter hotel and city search differently for star rating */
+			if (otaBasicPropertyInfoType.getAward().size() != 0) {
+				btnHotel.setStarRating(getNodeValue(otaBasicPropertyInfoType.getAward().get(0).getRating()));
+			} else {
+				btnHotel.setStarRating(DesiaProperties.EMPTY);
+			}
+			
+			btnHotel.setFullAddress(DesiaProperties.EMPTY);
 			
 			StringBuilder hotelDetails = new StringBuilder();
-			hotelDetails.append(otaBasicPropertyInfoType.getHotelCode());hotelDetails.append(DesiaProperties.SEP2);
+			hotelDetails.append(otaBasicPropertyInfoType.getHotelCode());
+			hotelDetails.append(DesiaProperties.SEP2);
 			
 			List<RoomTypeType> roomTypeLst = otaHotel.getRoomTypes().getRoomType();
 			List<RatePlanType> rateTypeLst = otaHotel.getRatePlans().getRatePlan();
 			
-			List<RoomRate> roomRateLst = otaHotel.getRoomRates().getRoomRate();
+			//List<RoomRate> roomRateLst = otaHotel.getRoomRates().getRoomRate();
 			
 			Map<String, RoomTypeType> roomTypeMap = new HashMap<>();
 			Map<String, RatePlanType> ratePlanMap = new HashMap<>();
@@ -491,5 +490,9 @@ public class DesiaSearchServiceHelper {
 				
 				logger.info("desia RQ-RS logging for {} operation id {} completed --->", op, uuid);
 			}});
+	}
+	
+	private static final String getNodeValue(String crntValue) {
+		return null != crntValue? crntValue: DesiaProperties.EMPTY;
 	}
 }
