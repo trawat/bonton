@@ -283,6 +283,8 @@ public class DesiaSearchServiceHelper {
 			btnHotel.setHotelCode(otaBasicPropertyInfoType.getHotelCode());
 			btnHotel.setHotelName(getNodeValue(otaBasicPropertyInfoType.getHotelName()));
 			btnHotel.setSupplier(DesiaProperties.DESIA);
+			btnHotel.setLatitude(0.0f);
+			btnHotel.setLongitude(0.0f);
 			
 			/** To counter hotel and city search differently for star rating */
 			if (otaBasicPropertyInfoType.getAward().size() != 0) {
