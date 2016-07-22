@@ -12,7 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-		<version.jdk>1.8</version.jdk>  <!-- JDK version to be used -->
+		<version.jdk>1.7</version.jdk>  <!-- JDK version to be used -->
 		<version.mvn.compiler>3.3</version.mvn.compiler>
 		<version.mvn.war.plugin>2.6</version.mvn.war.plugin>
 		<version.jersey>2.15</version.jersey>
@@ -69,12 +69,6 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>desia</groupId>
-			<artifactId>desia</artifactId>
-			<version>1.0.0</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>bontonutility</groupId>
 			<artifactId>bontonutility</artifactId>
 			<version>1.0.0</version>
@@ -91,8 +85,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<plugin>
