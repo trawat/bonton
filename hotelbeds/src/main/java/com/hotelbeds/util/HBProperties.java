@@ -62,25 +62,25 @@ public interface HBProperties {
     public static final String _2 = "2";
     public static final String _3 = "3";
     
-    public static final String _0_tilda = _0 + tilda;
-    public static final String _1_tilda = _1 + tilda;
-    public static final String _2_tilda = _2 + tilda;
-    public static final String _3_tilda = _3 + tilda;
+    public static final String _0_ = _0 + tilda;
+    public static final String _1_ = _1 + tilda;
+    public static final String _2_ = _2 + tilda;
+    public static final String _3_ = _3 + tilda;
     
-    public static final String _0_tilda_0 = _0_tilda + _0;
-    public static final String _1_tilda_1 = _1_tilda + _1;
-    public static final String _2_tilda_2 = _2_tilda + _2;
-    public static final String _3_tilda_3 = _3_tilda + _3;
+    public static final String _0_0 = _0_ + _0;
+    public static final String _1_1 = _1_ + _1;
+    public static final String _2_2 = _2_ + _2;
+    public static final String _3_3 = _3_ + _3;
     
-    public static final String _0_tilda_0_ = _0_tilda_0 + tilda;
-    public static final String _1_tilda_1_ = _1_tilda_1 + tilda;
-    public static final String _2_tilda_2_ = _2_tilda_2 + tilda;
-    public static final String _3_tilda_3_ = _3_tilda_3 + tilda;
+    public static final String _0_0_ = _0_0 + tilda;
+    public static final String _1_1_ = _1_1 + tilda;
+    public static final String _2_2_ = _2_2 + tilda;
+    public static final String _3_3_ = _3_3 + tilda;
     
-    public static final String _0_tilda_0_0 = _0_tilda_0_ + _0;
-    public static final String _1_tilda_1_1 = _1_tilda_1_ + _1;
-    public static final String _2_tilda_2_2 = _2_tilda_2_ + _2;
-    public static final String _3_tilda_3_3 = _3_tilda_3_ + _3;
+    public static final String _0_0_0 = _0_0_ + _0;
+    public static final String _1_1_1 = _1_1_ + _1;
+    public static final String _2_2_2 = _2_2_ + _2;
+    public static final String _3_3_3 = _3_3_ + _3;
     
     
     public static final String EMPTY = "";
