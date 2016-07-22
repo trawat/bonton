@@ -47,14 +47,14 @@ public class HBServiceHelper {
 	private static final ExecutorService hbEs = Executors.newCachedThreadPool();
 	
 	/* Holds unique uuid and generated request-response list as key-value */
-	private static final Map<String, List<? super Object>> reqResMap = new HashMap<>();
+	private static final Map<String, List<? super Object>> reqResMap = new HashMap<String, List<? super Object>>();
 	
 	/** Holds unique uuid and combination of noOfRooms~adults~children as key-value. 
 	 * 	Done to display 'recommended' attribute as part of rate element in the response. 
 	 *  Resulting list would be like the below format - 
 	 *  1~1~0|1~2~1| 
 	 **/
-	private static final Map<String, String> rtRcmndMap = new HashMap<>();
+	private static final Map<String, String> rtRcmndMap = new HashMap<String, String>();
 	
 	/** To get the rate response sorted on the basis of board code */
 	public static final Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> rateListCmptr = 
@@ -69,7 +69,9 @@ public class HBServiceHelper {
 				}};
 
 	
-	private HBServiceHelper() {}
+	private HBServiceHelper() {
+		/* Should not be instantiated */
+	}
 	
 	/**
 	 * Used to map Bonton hotel availability RQ object to HotelBeds API
@@ -83,7 +85,7 @@ public class HBServiceHelper {
 		logger.info("hotelbeds search request mapping started ---->");
 		
 		/** Preparing request-response map */
-		List<? super Object> rqRsLst = new ArrayList<>();
+		List<? super Object> rqRsLst = new ArrayList<Object>();
 		rqRsLst.add(btnSearchRq);
 		reqResMap.put(uuid, rqRsLst);
 		
@@ -207,7 +209,8 @@ public class HBServiceHelper {
 		String tempComb = rtRcmndMap.get(uuid);
 		tempComb = tempComb.substring(0, tempComb.length() - 1);
 		String[] keySetArray = tempComb.split(HBProperties.SPLIT);
-		Set<String> keySet = new HashSet<>(Arrays.asList(keySetArray));
+		int noOfRooms = keySetArray.length;
+		Set<String> keySet = new HashSet<String>(Arrays.asList(keySetArray));
 		
 		/** do the appropriate mapping*/
 		btnSearchResponse.setTravelRequestID(HBProperties.EMPTY);
@@ -219,17 +222,18 @@ public class HBServiceHelper {
 		BTNSearchResponse.HotelOptions resHotelOptions = new  BTNSearchResponse.HotelOptions();
 		btnSearchResponse.setHotelOptions(resHotelOptions);
 
-		List<BTNSearchResponse.HotelOptions.Hotel> resHotelLst = btnSearchResponse.getHotelOptions().getHotel();
+		List<BTNSearchResponse.HotelOptions.Hotel> resHotelLst = resHotelOptions.getHotel();
 		List<AvailabilityRS.Hotels.Hotel> hotelLst = availabilityRS.getHotels().getHotel();
 
 		for (AvailabilityRS.Hotels.Hotel hotel : hotelLst) {
+			boolean addHotel = false;
 			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
 			resHotel.setHotelCode(hotel.getCode());
 			resHotel.setHotelName(hotel.getName());
 			resHotel.setStarRating(hotel.getCategoryName());
 			resHotel.setLatitude(hotel.getLatitude() == null? 0f: hotel.getLatitude());
 			resHotel.setLongitude(hotel.getLongitude() == null? 0f: hotel.getLongitude());
-			resHotel.setFullAddress(hotel.getAddress());
+			resHotel.setFullAddress(hotel.getAddress() == null? HBProperties.EMPTY: hotel.getAddress());
 
 			/** As this is common for all the hotels */
 			if (onlyOnce) {
@@ -254,17 +258,26 @@ public class HBServiceHelper {
 				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> resRateLst = resRoom.getRate();
 				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate> rateLst = room.getRates().getRate();
 				
+				/** Added to not display the rooms for which the searched pax combination 
+				 * doesn't match the combinations mentioned in rate keys. 
+				 * Works in combination with resKeySet. Added to get rid of straight cases. */
+				if (rateLst.size() < noOfRooms) {
+					continue;
+				}
+				
 				/** 
 				 * Flag to help us - whether to display a rate or not and if not 
 				 * "Bookable" rates are available then skipping the room. 
 				 **/
 				boolean isBookable = false;
+				
+				Set<String> resKeySet = new HashSet<String>();
 				for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate rate : rateLst) {
 					if (!rate.getRateType().equalsIgnoreCase(HBProperties.RATE_TYPE)) {
 						/** Skipping rate entry as rateType is not BOOKABLE. Other possibility is RECHECK */
 						continue;
 					}
-					isBookable = true;
+					isBookable = true; addHotel = true;
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate resRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate();
 					resRate.setAdults(rate.getAdults());
 					resRate.setChildren(rate.getChildren());
@@ -275,10 +288,13 @@ public class HBServiceHelper {
 							.append(rate.getAdults()).append(HBProperties.SEP1)
 							.append(rate.getChildren());
 					
+					resKeySet.add(tempBffr.toString());
+					/** Decide not to use it but keep it.
 					if (keySet.contains(tempBffr.toString())) {
-						/** Set the recommended tag */
+						/** Set the recommended tag. Not required now but exists if needed later. *
 						resRate.setRecommended(HBProperties.REC);
 					}
+					 */
 					
 					resRate.setRateKey(rate.getRateKey());
 					resRate.setPackaging(rate.getPackaging());
@@ -295,45 +311,64 @@ public class HBServiceHelper {
 					resRate.setOtaDiscountAmount(0.0f);
 
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies resCancPlcies = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies();
-					List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy> resCancPlcyLst = resCancPlcies.getCancellationPolicy();
-					List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy> cancPlcyLst = rate.getCancellationPolicies().getCancellationPolicy();
+					
+					if (rate.getCancellationPolicies() != null) {
+						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy> resCancPlcyLst = 
+								resCancPlcies.getCancellationPolicy();
+						
+						List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy> cancPlcyLst = 
+								rate.getCancellationPolicies().getCancellationPolicy();
+						
+						for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy cancPlcy : cancPlcyLst) {
+							BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy resCancPlcy = 
+									new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy();
 
-					for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy cancPlcy : cancPlcyLst) {
-						BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy resCancPlcy = 
-								new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy();
+							resCancPlcy.setAmount(cancPlcy.getAmount());
+							resCancPlcy.setFrom(cancPlcy.getFrom());
 
-						resCancPlcy.setAmount(cancPlcy.getAmount());
-						resCancPlcy.setFrom(cancPlcy.getFrom());
-
-						resCancPlcyLst.add(resCancPlcy);
+							resCancPlcyLst.add(resCancPlcy);
+						}
 					}
-
+					
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates resDailyRates = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates();
-					List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate> resDailyRateLst = resDailyRates.getDailyRate();
 
-					List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate> dailyRateLst = rate.getDailyRates().getDailyRate();
-					for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate dailyRate : dailyRateLst) {
-						BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate resDailyRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
-						resDailyRate.setOffset(dailyRate.getOffset());
-						resDailyRate.setDailyNet(dailyRate.getDailyNet());
+					if (rate.getDailyRates() != null) {
+						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate> resDailyRateLst = resDailyRates.getDailyRate();
+						List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate> dailyRateLst = rate.getDailyRates().getDailyRate();
+						
+						for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate dailyRate : dailyRateLst) {
+							BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate resDailyRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
+							resDailyRate.setOffset(dailyRate.getOffset());
+							resDailyRate.setDailyNet(dailyRate.getDailyNet());
 
-						/* adding to the daily rate list */
-						resDailyRateLst.add(resDailyRate);
+							/* adding to the daily rate list */
+							resDailyRateLst.add(resDailyRate);
+						}
 					}
+					
 					resRate.setDailyRates(resDailyRates);
 					resRate.setCancellationPolicies(resCancPlcies);
 					
 					resRateLst.add(resRate);
 				}
+				
 				/** Add room to the room list only if atleast one returned rate 
-				 * key is of type HBProperties.RATE_TYPE */
-				if (isBookable) {
+				 * key is of type HBProperties.RATE_TYPE. 
+				 * Second condition is to allow the room node only if it has 
+				 * the requested or searched for pax combination. 
+				 * for ex - if the search is for 1~1~0 and 1~1~1 then the the rate list 
+				 * of the room must have atleast two rate keys for this pax combination
+				 * in order for this room to be returned in the response. */
+				addHotel = resKeySet.containsAll(keySet);
+				if (isBookable && addHotel) {
 					/* Sorted rate list */
 					Collections.sort(resRateLst, rateListCmptr);
 					resRoomLst.add(resRoom);
 				}
 			}
-			resHotelLst.add(resHotel);
+			if (addHotel) {
+				resHotelLst.add(resHotel);
+			}
 		}
 		/** Adding HB availability response for logging */
 		reqResMap.get(uuid).add(btnSearchResponse);
@@ -355,7 +390,7 @@ public class HBServiceHelper {
 		logger.info("hotelbeds confirm request mapping started ---->");
 		
 		/** Preparing request-response map */
-		List<? super Object> rqRsLst = new ArrayList<>();
+		List<? super Object> rqRsLst = new ArrayList<Object>();
 		rqRsLst.add(btnbookingRq);
 		reqResMap.put(uuid, rqRsLst);
 
@@ -566,7 +601,7 @@ public class HBServiceHelper {
 		logger.info("hotelbeds cancel request mapping started ---->");
 		
 		/** Preparing request-response map */
-		List<? super Object> rqRsLst = new ArrayList<>();
+		List<? super Object> rqRsLst = new ArrayList<Object>();
 		rqRsLst.add(btnCancelRQ);
 		reqResMap.put(uuid, rqRsLst);
 
@@ -740,7 +775,7 @@ public class HBServiceHelper {
 		logger.info("hotelbeds reprice request mapping started ---->");
 		
 		/** Preparing request-response map */
-		List<? super Object> rqRsLst = new ArrayList<>();
+		List<? super Object> rqRsLst = new ArrayList<Object>();
 		rqRsLst.add(btnRepriceRQ);
 		reqResMap.put(uuid, rqRsLst);
 
@@ -868,7 +903,7 @@ public class HBServiceHelper {
 	 * @throws Exception 
 	 * @author Tirath
 	 */
-	public static void logReqRes(String uuid, String op, String supplier) throws Exception {
+	public static void logReqRes(final String uuid, final String op, final String supplier) throws Exception {
 		hbEs.submit(new Runnable() {
 
 			@Override
