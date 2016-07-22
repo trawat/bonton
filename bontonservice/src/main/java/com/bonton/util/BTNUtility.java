@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bonton.service.ServiceProxy;
-import com.bonton.service.adapter.DesiaServiceProxyAdapter;
 import com.bonton.service.adapter.HBServiceProxyAdapter;
 
 /**
@@ -42,10 +41,11 @@ public class BTNUtility {
 	
 	/** Fetch the list of active services */
 	public static final List<? extends ServiceProxy> getEnabledEndPointsList() {
+		List<ServiceProxy> enabledApiServiceList = new LinkedList<>();
+		
 		List<String> endPointsIDs = BTNDBConnection.getEnabledEndPoints();
 		int noOfEndpointIDs = endPointsIDs.size();
 		
-		List<ServiceProxy> enabledApiServiceList = new LinkedList<>();
 		for (int i = 0; i < noOfEndpointIDs; i++) {
 			enabledApiServiceList.add(getProxyItem(endPointsIDs.get(i)));
 		}
@@ -60,7 +60,7 @@ public class BTNUtility {
 			return new HBServiceProxyAdapter();
 		case BTNProperties.ID_SEVEN:
 			logger.info("Desia service API is enabled");
-			return new DesiaServiceProxyAdapter();
+			return null;
 		}
 		return null;
 	}

@@ -64,8 +64,8 @@ public class BTNDBConnection {
 				endPointIDs.add(rs.getString(SUPPLIER_ID));
 			}
 			
-		} catch (SQLException e) {
-			logger.error("Exception occured while inserting the request and responses {}", e);
+		} catch (Exception e) {
+			logger.error("{} occured while fetching enabled end points", e);
 		}
 		return endPointIDs;
 	}
