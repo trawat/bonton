@@ -31,7 +31,7 @@ import com.bonton.utility.hotelbeds.CheckRateRS;
 public class HBClient {
 	private static Logger logger = LoggerFactory.getLogger(HBClient.class);
 	private static Client hbRsClient = null;
-	private static MultivaluedMap<String, ? super Object> headers = new MultivaluedHashMap<>();
+	private static MultivaluedMap<String, Object> headers = new MultivaluedHashMap<String, Object>();
 	
 	private HBClient() {}
 	
