@@ -465,7 +465,7 @@ public class DesiaSearchServiceHelper {
 	 * @throws Exception 
 	 * @author Tirath
 	 */
-	public static void logReqRes(String uuid, String op, String supplier) throws Exception {
+	public static void logReqRes(final String uuid, final String op, final String supplier) throws Exception {
 		desiaEs.submit(new Runnable() {
 
 			@Override
