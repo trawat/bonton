@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bonton.service.ServiceProxy;
+import com.bonton.service.adapter.DesiaServiceProxyAdapter;
 import com.bonton.service.adapter.HBServiceProxyAdapter;
 
 /**
@@ -60,7 +61,7 @@ public class BTNUtility {
 			return new HBServiceProxyAdapter();
 		case BTNProperties.ID_SEVEN:
 			logger.info("Desia service API is enabled");
-			return null;
+			return new DesiaServiceProxyAdapter();
 		}
 		return null;
 	}
