@@ -91,30 +91,42 @@ public class HBServiceHelper {
 		
 		AvailabilityRQ availabilityRQ = new AvailabilityRQ();
 		
+		BTNSearchRequest.RequestDetails.SearchHotelPriceRequest btnSearchHotelPriceRQ = btnSearchRq.getRequestDetails().getSearchHotelPriceRequest();
 		/* To fetch the daily price break down */
-		availabilityRQ.setDailyRate(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().isIncludePriceBreakdown());
+		availabilityRQ.setDailyRate(btnSearchHotelPriceRQ.isIncludePriceBreakdown());
 		
-		if (btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getItemDestination() != null) {
+		if (btnSearchHotelPriceRQ.getItemDestination() != null) {
 			AvailabilityRQ.Destination destination = new AvailabilityRQ.Destination();
-			destination.setCode(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationCode());
+			destination.setCode(btnSearchHotelPriceRQ.getItemDestination().getDestinationCode());
 			//destination.setZone(searchBean.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationType());
 			
 			availabilityRQ.setDestination(destination);
 		}
 
 		AvailabilityRQ.Filter filter = new AvailabilityRQ.Filter();
-		if (btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMinStarRating() != null) {
-			filter.setMinCategory(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMinStarRating());
+		if (btnSearchHotelPriceRQ.getMinRate() != null) {
+			filter.setMinRate(btnSearchHotelPriceRQ.getMinRate());
 		}
-		if (btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMaxStarRating() != null) {
-			filter.setMaxCategory(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getMaxStarRating());
+		if (btnSearchHotelPriceRQ.getMaxRate() != null) {
+			filter.setMaxRate(btnSearchHotelPriceRQ.getMaxRate());
 		}
+		if (btnSearchHotelPriceRQ.getMaxNoRates() != null) {
+			filter.setMaxRatesPerRoom(btnSearchHotelPriceRQ.getMaxNoRates());
+		}
+		if (btnSearchHotelPriceRQ.getMinStarRating() != null) {
+			filter.setMinCategory(btnSearchHotelPriceRQ.getMinStarRating());
+		}
+		if (btnSearchHotelPriceRQ.getMaxStarRating() != null) {
+			filter.setMaxCategory(btnSearchHotelPriceRQ.getMaxStarRating());
+		}
+		filter.setPackaging(btnSearchHotelPriceRQ.isPackaging());
+		filter.setPaymentType(btnSearchHotelPriceRQ.getPaymentType());
 
 		availabilityRQ.setFilter(filter);
 
 		AvailabilityRQ.Stay stay = new AvailabilityRQ.Stay();
-		stay.setCheckIn(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckInDate());
-		stay.setCheckOut(btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getPeriodOfStay().getCheckOutDate());
+		stay.setCheckIn(btnSearchHotelPriceRQ.getPeriodOfStay().getCheckInDate());
+		stay.setCheckOut(btnSearchHotelPriceRQ.getPeriodOfStay().getCheckOutDate());
 
 		availabilityRQ.setStay(stay);
 
@@ -157,8 +169,8 @@ public class HBServiceHelper {
 			resOccupancyLst.add(resOccupancy);
 		}
 		/** For hotel code specific search */
-		if (btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getHotels() != null) {
-			List<String> hotelCdLst = btnSearchRq.getRequestDetails().getSearchHotelPriceRequest().getHotels().getHotel();
+		if (btnSearchHotelPriceRQ.getHotels() != null) {
+			List<String> hotelCdLst = btnSearchHotelPriceRQ.getHotels().getHotel();
 			AvailabilityRQ.Hotels resHotels = new AvailabilityRQ.Hotels();
 			List<String> resHotelLst = resHotels.getHotel();
 			for (String hotelCd : hotelCdLst) {

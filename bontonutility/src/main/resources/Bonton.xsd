@@ -45,7 +45,7 @@
 										</xs:element>
 										<xs:element type="xs:string" name="MinStarRating" minOccurs="0" maxOccurs="1"/>
 										<xs:element type="xs:string" name="MaxStarRating" minOccurs="0" maxOccurs="1" />
-										<xs:element type="xs:string" name="ImmediateConfirmationOnly" />
+										<xs:element type="xs:string" name="ImmediateConfirmationOnly" minOccurs="0" maxOccurs="1"/>
 										<xs:element name="PeriodOfStay" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
 												<xs:sequence>
@@ -54,9 +54,14 @@
 												</xs:sequence>
 											</xs:complexType>
 										</xs:element>
-										<xs:element type="xs:string" name="IncludeRecommended" />
+										<xs:element type="xs:string" name="IncludeRecommended" minOccurs="0" maxOccurs="1" />
 										<xs:element type="xs:boolean" name="IncludePriceBreakdown" default="true"/>
-										<xs:element type="xs:string" name="IncludeChargeConditions" />
+										<xs:element type="xs:string" name="IncludeChargeConditions" minOccurs="0" maxOccurs="1" />
+										<xs:element type="xs:string" name="MinRate" minOccurs="0" maxOccurs="1" />
+										<xs:element type="xs:string" name="MaxRate" minOccurs="0" maxOccurs="1" />
+										<xs:element type="xs:string" name="MaxNoRates" minOccurs="0" maxOccurs="1" />
+										<xs:element type="xs:boolean" name="Packaging" default="true" minOccurs="0" maxOccurs="1"/>
+										<xs:element type="xs:string" name="PaymentType" default="BOTH" minOccurs="0" maxOccurs="1"/>
 										<xs:element name="Rooms" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
 												<xs:sequence>
