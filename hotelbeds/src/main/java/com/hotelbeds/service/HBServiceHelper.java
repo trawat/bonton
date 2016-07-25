@@ -3,10 +3,10 @@ package com.hotelbeds.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -251,11 +251,13 @@ public class HBServiceHelper {
 			List<AvailabilityRS.Hotels.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
 
 			for (AvailabilityRS.Hotels.Hotel.Rooms.Room room : roomLst) {
-				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
-				resRoom.setRoomType(room.getName());
-				resRoom.setSupplier(HBProperties.HB);
+				Map<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate>> resBrdRateMap = 
+						new HashMap<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate>>();
+//				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
+//				resRoom.setRoomType(room.getName());
+//				resRoom.setSupplier(HBProperties.HB);
 
-				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> resRateLst = resRoom.getRate();
+//				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> resRateLst = resRoom.getRate();
 				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate> rateLst = room.getRates().getRate();
 				
 				/** Added to not display the rooms for which the searched pax combination 
@@ -289,7 +291,7 @@ public class HBServiceHelper {
 							.append(rate.getChildren());
 					
 					resKeySet.add(tempBffr.toString());
-					/** Decide not to use it but keep it.
+					/** Decided not to use it but keep it.
 					if (keySet.contains(tempBffr.toString())) {
 						/** Set the recommended tag. Not required now but exists if needed later. *
 						resRate.setRecommended(HBProperties.REC);
@@ -349,7 +351,16 @@ public class HBServiceHelper {
 					resRate.setDailyRates(resDailyRates);
 					resRate.setCancellationPolicies(resCancPlcies);
 					
-					resRateLst.add(resRate);
+					if (resBrdRateMap.containsKey(rate.getBoardCode())) {
+						resBrdRateMap.get(rate.getBoardCode()).add(resRate);
+					} else {
+						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> tmpRateLst = 
+								new ArrayList<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate>();
+						tmpRateLst.add(resRate);
+						resBrdRateMap.put(rate.getBoardCode(), tmpRateLst);
+					}
+					/** Changing logic */
+					//resRateLst.add(resRate);
 				}
 				
 				/** Add room to the room list only if atleast one returned rate 
@@ -362,8 +373,22 @@ public class HBServiceHelper {
 				addHotel = resKeySet.containsAll(keySet);
 				if (isBookable && addHotel) {
 					/* Sorted rate list */
-					Collections.sort(resRateLst, rateListCmptr);
-					resRoomLst.add(resRoom);
+//					Collections.sort(resRateLst, rateListCmptr);
+					
+					Set<String> tmpBrdSet = resBrdRateMap.keySet();
+					Iterator<String> tmpBrdSetItr = tmpBrdSet.iterator();
+					while (tmpBrdSetItr.hasNext()) {
+						String nxtBrdCode = tmpBrdSetItr.next();
+						BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = 
+								new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
+						resRoom.setRoomType(room.getName());
+						resRoom.setSupplier(HBProperties.HB);
+						resRoom.setMealCode(nxtBrdCode);
+						
+						resRoom.getRate().addAll(resBrdRateMap.get(nxtBrdCode));
+						resRoomLst.add(resRoom);
+					}
+//					resRoomLst.add(resRoom);
 				}
 			}
 			if (addHotel) {
