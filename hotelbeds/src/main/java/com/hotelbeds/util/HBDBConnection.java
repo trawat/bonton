@@ -56,7 +56,7 @@ public class HBDBConnection {
 	 * @param splr Name of the supplier or supplier code
 	 */
 	public static void insert(String opr, String btnRq, String hbRq, String hbRs, String btnRs, String splr) {
-		try (PreparedStatement ps = connection.prepareStatement(activitySql)) {
+		try (PreparedStatement ps = getConnection().prepareStatement(activitySql)) {
 			ps.setString(1, opr);
 			ps.setString(2, btnRq);
 			ps.setString(3, hbRq);
@@ -68,5 +68,15 @@ public class HBDBConnection {
 		} catch (SQLException e) {
 			logger.error("Exception occured while inserting the request and responses {}", e);
 		}
+	}
+	private static Connection getConnection() {
+		if (connection == null) {
+			try {
+				connection = DriverManager.getConnection(db_url, db_username, db_password);
+			} catch (SQLException e) {
+				logger.error("Unable to conncet to {} database", db);
+			}
+		}
+		return connection;
 	}
 }

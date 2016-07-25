@@ -57,7 +57,7 @@ public class BTNDBConnection {
 	 */
 	public static final List<String> getEnabledEndPoints() {
 		List<String> endPointIDs = new LinkedList<>();
-		try (PreparedStatement ps = connection.prepareStatement(eepSql);
+		try (PreparedStatement ps = getConnection().prepareStatement(eepSql);
 				ResultSet rs = ps.executeQuery();) {
 			
 			while (rs.next()) {
@@ -68,5 +68,16 @@ public class BTNDBConnection {
 			logger.error("{} occured while fetching enabled end points", e);
 		}
 		return endPointIDs;
+	}
+	
+	private static Connection getConnection() {
+		if (connection == null) {
+			try {
+				connection = DriverManager.getConnection(db_url, db_username, db_password);
+			} catch (SQLException e) {
+				logger.error("Unable to conncet to {} database", db);
+			}
+		}
+		return connection;
 	}
 }
