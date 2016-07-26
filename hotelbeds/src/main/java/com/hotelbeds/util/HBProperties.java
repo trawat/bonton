@@ -25,7 +25,7 @@ public interface HBProperties {
     public static final String SIGNATURE_HEADER_NAME = "X-Signature";
     public static final String UTF8 = "UTF-8";
     
-    public static final String HB = "HOTELBEDS";
+    public static final String HB = "5";
     public static final String RATE_TYPE = "BOOKABLE";
     
     /** Used in HotelBeds Search operations */
@@ -49,6 +49,11 @@ public interface HBProperties {
     public static final String LOGGINGUNAME = "log.username";
     public static final String LOGGINGUPWD = "log.password";
     public static final String LOGGINGDRVR = "";
+    
+    public static final String ADULTCD = "AD";
+    public static final String CHILDCD = "CH";
+    public static final String ADULTAGECD = "10";
+    public static final String CHILDAGECD = "8";
     
     /** 
      * Below constants are not used directly but are present to represent

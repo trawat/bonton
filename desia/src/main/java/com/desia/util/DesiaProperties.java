@@ -36,7 +36,7 @@ public interface DesiaProperties {
     public static final String LOGGINGUPWD = "log.password";
     public static final String LOGGINGDRVR = "";
     
-    public static final String DESIA = "DESIA";
+    public static final String DESIA = "7";
     
     public static final String ADULTCD = "AD";
     public static final String CHILDCD = "CH";
