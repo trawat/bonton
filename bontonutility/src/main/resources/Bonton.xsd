@@ -279,6 +279,7 @@
 																			<xs:element type="xs:decimal" name="NetRate" />
 																			<xs:element type="xs:string" name="Packaging" />
 																			<xs:element type="xs:string" name="RateType" />
+																			<xs:element type="xs:string" name="RateComments" />
 																			<xs:element type="xs:string" name="Category" />
 																			<xs:element type="xs:int" name="RoomCount" />
 																			<xs:element type="xs:int" name="AdultCount" />
@@ -378,7 +379,7 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element type="xs:string" name="ClientReference" />
-				<xs:element name="PeriodOfStay" minOccurs="0" maxOccurs="1">
+				<xs:element name="PeriodOfStay" minOccurs="1" maxOccurs="1">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element type="xs:date" name="CheckOutDate" minOccurs="1" maxOccurs="1" />
@@ -518,6 +519,7 @@
 																						<xs:element type="xs:float" name="NetRate" />
 																						<xs:element type="xs:string" name="Packaging" />
 																						<xs:element type="xs:string" name="RateType" />
+																						<xs:element type="xs:string" name="RateComments" />
 																						<xs:element type="xs:string" name="Category" />
 																						<xs:element type="xs:int" name="RoomCount" />
 																						<xs:element type="xs:int" name="AdultCount" />
