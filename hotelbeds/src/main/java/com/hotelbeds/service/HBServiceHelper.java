@@ -56,6 +56,8 @@ public class HBServiceHelper {
 	 **/
 	private static final Map<String, String> rtRcmndMap = new HashMap<String, String>();
 	
+	private static final String DFLTHOLDVALUE = "0";
+	
 	/** To get the rate response sorted on the basis of board code */
 	public static final Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> rateListCmptr = 
 			new Comparator<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> () {
@@ -309,6 +311,7 @@ public class HBServiceHelper {
 						resRate.setRecommended(HBProperties.REC);
 					}
 					 */
+					resRate.setHoldValue(DFLTHOLDVALUE);
 					
 					resRate.setRateKey(rate.getRateKey());
 					resRate.setPackaging(rate.getPackaging());
@@ -553,7 +556,7 @@ public class HBServiceHelper {
 		resHotel.setDestName(hotel.getDestinationName());
 		
 		BTNConfirmResponse.Booking.Hotel.Supplierdetails resSupplierDetails = new BTNConfirmResponse.Booking.Hotel.Supplierdetails(); 
-		resSupplierDetails.setName("HotelBeds");
+		resSupplierDetails.setName(HBProperties.HB);
 		resSupplierDetails.setVatNumber(hotel.getSupplier().getVatNumber());
 		
 		BTNConfirmResponse.Booking.Hotel.Rooms resRooms = new BTNConfirmResponse.Booking.Hotel.Rooms();
@@ -583,7 +586,7 @@ public class HBServiceHelper {
 				resPax.setType(pax.getType());
 				resPax.setValue(pax.getValue());
 				
-				if ("AD".equals(pax.getType()))
+				if (HBProperties.ADULTCD.equals(pax.getType()))
 					adultCount++;
 				
 				resPaxes.getPax().add(resPax);
@@ -594,6 +597,7 @@ public class HBServiceHelper {
 			resRate.setNetRate(rate.getNet());
 			resRate.setPackaging(rate.getPackaging());
 			resRate.setRateType(rate.getRateClass());
+			resRate.setRateComments(rate.getRateComments());
 			resRate.setRoomCount(roomCount);
 			resRate.setAdultCount(adultCount);
 			resRate.setChildCount(totalOccupant - adultCount);
@@ -720,7 +724,7 @@ public class HBServiceHelper {
 		//hotel.getCurrency()
 		
 		BTNCancelRS.Booking.Hotel.Supplierdetails resSupplierDetails = new BTNCancelRS.Booking.Hotel.Supplierdetails(); 
-		resSupplierDetails.setName("HotelBeds");
+		resSupplierDetails.setName(HBProperties.HB);
 		resSupplierDetails.setVatNumber(hotel.getSupplier().getVatNumber());
 		
 		BTNCancelRS.Booking.Hotel.Rooms resRooms = new BTNCancelRS.Booking.Hotel.Rooms();
@@ -750,7 +754,7 @@ public class HBServiceHelper {
 				resPax.setType(pax.getType());
 				resPax.setValue(pax.getValue());
 				
-				if ("AD".equals(pax.getType()))
+				if (HBProperties.ADULTCD.equals(pax.getType()))
 					adultCount++;
 				
 				resPaxes.getPax().add(resPax);
@@ -896,6 +900,7 @@ public class HBServiceHelper {
 			resRate.setNetRate(net);
 			resRate.setPackaging(rate.getPackaging());
 			resRate.setRateType(rate.getRateType());
+			resRate.setRateComments(rate.getRateComment());
 //			resRate.setCategory();
 			resRate.setRoomCount(rate.getRooms());
 			resRate.setAdultCount(rate.getAdults());
