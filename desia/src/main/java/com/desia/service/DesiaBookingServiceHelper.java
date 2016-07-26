@@ -339,9 +339,9 @@ public class DesiaBookingServiceHelper {
 		PersonNameType otaPersonNameType = new PersonNameType();
 		
 		List<String> otaGivenName = otaPersonNameType.getGivenName();
-		otaGivenName.add(btnConfirmRQ.getContactData().getPersonName().getFirstName());
+		otaGivenName.add(btnConfirmRQ.getPrinciplePax().getName());
 		
-		otaPersonNameType.setSurname(btnConfirmRQ.getContactData().getPersonName().getLastName());
+		otaPersonNameType.setSurname(btnConfirmRQ.getPrinciplePax().getSurname());
 		otaPersonNameTypeLst.add(otaPersonNameType);
 				
 		List<Email> otaEmailLst = otaCustomerType.getEmail();

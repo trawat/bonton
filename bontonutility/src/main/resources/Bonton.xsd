@@ -429,14 +429,6 @@
 				<xs:element name="ContactData">
 					<xs:complexType>
 						<xs:sequence>
-						<xs:element name="PersonName" minOccurs="0" maxOccurs="1">
-							<xs:complexType>
-								<xs:sequence>
-									<xs:element name="FirstName" type="xs:string" minOccurs="1" maxOccurs="1" />
-									<xs:element name="LastName" type="xs:string" minOccurs="1" maxOccurs="1" />
-								</xs:sequence>
-							</xs:complexType>
-						</xs:element>
 							<xs:element type="xs:string" name="Email" minOccurs="0" maxOccurs="1"/>
 							<xs:element type="xs:long" name="PhoneNumber" minOccurs="0" maxOccurs="1"/>
 							<xs:element type="xs:string" name="CountryCd" minOccurs="0" maxOccurs="1"/>
