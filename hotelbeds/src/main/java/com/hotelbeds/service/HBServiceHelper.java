@@ -248,6 +248,7 @@ public class HBServiceHelper {
 			resHotel.setLatitude(hotel.getLatitude() == null? 0f: hotel.getLatitude());
 			resHotel.setLongitude(hotel.getLongitude() == null? 0f: hotel.getLongitude());
 			resHotel.setFullAddress(hotel.getAddress() == null? HBProperties.EMPTY: hotel.getAddress());
+			resHotel.setCurrency(hotel.getCurrency());
 
 			/** As this is common for all the hotels */
 			if (onlyOnce) {
