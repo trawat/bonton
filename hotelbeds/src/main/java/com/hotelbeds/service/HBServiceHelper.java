@@ -901,7 +901,7 @@ public class HBServiceHelper {
 			resRate.setNetRate(net);
 			resRate.setPackaging(rate.getPackaging());
 			resRate.setRateType(rate.getRateType());
-			resRate.setRateComments(rate.getRateComment());
+			resRate.setRateComments(rate.getRateComments());
 //			resRate.setCategory();
 			resRate.setRoomCount(rate.getRooms());
 			resRate.setAdultCount(rate.getAdults());

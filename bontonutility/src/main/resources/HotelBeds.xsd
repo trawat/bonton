@@ -632,7 +632,7 @@
 																		<xs:attribute type="xs:string" name="rateKey" />
 																		<xs:attribute type="xs:string" name="rateClass" />
 																		<xs:attribute type="xs:string" name="rateType" />
-																		<xs:attribute type="xs:string" name="rateComment" />
+																		<xs:attribute type="xs:string" name="rateComments" />
 																		<xs:attribute type="xs:string" name="paymentType" />
 																		<xs:attribute type="xs:string" name="packaging" />
 																		<xs:attribute type="xs:string" name="boardCode" />
