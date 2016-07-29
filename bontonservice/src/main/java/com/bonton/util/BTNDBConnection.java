@@ -66,7 +66,14 @@ public class BTNDBConnection {
 			
 		} catch (Exception e) {
 			logger.error("{} occured while fetching enabled end points", e);
-		}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sQLException) {
+					logger.error("Unable to close {} connection {}", db, sQLException);
+				}
+			}
+		} 
 		return endPointIDs;
 	}
 	
@@ -79,5 +86,9 @@ public class BTNDBConnection {
 			}
 		}
 		return connection;
+	}
+	
+	public static void reInstateConnection() {
+		getConnection();
 	}
 }

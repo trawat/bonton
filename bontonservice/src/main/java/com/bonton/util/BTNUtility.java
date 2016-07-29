@@ -65,4 +65,8 @@ public class BTNUtility {
 		}
 		return null;
 	}
+	
+	public static final void checkConnectivity() {
+		BTNDBConnection.reInstateConnection();
+	}
 }
