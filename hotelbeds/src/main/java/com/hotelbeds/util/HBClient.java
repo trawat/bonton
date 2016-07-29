@@ -1,6 +1,9 @@
 package com.hotelbeds.util;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -14,6 +17,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.glassfish.jersey.client.filter.EncodingFilter;
+import org.glassfish.jersey.message.GZipEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,21 +37,26 @@ public class HBClient {
 	private static Logger logger = LoggerFactory.getLogger(HBClient.class);
 	private static Client hbRsClient = null;
 	private static MultivaluedMap<String, Object> headers = new MultivaluedHashMap<String, Object>();
+	private static final String HEADER_SEPARATOR = "----->";
+	private static final String COMMA = ", ";
 	
 	private HBClient() {}
 	
 	static {
 		try {
 			hbRsClient = ClientBuilder.newClient();
-			
+			hbRsClient.register(GZipEncoder.class);
+			hbRsClient.register(EncodingFilter.class);
 			/* Request headers */
 			headers.putSingle(HBProperties.API_KEY_HEADER_NAME, HBProperties.API_KEY);
 			headers.putSingle(HttpHeaders.USER_AGENT, HBProperties.USER_AGENT);
 			headers.putSingle(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML);
-			headers.putSingle(MediaType.CHARSET_PARAMETER, HBProperties.UTF8);
+			//headers.putSingle(MediaType.CHARSET_PARAMETER, HBProperties.UTF8);
 			/* Response headers */
 			headers.putSingle(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML);
-			headers.putSingle(HttpHeaders.ACCEPT_CHARSET, HBProperties.UTF8);
+			//headers.putSingle(HttpHeaders.ACCEPT_CHARSET, HBProperties.UTF8);
+			headers.putSingle(HttpHeaders.ACCEPT_ENCODING, HBProperties.ENCODING);
+			headers.putSingle(HttpHeaders.CONTENT_ENCODING, HBProperties.ENCODING);
 		} catch (Exception exception) {
 			/* try closing the client */
 			if (hbRsClient != null) {
@@ -67,14 +77,13 @@ public class HBClient {
 	 */ 
 	private static <T> Object post(T rqObj, WebTarget target, Class<?> clazz) throws Exception {
 		Invocation.Builder builder = target.request()
-		.accept(MediaType.APPLICATION_XML)
-		.acceptLanguage(Locale.ENGLISH)
 		.headers(getHeaders());
 		
 		Entity<T> entity = Entity.entity(rqObj, MediaType.APPLICATION_XML);
 		Invocation invoker = builder.buildPost(entity);
 
 		Response response = invoker.invoke();
+		printRQRSHeaders(response);
 		
 		return response.readEntity(clazz);
 	}
@@ -163,4 +172,27 @@ public class HBClient {
 				DigestUtils.sha256Hex(HBProperties.API_KEY + HBProperties.SHARED_SECRET + System.currentTimeMillis() / 1000));
 		return headers;
 	}
+	
+	private static final void printRQRSHeaders(Response response) {
+		MultivaluedMap<String, Object> responseHeaders = response.getHeaders();
+		Set<Map.Entry<String, List<Object>>> headerEntries = responseHeaders.entrySet();
+		
+		for (Map.Entry<String, List<Object>> entry : headerEntries) {
+			StringBuilder temp = new StringBuilder();
+			temp.append(entry.getKey());
+			List<Object> tempHeaderObjLst = entry.getValue();
+			
+			if (null != tempHeaderObjLst && tempHeaderObjLst.size() != 0) {
+				temp.append(HEADER_SEPARATOR);
+				for (Object headerObj : tempHeaderObjLst) {
+					temp.append(headerObj);
+					temp.append(COMMA);
+				}
+			}
+			String headerStr = temp.toString();
+			headerStr = headerStr.substring(0, headerStr.lastIndexOf(COMMA));
+			logger.debug(headerStr);
+		}
+	}
+	
 }
