@@ -328,7 +328,8 @@ public class HBServiceHelper {
 					resRate.setOtaFee(0.0f);
 					resRate.setOtaDiscountAmount(0.0f);
 
-					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies resCancPlcies = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies();
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies resCancPlcies = 
+							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies();
 					
 					if (rate.getCancellationPolicies() != null) {
 						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy> resCancPlcyLst = 
@@ -348,7 +349,8 @@ public class HBServiceHelper {
 						}
 					}
 					
-					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates resDailyRates = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates();
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates resDailyRates = 
+							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates();
 
 					if (rate.getDailyRates() != null) {
 						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate> resDailyRateLst = resDailyRates.getDailyRate();
@@ -482,7 +484,7 @@ public class HBServiceHelper {
 		BookingRQ.PaymentData.ContactData contactdata = new BookingRQ.PaymentData.ContactData();
 		contactdata.setEmail(btnbookingRq.getContactData().getEmail());
 		//TODO: change this later
-		contactdata.setPhoneNumber(btnbookingRq.getContactData().getPhoneNumber() + "");
+		contactdata.setPhoneNumber(btnbookingRq.getContactData().getPhoneNumber() + HBProperties.EMPTY);
 		paymentdata.setContactData(contactdata);
 		
 //		bookingRQ.setPaymentData(paymentdata);
