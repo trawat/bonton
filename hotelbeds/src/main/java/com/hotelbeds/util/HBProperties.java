@@ -24,6 +24,7 @@ public interface HBProperties {
     public static final String API_KEY_HEADER_NAME = "Api-Key";
     public static final String SIGNATURE_HEADER_NAME = "X-Signature";
     public static final String UTF8 = "UTF-8";
+    public static final String ENCODING = "gzip";
     
     public static final String HB = "5";
     public static final String RATE_TYPE = "BOOKABLE";
