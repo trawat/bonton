@@ -71,13 +71,20 @@ public class DesiaDBConnection {
 	}
 	
 	private static Connection getConnection() {
-		if (connection == null) {
-			try {
-				connection = DriverManager.getConnection(db_url, db_username, db_password);
-			} catch (SQLException e) {
-				logger.error("Unable to conncet to {} database", db);
+		try {
+			if (connection == null || !connection.isValid(0)) {
+				logger.info("{} database connection was null", db);
+				try {
+					connection = DriverManager.getConnection(db_url, db_username, db_password);
+				} catch (SQLException e) {
+					logger.error("Unable to connect to {} database", db);
+					throw e;
+				}
 			}
+		} catch (SQLException e1) {
+			logger.error("Please check the {} database instance is up and running", db);
 		}
+		
 		return connection;
 	}
 }
