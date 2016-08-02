@@ -33,7 +33,7 @@ public class BontonService implements Service {
 		try {
 			responseXml = actuator.search(BTNUtility.getEnabledEndPointsList(), request.getInputStream());
 		} catch(Exception exception) {
-			logger.error("Exception in BontonService : {}", exception);
+			logger.error("Exception in BontonService : {}", exception.getCause());
 		}
 		logger.info("hotel search request served ---->");
 		return responseXml;

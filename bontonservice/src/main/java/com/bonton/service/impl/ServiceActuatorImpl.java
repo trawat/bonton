@@ -76,8 +76,8 @@ public class ServiceActuatorImpl implements ServiceActuator {
 					public void run() {
 						try {
 							sp.search(requestBean, uuid, manySp);
-						} catch (Exception e) {
-							e.printStackTrace();
+						} catch (Exception exception) {
+							logger.error("{} occured while triggering search operation", exception);
 						}
 					}}, true);
 				taskLst.add(submtedTask);
