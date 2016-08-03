@@ -110,7 +110,11 @@ public class DesiaBookingServiceHelper {
 		};
 		bookingSIB.setHandlerResolver(handlerResolver);
 		*/
-		bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
+		try {
+			bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
+		} catch(ExceptionInInitializerError staticInitializationErr) {
+			bookingSEI = null;
+		}
 	}
 	
 	/**
@@ -188,8 +192,8 @@ public class DesiaBookingServiceHelper {
 			StringBuilder errMsg = new StringBuilder();
 			for (ErrorType otaErrorType : otaErrorLst) {
 				if (errCode.length() != 0) {
-					errCode.append(DesiaProperties.SEP2);
-					errMsg.append(DesiaProperties.SEP2);
+					errCode.append(DesiaProperties.PIPE);
+					errMsg.append(DesiaProperties.PIPE);
 				}
 				errCode.append(otaErrorType.getCode());
 				errMsg.append(otaErrorType.getValue());
@@ -255,10 +259,13 @@ public class DesiaBookingServiceHelper {
 		List<BTNConfirmRequest.Rooms.Room> btnRoomLst = btnConfirmRQ.getRooms().getRoom();
 		
 		/** As the rate key passed is going to be same for all the rooms. We will fetch 
-		 * only rate key and get the required details out. */
-		String rateKey = btnRoomLst.get(0).getUniqueKey();
-		rateKey = rateKey.replaceAll(DesiaProperties.SPLITSTR, DesiaProperties.EMPTY);
-		String[] rateKeyAry = rateKey.split(DesiaProperties.SPLIT);
+		 * only rate key and get the required details out. Also, AmountBeforeTax and TaxAmount
+		 * will be same in all the nodes. */
+		BTNConfirmRequest.Rooms.Room tmpBtnRoom = btnRoomLst.get(0);
+		String rateKey = tmpBtnRoom.getUniqueKey();
+		String amtBeforeTax = tmpBtnRoom.getAmountBeforeTax();
+		String taxAmount = tmpBtnRoom.getTaxAmount();
+		String[] rateKeyAry = rateKey.split(DesiaProperties.PIPESPLIT);
 		
 		
 		GuestCountType otaGuestCountType = new GuestCountType();
@@ -293,31 +300,31 @@ public class DesiaBookingServiceHelper {
 		RoomStay otaRoomStay = new RoomStay();
 		
 		RoomTypeType otaRoomTypeType = new RoomTypeType();
-		otaRoomTypeType.setNumberOfUnits(new BigInteger(DesiaProperties.EMPTY + btnRoomLst.size()));
-		otaRoomTypeType.setRoomTypeCode(rateKeyAry[1]);
+		otaRoomTypeType.setNumberOfUnits(BigInteger.valueOf(btnRoomLst.size()));
+		otaRoomTypeType.setRoomTypeCode(rateKeyAry[3]);
 		
 		RatePlans otaRatePlans = new RatePlans();
 		List<RatePlanType> otaRatePlanLst = otaRatePlans.getRatePlan();
 		
 		RatePlanType otaRatePlanType = new RatePlanType();		
-		otaRatePlanType.setRatePlanCode(rateKeyAry[2]);
+		otaRatePlanType.setRatePlanCode(rateKeyAry[4]);
 		
 		DateTimeSpanType otaTimeSpan = new DateTimeSpanType();
 		otaTimeSpan.setStart(btnConfirmRQ.getPeriodOfStay().getCheckInDate().toString());
 		otaTimeSpan.setEnd(btnConfirmRQ.getPeriodOfStay().getCheckOutDate().toString());
 		
 		TotalType otaTotalType = new TotalType();
-		otaTotalType.setAmountBeforeTax(new BigDecimal(DesiaProperties.EMPTY + rateKeyAry[3]));
+		otaTotalType.setAmountBeforeTax(new BigDecimal(amtBeforeTax));
 		otaTotalType.setCurrencyCode(DesiaProperties.CURRENCY);
 		
 		TaxesType otaTaxesType = new TaxesType();
-		otaTaxesType.setAmount(new BigDecimal(DesiaProperties.EMPTY + rateKeyAry[4]));
+		otaTaxesType.setAmount(new BigDecimal(taxAmount));
 		otaTaxesType.setCurrencyCode(DesiaProperties.CURRENCY);
 		
 		otaTotalType.setTaxes(otaTaxesType);
 		
 		BasicPropertyInfoType otaBasicPropertyInfoType = new BasicPropertyInfoType();
-		otaBasicPropertyInfoType.setHotelCode(rateKeyAry[0]);
+		otaBasicPropertyInfoType.setHotelCode(rateKeyAry[2]);
 		
 		ResGuestsType otaResGuestsType = new ResGuestsType();
 		List<ResGuestType> otaResGuestTypeLst = otaResGuestsType.getResGuest();
@@ -431,8 +438,8 @@ public class DesiaBookingServiceHelper {
 			StringBuilder errMsg = new StringBuilder();
 			for (ErrorType otaErrorType : otaErrorLst) {
 				if (errCode.length() != 0) {
-					errCode.append(DesiaProperties.SEP2);
-					errMsg.append(DesiaProperties.SEP2);
+					errCode.append(DesiaProperties.PIPE);
+					errMsg.append(DesiaProperties.PIPE);
 				}
 				errCode.append(otaErrorType.getCode());
 				errMsg.append(otaErrorType.getValue());
@@ -548,8 +555,8 @@ public class DesiaBookingServiceHelper {
 			StringBuilder errMsg = new StringBuilder();
 			for (ErrorType otaErrorType : otaErrorLst) {
 				if (errCode.length() != 0) {
-					errCode.append(DesiaProperties.SEP2);
-					errMsg.append(DesiaProperties.SEP2);
+					errCode.append(DesiaProperties.PIPE);
+					errMsg.append(DesiaProperties.PIPE);
 				}
 				errCode.append(otaErrorType.getCode());
 				errMsg.append(otaErrorType.getValue());
@@ -616,15 +623,21 @@ public class DesiaBookingServiceHelper {
 	}
 		
 	public static OTAHotelResRS sendFinalBookingRQ(OTAHotelResRQ otaHotelResRQ) throws Exception {
-		return bookingSEI.createBooking(otaHotelResRQ);
+		return getBookingSEI().createBooking(otaHotelResRQ);
 	}
 	
 	public static OTAHotelResRS sendProvisionalBookingRQ(OTAHotelResRQ otaHotelResRQ) throws Exception {
-		return bookingSEI.createBooking(otaHotelResRQ);
+		return getBookingSEI().createBooking(otaHotelResRQ);
 	}
 	
 	public static OTACancelRS sendCancelRQ(OTACancelRQ otaCancelRQ) throws Exception {
-		return bookingSEI.cancelBooking(otaCancelRQ);
+		return getBookingSEI().cancelBooking(otaCancelRQ);
+	}
+	private static TGBookingServiceEndPoint getBookingSEI() {
+		if (bookingSEI == null) {
+			bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
+		}
+		return bookingSEI;
 	}
 	
 	private static final POSType getPOSType() {
