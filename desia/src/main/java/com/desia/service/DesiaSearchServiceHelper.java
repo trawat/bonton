@@ -380,6 +380,7 @@ public class DesiaSearchServiceHelper {
 			/** To keep track of Amount before tax and tax amount associated with a rate node. */
 			//Map<String, List<String>> roomRateAmtMap = new HashMap<>();
 			
+			int offSetCount = 1;
 			for (RoomStayType.RoomRates.RoomRate otaRoomRate : otaRoomRateLst) {
 				String otaRoomId = otaRoomRate.getRoomID();
 				String otaRatePlanId = otaRoomRate.getRatePlanCode();
@@ -493,6 +494,7 @@ public class DesiaSearchServiceHelper {
 							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
 					
 					/** NARROWING CONVERSION **/
+					btnDailyRate.setOffset(offSetCount);
 					btnDailyRate.setDailySellingRate(amountBeforeTax.floatValue());
 					btnDailyRate.setDailyNet(amountAfterTax.floatValue());
 					btnDailyRateLst.add(btnDailyRate);
@@ -505,6 +507,7 @@ public class DesiaSearchServiceHelper {
 					
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate btnDailyRate = 
 							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
+					btnDailyRate.setOffset(offSetCount++);
 					btnDailyRate.setDailySellingRate(amountBeforeTax.floatValue());
 					btnDailyRate.setDailyNet(amountAfterTax.floatValue());
 					
