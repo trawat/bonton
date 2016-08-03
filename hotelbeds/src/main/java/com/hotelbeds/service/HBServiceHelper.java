@@ -244,6 +244,7 @@ public class HBServiceHelper {
 			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
 			resHotel.setHotelCode(hotel.getCode());
 			resHotel.setHotelName(hotel.getName());
+			resHotel.setSupplier(HBProperties.HB);
 			resHotel.setStarRating(hotel.getCategoryName());
 			resHotel.setLatitude(hotel.getLatitude() == null? 0f: hotel.getLatitude());
 			resHotel.setLongitude(hotel.getLongitude() == null? 0f: hotel.getLongitude());
