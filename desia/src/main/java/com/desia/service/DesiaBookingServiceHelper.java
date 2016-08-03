@@ -18,10 +18,6 @@ import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNConfirmResponse;
 import com.bonton.utility.artifacts.BTNFinalBookingRQ;
 import com.bonton.utility.artifacts.BTNFinalBookingRS;
-import com.bonton.utility.artifacts.BTNSearchRequest;
-import com.bonton.utility.artifacts.BTNSearchResponse;
-import com.bonton.utility.hotelbeds.AvailabilityRQ;
-import com.bonton.utility.hotelbeds.AvailabilityRS;
 import com.bonton.utility.processor.XmlProcessor;
 import com.desia.artifacts.booking.BasicPropertyInfoType;
 import com.desia.artifacts.booking.CompanyNameType;
@@ -59,8 +55,6 @@ import com.desia.artifacts.booking.RoomTypeType;
 import com.desia.artifacts.booking.SourceType;
 import com.desia.artifacts.booking.SourceType.RequestorID;
 import com.desia.artifacts.booking.StateProvType;
-import com.desia.artifacts.booking.TGBookingServiceEndPoint;
-import com.desia.artifacts.booking.TGBookingServiceEndPointImplService;
 import com.desia.artifacts.booking.TPAExtensionsType;
 import com.desia.artifacts.booking.TPAExtensionsType.CancelDates;
 import com.desia.artifacts.booking.TaxesType;
@@ -78,9 +72,6 @@ public class DesiaBookingServiceHelper {
 	
 	private static final ExecutorService desiaEs = Executors.newCachedThreadPool();
 	
-	private static final TGBookingServiceEndPointImplService bookingSIB = new TGBookingServiceEndPointImplService();
-	private static TGBookingServiceEndPoint bookingSEI = null;
-	
 	/* Holds unique uuid and generated request-response list as key-value */
 	private static final Map<String, List<? super Object>> reqResMap = new HashMap<>();
 	
@@ -94,28 +85,6 @@ public class DesiaBookingServiceHelper {
 	private static final String DFLTPROFILETYPE = "1";
 	
 	private DesiaBookingServiceHelper() {}
-	
-	static {
-		/** Uncomment, if request and responses are supposed to be printed 
-		 * on the console for manual testing.
-		*/
-		/*
-		HandlerResolver handlerResolver = new HandlerResolver() {
-			@Override
-			public List<Handler> getHandlerChain(PortInfo portInfo) {
-				List<Handler> handler = new LinkedList<>();
-				handler.add(new MessageHandler());
-				return handler;
-			}
-		};
-		bookingSIB.setHandlerResolver(handlerResolver);
-		*/
-		try {
-			bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
-		} catch(ExceptionInInitializerError staticInitializationErr) {
-			bookingSEI = null;
-		}
-	}
 	
 	/**
 	 * Used to map the final booking RQ object send to Desia API  
@@ -134,7 +103,6 @@ public class DesiaBookingServiceHelper {
 		reqResMap.put(uuid, rqRsLst);
 		
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
-//		otaHotelResRQ.setVersion();	//TODO: uncomment if required
 		
 		/** Tag goes to final booking */
 		List<UniqueIDType> otaUniqueIDTypeLst = otaHotelResRQ.getUniqueID();
@@ -509,8 +477,8 @@ public class DesiaBookingServiceHelper {
 		
 		if (btnCancelRQ.getCancelDetails().getPersonName() != null) {
 			otaPersonName.setSurname(btnCancelRQ.getCancelDetails().getPersonName().getLastName());
-			otaEmailType.setValue(btnCancelRQ.getCancelDetails().getEmail());
 		}
+		otaEmailType.setValue(btnCancelRQ.getCancelDetails().getEmail());
 
 		otaVerificationType.setPersonName(otaPersonName);
 		otaVerificationType.setEmail(otaEmailType);
@@ -518,6 +486,7 @@ public class DesiaBookingServiceHelper {
 		
 		TPAExtensionsType otaTPAExtensions = new TPAExtensionsType();
 		CancelDates otaCancelDates = new CancelDates();
+		otaCancelDates.getDates();
 		
 		otaTPAExtensions.setCancelDates(otaCancelDates);
 		otaCancelRQ.setTPAExtensions(otaTPAExtensions);
@@ -621,25 +590,11 @@ public class DesiaBookingServiceHelper {
 		logger.info("provisional plus final booking request mapping done ---->");
 		return otaHotelResRQ;
 	}
-		
-	public static OTAHotelResRS sendFinalBookingRQ(OTAHotelResRQ otaHotelResRQ) throws Exception {
-		return getBookingSEI().createBooking(otaHotelResRQ);
-	}
 	
-	public static OTAHotelResRS sendProvisionalBookingRQ(OTAHotelResRQ otaHotelResRQ) throws Exception {
-		return getBookingSEI().createBooking(otaHotelResRQ);
-	}
-	
-	public static OTACancelRS sendCancelRQ(OTACancelRQ otaCancelRQ) throws Exception {
-		return getBookingSEI().cancelBooking(otaCancelRQ);
-	}
-	private static TGBookingServiceEndPoint getBookingSEI() {
-		if (bookingSEI == null) {
-			bookingSEI = (TGBookingServiceEndPoint) bookingSIB.getTGBookingServiceEndPointImplPort();
-		}
-		return bookingSEI;
-	}
-	
+	/**
+	 * Commont in all the request methods.
+	 * @return POSType contains username, password and property id.
+	 */
 	private static final POSType getPOSType() {
 		POSType otaPOSType = new POSType();
 		
@@ -684,14 +639,6 @@ public class DesiaBookingServiceHelper {
 
 				try {
 					switch (op) {
-					case DesiaProperties.SEARCH:
-						DesiaDBConnection.insert(op, 
-								XmlProcessor.getBeanInXml((BTNSearchRequest) reqResLst.get(0)),
-								XmlProcessor.getBeanInXml((AvailabilityRQ) reqResLst.get(1)),
-								XmlProcessor.getBeanInXml((AvailabilityRS) reqResLst.get(2)),
-								XmlProcessor.getBeanInXml((BTNSearchResponse) reqResLst.get(3)), 
-								supplier);
-						break;
 					case DesiaProperties.FINALBOOKING:
 						DesiaDBConnection.insert(op, 
 								XmlProcessor.getBeanInXml((BTNFinalBookingRQ) reqResLst.get(0)),
@@ -708,7 +655,7 @@ public class DesiaBookingServiceHelper {
 								XmlProcessor.getBeanInXml((BTNConfirmResponse) reqResLst.get(3)), 
 								supplier);
 						break;
-					case DesiaProperties.CANCEL: {
+					case DesiaProperties.CANCEL:
 						DesiaDBConnection.insert(op, 
 								XmlProcessor.getBeanInXml((BTNCancelRQ) reqResLst.get(0)),
 								XmlProcessor.getBeanInXml((OTACancelRQ) reqResLst.get(1)),
@@ -716,7 +663,6 @@ public class DesiaBookingServiceHelper {
 								XmlProcessor.getBeanInXml((BTNCancelRS) reqResLst.get(3)), 
 								supplier);
 						break;
-					}
 					case DesiaProperties.PROVFINAL: {
 						DesiaDBConnection.insert(op, 
 								XmlProcessor.getBeanInXml((BTNConfirmRequest) reqResLst.get(0)),

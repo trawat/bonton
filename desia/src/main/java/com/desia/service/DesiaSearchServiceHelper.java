@@ -45,8 +45,6 @@ import com.desia.artifacts.search.RateType.Rate;
 import com.desia.artifacts.search.RoomStayCandidateType;
 import com.desia.artifacts.search.RoomStayType;
 import com.desia.artifacts.search.RoomTypeType;
-import com.desia.artifacts.search.TGServiceEndPoint;
-import com.desia.artifacts.search.TGServiceEndPointImplService;
 import com.desia.artifacts.search.TPAExtensionsType;
 import com.desia.artifacts.search.TPAExtensionsType.UserAuthentication;
 import com.desia.util.DesiaDBConnection;
@@ -59,9 +57,6 @@ import com.desia.util.DesiaProperties;
 public class DesiaSearchServiceHelper {
 	private static Logger logger = LoggerFactory.getLogger(DesiaSearchServiceHelper.class);
 	
-	private static final TGServiceEndPointImplService searchSIB = new TGServiceEndPointImplService();
-	private static TGServiceEndPoint searchSEI = null;
-	
 	private static final ExecutorService desiaEs = Executors.newCachedThreadPool();
 	
 	/** Holds unique uuid and generated request-response list as key-value. */
@@ -70,34 +65,16 @@ public class DesiaSearchServiceHelper {
 	private static final String DFLTHOLDVALUE = "15";
 	private static final String DFLTRCMNDVALUE = "0";
 	private static final String DFLTCTRYVALUE = "India";
+	private static final String BASE = "Base";
+	private static final String ADDTNLGSTAMT = "AdditionalGuestAmount";
 	
 	/** Holds unique uuid and passed check in, check out, hotel, room, rate ids and paxes combination. */
 	private static final Map<String, String> rateKeyMap = new HashMap<>();
 	
-	private DesiaSearchServiceHelper() {}
-	
-	static {
-		/** 
-		 * Uncomment, if request and responses are supposed to be printed 
-		 * on the console for manual testing.
-		 */
-		/*
-		HandlerResolver handlerResolver = new HandlerResolver() {
-			@Override
-			public List<Handler> getHandlerChain(PortInfo portInfo) {
-				List<Handler> handler = new LinkedList<>();
-				handler.add(new MessageHandler());
-				return handler;
-			}
-		};
-		searchSIB.setHandlerResolver(handlerResolver);
-		*/
-		try {
-			searchSEI = (TGServiceEndPoint) searchSIB.getTGServiceEndPointImplPort();
-		} catch(ExceptionInInitializerError staticInitializationErr) {
-			searchSEI = null;
-		}
+	private DesiaSearchServiceHelper() {
+		/** Shouldn't be instantiated */
 	}
+	
 	
 	/**
 	 * Used to map Bonton hotel availability RQ object to Desia API
@@ -444,11 +421,11 @@ public class DesiaSearchServiceHelper {
 				BigDecimal additionalGuestDiscountCharges = new BigDecimal(0);
 				
 				List<AmountType.Discount> otaDiscountLst = otaRoomRateRate.getDiscount();
-				if (otaDiscountLst.size() != 0) {
+				if (!otaDiscountLst.isEmpty()) {
 					for (AmountType.Discount otaDiscount : otaDiscountLst) {
-						if ("Base".equals(otaDiscount.getAppliesTo())) {
+						if (BASE.equals(otaDiscount.getAppliesTo())) {
 							baseDiscountCharges = baseDiscountCharges.add(otaDiscount.getAmountBeforeTax());
-						} else if ("AdditionalGuestAmount".equals(otaDiscount.getAppliesTo())) {
+						} else if (ADDTNLGSTAMT.equals(otaDiscount.getAppliesTo())) {
 							additionalGuestDiscountCharges = additionalGuestDiscountCharges.add(otaDiscount.getAmountBeforeTax());
 						}
 					}
@@ -458,7 +435,7 @@ public class DesiaSearchServiceHelper {
 				amountBeforeTax = amountBeforeTax.add(additionalGuestCharges);
 				BigDecimal amountAfterTax = amountBeforeTax.add(taxAmount);
 				
-				if (btnRateLst.size() == 0) {
+				if (btnRateLst.isEmpty()) {
 					/** For rate key preparation. Indexes should not be changed.
 					 * Otherwise, change the logic of fetching and resetting rate key
 					 * components in the else block. */
@@ -466,8 +443,8 @@ public class DesiaSearchServiceHelper {
 					rateKeyItemLst.add(searchedRateKeyAry[0]);				//0
 					rateKeyItemLst.add(searchedRateKeyAry[1]);				//1
 					rateKeyItemLst.add(btnHotel.getHotelCode());			//2
-					rateKeyItemLst.add(otaRoomId.trim());					//3
-					rateKeyItemLst.add(otaRatePlanId.trim());				//4
+					rateKeyItemLst.add(otaRoomId);							//3
+					rateKeyItemLst.add(otaRatePlanId);						//4
 					
 					rateKeyItemLst.add(searchedRateKeyAry[2].replace(DesiaProperties.DHASH, DesiaProperties.PIPE));
 					
@@ -546,15 +523,7 @@ public class DesiaSearchServiceHelper {
 		return btnSearchRS;
 	}
 	
-	
-	
-	public static OTAHotelAvailRS sendSearchRQ(OTAHotelAvailRQ otaHotelAvailRQ) throws Exception {
-		if (searchSEI == null) {
-			searchSEI = (TGServiceEndPoint) searchSIB.getTGServiceEndPointImplPort();
-		}
-		return searchSEI.fetchResponse(otaHotelAvailRQ);
-	}
-	
+		
 	/**
 	 * Used to map Bonton hotel search RQ object to Desia API
 	 * specific RQ object. (Searching for hotel is repricing in Desia)
@@ -756,9 +725,6 @@ public class DesiaSearchServiceHelper {
 			
 			List<RoomStayType.RoomRates.RoomRate> otaRoomRateLst = otaHotel.getRoomRates().getRoomRate();
 			
-			/** To keep track of Amount before tax and tax amount associated with a rate node. */
-			//Map<String, List<String>> roomRateAmtMap = new HashMap<>();
-			
 			BTNRepriceResponse.Hotel.Rooms btnRooms = new BTNRepriceResponse.Hotel.Rooms();
 			List<BTNRepriceResponse.Hotel.Rooms.Room> btnRoomLst = btnRooms.getRoom();
 			for (RoomStayType.RoomRates.RoomRate otaRoomRate : otaRoomRateLst) {
@@ -779,11 +745,7 @@ public class DesiaSearchServiceHelper {
 				if (otaAdditionalGuestAmounts != null) {
 					List<AdditionalGuestAmountType> otaAdditionalGuestAmountLst = otaAdditionalGuestAmounts.getAdditionalGuestAmount();
 					for (AdditionalGuestAmountType otaAdditionalGuestAmountType : otaAdditionalGuestAmountLst) {
-						if (additionalGuestCharges == null) {
-							additionalGuestCharges = otaAdditionalGuestAmountType.getAmount().getAmountBeforeTax();
-						} else {
-							additionalGuestCharges = additionalGuestCharges.add(otaAdditionalGuestAmountType.getAmount().getAmountBeforeTax());
-						}
+						additionalGuestCharges = additionalGuestCharges.add(otaAdditionalGuestAmountType.getAmount().getAmountBeforeTax());
 					}
 				}
 				
@@ -791,11 +753,11 @@ public class DesiaSearchServiceHelper {
 				BigDecimal additionalGuestDiscountCharges = new BigDecimal(0);
 				
 				List<AmountType.Discount> otaDiscountLst = otaRoomRateRate.getDiscount();
-				if (otaDiscountLst.size() != 0) {
+				if (!otaDiscountLst.isEmpty()) {
 					for (AmountType.Discount otaDiscount : otaDiscountLst) {
-						if ("Base".equals(otaDiscount.getAppliesTo())) {
+						if (BASE.equals(otaDiscount.getAppliesTo())) {
 							baseDiscountCharges = baseDiscountCharges.add(otaDiscount.getAmountBeforeTax());
-						} else if ("AdditionalGuestAmount".equals(otaDiscount.getAppliesTo())) {
+						} else if (ADDTNLGSTAMT.equals(otaDiscount.getAppliesTo())) {
 							additionalGuestDiscountCharges = additionalGuestDiscountCharges.add(otaDiscount.getAmountBeforeTax());
 						}
 					}

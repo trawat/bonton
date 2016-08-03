@@ -23,6 +23,7 @@ import com.desia.artifacts.booking.OTAHotelResRQ;
 import com.desia.artifacts.booking.OTAHotelResRS;
 import com.desia.artifacts.search.OTAHotelAvailRQ;
 import com.desia.artifacts.search.OTAHotelAvailRS;
+import com.desia.util.DesiaClient;
 import com.desia.util.DesiaProperties;
 
 /**
@@ -50,7 +51,7 @@ public class DesiaService {
 		logger.info("desia search operation started ---->");
 		OTAHotelAvailRQ otaHotelAvailRQ = DesiaSearchServiceHelper.searchBeanRQMapper(btnSearchRQ, uuid);
 		
-		OTAHotelAvailRS otaHotelAvailRS = DesiaSearchServiceHelper.sendSearchRQ(otaHotelAvailRQ);
+		OTAHotelAvailRS otaHotelAvailRS = DesiaClient.sendSearchRQ(otaHotelAvailRQ);
 		
 		BTNSearchResponse btnSearchResponse = DesiaSearchServiceHelper.searchBeanRSMapper(otaHotelAvailRS, uuid);
 		rqRsMap.put(uuid, btnSearchResponse);
@@ -70,7 +71,7 @@ public class DesiaService {
 		logger.info("desia provisional booking operation started ---->");
 		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ, uuid);
 		
-		OTAHotelResRS otaHotelResRS = DesiaBookingServiceHelper.sendProvisionalBookingRQ(otaHotelResRQ);
+		OTAHotelResRS otaHotelResRS = DesiaClient.sendProvisionalBookingRQ(otaHotelResRQ);
 		
 		BTNConfirmResponse btnConfirmResponse = DesiaBookingServiceHelper.provisionalBeanRSMapper(otaHotelResRS, uuid);
 		logger.info("desia provisional booking operation done ---->");
@@ -90,7 +91,7 @@ public class DesiaService {
 		logger.info("desia cancel booking operation started ---->");
 		OTACancelRQ otaCancelRQ = DesiaBookingServiceHelper.cancelBeanRQMapper(btnCancelRQ, uuid);
 
-		OTACancelRS otaCancelRS = DesiaBookingServiceHelper.sendCancelRQ(otaCancelRQ);
+		OTACancelRS otaCancelRS = DesiaClient.sendCancelRQ(otaCancelRQ);
 
 		BTNCancelRS btnCancelRS = DesiaBookingServiceHelper.cancelBeanRSMapper(otaCancelRS, uuid);
 		logger.info("desia cancel booking operation done ---->");
@@ -111,7 +112,7 @@ public class DesiaService {
 
 		OTAHotelAvailRQ otaHotelAvailRQ = DesiaSearchServiceHelper.repriceBeanRQMapper(btnRepriceRQ, uuid);
 		
-		OTAHotelAvailRS otaHotelAvailRS = DesiaSearchServiceHelper.sendSearchRQ(otaHotelAvailRQ);
+		OTAHotelAvailRS otaHotelAvailRS = DesiaClient.sendSearchRQ(otaHotelAvailRQ);
 		
 		BTNRepriceResponse btnRepriceRS = DesiaSearchServiceHelper.repriceBeanRSMapper(otaHotelAvailRS, uuid);
 		
@@ -131,7 +132,7 @@ public class DesiaService {
 		logger.info("desia final booking operation started ---->");
 		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.finalBookingRQMapper(btnFinalBookingRQ, uuid);
 
-		OTAHotelResRS otaHotelResRS = DesiaBookingServiceHelper.sendFinalBookingRQ(otaHotelResRQ);
+		OTAHotelResRS otaHotelResRS = DesiaClient.sendFinalBookingRQ(otaHotelResRQ);
 
 		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResRS, uuid);
 		logger.info("desia final booking operation done ---->");
@@ -150,10 +151,10 @@ public class DesiaService {
 	public String provisionalFinalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		logger.info("desia provisional plus final booking operation started ---->");
 		OTAHotelResRQ otaHotelResProvisionalRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ, uuid);
-		OTAHotelResRS otaHotelResProvisionalRS = DesiaBookingServiceHelper.sendProvisionalBookingRQ(otaHotelResProvisionalRQ);
+		OTAHotelResRS otaHotelResProvisionalRS = DesiaClient.sendProvisionalBookingRQ(otaHotelResProvisionalRQ);
 		
 		OTAHotelResRQ otaHotelResFinalRQ = DesiaBookingServiceHelper.provisionalFinalRQMapper(otaHotelResProvisionalRS);
-		OTAHotelResRS otaHotelResFinalRS = DesiaBookingServiceHelper.sendFinalBookingRQ(otaHotelResFinalRQ);
+		OTAHotelResRS otaHotelResFinalRS = DesiaClient.sendFinalBookingRQ(otaHotelResFinalRQ);
 		
 		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResFinalRS, uuid);
 		logger.info("desia provisional plus final booking operation done ---->");
