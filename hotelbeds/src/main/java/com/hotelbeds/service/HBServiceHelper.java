@@ -877,7 +877,7 @@ public class HBServiceHelper {
 
 		resHotel.setCheckIn(hotel.getCheckIn());
 		resHotel.setCheckOut(hotel.getCheckOut());
-		resHotel.setCode(new Integer(hotel.getCode()));
+		resHotel.setCode(Integer.valueOf(hotel.getCode()));
 		resHotel.setName(hotel.getName());
 		resHotel.setCategoryName(hotel.getCategoryName());
 		resHotel.setCategoryCode(hotel.getCategoryCode());
@@ -898,9 +898,7 @@ public class HBServiceHelper {
 			BTNRepriceResponse.Hotel.Rooms.Room.Rates resRates = new BTNRepriceResponse.Hotel.Rooms.Room.Rates();
 			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate resRate = new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate();
 			
-			BigDecimal net = new BigDecimal(rate.getNet().toString());
-			
-			resRate.setNetRate(net);
+			resRate.setNetRate(new BigDecimal(rate.getNet()));
 			resRate.setPackaging(rate.getPackaging());
 			resRate.setRateType(rate.getRateType());
 			resRate.setRateComments(rate.getRateComments());
@@ -914,7 +912,7 @@ public class HBServiceHelper {
 			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy rescpy = 
 					new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
 			
-			rescpy.setAmount(new BigDecimal(rate.getCancellationPolicies().getCancellationPolicy().getAmount().toString()));
+			rescpy.setAmount(new BigDecimal(rate.getCancellationPolicies().getCancellationPolicy().getAmount()));
 			rescpy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom());
 			
 			rescpies.setCancellationPolicy(rescpy);
