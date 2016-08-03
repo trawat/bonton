@@ -12,11 +12,16 @@ public interface DesiaProperties {
 	public static final String CURRENCY = "INR";
 	
     /** Used in Desia Search operations */
-    public static final String SEP1 = "~";
-    public static final String SEP2 = "|";
-    public static final String SPLIT = "\\|";
-    public static final String SPLITSTR = "\\s+";
+    public static final String TILDA = "~";
+    public static final String PIPE = "|";
+    public static final String PIPESPLIT = "\\|";
+    public static final String SPACESPLIT = "\\s+";
     public static final String COMMA = ",";
+    public static final String DASH = "-";
+    public static final String HASH = "#";
+    public static final String DHASH = "##";
+    public static final String ONE = "1";
+    
     
     /** Desia operation/ function names */
     public static final String SEARCH = "Search";
