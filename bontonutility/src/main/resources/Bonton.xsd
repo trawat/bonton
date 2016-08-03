@@ -286,6 +286,7 @@
 																			<xs:element type="xs:int" name="AdultCount" />
 																			<xs:element type="xs:int" name="ChildCount" />
 																			<xs:element type="xs:int" name="ChildrenAges" />
+																			<xs:element type="xs:decimal" name="TaxAmount" default="0.0"/>
 																			<xs:element name="CancellationPolicies">
 																				<xs:complexType>
 																					<xs:sequence>
@@ -422,6 +423,8 @@
 										</xs:element>
 									</xs:sequence>
 									<xs:attribute type="xs:string" name="uniqueKey" />
+									<xs:attribute type="xs:string" name="AmountBeforeTax" default="0.0"/>
+									<xs:attribute type="xs:string" name="TaxAmount" default="0.0"/>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
