@@ -107,11 +107,17 @@ public class DesiaService {
 	 * @author Tirath
 	 */
 	public String repricing(BTNRepriceRequest btnRepriceRQ, String uuid) throws Exception {
-		logger.info("desia reprice operation requested---->");
+		logger.info("desia reprice/ hotel operation requested---->");
 
-		BTNRepriceResponse btnRepriceResponse = new BTNRepriceResponse();
-		logger.info("desia reprice operation not supported -returning empty response  ---->");
-		return XmlProcessor.getBeanInXml(btnRepriceResponse);
+		OTAHotelAvailRQ otaHotelAvailRQ = DesiaSearchServiceHelper.repriceBeanRQMapper(btnRepriceRQ, uuid);
+		
+		OTAHotelAvailRS otaHotelAvailRS = DesiaSearchServiceHelper.sendSearchRQ(otaHotelAvailRQ);
+		
+		BTNRepriceResponse btnRepriceRS = DesiaSearchServiceHelper.repriceBeanRSMapper(otaHotelAvailRS, uuid);
+		
+		logger.info("desia reprice/ hotel operation not supported -returning empty response  ---->");
+		DesiaSearchServiceHelper.logReqRes(uuid, DesiaProperties.REPRICE, DesiaProperties.DESIA);
+		return XmlProcessor.getBeanInXml(btnRepriceRS);
 	}
 
 	/**
