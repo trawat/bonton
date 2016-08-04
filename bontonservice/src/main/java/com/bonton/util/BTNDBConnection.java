@@ -84,7 +84,7 @@ public class BTNDBConnection {
 	public static final List<String> getEnabledEndPoints(String supplier) {
 		List<String> endPointIDs = new LinkedList<>();
 		try (PreparedStatement ps = getConnection().prepareStatement(eepSqlWithSplr);) {
-				ps.setString(0, supplier);
+				ps.setString(1, supplier);
 				
 				ResultSet rs = ps.executeQuery();
 			
