@@ -814,6 +814,7 @@
 	<xs:element name="BTNFinalBookingRQ">
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element type="xs:string" name="Supplier" />
 				<xs:element name="ProvBookingId" type="xs:string" minOccurs="1" maxOccurs="1" />
 			</xs:sequence>
 		</xs:complexType>
