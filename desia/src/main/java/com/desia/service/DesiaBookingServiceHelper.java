@@ -639,7 +639,7 @@ public class DesiaBookingServiceHelper {
 
 				try {
 					switch (op) {
-					case DesiaProperties.FINALBOOKING:
+					case DesiaProperties.FINAL:
 						DesiaDBConnection.insert(op, 
 								XmlProcessor.getBeanInXml((BTNFinalBookingRQ) reqResLst.get(0)),
 								XmlProcessor.getBeanInXml((OTAHotelResRQ) reqResLst.get(1)),
@@ -647,7 +647,7 @@ public class DesiaBookingServiceHelper {
 								XmlProcessor.getBeanInXml((BTNFinalBookingRS) reqResLst.get(3)),
 								supplier);
 						break;
-					case DesiaProperties.CONFIRM: 
+					case DesiaProperties.PROVISIONAL: 
 						DesiaDBConnection.insert(op, 
 								XmlProcessor.getBeanInXml((BTNConfirmRequest) reqResLst.get(0)),
 								XmlProcessor.getBeanInXml((OTAHotelResRQ) reqResLst.get(1)),
@@ -663,7 +663,7 @@ public class DesiaBookingServiceHelper {
 								XmlProcessor.getBeanInXml((BTNCancelRS) reqResLst.get(3)), 
 								supplier);
 						break;
-					case DesiaProperties.PROVFINAL: {
+					case DesiaProperties.CONFIRM: {
 						DesiaDBConnection.insert(op, 
 								XmlProcessor.getBeanInXml((BTNConfirmRequest) reqResLst.get(0)),
 								XmlProcessor.getBeanInXml((OTAHotelResRQ) reqResLst.get(1)),

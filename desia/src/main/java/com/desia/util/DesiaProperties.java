@@ -24,12 +24,18 @@ public interface DesiaProperties {
     
     
     /** Desia operation/ function names */
+    
+    /** City Search */
     public static final String SEARCH = "Search";
+    
+    /** Hotel Search */
     public static final String REPRICE = "Reprice";
-    public static final String CONFIRM = "Provisional";
-    public static final String FINALBOOKING = "FinalBooking";
+    
+    /** Provisional plus final */
+    public static final String CONFIRM = "Confirm";
+    public static final String FINAL = "Final";
     public static final String CANCEL = "Cancel";
-    public static final String PROVFINAL = "ProvFinal";
+    public static final String PROVISIONAL = "Provisional";
     
     public static final String BTN_PROP_FILE_NAME = "bonton.properties";
     

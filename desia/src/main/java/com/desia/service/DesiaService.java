@@ -76,7 +76,7 @@ public class DesiaService {
 		BTNConfirmResponse btnConfirmResponse = DesiaBookingServiceHelper.provisionalBeanRSMapper(otaHotelResRS, uuid);
 		logger.info("desia provisional booking operation done ---->");
 		
-		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.CONFIRM, DesiaProperties.DESIA);
+		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.PROVISIONAL, DesiaProperties.DESIA);
 		return XmlProcessor.getBeanInXml(btnConfirmResponse);
 	}
 	
@@ -137,7 +137,7 @@ public class DesiaService {
 		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResRS, uuid);
 		logger.info("desia final booking operation done ---->");
 		
-		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.FINALBOOKING, DesiaProperties.DESIA);
+		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.FINAL, DesiaProperties.DESIA);
 		return XmlProcessor.getBeanInXml(btnFinalBookingRS);
 	}
 
@@ -159,7 +159,7 @@ public class DesiaService {
 		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResFinalRS, uuid);
 		logger.info("desia provisional plus final booking operation done ---->");
 		
-		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.PROVFINAL, DesiaProperties.DESIA);
+		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.CONFIRM, DesiaProperties.DESIA);
 		return XmlProcessor.getBeanInXml(btnFinalBookingRS);
 	}
 	
