@@ -46,7 +46,7 @@ public class BTNUtility {
 	public static final List<? extends ServiceProxy> getEnabledEndPointsList(String supplier) {
 		List<ServiceProxy> enabledApiServiceList = new LinkedList<>();
 		
-		List<String> endPointsIDs = BTNDBConnection.getEnabledEndPoints();
+		List<String> endPointsIDs = null;
 		
 		if (supplier == null) {
 			endPointsIDs = BTNDBConnection.getEnabledEndPoints();

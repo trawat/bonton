@@ -75,12 +75,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 					@Override
 					public void run() {
 						try {
-							if (supplier == null) {
-								sp.search(btnSearchRQ, uuid, manySp);
-							} else {
-								if (sp instanceof BTNUtility.) {}
-								BTNUtility.getProxyItem(supplier).search(btnSearchRQ, uuid, manySp);
-							}
+							sp.search(btnSearchRQ, uuid, manySp);
 						} catch (Exception exception) {
 							logger.error("{} occured while triggering search operation", exception);
 						}
