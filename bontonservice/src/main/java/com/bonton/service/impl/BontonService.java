@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.bonton.service.Service;
 import com.bonton.service.ServiceActuator;
-import com.bonton.util.BTNUtility;
 
 /**
  * Entry point into Bonton Service application.
@@ -31,7 +30,7 @@ public class BontonService implements Service {
 		
 		String responseXml = "";
 		try {
-			responseXml = actuator.search(BTNUtility.getEnabledEndPointsList(), request.getInputStream());
+			responseXml = actuator.search(request.getInputStream());
 		} catch(Exception exception) {
 			logger.error("Exception in BontonService : {}", exception.getCause());
 		}
