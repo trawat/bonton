@@ -337,7 +337,7 @@ public class DesiaSearchServiceHelper {
 			btnHotel.setSupplier(DesiaProperties.DESIA);
 			btnHotel.setLatitude(0.0f);
 			btnHotel.setLongitude(0.0f);
-			btnHotel.setCurrency(otaBasicPropertyInfoType.getCurrencyCode());
+			//btnHotel.setCurrency(otaBasicPropertyInfoType.getCurrencyCode());
 			
 			/** To counter hotel and city search differently for star rating */
 			if (otaBasicPropertyInfoType.getAward().size() != 0) {
@@ -405,6 +405,7 @@ public class DesiaSearchServiceHelper {
 				String[] searchedRateKeyAry = searchedRateKey.split(DesiaProperties.PIPESPLIT);
 				
 				Rate otaRoomRateRate = otaRoomRate.getRates().getRate().get(0);
+				
 				BigDecimal amountBeforeTax = otaRoomRateRate.getBase().getAmountBeforeTax();
 				BigDecimal taxAmount = otaRoomRateRate.getBase().getTaxes().getAmount();
 				BigDecimal additionalGuestCharges = new BigDecimal(0);
@@ -437,6 +438,13 @@ public class DesiaSearchServiceHelper {
 				BigDecimal amountAfterTax = amountBeforeTax.add(taxAmount);
 				
 				if (btnRateLst.isEmpty()) {
+					/** 
+					 * Setting this here as in some cases BasicPropertyInfo node doesn't return
+					 * currency code in the response. Also, setting it here will set it only once.
+					 * Not appropriate but logical.
+					 */
+					btnHotel.setCurrency(otaRoomRate.getTotal().getCurrencyCode());
+					
 					/** For rate key preparation. Indexes should not be changed.
 					 * Otherwise, change the logic of fetching and resetting rate key
 					 * components in the else block. */
