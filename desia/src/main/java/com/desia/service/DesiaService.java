@@ -67,7 +67,7 @@ public class DesiaService {
 	 * @throws Exception
 	 * @author Tirath
 	 */
-	public String provisonalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
+	public String provisionalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		logger.info("desia provisional booking operation started ---->");
 		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ, uuid);
 		
@@ -116,7 +116,7 @@ public class DesiaService {
 		
 		BTNRepriceResponse btnRepriceRS = DesiaSearchServiceHelper.repriceBeanRSMapper(otaHotelAvailRS, uuid);
 		
-		logger.info("desia reprice/ hotel operation not supported -returning empty response  ---->");
+		logger.info("desia reprice/ hotel operation done  ---->");
 		DesiaSearchServiceHelper.logReqRes(uuid, DesiaProperties.REPRICE, DesiaProperties.DESIA);
 		return XmlProcessor.getBeanInXml(btnRepriceRS);
 	}

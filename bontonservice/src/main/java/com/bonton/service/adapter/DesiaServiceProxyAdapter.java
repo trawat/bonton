@@ -41,8 +41,8 @@ public class DesiaServiceProxyAdapter  extends ServiceProxy {
 	 * @throws Exception In case, the request fails to hit the Desia API or some 
 	 * RQ-RS mapping exception occurs.
 	 */
-	public String provisionalFinalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
-		return desiaService.confirmBooking(btnConfirmRQ, uuid);
+	public String provisionalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
+		return desiaService.provisionalBooking(btnConfirmRQ, uuid);
 	}
 	
 	@Override

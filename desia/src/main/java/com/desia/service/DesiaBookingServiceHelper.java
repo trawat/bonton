@@ -559,7 +559,7 @@ public class DesiaBookingServiceHelper {
 	}
 	
 	public static OTAHotelResRQ provisionalFinalRQMapper(OTAHotelResRS otaHotelResRS) throws Exception {
-		logger.info("provisiona plus final booking request mapping started ---->");
+		logger.info("desia provisional response - final booking request mapping started ---->");
 		OTAHotelResRQ otaHotelResRQ = new OTAHotelResRQ();
 		
 		/** Tag goes to final booking */
@@ -587,7 +587,7 @@ public class DesiaBookingServiceHelper {
 		otaHotelResRQ.setHotelReservations(otaHotelReservationsType);
 		otaHotelResRQ.setPOS(getPOSType());
 		
-		logger.info("provisional plus final booking request mapping done ---->");
+		logger.info("desia provisional response - final booking request mapping done ---->");
 		return otaHotelResRQ;
 	}
 	

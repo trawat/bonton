@@ -22,4 +22,5 @@ public interface BTNProperties {
     public static final String ID_SEVEN = "7";
     
     public static final String APIError = "500";
+    public static final String APIErrorMSG = "No active service provider is available to serve the request.";
 }

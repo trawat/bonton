@@ -54,7 +54,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		if (availableSPCount == 0) {
 			BTNSearchResponse.BTNError errElmnt = new BTNSearchResponse.BTNError();
 			errElmnt.setCode(BTNProperties.APIError);
-			errElmnt.setMessage("No active service provider is available to serve the request.");
+			errElmnt.setMessage(BTNProperties.APIErrorMSG);
 
 			BTNSearchResponse btnSearchRS = new BTNSearchResponse();
 			btnSearchRS.setBTNError(errElmnt);
@@ -261,7 +261,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			btnConfirmRQ = XmlProcessor.getBTNConfirmRQBean(is);
 		} catch (Exception exception) {
 			/** Return informative error message in case the submitted request is not proper */
-			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNFinalBookingErrorRS(exception));
+			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNConfirmErrorRS(exception));
 		}
 			
 		return BTNUtility.getProxyItem(btnConfirmRQ.getSupplier()).provisionalBooking(btnConfirmRQ, getRandonUUID());
