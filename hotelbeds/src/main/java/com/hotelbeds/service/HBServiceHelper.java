@@ -72,7 +72,7 @@ public class HBServiceHelper {
 
 	
 	private HBServiceHelper() {
-		/* Should not be instantiated */
+		/* Shouldn't be instantiated */
 	}
 	
 	/**
@@ -115,12 +115,21 @@ public class HBServiceHelper {
 		if (btnSearchHotelPriceRQ.getMaxNoRates() != null) {
 			filter.setMaxRatesPerRoom(btnSearchHotelPriceRQ.getMaxNoRates());
 		}
-		if (btnSearchHotelPriceRQ.getMinStarRating() != null) {
+		
+		/** Changed to bring in symetry with Desia API */
+		if (btnSearchHotelPriceRQ.getMinStarRating() != null && btnSearchHotelPriceRQ.getMaxStarRating() != null) {
 			filter.setMinCategory(btnSearchHotelPriceRQ.getMinStarRating());
-		}
-		if (btnSearchHotelPriceRQ.getMaxStarRating() != null) {
 			filter.setMaxCategory(btnSearchHotelPriceRQ.getMaxStarRating());
+		} else {
+			if (btnSearchHotelPriceRQ.getMinStarRating() != null) {
+				filter.setMinCategory(btnSearchHotelPriceRQ.getMinStarRating());
+				filter.setMaxCategory(btnSearchHotelPriceRQ.getMinStarRating());
+			} else if (btnSearchHotelPriceRQ.getMaxStarRating() != null) {
+				filter.setMinCategory(btnSearchHotelPriceRQ.getMaxStarRating());
+				filter.setMaxCategory(btnSearchHotelPriceRQ.getMaxStarRating());
+			}
 		}
+		
 		filter.setPackaging(btnSearchHotelPriceRQ.isPackaging());
 		filter.setPaymentType(btnSearchHotelPriceRQ.getPaymentType());
 
