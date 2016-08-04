@@ -246,7 +246,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		}
 		
 		/** As final bookong is designed for Desia API only */
-		return desiaServicePxyAdpter.finalBooking(btnFinalBookingRQ, getRandonUUID());
+		return BTNUtility.getProxyItem(btnFinalBookingRQ.getSupplier()).finalBooking(btnFinalBookingRQ, getRandonUUID());
 	}
 	
 	private static String getRandonUUID() {
@@ -254,7 +254,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	}
 
 	@Override
-	public String provisionalFinalBooking(InputStream is) throws Exception {
+	public String provisionalBooking(InputStream is) throws Exception {
 		BTNConfirmRequest btnConfirmRQ = null;
 		
 		try {
@@ -264,6 +264,6 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNFinalBookingErrorRS(exception));
 		}
 			
-		return desiaServicePxyAdpter.provisionalFinalBooking(btnConfirmRQ, getRandonUUID());
+		return BTNUtility.getProxyItem(btnConfirmRQ.getSupplier()).provisionalBooking(btnConfirmRQ, getRandonUUID());
 	}
 }

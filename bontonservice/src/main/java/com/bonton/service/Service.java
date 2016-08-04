@@ -38,12 +38,12 @@ public interface Service {
 	public String repricing(@Context HttpServletRequest request) throws Exception;
 	
 	@POST
-	@Path("/finalbooking")
+	@Path("/final")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public String finalBooking(@Context HttpServletRequest request) throws Exception;
 	
 	@POST
-	@Path("/finalprov")
+	@Path("/provisional")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public String provisionalFinalBooking(@Context HttpServletRequest request) throws Exception;
+	public String provisionalBooking(@Context HttpServletRequest request) throws Exception;
 }

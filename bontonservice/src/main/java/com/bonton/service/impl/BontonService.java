@@ -107,12 +107,12 @@ public class BontonService implements Service {
 	}
 
 	@Override
-	public String provisionalFinalBooking(HttpServletRequest request) throws Exception {
+	public String provisionalBooking(HttpServletRequest request) throws Exception {
 		logger.info("hotel final plus provisional booking request received ---->");
 		
 		String responseXml = null;
 		try {
-			responseXml = actuator.provisionalFinalBooking(request.getInputStream());
+			responseXml = actuator.provisionalBooking(request.getInputStream());
 			
 		} catch(Exception exception) {
 			logger.error("Exception while making the final booking	 {}", exception);

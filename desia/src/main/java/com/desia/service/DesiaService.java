@@ -67,7 +67,7 @@ public class DesiaService {
 	 * @throws Exception
 	 * @author Tirath
 	 */
-	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
+	public String provisonalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		logger.info("desia provisional booking operation started ---->");
 		OTAHotelResRQ otaHotelResRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ, uuid);
 		
@@ -148,7 +148,7 @@ public class DesiaService {
 	 * @throws Exception
 	 * @author Tirath
 	 */
-	public String provisionalFinalBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
+	public String confirmBooking(BTNConfirmRequest btnConfirmRQ, String uuid) throws Exception {
 		logger.info("desia provisional plus final booking operation started ---->");
 		OTAHotelResRQ otaHotelResProvisionalRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ, uuid);
 		OTAHotelResRS otaHotelResProvisionalRS = DesiaClient.sendProvisionalBookingRQ(otaHotelResProvisionalRQ);
