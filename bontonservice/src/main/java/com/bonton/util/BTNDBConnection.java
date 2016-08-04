@@ -42,6 +42,10 @@ public class BTNDBConnection {
 			"SELECT SUPPLIER_ID FROM supplier_master "
 		   +"WHERE ACTIVE = 'Y' ";
 	
+	private static final String eepSqlWithSplr = 
+			"SELECT SUPPLIER_ID FROM supplier_master "
+		   +"WHERE ACTIVE = 'Y' AND SUPPLIER_ID = ?";
+	
 	static {
 		try {
 			Class.forName(db_driver);
@@ -59,6 +63,30 @@ public class BTNDBConnection {
 		List<String> endPointIDs = new LinkedList<>();
 		try (PreparedStatement ps = getConnection().prepareStatement(eepSql);
 				ResultSet rs = ps.executeQuery();) {
+			
+			while (rs.next()) {
+				endPointIDs.add(rs.getString(SUPPLIER_ID));
+			}
+			
+		} catch (Exception e) {
+			logger.error("{} occured while fetching enabled end points", e);
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sQLException) {
+					logger.error("Unable to close {} connection {}", db, sQLException);
+				}
+			}
+		} 
+		return endPointIDs;
+	}
+	
+	public static final List<String> getEnabledEndPoints(String supplier) {
+		List<String> endPointIDs = new LinkedList<>();
+		try (PreparedStatement ps = getConnection().prepareStatement(eepSqlWithSplr);) {
+				ps.setString(0, supplier);
+				
+				ResultSet rs = ps.executeQuery();
 			
 			while (rs.next()) {
 				endPointIDs.add(rs.getString(SUPPLIER_ID));

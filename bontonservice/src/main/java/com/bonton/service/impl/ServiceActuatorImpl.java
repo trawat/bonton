@@ -22,6 +22,7 @@ import com.bonton.service.ServiceProxy;
 import com.bonton.service.adapter.DesiaServiceProxyAdapter;
 import com.bonton.service.adapter.HBServiceProxyAdapter;
 import com.bonton.util.BTNProperties;
+import com.bonton.util.BTNUtility;
 import com.bonton.utility.artifacts.BTNCancelRQ;
 import com.bonton.utility.artifacts.BTNConfirmRequest;
 import com.bonton.utility.artifacts.BTNFinalBookingRQ;
@@ -42,13 +43,11 @@ public class ServiceActuatorImpl implements ServiceActuator {
 	private static final Logger logger = LoggerFactory.getLogger(ServiceActuatorImpl.class);
 	private static final ExecutorService es = Executors.newCachedThreadPool();
 	
-	private final HBServiceProxyAdapter hbServicePxyAdpter = new HBServiceProxyAdapter();
-	private final DesiaServiceProxyAdapter desiaServicePxyAdpter = new DesiaServiceProxyAdapter();
-	
 	@Override
-	public String search(List<? extends ServiceProxy> serviceList, final InputStream is) throws Exception {
-		final String uuid = getRandonUUID();
+	public String search(final InputStream is) throws Exception {
+		final BTNSearchRequest btnSearchRQ = XmlProcessor.getBTNSearchRQBean(is);
 		
+		List<? extends ServiceProxy> serviceList = BTNUtility.getEnabledEndPointsList(btnSearchRQ.getSupplier());
 		int availableSPCount = serviceList.size();
 		
 		/** Case, when no service provider is active or in case of socket exception */
@@ -63,11 +62,12 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			return XmlProcessor.getBeanInXml(btnSearchRS);
 		}
 		
+		final String uuid = getRandonUUID();
 		final boolean manySp = availableSPCount > 1;
 		
 		List<Future<Boolean>> taskLst = new LinkedList<Future<Boolean>>();
 		try {
-			final BTNSearchRequest requestBean = XmlProcessor.getBTNSearchRQBean(is);
+			
 			
 			/* Trigger task threads */
 			for (final ServiceProxy sp : serviceList) {
@@ -75,7 +75,12 @@ public class ServiceActuatorImpl implements ServiceActuator {
 					@Override
 					public void run() {
 						try {
-							sp.search(requestBean, uuid, manySp);
+							if (supplier == null) {
+								sp.search(btnSearchRQ, uuid, manySp);
+							} else {
+								if (sp instanceof BTNUtility.) {}
+								BTNUtility.getProxyItem(supplier).search(btnSearchRQ, uuid, manySp);
+							}
 						} catch (Exception exception) {
 							logger.error("{} occured while triggering search operation", exception);
 						}
@@ -202,15 +207,8 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			/** Return informative error message in case the submitted request is not proper */
 			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNConfirmErrorRS(exception));
 		}
-		String supplier = btnConfirmRQ.getSupplier();
 		
-		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
-			return hbServicePxyAdpter.confirmBooking(btnConfirmRQ, getRandonUUID());
-		} else if (BTNProperties.DESIA.equalsIgnoreCase(supplier)) {
-			return desiaServicePxyAdpter.confirmBooking(btnConfirmRQ, getRandonUUID());
-		}
-		
-		return null;
+		return BTNUtility.getProxyItem(btnConfirmRQ.getSupplier()).confirmBooking(btnConfirmRQ, getRandonUUID());
 	}
 
 	@Override
@@ -223,14 +221,8 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			/** Return informative error message in case the submitted request is not proper */
 			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNCancelErrorRS(exception));
 		}
-		String supplier = btnCancelRQ.getSupplier();
 		
-		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
-			return hbServicePxyAdpter.cancelBooking(btnCancelRQ, getRandonUUID());
-		} else if (BTNProperties.DESIA.equalsIgnoreCase(supplier)) {
-			return desiaServicePxyAdpter.cancelBooking(btnCancelRQ, getRandonUUID());
-		}
-		return null;
+		return BTNUtility.getProxyItem(btnCancelRQ.getSupplier()).cancelBooking(btnCancelRQ, getRandonUUID());
 	}
 
 	@Override
@@ -243,14 +235,8 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			/** Return informative error message in case the submitted request is not proper */
 			return XmlProcessor.getBeanInXml(XmlProcessor.getBTNRepriceErrorRS(exception));
 		}
-		String supplier = btnRepriceRQ.getSupplier();
 		
-		if (BTNProperties.HB.equalsIgnoreCase(supplier)) {
-			return hbServicePxyAdpter.repricing(btnRepriceRQ, getRandonUUID());
-		} else if (BTNProperties.DESIA.equalsIgnoreCase(supplier)) {
-			return desiaServicePxyAdpter.repricing(btnRepriceRQ, getRandonUUID());
-		}
-		return null;
+		return BTNUtility.getProxyItem(btnRepriceRQ.getSupplier()).repricing(btnRepriceRQ, getRandonUUID());
 	}
 	
 	@Override

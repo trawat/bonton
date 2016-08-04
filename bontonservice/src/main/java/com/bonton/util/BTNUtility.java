@@ -20,8 +20,11 @@ import com.bonton.service.adapter.HBServiceProxyAdapter;
 public class BTNUtility {
 	private static final Logger logger = LoggerFactory.getLogger(BTNUtility.class);
 	private static Properties properties = null;
+	
+	private static final HBServiceProxyAdapter hbServicePxyAdpter = new HBServiceProxyAdapter();
+	private static final DesiaServiceProxyAdapter desiaServicePxyAdpter = new DesiaServiceProxyAdapter();
 
-	private BTNUtility() {}
+	private BTNUtility() {/** Shouldn't be instantiated */}
 
 	static {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -39,12 +42,17 @@ public class BTNUtility {
 		return properties.getProperty(key);
 	}
 
-	
 	/** Fetch the list of active services */
-	public static final List<? extends ServiceProxy> getEnabledEndPointsList() {
+	public static final List<? extends ServiceProxy> getEnabledEndPointsList(String supplier) {
 		List<ServiceProxy> enabledApiServiceList = new LinkedList<>();
 		
 		List<String> endPointsIDs = BTNDBConnection.getEnabledEndPoints();
+		
+		if (supplier == null) {
+			endPointsIDs = BTNDBConnection.getEnabledEndPoints();
+		} else {
+			endPointsIDs = BTNDBConnection.getEnabledEndPoints(supplier);
+		}
 		int noOfEndpointIDs = endPointsIDs.size();
 		
 		for (int i = 0; i < noOfEndpointIDs; i++) {
@@ -54,14 +62,14 @@ public class BTNUtility {
 		return enabledApiServiceList;
 	}
 	
-	private static final ServiceProxy getProxyItem(String id) {
+	public static final ServiceProxy getProxyItem(String id) {
 		switch (id) {
 		case BTNProperties.ID_FIVE:
 			logger.info("HotelBeds service API is enabled");
-			return new HBServiceProxyAdapter();
+			return hbServicePxyAdpter;
 		case BTNProperties.ID_SEVEN:
 			logger.info("Desia service API is enabled");
-			return new DesiaServiceProxyAdapter();
+			return desiaServicePxyAdpter;
 		}
 		return null;
 	}
