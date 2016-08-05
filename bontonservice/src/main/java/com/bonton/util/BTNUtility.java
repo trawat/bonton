@@ -48,7 +48,7 @@ public class BTNUtility {
 		
 		List<String> endPointsIDs = null;
 		
-		if (supplier == null) {
+		if (supplier == null || supplier.trim().length() == 0) {
 			endPointsIDs = BTNDBConnection.getEnabledEndPoints();
 		} else {
 			endPointsIDs = BTNDBConnection.getEnabledEndPoints(supplier);

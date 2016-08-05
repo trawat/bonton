@@ -52,6 +52,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		
 		/** Case, when no service provider is active or in case of socket exception */
 		if (availableSPCount == 0) {
+			logger.info(BTNProperties.APIErrorMSG);
 			BTNSearchResponse.BTNError errElmnt = new BTNSearchResponse.BTNError();
 			errElmnt.setCode(BTNProperties.APIError);
 			errElmnt.setMessage(BTNProperties.APIErrorMSG);
@@ -67,8 +68,6 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		
 		List<Future<Boolean>> taskLst = new LinkedList<Future<Boolean>>();
 		try {
-			
-			
 			/* Trigger task threads */
 			for (final ServiceProxy sp : serviceList) {
 				Future<Boolean> submtedTask = es.submit(new Runnable() {
@@ -133,7 +132,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 							/** simply return as there is nothing in the returned response to process */
 							return;
 						}
-						List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = btnSearchResponse.getHotelOptions().getHotel();
+						List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = tmpHotelOptions.getHotel();
 						
 						for (BTNSearchResponse.HotelOptions.Hotel hotel : hotelLst) {
 							/* hotel code also needs to be mapped with bonton hotel code*/
@@ -164,7 +163,6 @@ public class ServiceActuatorImpl implements ServiceActuator {
 		}
 		
 		/* Aggregation all set at this point. Prepare final response. */
-		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
 		BTNSearchResponse.HotelOptions resHotels = new BTNSearchResponse.HotelOptions();
 		List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = resHotels.getHotel();
 		
@@ -184,8 +182,14 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			hotelLst.add(resHotel);
 		}
 		
-		btnSearchResponse.setHotelOptions(resHotels);
-		String responseXml = XmlProcessor.getBeanInXml(btnSearchResponse);
+		BTNSearchResponse btnSearchRS = new BTNSearchResponse();
+		btnSearchRS.setOptionsCount(hotelLst.size());
+		
+		BTNSearchResponse.City btnCity = new BTNSearchResponse.City();
+		btnCity.setCityCode(btnSearchRQ.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationCode());
+		btnSearchRS.setCity(btnCity);
+		btnSearchRS.setHotelOptions(resHotels);
+		String responseXml = XmlProcessor.getBeanInXml(btnSearchRS);
 		
 		//TODO: Get rid of the indexes before returning
 			

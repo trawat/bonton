@@ -17,6 +17,7 @@ import com.bonton.utility.artifacts.BTNRepriceRequest;
 import com.bonton.utility.artifacts.BTNRepriceResponse;
 import com.bonton.utility.artifacts.BTNSearchRequest;
 import com.bonton.utility.artifacts.BTNSearchResponse;
+import com.bonton.utility.artifacts.BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate;
 import com.bonton.utility.processor.XmlProcessor;
 import com.desia.artifacts.search.AdditionalGuestAmountType;
 import com.desia.artifacts.search.AmountType;
@@ -380,7 +381,6 @@ public class DesiaSearchServiceHelper {
 			/** To keep track of Amount before tax and tax amount associated with a rate node. */
 			//Map<String, List<String>> roomRateAmtMap = new HashMap<>();
 			
-			int offSetCount = 1;
 			for (RoomStayType.RoomRates.RoomRate otaRoomRate : otaRoomRateLst) {
 				String otaRoomId = otaRoomRate.getRoomID();
 				String otaRatePlanId = otaRoomRate.getRatePlanCode();
@@ -502,7 +502,7 @@ public class DesiaSearchServiceHelper {
 							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
 					
 					/** NARROWING CONVERSION **/
-					btnDailyRate.setOffset(offSetCount);
+					btnDailyRate.setOffset(1);
 					btnDailyRate.setDailySellingRate(amountBeforeTax.floatValue());
 					btnDailyRate.setDailyNet(amountAfterTax.floatValue());
 					btnDailyRateLst.add(btnDailyRate);
@@ -512,14 +512,15 @@ public class DesiaSearchServiceHelper {
 				} else {
 					/** As there's always going to be only one rate key associated with a room */
 					btnRate = btnRateLst.get(0);
+					List<DailyRate> tmpDailyRateLst = btnRate.getDailyRates().getDailyRate();
 					
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate btnDailyRate = 
 							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
-					btnDailyRate.setOffset(offSetCount++);
+					btnDailyRate.setOffset(tmpDailyRateLst.get(tmpDailyRateLst.size() - 1).getOffset() + 1);
 					btnDailyRate.setDailySellingRate(amountBeforeTax.floatValue());
 					btnDailyRate.setDailyNet(amountAfterTax.floatValue());
 					
-					btnRate.getDailyRates().getDailyRate().add(btnDailyRate);
+					tmpDailyRateLst.add(btnDailyRate);
 					
 					btnRate.setSupplierPrice(BigDecimal.valueOf(btnRate.getSupplierPrice()).add(amountAfterTax).floatValue());
 				}
