@@ -153,14 +153,21 @@ public class DesiaService {
 		OTAHotelResRQ otaHotelResProvisionalRQ = DesiaBookingServiceHelper.provisionalBeanRQMapper(btnConfirmRQ, uuid);
 		OTAHotelResRS otaHotelResProvisionalRS = DesiaClient.sendProvisionalBookingRQ(otaHotelResProvisionalRQ);
 		
+		Object tempTestObject = DesiaBookingServiceHelper.checkProvisionalFinalRQ(otaHotelResProvisionalRS);
+		BTNConfirmResponse btnConfirmResponse = null;
+		if (tempTestObject != null) {
+			btnConfirmResponse = (BTNConfirmResponse) tempTestObject;
+			
+			return XmlProcessor.getBeanInXml(btnConfirmResponse);
+		}
 		OTAHotelResRQ otaHotelResFinalRQ = DesiaBookingServiceHelper.provisionalFinalRQMapper(otaHotelResProvisionalRS);
 		OTAHotelResRS otaHotelResFinalRS = DesiaClient.sendFinalBookingRQ(otaHotelResFinalRQ);
 		
-		BTNFinalBookingRS btnFinalBookingRS = DesiaBookingServiceHelper.finalBookingRSMapper(otaHotelResFinalRS, uuid);
+		btnConfirmResponse = DesiaBookingServiceHelper.provisionalBeanRSMapper(otaHotelResFinalRS, uuid);
 		logger.info("desia provisional plus final booking operation done ---->");
 		
 		DesiaBookingServiceHelper.logReqRes(uuid, DesiaProperties.CONFIRM, DesiaProperties.DESIA);
-		return XmlProcessor.getBeanInXml(btnFinalBookingRS);
+		return XmlProcessor.getBeanInXml(btnConfirmResponse);
 	}
 	
 	
