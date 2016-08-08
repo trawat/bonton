@@ -24,6 +24,8 @@ import com.desia.artifacts.search.AmountType;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment;
 import com.desia.artifacts.search.AvailRequestSegmentsType.AvailRequestSegment.HotelSearchCriteria;
 import com.desia.artifacts.search.BasicPropertyInfoType;
+import com.desia.artifacts.search.CancelPenaltiesType;
+import com.desia.artifacts.search.CancelPenaltyType;
 import com.desia.artifacts.search.CountryNameType;
 import com.desia.artifacts.search.DateTimeSpanType;
 import com.desia.artifacts.search.ErrorType;
@@ -338,7 +340,7 @@ public class DesiaSearchServiceHelper {
 			btnHotel.setSupplier(DesiaProperties.DESIA);
 			btnHotel.setLatitude(0.0f);
 			btnHotel.setLongitude(0.0f);
-			//btnHotel.setCurrency(otaBasicPropertyInfoType.getCurrencyCode());
+			btnHotel.setCurrency(DesiaProperties.CURRENCY);
 			
 			/** To counter hotel and city search differently for star rating */
 			if (otaBasicPropertyInfoType.getAward().size() != 0) {
@@ -438,13 +440,6 @@ public class DesiaSearchServiceHelper {
 				BigDecimal amountAfterTax = amountBeforeTax.add(taxAmount);
 				
 				if (btnRateLst.isEmpty()) {
-					/** 
-					 * Setting this here as in some cases BasicPropertyInfo node doesn't return
-					 * currency code in the response. Also, setting it here will set it only once.
-					 * Not appropriate but logical.
-					 */
-					btnHotel.setCurrency(otaRoomRate.getTotal().getCurrencyCode());
-					
 					/** For rate key preparation. Indexes should not be changed.
 					 * Otherwise, change the logic of fetching and resetting rate key
 					 * components in the else block. */
@@ -495,9 +490,37 @@ public class DesiaSearchServiceHelper {
 					btnRate.setRecommended(DFLTRCMNDVALUE);
 					btnRate.setHoldValue(DFLTHOLDVALUE);
 					
+					CancelPenaltiesType otaCancelPenaltiesType = otaRatePlanType.getCancelPenalties();
+					StringBuilder tempPenaltyDesc = new StringBuilder(DesiaProperties.EMPTY);
+					if (otaCancelPenaltiesType != null) {
+						List<CancelPenaltyType> otaCancelPenaltyTypeLst = otaCancelPenaltiesType.getCancelPenalty();
+						for (CancelPenaltyType otaCancelPenaltyType : otaCancelPenaltyTypeLst) {
+							List<ParagraphType> otaParagraphTypeLst = otaCancelPenaltyType.getPenaltyDescription();
+							for (ParagraphType otaParagraphType : otaParagraphTypeLst) {
+								List<JAXBElement<?>> tmpJAXBElementLst = otaParagraphType.getImageOrTextOrURL();
+								for (JAXBElement<?> tmpJAXBElement : tmpJAXBElementLst) {
+									tempPenaltyDesc.append(((FormattedTextTextType) tmpJAXBElement.getValue()).getValue());
+								}
+							}
+						}
+					}
+					/** Their exist cancellation penalty description */
+					if (tempPenaltyDesc.length() != 0) {
+						BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies btnCancPlcies = 
+								new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies();
+												
+						BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy btnCancPlcy = 
+								new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy();
+						btnCancPlcy.setAmount(0.0f);
+						//resCancPlcy.setFrom(cancPlcy.getFrom());
+						btnCancPlcy.setText(tempPenaltyDesc.toString());
+						
+						btnCancPlcies.getCancellationPolicy().add(btnCancPlcy);
+						btnRate.setCancellationPolicies(btnCancPlcies);
+					}
+
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates btnDailyRates = 
 							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates();
-					List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate> btnDailyRateLst = btnDailyRates.getDailyRate();
 					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate btnDailyRate = 
 							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
 					
@@ -505,7 +528,7 @@ public class DesiaSearchServiceHelper {
 					btnDailyRate.setOffset(1);
 					btnDailyRate.setDailySellingRate(amountBeforeTax.floatValue());
 					btnDailyRate.setDailyNet(amountAfterTax.floatValue());
-					btnDailyRateLst.add(btnDailyRate);
+					btnDailyRates.getDailyRate().add(btnDailyRate);
 					
 					btnRate.setDailyRates(btnDailyRates);
 					btnRateLst.add(btnRate);
@@ -800,16 +823,38 @@ public class DesiaSearchServiceHelper {
 					btnRate.setChildCount(1);
 					btnRate.setTaxAmount(taxAmount);
 					
-					BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies btncpies = 
-							new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies();
-					BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy btncpy = 
-							new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
+					RatePlanType otaRatePlanType = ratePlanMap.get(otaRatePlanId);
 					
-					btncpy.setAmount(null);
-					btncpy.setFrom(null);
+					CancelPenaltiesType otaCancelPenaltiesType = otaRatePlanType.getCancelPenalties();
+					StringBuilder tempPenaltyDesc = new StringBuilder(DesiaProperties.EMPTY);
+					if (otaCancelPenaltiesType != null) {
+						List<CancelPenaltyType> otaCancelPenaltyTypeLst = otaCancelPenaltiesType.getCancelPenalty();
+						for (CancelPenaltyType otaCancelPenaltyType : otaCancelPenaltyTypeLst) {
+							List<ParagraphType> otaParagraphTypeLst = otaCancelPenaltyType.getPenaltyDescription();
+							for (ParagraphType otaParagraphType : otaParagraphTypeLst) {
+								List<JAXBElement<?>> tmpJAXBElementLst = otaParagraphType.getImageOrTextOrURL();
+								for (JAXBElement<?> tmpJAXBElement : tmpJAXBElementLst) {
+									tempPenaltyDesc.append(((FormattedTextTextType) tmpJAXBElement.getValue()).getValue());
+								}
+							}
+						}
+					}
+					/** Their exist cancellation penalty description */
+					if (tempPenaltyDesc.length() != 0) {
+						BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy btnCancPlcy = 
+								new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
+						
+						btnCancPlcy.setAmount(BigDecimal.valueOf(0));
+						//resCancPlcy.setFrom(cancPlcy.getFrom());
+						btnCancPlcy.setText(tempPenaltyDesc.toString());
+						
+						BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies btnCancPlcies = 
+								new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies();
+						btnCancPlcies.setCancellationPolicy(btnCancPlcy);
+						
+						btnRate.setCancellationPolicies(btnCancPlcies);
+					}
 					
-					btncpies.setCancellationPolicy(btncpy);
-					btnRate.setCancellationPolicies(btncpies);
 					btnRates.setRate(btnRate);
 					btnRoom.setRates(btnRates);
 					
