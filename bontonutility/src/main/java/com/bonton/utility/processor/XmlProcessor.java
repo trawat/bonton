@@ -184,14 +184,13 @@ public final class XmlProcessor {
 	private static <T> T unmarshall(InputStream is, Class<T> beanClass) throws JAXBException {
 		String packageName = beanClass.getPackage().getName();;
 		JAXBContext jaxbCtx = ctxMap.get(packageName);
-		Unmarshaller unmarshaller = null;
 		
 		try {
 			if (null == jaxbCtx) {
-				jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
+				jaxbCtx = JAXBContext.newInstance(packageName);
 				ctxMap.put(packageName, jaxbCtx);
 			}
-			unmarshaller = jaxbCtx.createUnmarshaller();
+			Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
 			
 			/** Setting schema for validation */
 			unmarshaller.setSchema(btnSchema);
@@ -208,14 +207,13 @@ public final class XmlProcessor {
 		Class<T> beanClass = (Class<T>) beanType.getClass();
 		String packageName = beanClass.getPackage().getName();;
 		JAXBContext jaxbCtx = ctxMap.get(packageName);
-		Marshaller marshaller = null;
 		
 		try {
 			if (null == jaxbCtx) {
-				jaxbCtx = JAXBContext.newInstance(beanClass.getPackage().getName());
+				jaxbCtx = JAXBContext.newInstance(packageName);
 				ctxMap.put(packageName, jaxbCtx);
 			}
-			marshaller = jaxbCtx.createMarshaller();
+			Marshaller marshaller = jaxbCtx.createMarshaller();
 			
 			StringWriter tempBuffer = new StringWriter();
 			marshaller.marshal(beanType, tempBuffer);
