@@ -48,11 +48,12 @@ public class BTNUtility {
 		
 		List<String> endPointsIDs = null;
 		
-		if (supplier == null || supplier.trim().length() == 0) {
-			endPointsIDs = BTNDBConnection.getEnabledEndPoints();
-		} else {
+		if (isNotNullOrEmpty(supplier)) {
 			endPointsIDs = BTNDBConnection.getEnabledEndPoints(supplier);
+		} else {
+			endPointsIDs = BTNDBConnection.getEnabledEndPoints();
 		}
+		
 		int noOfEndpointIDs = endPointsIDs.size();
 		
 		for (int i = 0; i < noOfEndpointIDs; i++) {
@@ -76,5 +77,14 @@ public class BTNUtility {
 	
 	public static final void checkConnectivity() {
 		BTNDBConnection.reInstateConnection();
+	}
+	
+	public static boolean isNotNullOrEmpty(String data) {
+		if (data != null) {
+			if (data.trim().length() != 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
