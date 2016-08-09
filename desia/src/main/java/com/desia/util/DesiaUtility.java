@@ -34,4 +34,13 @@ public class DesiaUtility {
 	public static String getProperty(String key) {
 		return properties.getProperty(key);
 	}
+	
+	public static boolean isNotNullOrEmpty(String data) {
+		if (data != null) {
+			if (data.trim().length() != 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

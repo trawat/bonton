@@ -52,6 +52,7 @@ import com.desia.artifacts.search.TPAExtensionsType;
 import com.desia.artifacts.search.TPAExtensionsType.UserAuthentication;
 import com.desia.util.DesiaDBConnection;
 import com.desia.util.DesiaProperties;
+import com.desia.util.DesiaUtility;
 
 /**
  * Helper class - contains static methods for request and response mapping methods.
@@ -118,9 +119,9 @@ public class DesiaSearchServiceHelper {
 		String min = btnHotelDetailRQNode.getMinStarRating();
 		String max = btnHotelDetailRQNode.getMaxStarRating();
 		
-		if (null != max) {
+		if (DesiaUtility.isNotNullOrEmpty(max)) {
 			otaAward.setRating(max);
-		} else if (null != min) {
+		} else if (DesiaUtility.isNotNullOrEmpty(min)) {
 			otaAward.setRating(min);
 		}
 		otaAwardLst.add(otaAward);
@@ -163,11 +164,11 @@ public class DesiaSearchServiceHelper {
 		List<RateRange> otaRateRangeLst = otaCriterion.getRateRange();
 		RateRange otaRateRange = new RateRange();
 		
-		if (btnHotelDetailRQNode.getMinRate() != null) {
+		if (DesiaUtility.isNotNullOrEmpty(btnHotelDetailRQNode.getMinRate())) {
 			otaRateRange.setMinRate(new BigDecimal(btnHotelDetailRQNode.getMinRate()));
 		}
 		
-		if (btnHotelDetailRQNode.getMaxRate() != null) {
+		if (DesiaUtility.isNotNullOrEmpty(btnHotelDetailRQNode.getMaxRate())) {
 			otaRateRange.setMaxRate(new BigDecimal(btnHotelDetailRQNode.getMaxRate()));
 		}
 		otaRateRangeLst.add(otaRateRange);

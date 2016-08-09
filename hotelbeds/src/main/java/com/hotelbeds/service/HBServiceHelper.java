@@ -35,6 +35,7 @@ import com.bonton.utility.processor.XmlProcessor;
 import com.hotelbeds.util.HBClient;
 import com.hotelbeds.util.HBDBConnection;
 import com.hotelbeds.util.HBProperties;
+import com.hotelbeds.util.HBUtility;
 
 /**
  * Helper class - contains static methods for request and response mapping methods.
@@ -106,25 +107,26 @@ public class HBServiceHelper {
 		}
 
 		AvailabilityRQ.Filter filter = new AvailabilityRQ.Filter();
-		if (btnSearchHotelPriceRQ.getMinRate() != null) {
+		if (HBUtility.isNotNullOrEmpty(btnSearchHotelPriceRQ.getMinRate())) {
 			filter.setMinRate(btnSearchHotelPriceRQ.getMinRate());
 		}
-		if (btnSearchHotelPriceRQ.getMaxRate() != null) {
+		if (HBUtility.isNotNullOrEmpty(btnSearchHotelPriceRQ.getMaxRate())) {
 			filter.setMaxRate(btnSearchHotelPriceRQ.getMaxRate());
 		}
-		if (btnSearchHotelPriceRQ.getMaxNoRates() != null) {
+		if (HBUtility.isNotNullOrEmpty(btnSearchHotelPriceRQ.getMaxNoRates())) {
 			filter.setMaxRatesPerRoom(btnSearchHotelPriceRQ.getMaxNoRates());
 		}
 		
 		/** Changed to bring in symetry with Desia API */
-		if (btnSearchHotelPriceRQ.getMinStarRating() != null && btnSearchHotelPriceRQ.getMaxStarRating() != null) {
+		if (HBUtility.isNotNullOrEmpty(btnSearchHotelPriceRQ.getMinStarRating()) 
+				&& HBUtility.isNotNullOrEmpty(btnSearchHotelPriceRQ.getMaxStarRating())) {
 			filter.setMinCategory(btnSearchHotelPriceRQ.getMinStarRating());
 			filter.setMaxCategory(btnSearchHotelPriceRQ.getMaxStarRating());
 		} else {
-			if (btnSearchHotelPriceRQ.getMinStarRating() != null) {
+			if (HBUtility.isNotNullOrEmpty(btnSearchHotelPriceRQ.getMinStarRating())) {
 				filter.setMinCategory(btnSearchHotelPriceRQ.getMinStarRating());
 				filter.setMaxCategory(btnSearchHotelPriceRQ.getMinStarRating());
-			} else if (btnSearchHotelPriceRQ.getMaxStarRating() != null) {
+			} else if (HBUtility.isNotNullOrEmpty(btnSearchHotelPriceRQ.getMaxStarRating())) {
 				filter.setMinCategory(btnSearchHotelPriceRQ.getMaxStarRating());
 				filter.setMaxCategory(btnSearchHotelPriceRQ.getMaxStarRating());
 			}
