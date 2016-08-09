@@ -43,4 +43,8 @@ public class DesiaUtility {
 		}
 		return false;
 	}
+	
+	public static String getEmptyOrValue(String data) {
+		return null != data? data: DesiaProperties.EMPTY;
+	}
 }

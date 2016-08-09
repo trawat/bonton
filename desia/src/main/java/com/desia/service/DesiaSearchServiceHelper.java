@@ -273,11 +273,16 @@ public class DesiaSearchServiceHelper {
 	
 	/**
 	 * Used to map the Desia availability response to Bonton response.
+	 * Initially was designed for both hotel and city search and still
+	 * contains that funtionality. Later, hotel search was moved to repricing 
+	 * operation.
 	 * @param otaHotelAvailRS Hotel availability RS object returned by Desia API
 	 * @param uuid Unique idenfier used to map RQ objects with their RS's.
 	 * @return BTNSearchResponse Bonton specific RS object after mapping
 	 * @throws Exception In case any mapping error occurs
 	 * @author Tirath
+	 * @see DesiaService
+	 * @see DesiaBookingServiceHelper
 	 */
 	public static BTNSearchResponse searchBeanRSMapper(OTAHotelAvailRS otaHotelAvailRS, String uuid) throws Exception {
 		logger.info("desia search response mapping started ---->");
@@ -337,7 +342,7 @@ public class DesiaSearchServiceHelper {
 
 			BasicPropertyInfoType otaBasicPropertyInfoType = otaHotel.getBasicPropertyInfo();
 			btnHotel.setHotelCode(otaBasicPropertyInfoType.getHotelCode());
-			btnHotel.setHotelName(getNodeValue(otaBasicPropertyInfoType.getHotelName()));
+			btnHotel.setHotelName(DesiaUtility.getEmptyOrValue(otaBasicPropertyInfoType.getHotelName()));
 			btnHotel.setSupplier(DesiaProperties.DESIA);
 			btnHotel.setLatitude(0.0f);
 			btnHotel.setLongitude(0.0f);
@@ -345,7 +350,7 @@ public class DesiaSearchServiceHelper {
 			
 			/** To counter hotel and city search differently for star rating */
 			if (otaBasicPropertyInfoType.getAward().size() != 0) {
-				btnHotel.setStarRating(getNodeValue(otaBasicPropertyInfoType.getAward().get(0).getRating()));
+				btnHotel.setStarRating(DesiaUtility.getEmptyOrValue(otaBasicPropertyInfoType.getAward().get(0).getRating()));
 			} else {
 				btnHotel.setStarRating(DesiaProperties.EMPTY);
 			}
@@ -738,7 +743,7 @@ public class DesiaSearchServiceHelper {
 
 			BasicPropertyInfoType otaBasicPropertyInfoType = otaHotel.getBasicPropertyInfo();
 			btnHotel.setCode(Integer.valueOf(otaBasicPropertyInfoType.getHotelCode()));
-			btnHotel.setName(getNodeValue(otaBasicPropertyInfoType.getHotelName()));
+			btnHotel.setName(DesiaUtility.getEmptyOrValue(otaBasicPropertyInfoType.getHotelName()));
 			btnHotel.setCategoryName(((BasicPropertyInfoType.Award) otaBasicPropertyInfoType.getAward().get(0)).getRating());
 			btnHotel.setCategoryCode(DesiaProperties.EMPTY);
 			btnHotel.setDestinationCode(DesiaProperties.EMPTY);
@@ -929,9 +934,6 @@ public class DesiaSearchServiceHelper {
 			}});
 	}
 	
-	private static final String getNodeValue(String crntValue) {
-		return null != crntValue? crntValue: DesiaProperties.EMPTY;
-	}
 	private static final String getFormattedDate(String plainDateStr) {
 		StringBuilder formatterDate = new StringBuilder(DesiaProperties.EMPTY);
 		formatterDate.append(plainDateStr.substring(0, 4));
