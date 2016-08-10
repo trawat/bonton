@@ -475,8 +475,8 @@ public class DesiaBookingServiceHelper {
 		PersonName otaPersonName = new PersonName();
 		EmailType otaEmailType = new EmailType();
 		
-		if (btnCancelRQ.getCancelDetails().getPersonName() != null) {
-			otaPersonName.setSurname(btnCancelRQ.getCancelDetails().getPersonName().getLastName());
+		if (btnCancelRQ.getCancelDetails().getPrinciplePax() != null) {
+			otaPersonName.setSurname(btnCancelRQ.getCancelDetails().getPrinciplePax().getSurname());
 		}
 		otaEmailType.setValue(btnCancelRQ.getCancelDetails().getEmail());
 
@@ -556,6 +556,42 @@ public class DesiaBookingServiceHelper {
 		
 		logger.info("desia cancel response mapping done ---->");
 		return btnCancelRS;
+	}
+	
+	/** To help us return error response instead of using the it to prepare final
+	 * request and result in another error and irrecoverable situation.
+	 * @return
+	 */
+	public static Object checkProvisionalFinalRQ(OTAHotelResRS otaHotelResRS) {
+		
+		if (otaHotelResRS.getErrors() != null) {
+			BTNConfirmResponse.BTNError errElmnt = new BTNConfirmResponse.BTNError();
+			
+			List<ErrorType> otaErrorLst = otaHotelResRS.getErrors().getError();
+			StringBuilder errCode = new StringBuilder();
+			StringBuilder errMsg = new StringBuilder();
+			for (ErrorType otaErrorType : otaErrorLst) {
+				if (errCode.length() != 0) {
+					errCode.append(DesiaProperties.PIPE);
+					errMsg.append(DesiaProperties.PIPE);
+				}
+				errCode.append(otaErrorType.getCode());
+				errMsg.append(otaErrorType.getValue());
+				
+			}
+			errElmnt.setCode(errCode.toString());
+			errElmnt.setMessage(errMsg.toString());
+
+			BTNConfirmResponse btnConfirmRS = new BTNConfirmResponse();
+			btnConfirmRS.setBTNError(errElmnt);
+			
+			/** Adding Desia provisional booking response for logging */
+			//reqResMap.get(uuid).add(btnConfirmRS);
+			
+			logger.info("desia provisional booking response contains error. Returning ---->");
+			return btnConfirmRS;
+		}
+		return null;
 	}
 	
 	public static OTAHotelResRQ provisionalFinalRQMapper(OTAHotelResRS otaHotelResRS) throws Exception {
@@ -668,7 +704,7 @@ public class DesiaBookingServiceHelper {
 								XmlProcessor.getBeanInXml((BTNConfirmRequest) reqResLst.get(0)),
 								XmlProcessor.getBeanInXml((OTAHotelResRQ) reqResLst.get(1)),
 								XmlProcessor.getBeanInXml((OTAHotelResRS) reqResLst.get(2)),
-								XmlProcessor.getBeanInXml((BTNFinalBookingRS) reqResLst.get(3)), 
+								XmlProcessor.getBeanInXml((BTNConfirmResponse) reqResLst.get(3)), 
 								supplier);
 						break;
 					}

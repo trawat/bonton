@@ -180,6 +180,7 @@
 																							<xs:sequence>
 																								<xs:element type="xs:float" name="Amount" />
 																								<xs:element type="xs:dateTime" name="From" />
+																								<xs:element type="xs:string" name="Text" minOccurs="0" maxOccurs="1"/>
 																							</xs:sequence>
 																						</xs:complexType>
 																						</xs:element>
@@ -299,6 +300,8 @@
 																											name="amount" />
 																										<xs:attribute type="xs:dateTime"
 																											name="from" />
+																										<xs:attribute type="xs:string" 
+																										name="Text" />
 																									</xs:extension>
 																								</xs:simpleContent>
 																							</xs:complexType>
@@ -605,19 +608,31 @@
 				<xs:element name="CancelDetails" minOccurs="1" maxOccurs="1">
 					<xs:complexType>
 						<xs:sequence>
-						<xs:element name="PersonName" minOccurs="0" maxOccurs="1">
-							<xs:complexType>
-								<xs:sequence>
-									<xs:element name="FirstName" type="xs:string" minOccurs="1" maxOccurs="1" />
-									<xs:element name="LastName" type="xs:string" minOccurs="1" maxOccurs="1" />
-								</xs:sequence>
-							</xs:complexType>
-						</xs:element>
+						<!-- Added min max for this to work for hb. remove later. required. for both
+						same for email and period of stay node -->
+							<xs:element name="PrinciplePax" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute type="xs:string" name="Name" use="optional"/>
+											<xs:attribute type="xs:string" name="Surname" use="required" />
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
 							<xs:element type="xs:string" name="Email" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="PeriodOfStay" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element type="xs:date" name="CheckOutDate" minOccurs="1" maxOccurs="1" />
+										<xs:element type="xs:date" name="CheckInDate" minOccurs="1" maxOccurs="1" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
 						</xs:sequence>
 						<xs:attribute type="xs:string" name="language" />
-						<xs:attribute type="xs:string" name="referenceId" />
-						<xs:attribute type="xs:string" name="cancelFlag" />
+						<xs:attribute type="xs:string" name="referenceId" use="required" />
+						<xs:attribute type="xs:string" name="cancelFlag" use="required" />
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>

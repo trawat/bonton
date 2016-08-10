@@ -214,20 +214,20 @@ public class HBServiceHelper {
 		/** Adding HB availability response for logging */
 		reqResMap.get(uuid).add(availabilityRS);
 		
-		BTNSearchResponse btnSearchResponse = new BTNSearchResponse();
+		BTNSearchResponse btnSearchRS = new BTNSearchResponse();
 
 		if (availabilityRS.getError() != null) {
 			BTNSearchResponse.BTNError errElmnt = new BTNSearchResponse.BTNError();
 			errElmnt.setCode(availabilityRS.getError().getCode());
 			errElmnt.setMessage(availabilityRS.getError().getMessage());
 
-			btnSearchResponse.setBTNError(errElmnt);
+			btnSearchRS.setBTNError(errElmnt);
 			
 			/** Adding HB availability response for logging */
-			reqResMap.get(uuid).add(btnSearchResponse);
+			reqResMap.get(uuid).add(btnSearchRS);
 			
 			logger.info("hotelbeds search response mapping done ---->");
-			return btnSearchResponse;
+			return btnSearchRS;
 		}
 
 		/** Fetch the searched rooms~adults~children combination */
@@ -238,59 +238,54 @@ public class HBServiceHelper {
 		Set<String> keySet = new HashSet<String>(Arrays.asList(keySetArray));
 		
 		/** do the appropriate mapping*/
-		btnSearchResponse.setTravelRequestID(HBProperties.EMPTY);
-		btnSearchResponse.setServiceRequestID(HBProperties.EMPTY);
+		btnSearchRS.setTravelRequestID(HBProperties.EMPTY);
+		btnSearchRS.setServiceRequestID(HBProperties.EMPTY);
 
-		btnSearchResponse.setOptionsCount(availabilityRS.getHotels().getTotal());
+		btnSearchRS.setOptionsCount(availabilityRS.getHotels().getTotal());
 
 		boolean onlyOnce = true;
-		BTNSearchResponse.HotelOptions resHotelOptions = new  BTNSearchResponse.HotelOptions();
-		btnSearchResponse.setHotelOptions(resHotelOptions);
+		
+		btnSearchRS.setHotelOptions(new  BTNSearchResponse.HotelOptions());
 
-		List<BTNSearchResponse.HotelOptions.Hotel> resHotelLst = resHotelOptions.getHotel();
-		List<AvailabilityRS.Hotels.Hotel> hotelLst = availabilityRS.getHotels().getHotel();
+		List<BTNSearchResponse.HotelOptions.Hotel> btnHotelLst = btnSearchRS.getHotelOptions().getHotel();
+		List<AvailabilityRS.Hotels.Hotel> otaHotelLst = availabilityRS.getHotels().getHotel();
 
-		for (AvailabilityRS.Hotels.Hotel hotel : hotelLst) {
+		for (AvailabilityRS.Hotels.Hotel otaHotel : otaHotelLst) {
 			boolean addHotel = false;
-			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
-			resHotel.setHotelCode(hotel.getCode());
-			resHotel.setHotelName(hotel.getName());
-			resHotel.setSupplier(HBProperties.HB);
-			resHotel.setStarRating(hotel.getCategoryName());
-			resHotel.setLatitude(hotel.getLatitude() == null? 0f: hotel.getLatitude());
-			resHotel.setLongitude(hotel.getLongitude() == null? 0f: hotel.getLongitude());
-			resHotel.setFullAddress(hotel.getAddress() == null? HBProperties.EMPTY: hotel.getAddress());
-			resHotel.setCurrency(hotel.getCurrency());
+			BTNSearchResponse.HotelOptions.Hotel btnHotel = new BTNSearchResponse.HotelOptions.Hotel();
+			btnHotel.setHotelCode(otaHotel.getCode());
+			btnHotel.setHotelName(otaHotel.getName());
+			btnHotel.setSupplier(HBProperties.HB);
+			btnHotel.setStarRating(otaHotel.getCategoryName());
+			btnHotel.setLatitude(otaHotel.getLatitude() == null? 0f: otaHotel.getLatitude());
+			btnHotel.setLongitude(otaHotel.getLongitude() == null? 0f: otaHotel.getLongitude());
+			btnHotel.setFullAddress(otaHotel.getAddress() == null? HBProperties.EMPTY: otaHotel.getAddress());
+			btnHotel.setCurrency(otaHotel.getCurrency());
 
 			/** As this is common for all the hotels */
 			if (onlyOnce) {
-				BTNSearchResponse.City city = new BTNSearchResponse.City();
-				city.setCityCode(hotel.getDestinationCode());
-				city.setCityName(hotel.getDestinationName());
-				btnSearchResponse.setCity(city);
+				BTNSearchResponse.City btnCity = new BTNSearchResponse.City();
+				btnCity.setCityCode(otaHotel.getDestinationCode());
+				btnCity.setCityName(otaHotel.getDestinationName());
+				btnSearchRS.setCity(btnCity);
 				onlyOnce = false;
 			}
 			
-			BTNSearchResponse.HotelOptions.Hotel.RoomOptions resRoomOptions = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions();
-			resHotel.setRoomOptions(resRoomOptions);
+			btnHotel.setRoomOptions(new BTNSearchResponse.HotelOptions.Hotel.RoomOptions());
 
-			List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> resRoomLst = resRoomOptions.getRoom();
-			List<AvailabilityRS.Hotels.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
+			List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> btnRoomLst = btnHotel.getRoomOptions().getRoom();
+			List<AvailabilityRS.Hotels.Hotel.Rooms.Room> otaRoomLst = otaHotel.getRooms().getRoom();
 
-			for (AvailabilityRS.Hotels.Hotel.Rooms.Room room : roomLst) {
-				Map<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate>> resBrdRateMap = 
+			for (AvailabilityRS.Hotels.Hotel.Rooms.Room otaRoom : otaRoomLst) {
+				Map<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate>> btnBrdRateMap = 
 						new HashMap<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate>>();
-//				BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
-//				resRoom.setRoomType(room.getName());
-//				resRoom.setSupplier(HBProperties.HB);
 
-//				List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> resRateLst = resRoom.getRate();
-				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate> rateLst = room.getRates().getRate();
+				List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate> otaRateLst = otaRoom.getRates().getRate();
 				
 				/** Added to not display the rooms for which the searched pax combination 
 				 * doesn't match the combinations mentioned in rate keys. 
 				 * Works in combination with resKeySet. Added to get rid of straight cases. */
-				if (rateLst.size() < noOfRooms) {
+				if (otaRateLst.size() < noOfRooms) {
 					continue;
 				}
 				
@@ -301,21 +296,21 @@ public class HBServiceHelper {
 				boolean isBookable = false;
 				
 				Set<String> resKeySet = new HashSet<String>();
-				for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate rate : rateLst) {
-					if (!rate.getRateType().equalsIgnoreCase(HBProperties.RATE_TYPE)) {
+				for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate otaRate : otaRateLst) {
+					if (!otaRate.getRateType().equalsIgnoreCase(HBProperties.RATE_TYPE)) {
 						/** Skipping rate entry as rateType is not BOOKABLE. Other possibility is RECHECK */
 						continue;
 					}
 					isBookable = true; addHotel = true;
-					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate resRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate();
-					resRate.setAdults(rate.getAdults());
-					resRate.setChildren(rate.getChildren());
-					resRate.setChildrenAges(rate.getChildrenAges());
+					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate btnRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate();
+					btnRate.setAdults(otaRate.getAdults());
+					btnRate.setChildren(otaRate.getChildren());
+					btnRate.setChildrenAges(otaRate.getChildrenAges());
 					
 					StringBuilder tempBffr = new StringBuilder()
-							.append(rate.getRooms()).append(HBProperties.SEP1)
-							.append(rate.getAdults()).append(HBProperties.SEP1)
-							.append(rate.getChildren());
+							.append(otaRate.getRooms()).append(HBProperties.SEP1)
+							.append(otaRate.getAdults()).append(HBProperties.SEP1)
+							.append(otaRate.getChildren());
 					
 					resKeySet.add(tempBffr.toString());
 					/** Decided not to use it but keep it.
@@ -324,73 +319,65 @@ public class HBServiceHelper {
 						resRate.setRecommended(HBProperties.REC);
 					}
 					 */
-					resRate.setHoldValue(DFLTHOLDVALUE);
+					btnRate.setHoldValue(DFLTHOLDVALUE);
 					
-					resRate.setRateKey(rate.getRateKey());
-					resRate.setPackaging(rate.getPackaging());
-					resRate.setMealType(rate.getBoardName());
+					btnRate.setRateKey(otaRate.getRateKey());
+					btnRate.setPackaging(otaRate.getPackaging());
+					btnRate.setMealType(otaRate.getBoardName());
 					
 					/** 
 					 * Meal code contains board code. Should not be changed. Otherwise breaks the rate list
 					 * sorting logic. Change the rateListCmptr comparator logic if it must change. 
 					 **/
-					resRate.setMealCode(rate.getBoardCode());
+					btnRate.setMealCode(otaRate.getBoardCode());
 
-					resRate.setSupplierPrice(rate.getNet());
-					resRate.setOtaFee(0.0f);
-					resRate.setOtaDiscountAmount(0.0f);
+					btnRate.setSupplierPrice(otaRate.getNet());
+					btnRate.setOtaFee(0.0f);
+					btnRate.setOtaDiscountAmount(0.0f);
 
-					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies resCancPlcies = 
-							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies();
-					
-					if (rate.getCancellationPolicies() != null) {
-						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy> resCancPlcyLst = 
-								resCancPlcies.getCancellationPolicy();
+					if (otaRate.getCancellationPolicies() != null) {
+						btnRate.setCancellationPolicies(new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies());
+						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy> btnCancPlcyLst = 
+								btnRate.getCancellationPolicies().getCancellationPolicy();
 						
-						List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy> cancPlcyLst = 
-								rate.getCancellationPolicies().getCancellationPolicy();
+						List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy> otaCancPlcyLst = 
+								otaRate.getCancellationPolicies().getCancellationPolicy();
 						
-						for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy cancPlcy : cancPlcyLst) {
+						for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy otaCancPlcy : otaCancPlcyLst) {
 							BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy resCancPlcy = 
 									new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.CancellationPolicies.CancellationPolicy();
 
-							resCancPlcy.setAmount(cancPlcy.getAmount());
-							resCancPlcy.setFrom(cancPlcy.getFrom());
+							resCancPlcy.setAmount(otaCancPlcy.getAmount());
+							resCancPlcy.setFrom(otaCancPlcy.getFrom());
 
-							resCancPlcyLst.add(resCancPlcy);
+							btnCancPlcyLst.add(resCancPlcy);
 						}
 					}
 					
-					BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates resDailyRates = 
-							new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates();
-
-					if (rate.getDailyRates() != null) {
-						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate> resDailyRateLst = resDailyRates.getDailyRate();
-						List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate> dailyRateLst = rate.getDailyRates().getDailyRate();
+					if (otaRate.getDailyRates() != null) {
+						btnRate.setDailyRates(new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates());
+						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate> btnDailyRateLst = btnRate.getDailyRates().getDailyRate();
+						List<AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate> otaDailyRateLst = otaRate.getDailyRates().getDailyRate();
 						
-						for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate dailyRate : dailyRateLst) {
-							BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate resDailyRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
-							resDailyRate.setOffset(dailyRate.getOffset());
-							resDailyRate.setDailyNet(dailyRate.getDailyNet());
+						for (AvailabilityRS.Hotels.Hotel.Rooms.Room.Rates.Rate.DailyRates.DailyRate dailyRate : otaDailyRateLst) {
+							BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate btnDailyRate = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate.DailyRates.DailyRate();
+							btnDailyRate.setOffset(dailyRate.getOffset());
+							btnDailyRate.setDailyNet(dailyRate.getDailyNet());
 
 							/* adding to the daily rate list */
-							resDailyRateLst.add(resDailyRate);
+							btnDailyRateLst.add(btnDailyRate);
 						}
 					}
 					
-					resRate.setDailyRates(resDailyRates);
-					resRate.setCancellationPolicies(resCancPlcies);
 					
-					if (resBrdRateMap.containsKey(rate.getBoardCode())) {
-						resBrdRateMap.get(rate.getBoardCode()).add(resRate);
+					if (btnBrdRateMap.containsKey(otaRate.getBoardCode())) {
+						btnBrdRateMap.get(otaRate.getBoardCode()).add(btnRate);
 					} else {
 						List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate> tmpRateLst = 
 								new ArrayList<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room.Rate>();
-						tmpRateLst.add(resRate);
-						resBrdRateMap.put(rate.getBoardCode(), tmpRateLst);
+						tmpRateLst.add(btnRate);
+						btnBrdRateMap.put(otaRate.getBoardCode(), tmpRateLst);
 					}
-					/** Changing logic */
-					//resRateLst.add(resRate);
 				}
 				
 				/** Add room to the room list only if atleast one returned rate 
@@ -405,31 +392,30 @@ public class HBServiceHelper {
 					/* Sorted rate list */
 //					Collections.sort(resRateLst, rateListCmptr);
 					
-					Set<String> tmpBrdSet = resBrdRateMap.keySet();
+					Set<String> tmpBrdSet = btnBrdRateMap.keySet();
 					Iterator<String> tmpBrdSetItr = tmpBrdSet.iterator();
 					while (tmpBrdSetItr.hasNext()) {
 						String nxtBrdCode = tmpBrdSetItr.next();
-						BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room resRoom = 
+						BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room btnRoom = 
 								new BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room();
-						resRoom.setRoomType(room.getName());
-						resRoom.setSupplier(HBProperties.HB);
-						resRoom.setMealCode(nxtBrdCode);
+						btnRoom.setRoomType(otaRoom.getName());
+						btnRoom.setSupplier(HBProperties.HB);
+						btnRoom.setMealCode(nxtBrdCode);
 						
-						resRoom.getRate().addAll(resBrdRateMap.get(nxtBrdCode));
-						resRoomLst.add(resRoom);
+						btnRoom.getRate().addAll(btnBrdRateMap.get(nxtBrdCode));
+						btnRoomLst.add(btnRoom);
 					}
-//					resRoomLst.add(resRoom);
 				}
 			}
 			if (addHotel) {
-				resHotelLst.add(resHotel);
+				btnHotelLst.add(btnHotel);
 			}
 		}
 		/** Adding HB availability response for logging */
-		reqResMap.get(uuid).add(btnSearchResponse);
+		reqResMap.get(uuid).add(btnSearchRS);
 		
 		logger.info("hotelbeds search response mapping done ---->");
-		return btnSearchResponse;
+		return btnSearchRS;
 	}
 	
 	/**
@@ -524,124 +510,126 @@ public class HBServiceHelper {
 		/** Adding HB confirm response for logging */
 		reqResMap.get(uuid).add(bookingRS);
 		
-		BTNConfirmResponse btnConfirmResponse = new BTNConfirmResponse();
+		BTNConfirmResponse btnConfirmRS = new BTNConfirmResponse();
 		
 		if (bookingRS.getError() != null) {
 			BTNConfirmResponse.BTNError errElmnt = new BTNConfirmResponse.BTNError();
 			errElmnt.setCode(bookingRS.getError().getCode());
 			errElmnt.setMessage(bookingRS.getError().getMessage());
 			
-			btnConfirmResponse.setBTNError(errElmnt);
+			btnConfirmRS.setBTNError(errElmnt);
 			
 			/** Adding Bonton confirm response for logging */
-			reqResMap.get(uuid).add(btnConfirmResponse);
+			reqResMap.get(uuid).add(btnConfirmRS);
 			
 			logger.info("hotelbeds confirm response mapping done ---->");
-			return btnConfirmResponse;
+			return btnConfirmRS;
 		}
 		
-		BTNConfirmResponse.Booking resBooking = new BTNConfirmResponse.Booking();
-		BTNConfirmResponse.Booking.ModificationPolicies resModiPolicies = new BTNConfirmResponse.Booking.ModificationPolicies();
-		BTNConfirmResponse.Booking.PrinciplePax resPrinciplePax = new BTNConfirmResponse.Booking.PrinciplePax();
+		BTNConfirmResponse.Booking btnBooking = new BTNConfirmResponse.Booking();
 		
+		btnBooking.setModificationPolicies(new BTNConfirmResponse.Booking.ModificationPolicies());
+		btnBooking.getModificationPolicies().setCancellation(bookingRS.getBooking().getModificationPolicies().getCancellation());
+		btnBooking.getModificationPolicies().setModification(bookingRS.getBooking().getModificationPolicies().getModification());
 		
-		resModiPolicies.setCancellation(bookingRS.getBooking().getModificationPolicies().getCancellation());
-		resModiPolicies.setModification(bookingRS.getBooking().getModificationPolicies().getModification());
+		btnBooking.setPrinciplePax(new BTNConfirmResponse.Booking.PrinciplePax());
+		btnBooking.getPrinciplePax().setName(bookingRS.getBooking().getHolder().getName());
+		btnBooking.getPrinciplePax().setSurname(bookingRS.getBooking().getHolder().getSurname());
 		
-		resPrinciplePax.setName(bookingRS.getBooking().getHolder().getName());
-		resPrinciplePax.setSurname(bookingRS.getBooking().getHolder().getSurname());
+		btnBooking.setReference(bookingRS.getBooking().getReference());
+		btnBooking.setClientReference(bookingRS.getBooking().getClientReference());
+		btnBooking.setCreationDate(bookingRS.getBooking().getCreationDate());
+		btnBooking.setTotalSellingRate(bookingRS.getBooking().getTotalNet());
+		btnBooking.setStatus(bookingRS.getBooking().getRemark());
 		
-		resBooking.setModificationPolicies(resModiPolicies);
-		resBooking.setPrinciplePax(resPrinciplePax);
-		resBooking.setReference(bookingRS.getBooking().getReference());
-		resBooking.setClientReference(bookingRS.getBooking().getClientReference());
-		resBooking.setCreationDate(bookingRS.getBooking().getCreationDate());
-		resBooking.setTotalSellingRate(bookingRS.getBooking().getTotalNet());
-		resBooking.setStatus(bookingRS.getBooking().getRemark());
+		BTNConfirmResponse.Booking.Hotel btnHotel = new BTNConfirmResponse.Booking.Hotel();
+		BookingRS.Booking.Hotel otaHotel = bookingRS.getBooking().getHotel();
+		btnHotel.setCheckIn(otaHotel.getCheckIn());
+		btnHotel.setCheckOut(otaHotel.getCheckOut());
+		btnHotel.setCode(otaHotel.getCode().toString());
+		btnHotel.setName(otaHotel.getName());
+		btnHotel.setCatCode(otaHotel.getCategoryCode());
+		btnHotel.setCatName(otaHotel.getCategoryName());
+		btnHotel.setDestCode(otaHotel.getDestinationCode());
+		btnHotel.setDestName(otaHotel.getDestinationName());
 		
-		BTNConfirmResponse.Booking.Hotel resHotel = new BTNConfirmResponse.Booking.Hotel();
-		BookingRS.Booking.Hotel hotel = bookingRS.getBooking().getHotel();
-		resHotel.setCheckIn(hotel.getCheckIn());
-		resHotel.setCheckOut(hotel.getCheckOut());
-		resHotel.setCode(new Integer(hotel.getCode()).toString());
-		resHotel.setName(hotel.getName());
-		resHotel.setCatCode(hotel.getCategoryCode());
-		resHotel.setCatName(hotel.getCategoryName());
-		resHotel.setDestCode(hotel.getDestinationCode());
-		resHotel.setDestName(hotel.getDestinationName());
+		btnHotel.setSupplierdetails(new BTNConfirmResponse.Booking.Hotel.Supplierdetails());
+		btnHotel.getSupplierdetails().setName(HBProperties.HB);
+		btnHotel.getSupplierdetails().setVatNumber(otaHotel.getSupplier().getVatNumber());
 		
-		BTNConfirmResponse.Booking.Hotel.Supplierdetails resSupplierDetails = new BTNConfirmResponse.Booking.Hotel.Supplierdetails(); 
-		resSupplierDetails.setName(HBProperties.HB);
-		resSupplierDetails.setVatNumber(hotel.getSupplier().getVatNumber());
+		btnBooking.setHotel(btnHotel);
 		
-		BTNConfirmResponse.Booking.Hotel.Rooms resRooms = new BTNConfirmResponse.Booking.Hotel.Rooms();
-		resHotel.setRooms(resRooms);
-		resHotel.setSupplierdetails(resSupplierDetails);
+		List<BookingRS.Booking.Hotel.Rooms.Room> otaRoomLst = otaHotel.getRooms().getRoom();
+		List<BTNConfirmResponse.Booking.Hotel.Rooms.Room> btnRoomLst = null;
 		
-		resBooking.setHotel(resHotel);
+		if (!otaRoomLst.isEmpty()) {
+			btnHotel.setRooms(new BTNConfirmResponse.Booking.Hotel.Rooms());
+			btnRoomLst = btnHotel.getRooms().getRoom();
+		}
 		
-		List<BTNConfirmResponse.Booking.Hotel.Rooms.Room> resRoomLst = resRooms.getRoom();
-		List<BookingRS.Booking.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
-		
-		int roomCount = roomLst.size();
+		int roomCount = otaRoomLst.size();
 		int adultCount = 0, totalOccupant = 0;
-		for (BookingRS.Booking.Hotel.Rooms.Room room : roomLst) {
-			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes resPaxes = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes();
-			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates resRates = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates();
+		for (BookingRS.Booking.Hotel.Rooms.Room otaRoom : otaRoomLst) {
+			BTNConfirmResponse.Booking.Hotel.Rooms.Room btnRoom = new BTNConfirmResponse.Booking.Hotel.Rooms.Room();
 			
-			List<BookingRS.Booking.Hotel.Rooms.Room.Paxes.Pax> paxLst = room.getPaxes().getPax();
+			List<BookingRS.Booking.Hotel.Rooms.Room.Paxes.Pax> otaPaxLst = otaRoom.getPaxes().getPax();
+			List<BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes.Pax> btnPaxLst = null;
 			
-			totalOccupant = paxLst.size();
-			for (BookingRS.Booking.Hotel.Rooms.Room.Paxes.Pax pax : paxLst) {
-				BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes.Pax resPax = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes.Pax();
-				resPax.setAge(pax.getAge());
-				resPax.setName(pax.getName());
-				resPax.setRoomId(pax.getRoomId());
-				resPax.setSurname(pax.getSurname());
-				resPax.setType(pax.getType());
-				resPax.setValue(pax.getValue());
+			if (!otaPaxLst.isEmpty()) {
+				btnRoom.setPaxes(new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes());
+				btnPaxLst = btnRoom.getPaxes().getPax();
+			}
+			
+			totalOccupant = otaPaxLst.size();
+			for (BookingRS.Booking.Hotel.Rooms.Room.Paxes.Pax otaPax : otaPaxLst) {
+				BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes.Pax btnPax = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Paxes.Pax();
+				btnPax.setAge(otaPax.getAge());
+				btnPax.setName(otaPax.getName());
+				btnPax.setRoomId(otaPax.getRoomId());
+				btnPax.setSurname(otaPax.getSurname());
+				btnPax.setType(otaPax.getType());
+				btnPax.setValue(otaPax.getValue());
 				
-				if (HBProperties.ADULTCD.equals(pax.getType()))
+				if (HBProperties.ADULTCD.equals(otaPax.getType()))
 					adultCount++;
 				
-				resPaxes.getPax().add(resPax);
+				btnPaxLst.add(btnPax);
 			}
-			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate resRate = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate(); 
-			BookingRS.Booking.Hotel.Rooms.Room.Rates.Rate rate = room.getRates().getRate();
 			
-			resRate.setNetRate(rate.getNet());
-			resRate.setPackaging(rate.getPackaging());
-			resRate.setRateType(rate.getRateClass());
-			resRate.setRateComments(rate.getRateComments());
-			resRate.setRoomCount(roomCount);
-			resRate.setAdultCount(adultCount);
-			resRate.setChildCount(totalOccupant - adultCount);
+			btnRoom.setRates(new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates());
+			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate btnRate = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate(); 
+			BookingRS.Booking.Hotel.Rooms.Room.Rates.Rate otaRate = otaRoom.getRates().getRate();
 			
-			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies resCplcies = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies();
-			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy resCplcy = new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
+			btnRate.setNetRate(otaRate.getNet());
+			btnRate.setPackaging(otaRate.getPackaging());
+			btnRate.setRateType(otaRate.getRateClass());
+			btnRate.setRateComments(otaRate.getRateComments());
+			btnRate.setRoomCount(roomCount);
+			btnRate.setAdultCount(adultCount);
+			btnRate.setChildCount(totalOccupant - adultCount);
 			
-			resCplcy.setAmount(rate.getCancellationPolicies().getCancellationPolicy().getAmount());
-			resCplcy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom().toString());
-			resCplcy.setValue(rate.getCancellationPolicies().getCancellationPolicy().getValue());
+			btnRoom.getRates().setRate(btnRate);
 			
-			resCplcies.setCancellationPolicy(resCplcy);
-			resRate.setCancellationPolicies(resCplcies);
-			resRates.setRate(resRate);
+			btnRate.setCancellationPolicies(new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies());
+			BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy btnCancPlcy = 
+					new BTNConfirmResponse.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
+			
+			btnCancPlcy.setAmount(otaRate.getCancellationPolicies().getCancellationPolicy().getAmount());
+			btnCancPlcy.setFrom(otaRate.getCancellationPolicies().getCancellationPolicy().getFrom().toString());
+			btnCancPlcy.setValue(otaRate.getCancellationPolicies().getCancellationPolicy().getValue());
+			
+			btnRate.getCancellationPolicies().setCancellationPolicy(btnCancPlcy);
 			
 			
-			
-			BTNConfirmResponse.Booking.Hotel.Rooms.Room resRoom = new BTNConfirmResponse.Booking.Hotel.Rooms.Room();
-			resRoom.setPaxes(resPaxes);
-			resRoom.setRates(resRates);
-			resRoomLst.add(resRoom);
+			btnRoomLst.add(btnRoom);
 		}
-		btnConfirmResponse.setBooking(resBooking);
+		btnConfirmRS.setBooking(btnBooking);
 		
 		/** Adding Bonton confirm response for logging */
-		reqResMap.get(uuid).add(btnConfirmResponse);
+		reqResMap.get(uuid).add(btnConfirmRS);
 		
 		logger.info("hotelbeds confirm response mapping done ---->");
-		return btnConfirmResponse;
+		return btnConfirmRS;
 	}
 	
 	/**
@@ -700,117 +688,96 @@ public class HBServiceHelper {
 			return btnCancelRS;
 		}
 		
-		BTNCancelRS.Booking resBooking = new BTNCancelRS.Booking();
-		BTNCancelRS.Booking.ModificationPolicies resModiPolicies = new BTNCancelRS.Booking.ModificationPolicies();
-		BTNCancelRS.Booking.PrinciplePax resPrinciplePax = new BTNCancelRS.Booking.PrinciplePax();
+		BookingCancellationRS.Booking otaBooking = cancelRS.getBooking();
+		BTNCancelRS.Booking btnBooking = new BTNCancelRS.Booking();
 		
-		BookingCancellationRS.Booking booking = cancelRS.getBooking();
-		resModiPolicies.setCancellation(booking.getModificationPolicies().getCancellation());
-		resModiPolicies.setModification(booking.getModificationPolicies().getModification());
+		btnBooking.setModificationPolicies(new BTNCancelRS.Booking.ModificationPolicies());
+		btnBooking.getModificationPolicies().setCancellation(otaBooking.getModificationPolicies().getCancellation());
+		btnBooking.getModificationPolicies().setModification(otaBooking.getModificationPolicies().getModification());
 		
-		resPrinciplePax.setName(booking.getHolder().getName());
-		resPrinciplePax.setSurname(booking.getHolder().getSurname());
+		btnBooking.setPrinciplePax(new BTNCancelRS.Booking.PrinciplePax());
+		btnBooking.getPrinciplePax().setName(otaBooking.getHolder().getName());
+		btnBooking.getPrinciplePax().setSurname(otaBooking.getHolder().getSurname());
 		
-		resBooking.setModificationPolicies(resModiPolicies);
-		resBooking.setPrinciplePax(resPrinciplePax);
-		resBooking.setReference(booking.getReference());
-		resBooking.setClientReference(booking.getClientReference());
-		resBooking.setCreationDate(booking.getCreationDate());
-		resBooking.setTotalSellingRate(booking.getTotalNet());
-		resBooking.setStatus(booking.getRemark());
-		resBooking.setCancellationReference(booking.getCancellationReference());
+		btnBooking.setReference(otaBooking.getReference());
+		btnBooking.setClientReference(otaBooking.getClientReference());
+		btnBooking.setCreationDate(otaBooking.getCreationDate());
+		btnBooking.setTotalSellingRate(otaBooking.getTotalNet());
+		btnBooking.setStatus(otaBooking.getRemark());
+		btnBooking.setCancellationReference(otaBooking.getCancellationReference());
 		
-		BTNCancelRS.Booking.Hotel resHotel = new BTNCancelRS.Booking.Hotel();
-		BookingCancellationRS.Booking.Hotel hotel = booking.getHotel();
-		resHotel.setCheckIn(hotel.getCheckIn());
-		resHotel.setCheckOut(hotel.getCheckOut());
-		resHotel.setCode(new Integer(hotel.getCode()).toString());
-		resHotel.setName(hotel.getName());
-		resHotel.setCatCode(hotel.getCategoryCode());
-		resHotel.setCatName(hotel.getCategoryName());
-		resHotel.setDestCode(hotel.getDestinationCode());
-		resHotel.setDestName(hotel.getDestinationName());
-		resHotel.setCancellationAmount(hotel.getCancellationAmount());
-		//hotel.getZoneCode() //setters not available
-		//hotel.getZoneName()
-		//hotel.getLatitude()
-		//hotel.getLongitude()
-		//hotel.getTotalNet()
-		//hotel.getCurrency()
+		BookingCancellationRS.Booking.Hotel otaHotel = otaBooking.getHotel();
+		BTNCancelRS.Booking.Hotel btnHotel = new BTNCancelRS.Booking.Hotel();
+		btnHotel.setCheckIn(otaHotel.getCheckIn());
+		btnHotel.setCheckOut(otaHotel.getCheckOut());
+		btnHotel.setCode(otaHotel.getCode().toString());
+		btnHotel.setName(otaHotel.getName());
+		btnHotel.setCatCode(otaHotel.getCategoryCode());
+		btnHotel.setCatName(otaHotel.getCategoryName());
+		btnHotel.setDestCode(otaHotel.getDestinationCode());
+		btnHotel.setDestName(otaHotel.getDestinationName());
+		btnHotel.setCancellationAmount(otaHotel.getCancellationAmount());
 		
-		BTNCancelRS.Booking.Hotel.Supplierdetails resSupplierDetails = new BTNCancelRS.Booking.Hotel.Supplierdetails(); 
-		resSupplierDetails.setName(HBProperties.HB);
-		resSupplierDetails.setVatNumber(hotel.getSupplier().getVatNumber());
+		btnHotel.setSupplierdetails(new BTNCancelRS.Booking.Hotel.Supplierdetails()); 
+		btnHotel.getSupplierdetails().setName(HBProperties.HB);
+		btnHotel.getSupplierdetails().setVatNumber(otaHotel.getSupplier().getVatNumber());
 		
-		BTNCancelRS.Booking.Hotel.Rooms resRooms = new BTNCancelRS.Booking.Hotel.Rooms();
-		resHotel.setRooms(resRooms);
-		resHotel.setSupplierdetails(resSupplierDetails);
+		btnBooking.setHotel(btnHotel);
 		
-		resBooking.setHotel(resHotel);
+		List<BookingCancellationRS.Booking.Hotel.Rooms.Room> otaRoomLst = otaHotel.getRooms().getRoom();
+		List<BTNCancelRS.Booking.Hotel.Rooms.Room> btnRoomLst = null;
 		
-		List<BTNCancelRS.Booking.Hotel.Rooms.Room> resRoomLst = resRooms.getRoom();
-		List<BookingCancellationRS.Booking.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
+		if (!otaRoomLst.isEmpty()) {
+			btnHotel.setRooms(new BTNCancelRS.Booking.Hotel.Rooms());
+			btnRoomLst = btnHotel.getRooms().getRoom();
+		}
 		
-		int roomCount = roomLst.size();
+		int roomCount = otaRoomLst.size();
 		int adultCount = 0, totalOccupant = 0;
-		for (BookingCancellationRS.Booking.Hotel.Rooms.Room room : roomLst) {
-			BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes resPaxes = new BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes();
-			BTNCancelRS.Booking.Hotel.Rooms.Room.Rates resRates = new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates();
+		for (BookingCancellationRS.Booking.Hotel.Rooms.Room otaRoom : otaRoomLst) {
+			BTNCancelRS.Booking.Hotel.Rooms.Room btnRoom = new BTNCancelRS.Booking.Hotel.Rooms.Room();
+			List<BookingCancellationRS.Booking.Hotel.Rooms.Room.Paxes.Pax> otaPaxLst = otaRoom.getPaxes().getPax();
+			List<BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes.Pax> btnPaxLst = null;
 			
-			List<BookingCancellationRS.Booking.Hotel.Rooms.Room.Paxes.Pax> paxLst = room.getPaxes().getPax();
+			if (!otaPaxLst.isEmpty()) {
+				btnRoom.setPaxes(new BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes());
+				btnPaxLst = btnRoom.getPaxes().getPax();
+			}
 			
-			totalOccupant = paxLst.size();
-			for (BookingCancellationRS.Booking.Hotel.Rooms.Room.Paxes.Pax pax : paxLst) {
-				BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes.Pax resPax = new BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes.Pax();
-				resPax.setAge(pax.getAge());
-				resPax.setName(pax.getName());
-				resPax.setRoomId(pax.getRoomId());
-				resPax.setSurname(pax.getSurname());
-				resPax.setType(pax.getType());
-				resPax.setValue(pax.getValue());
+			totalOccupant = otaPaxLst.size();
+			for (BookingCancellationRS.Booking.Hotel.Rooms.Room.Paxes.Pax otaPax : otaPaxLst) {
+				BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes.Pax btnPax = new BTNCancelRS.Booking.Hotel.Rooms.Room.Paxes.Pax();
+				btnPax.setAge(otaPax.getAge());
+				btnPax.setName(otaPax.getName());
+				btnPax.setRoomId(otaPax.getRoomId());
+				btnPax.setSurname(otaPax.getSurname());
+				btnPax.setType(otaPax.getType());
+				btnPax.setValue(otaPax.getValue());
 				
-				if (HBProperties.ADULTCD.equals(pax.getType()))
+				if (HBProperties.ADULTCD.equals(otaPax.getType()))
 					adultCount++;
 				
-				resPaxes.getPax().add(resPax);
+				btnPaxLst.add(btnPax);
 			}
-			BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate resRate = new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate(); 
-			BookingCancellationRS.Booking.Hotel.Rooms.Room.Rates.Rate rate = room.getRates().getRate();
+			btnRoom.setRates(new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates());
+			BookingCancellationRS.Booking.Hotel.Rooms.Room.Rates.Rate rate = otaRoom.getRates().getRate();
+			BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate btnRate = new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate();
+			btnRate.setNetRate(rate.getNet());
+			btnRate.setPackaging(rate.getPackaging());
+			btnRate.setRateType(rate.getRateClass());
+			btnRate.setRoomCount(roomCount);
+			btnRate.setAdultCount(adultCount);
+			btnRate.setChildCount(totalOccupant - adultCount);
 			
-			//rate.getBoardCode()
-			//rate.getBoardName()
-			resRate.setNetRate(rate.getNet());
-			resRate.setPackaging(rate.getPackaging());
-			//rate.getPaymentType()
-			resRate.setRateType(rate.getRateClass());
-			//rate.getRateComments()
-			resRate.setRoomCount(roomCount);
-			resRate.setAdultCount(adultCount);
-			resRate.setChildCount(totalOccupant - adultCount);
+			btnRoom.getRates().setRate(btnRate);
+			btnRoom.setStatus(otaRoom.getStatus());
+			btnRoom.setCode(otaRoom.getCode());
+			btnRoom.setId(otaRoom.getId());
+			btnRoom.setName(otaRoom.getName());
 			
-			//BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies resCplcies = new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies();
-			//BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy resCplcy = new BTNCancelRS.Booking.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
-			
-			//resCplcy.setAmount(rate.getCancellationPolicies().getCancellationPolicy().getAmount());
-			//resCplcy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom().toString());
-			//resCplcy.setValue(rate.getCancellationPolicies().getCancellationPolicy().getValue());
-			
-			//resCplcies.setCancellationPolicy(resCplcy);
-			//resRate.setCancellationPolicies(resCplcies);
-			resRates.setRate(resRate);
-			
-			
-			
-			BTNCancelRS.Booking.Hotel.Rooms.Room resRoom = new BTNCancelRS.Booking.Hotel.Rooms.Room();
-			resRoom.setStatus(room.getStatus());
-			resRoom.setCode(room.getCode());
-			resRoom.setId(room.getId());
-			resRoom.setName(room.getName());
-			resRoom.setPaxes(resPaxes);
-			resRoom.setRates(resRates);
-			resRoomLst.add(resRoom);
+			btnRoomLst.add(btnRoom);
 		}
-		btnCancelRS.setBooking(resBooking);
+		btnCancelRS.setBooking(btnBooking);
 		
 		/** Adding Bonton cancel response for logging */
 		reqResMap.get(uuid).add(btnCancelRS);
@@ -868,80 +835,81 @@ public class HBServiceHelper {
 		/** Adding HB reprice response for logging */
 		reqResMap.get(uuid).add(checkRateRS);
 		
-		BTNRepriceResponse btnRepriceRs = new BTNRepriceResponse();
+		BTNRepriceResponse btnRepriceRS = new BTNRepriceResponse();
 
 		if (checkRateRS.getError() != null) {
 			BTNRepriceResponse.BTNError errElmnt = new BTNRepriceResponse.BTNError();
 			errElmnt.setCode(checkRateRS.getError().getCode());
 			errElmnt.setMessage(checkRateRS.getError().getMessage());
 
-			btnRepriceRs.setBTNError(errElmnt);
+			btnRepriceRS.setBTNError(errElmnt);
 			
 			/** Adding Bonton reprice response for logging */
-			reqResMap.get(uuid).add(btnRepriceRs);
+			reqResMap.get(uuid).add(btnRepriceRS);
 			
 			logger.info("hotelbeds reprice response mapping done ---->");
-			return btnRepriceRs;
+			return btnRepriceRS;
 		}
 
-		BTNRepriceResponse.Hotel resHotel = new BTNRepriceResponse.Hotel(); 
-		CheckRateRS.Hotel hotel = checkRateRS.getHotel();
+		BTNRepriceResponse.Hotel btnHotel = new BTNRepriceResponse.Hotel(); 
+		CheckRateRS.Hotel otaHotel = checkRateRS.getHotel();
 
-		resHotel.setCheckIn(hotel.getCheckIn());
-		resHotel.setCheckOut(hotel.getCheckOut());
-		resHotel.setCode(Integer.valueOf(hotel.getCode()));
-		resHotel.setName(hotel.getName());
-		resHotel.setCategoryName(hotel.getCategoryName());
-		resHotel.setCategoryCode(hotel.getCategoryCode());
-		resHotel.setDestinationCode(hotel.getDestinationCode());
-		resHotel.setDestinationName(hotel.getDestinationName());
+		btnHotel.setCheckIn(otaHotel.getCheckIn());
+		btnHotel.setCheckOut(otaHotel.getCheckOut());
+		btnHotel.setCode(Integer.valueOf(otaHotel.getCode()));
+		btnHotel.setName(otaHotel.getName());
+		btnHotel.setCategoryName(otaHotel.getCategoryName());
+		btnHotel.setCategoryCode(otaHotel.getCategoryCode());
+		btnHotel.setDestinationCode(otaHotel.getDestinationCode());
+		btnHotel.setDestinationName(otaHotel.getDestinationName());
 		
-		BTNRepriceResponse.Hotel.Rooms resRooms = new BTNRepriceResponse.Hotel.Rooms();
-		List<BTNRepriceResponse.Hotel.Rooms.Room> resRoomLst = resRooms.getRoom();
+		List<CheckRateRS.Hotel.Rooms.Room> otaRoomLst = otaHotel.getRooms().getRoom();
+		List<BTNRepriceResponse.Hotel.Rooms.Room> btnRoomLst = null;
 		
-		List<CheckRateRS.Hotel.Rooms.Room> roomLst = hotel.getRooms().getRoom();
-		for (CheckRateRS.Hotel.Rooms.Room room : roomLst) {
+		if (!otaRoomLst.isEmpty()) {
+			btnHotel.setRooms(new BTNRepriceResponse.Hotel.Rooms());
+			btnRoomLst = btnHotel.getRooms().getRoom();
+		}
+		
+		for (CheckRateRS.Hotel.Rooms.Room otaRoom : otaRoomLst) {
 			
-			BTNRepriceResponse.Hotel.Rooms.Room resRoom = new BTNRepriceResponse.Hotel.Rooms.Room();
-			resRoom.setCode(room.getCode());
-			resRoom.setName(room.getName());
+			BTNRepriceResponse.Hotel.Rooms.Room btnRoom = new BTNRepriceResponse.Hotel.Rooms.Room();
+			btnRoom.setCode(otaRoom.getCode());
+			btnRoom.setName(otaRoom.getName());
 			
-			CheckRateRS.Hotel.Rooms.Room.Rates.Rate rate = room.getRates().getRate();
-			BTNRepriceResponse.Hotel.Rooms.Room.Rates resRates = new BTNRepriceResponse.Hotel.Rooms.Room.Rates();
-			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate resRate = new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate();
+			btnRoom.setRates(new BTNRepriceResponse.Hotel.Rooms.Room.Rates());
+			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate btnRate = new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate();
 			
-			resRate.setNetRate(new BigDecimal(rate.getNet()));
-			resRate.setPackaging(rate.getPackaging());
-			resRate.setRateType(rate.getRateType());
-			resRate.setRateComments(rate.getRateComments());
-//			resRate.setCategory();
-			resRate.setRoomCount(rate.getRooms());
-			resRate.setAdultCount(rate.getAdults());
-			resRate.setChildCount(rate.getChildren());
+			CheckRateRS.Hotel.Rooms.Room.Rates.Rate otaRate = otaRoom.getRates().getRate();
 			
-			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies rescpies = 
-					new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies();
-			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy rescpy = 
+			btnRate.setNetRate(new BigDecimal(otaRate.getNet().toString()));
+			btnRate.setPackaging(otaRate.getPackaging());
+			btnRate.setRateType(otaRate.getRateType());
+			btnRate.setRateComments(otaRate.getRateComments());
+			btnRate.setRoomCount(otaRate.getRooms());
+			btnRate.setAdultCount(otaRate.getAdults());
+			btnRate.setChildCount(otaRate.getChildren());
+			
+			btnRate.setCancellationPolicies(new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies());
+
+			BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy btnCancPlcy = 
 					new BTNRepriceResponse.Hotel.Rooms.Room.Rates.Rate.CancellationPolicies.CancellationPolicy();
 			
-			rescpy.setAmount(new BigDecimal(rate.getCancellationPolicies().getCancellationPolicy().getAmount()));
-			rescpy.setFrom(rate.getCancellationPolicies().getCancellationPolicy().getFrom());
+			btnCancPlcy.setAmount(new BigDecimal(otaRate.getCancellationPolicies().getCancellationPolicy().getAmount().toString()));
+			btnCancPlcy.setFrom(otaRate.getCancellationPolicies().getCancellationPolicy().getFrom());
 			
-			rescpies.setCancellationPolicy(rescpy);
-			resRate.setCancellationPolicies(rescpies);
-			resRates.setRate(resRate);
-			resRoom.setRates(resRates);
-			
-			resRoomLst.add(resRoom);
+			btnRate.getCancellationPolicies().setCancellationPolicy(btnCancPlcy);
+			btnRoom.getRates().setRate(btnRate);
+			btnRoomLst.add(btnRoom);
 		}
-		resHotel.setRooms(resRooms);
-		btnRepriceRs.setHotel(resHotel);
+		
+		btnRepriceRS.setHotel(btnHotel);
 		
 		/** Adding Bonton reprice response for logging */
-		reqResMap.get(uuid).add(btnRepriceRs);
+		reqResMap.get(uuid).add(btnRepriceRS);
 		
 		logger.info("hotelbeds reprice response mapping done ---->");
-		return btnRepriceRs;
+		return btnRepriceRS;
 	}
 	
 	/**
