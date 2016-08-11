@@ -1,13 +1,9 @@
 package com.bonton.service.impl;
 
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -107,11 +103,7 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			}
 		}
 		
-		/**
-		 * Concurrency level equals to the no. of service provider threads.
-		 * Bonton hotel code and associated rooms represents Key-Value pair. 
-		 */
-		final Map<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room>> indxedHtlRoom = new ConcurrentHashMap<>(16, .75f, 3);
+		final List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = new LinkedList<>();
 		
 		for (final ServiceProxy sp : serviceList) {
 			Future<Boolean> submtedTask = es.submit(new Runnable() {
@@ -132,23 +124,10 @@ public class ServiceActuatorImpl implements ServiceActuator {
 							/** simply return as there is nothing in the returned response to process */
 							return;
 						}
-						List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = tmpHotelOptions.getHotel();
+						List<BTNSearchResponse.HotelOptions.Hotel> tmpHotelLst = tmpHotelOptions.getHotel();
 						
-						for (BTNSearchResponse.HotelOptions.Hotel hotel : hotelLst) {
-							/* hotel code also needs to be mapped with bonton hotel code*/
-							String hotelCode = hotel.getHotelCode();
-							
-							//TODO: get the bonton code here
-							
-							List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room> roomLst = indxedHtlRoom.get(hotelCode);
-							if (roomLst == null) {
-								roomLst = new LinkedList<>();
-								roomLst.addAll(hotel.getRoomOptions().getRoom());
-								indxedHtlRoom.put(hotelCode, roomLst);
-							} else {
-								indxedHtlRoom.get(hotelCode).addAll(hotel.getRoomOptions().getRoom());
-							}
-							
+						if (!tmpHotelLst.isEmpty()) {
+							hotelLst.addAll(tmpHotelLst);
 						}
 					} catch (Exception e) {
 						logger.error("{} occured", e);
@@ -162,33 +141,19 @@ public class ServiceActuatorImpl implements ServiceActuator {
 			task.get();
 		}
 		
-		/* Aggregation all set at this point. Prepare final response. */
-		BTNSearchResponse.HotelOptions resHotels = new BTNSearchResponse.HotelOptions();
-		List<BTNSearchResponse.HotelOptions.Hotel> hotelLst = resHotels.getHotel();
-		
-		Iterator<Entry<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room>>> itr = indxedHtlRoom.entrySet().iterator();
-		
-		Entry<String, List<BTNSearchResponse.HotelOptions.Hotel.RoomOptions.Room>> entry = null;
-		while (itr.hasNext()) {
-			entry = itr.next();
-			
-			BTNSearchResponse.HotelOptions.Hotel resHotel = new BTNSearchResponse.HotelOptions.Hotel();
-			BTNSearchResponse.HotelOptions.Hotel.RoomOptions resRooms = new BTNSearchResponse.HotelOptions.Hotel.RoomOptions();
-			resHotel.setRoomOptions(resRooms);
-			
-			resHotel.setHotelCode(entry.getKey());
-			resHotel.getRoomOptions().getRoom().addAll(entry.getValue());
-			
-			hotelLst.add(resHotel);
-		}
-		
 		BTNSearchResponse btnSearchRS = new BTNSearchResponse();
 		btnSearchRS.setOptionsCount(hotelLst.size());
 		
-		BTNSearchResponse.City btnCity = new BTNSearchResponse.City();
-		btnCity.setCityCode(btnSearchRQ.getRequestDetails().getSearchHotelPriceRequest().getItemDestination().getDestinationCode());
-		btnSearchRS.setCity(btnCity);
-		btnSearchRS.setHotelOptions(resHotels);
+		btnSearchRS.setCity(new BTNSearchResponse.City());
+		btnSearchRS.getCity().setCityCode(btnSearchRQ.getRequestDetails().getSearchHotelPriceRequest()
+				.getItemDestination().getDestinationCode());
+		
+		
+		if (!hotelLst.isEmpty()) {
+			btnSearchRS.setHotelOptions(new BTNSearchResponse.HotelOptions());
+			btnSearchRS.getHotelOptions().getHotel().addAll(hotelLst);
+		}
+
 		String responseXml = XmlProcessor.getBeanInXml(btnSearchRS);
 		
 		//TODO: Get rid of the indexes before returning
