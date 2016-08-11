@@ -56,6 +56,11 @@ public class HBDBConnection {
 	 * @param splr Name of the supplier or supplier code
 	 */
 	public static void insert(String opr, String btnRq, String hbRq, String hbRs, String btnRs, String splr) {
+		if (!HBProperties.YES.equalsIgnoreCase(HBUtility.getProperty(HBProperties.LOGGINGHBFLG))) {
+			return;
+		}
+		
+		logger.info("hotelbeds RQ-RS logging for {} operation id {} started --->", opr);
 		try (PreparedStatement ps = getConnection().prepareStatement(activitySql)) {
 			ps.setString(1, opr);
 			ps.setString(2, btnRq);
@@ -65,9 +70,11 @@ public class HBDBConnection {
 			ps.setString(6, splr);
 			
 			ps.execute();
+			
 		} catch (SQLException e) {
 			logger.error("Exception occured while inserting the request and responses {}", e);
 		}
+		logger.info("hotelbeds RQ-RS logging for {} operation id {} completed --->", opr);
 	}
 	private static Connection getConnection() {
 		try {

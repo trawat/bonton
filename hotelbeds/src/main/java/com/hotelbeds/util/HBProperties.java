@@ -50,6 +50,9 @@ public interface HBProperties {
     public static final String LOGGINGUNAME = "log.username";
     public static final String LOGGINGUPWD = "log.password";
     public static final String LOGGINGDRVR = "";
+    public static final String LOGGINGHBFLG = "log.HB";
+    public static final String YES = "Y";
+    public static final String NO = "N";
     
     public static final String ADULTCD = "AD";
     public static final String CHILDCD = "CH";

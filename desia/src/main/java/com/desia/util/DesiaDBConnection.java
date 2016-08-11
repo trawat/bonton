@@ -56,6 +56,11 @@ public class DesiaDBConnection {
 	 * @param splr Name of the supplier or supplier code
 	 */
 	public static void insert(String opr, String btnRq, String desiaRq, String desiaRs, String btnRs, String splr) {
+		if (!DesiaProperties.YES.equalsIgnoreCase(DesiaUtility.getProperty(DesiaProperties.LOGGINGDESIAFLG))) {
+			return;
+		}
+		
+		logger.info("desia RQ-RS logging for {} operation id {} started --->", opr);
 		try (PreparedStatement ps = getConnection().prepareStatement(activitySql)) {
 			ps.setString(1, opr);
 			ps.setString(2, btnRq);
@@ -68,6 +73,7 @@ public class DesiaDBConnection {
 		} catch (SQLException e) {
 			logger.error("Exception occured while inserting the request and responses {}", e);
 		}
+		logger.info("desia RQ-RS logging for {} operation id {} completed --->", opr);
 	}
 	
 	private static Connection getConnection() {

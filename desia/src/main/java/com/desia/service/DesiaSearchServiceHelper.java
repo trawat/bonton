@@ -902,7 +902,6 @@ public class DesiaSearchServiceHelper {
 
 			@Override
 			public void run() {
-				logger.info("desia RQ-RS logging for {} operation id {} started --->", op, uuid);
 				
 				List<? super Object> reqResLst = reqResMap.get(uuid);
 				try {
@@ -930,7 +929,6 @@ public class DesiaSearchServiceHelper {
 				/** Remove the entry once we are done logging in DB */
 				reqResMap.remove(uuid);
 				
-				logger.info("desia RQ-RS logging for {} operation id {} completed --->", op, uuid);
 			}});
 	}
 	

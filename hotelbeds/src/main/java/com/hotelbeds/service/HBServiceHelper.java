@@ -931,7 +931,6 @@ public class HBServiceHelper {
 
 			@Override
 			public void run() {
-				logger.info("hotelbeds RQ-RS logging for {} operation id {} started --->", op, uuid);
 				
 				List<? super Object> reqResLst = reqResMap.get(uuid);
 				try {
@@ -976,7 +975,6 @@ public class HBServiceHelper {
 				/** Remove the entry once we are done logging in DB */
 				reqResMap.remove(uuid);
 				
-				logger.info("hotelbeds RQ-RS logging for {} operation id {} completed --->", op, uuid);
 			}});
 	}
 	
