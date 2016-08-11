@@ -46,7 +46,7 @@ public interface DesiaProperties {
     public static final String LOGGINGUNAME = "log.username";
     public static final String LOGGINGUPWD = "log.password";
     public static final String LOGGINGDRVR = "";
-    public static final String LOGGINGDESIAFLG = "log.HB";
+    public static final String LOGGINGDESIAFLG = "log.Desia";
     public static final String YES = "Y";
     public static final String NO = "N";
     

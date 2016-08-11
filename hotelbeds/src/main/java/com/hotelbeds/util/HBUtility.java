@@ -1,7 +1,6 @@
 package com.hotelbeds.util;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -13,19 +12,19 @@ public class HBUtility {
 	private HBUtility() {}
 	
 	private static Properties properties = null;
+	private static ClassLoader classLoader = null;
+	
 	static {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream input = classLoader.getResourceAsStream(HBProperties.BTN_PROP_FILE_NAME);
-
+		classLoader = Thread.currentThread().getContextClassLoader();
 		properties = new Properties();
-		try {
-			properties.load(input);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public static String getProperty(String key) {
+		try {
+			properties.load(classLoader.getResourceAsStream(HBProperties.BTN_PROP_FILE_NAME));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return properties.getProperty(key);
 	}
 	

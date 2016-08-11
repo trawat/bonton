@@ -60,7 +60,7 @@ public class DesiaDBConnection {
 			return;
 		}
 		
-		logger.info("desia RQ-RS logging for {} operation id {} started --->", opr);
+		logger.info("desia RQ-RS logging for {} operation started --->", opr);
 		try (PreparedStatement ps = getConnection().prepareStatement(activitySql)) {
 			ps.setString(1, opr);
 			ps.setString(2, btnRq);
@@ -73,7 +73,7 @@ public class DesiaDBConnection {
 		} catch (SQLException e) {
 			logger.error("Exception occured while inserting the request and responses {}", e);
 		}
-		logger.info("desia RQ-RS logging for {} operation id {} completed --->", opr);
+		logger.info("desia RQ-RS logging for {} operation completed --->", opr);
 	}
 	
 	private static Connection getConnection() {

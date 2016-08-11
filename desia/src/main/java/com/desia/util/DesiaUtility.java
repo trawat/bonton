@@ -1,7 +1,6 @@
 package com.desia.util;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -19,19 +18,19 @@ public class DesiaUtility {
 	}
 	
 	private static Properties properties = null;
+	private static ClassLoader classLoader = null;
+	
 	static {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream input = classLoader.getResourceAsStream(DesiaProperties.BTN_PROP_FILE_NAME);
-
+		classLoader = Thread.currentThread().getContextClassLoader();
 		properties = new Properties();
-		try {
-			properties.load(input);
-		} catch (IOException e) {
-			logger.error("{} occured while loading property file", e);
-		}
 	}
 	
 	public static String getProperty(String key) {
+		try {
+			properties.load(classLoader.getResourceAsStream(DesiaProperties.BTN_PROP_FILE_NAME));
+		} catch (IOException e) {
+			logger.error("{} occured while loading property file", e);
+		}
 		return properties.getProperty(key);
 	}
 	
