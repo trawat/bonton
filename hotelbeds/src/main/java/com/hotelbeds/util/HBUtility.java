@@ -3,11 +3,15 @@ package com.hotelbeds.util;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * HotelBeds utility class
  * @author Tirath
  */
 public class HBUtility {
+	private static Logger logger = LoggerFactory.getLogger(HBUtility.class);
 	
 	private HBUtility() {}
 	
@@ -23,7 +27,7 @@ public class HBUtility {
 		try {
 			properties.load(classLoader.getResourceAsStream(HBProperties.BTN_PROP_FILE_NAME));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return properties.getProperty(key);
 	}

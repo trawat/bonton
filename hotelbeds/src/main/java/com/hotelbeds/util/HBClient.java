@@ -40,30 +40,10 @@ public class HBClient {
 	private static final String HEADER_SEPARATOR = "----->";
 	private static final String COMMA = ", ";
 	
-	private HBClient() {}
+	private HBClient() {/**Shouldn't be instantiated*/ }
 	
 	static {
-		try {
-			hbRsClient = ClientBuilder.newClient();
-			hbRsClient.register(GZipEncoder.class);
-			hbRsClient.register(EncodingFilter.class);
-			/* Request headers */
-			headers.putSingle(HBProperties.API_KEY_HEADER_NAME, HBProperties.API_KEY);
-			headers.putSingle(HttpHeaders.USER_AGENT, HBProperties.USER_AGENT);
-			headers.putSingle(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML);
-			//headers.putSingle(MediaType.CHARSET_PARAMETER, HBProperties.UTF8);
-			/* Response headers */
-			headers.putSingle(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML);
-			//headers.putSingle(HttpHeaders.ACCEPT_CHARSET, HBProperties.UTF8);
-			headers.putSingle(HttpHeaders.ACCEPT_ENCODING, HBProperties.ENCODING);
-			headers.putSingle(HttpHeaders.CONTENT_ENCODING, HBProperties.ENCODING);
-		} catch (Exception exception) {
-			/* try closing the client */
-			if (hbRsClient != null) {
-				hbRsClient.close();
-			}
-			throw exception;
-		}
+		hbRsClient = getOrInitializeHBClient();
 	}
 	
 	/**
@@ -98,7 +78,7 @@ public class HBClient {
 	 */
 	public static <T> AvailabilityRS postSearch(T bean) throws Exception {
 		logger.info("search request posting to HotelBeds started ---->");
-		WebTarget target = hbRsClient.target(HBProperties.HB_SEARCH_HOTELS_END_POINT);
+		WebTarget target = getOrInitializeHBClient().target(HBUtility.getProperty(HBProperties.HB_SEARCH_HOTELS_END_POINT));
 		logger.info("search request posting to HotelBeds done ---->");
 		return (AvailabilityRS) post(bean, target, AvailabilityRS.class);
 	}
@@ -113,7 +93,7 @@ public class HBClient {
 	 */
 	public static <T> BookingRS postConfirmBooking(T bean) throws Exception {
 		logger.info("booking confirmation request posting to HotelBeds started ---->");
-		WebTarget target = hbRsClient.target(HBProperties.HB_CONFIRM_BOOKING_END_POINT);
+		WebTarget target = getOrInitializeHBClient().target(HBUtility.getProperty(HBProperties.HB_CONFIRM_BOOKING_END_POINT));
 		logger.info("booking confirmation request posting to HotelBeds done ---->");
 		return (BookingRS) post(bean, target, BookingRS.class);
 	}
@@ -129,7 +109,7 @@ public class HBClient {
 	public static <T> BookingCancellationRS postCancelBooking(T bean) throws Exception {
 		logger.info("cancel request posting to HotelBeds started ---->");
 		
-		WebTarget target = hbRsClient.target(HBProperties.HB_CANCEL_BOOKING_END_POINT)
+		WebTarget target = getOrInitializeHBClient().target(HBUtility.getProperty(HBProperties.HB_CANCEL_BOOKING_END_POINT))
 				.resolveTemplate(HBProperties.REF_ID, ((BTNCancelRQ) bean).getCancelDetails().getReferenceId())
 				.resolveTemplate(HBProperties.CNCL_FLG, ((BTNCancelRQ) bean).getCancelDetails().getCancelFlag());
 		
@@ -156,7 +136,7 @@ public class HBClient {
 	 */
 	public static <T> CheckRateRS postRepricing(T bean) throws Exception {
 		logger.info("reprice request posting to HotelBeds started ---->");
-		WebTarget target = hbRsClient.target(HBProperties.HB_REPRICE_POST_END_POINT);
+		WebTarget target = getOrInitializeHBClient().target(HBUtility.getProperty(HBProperties.HB_REPRICE_POST_END_POINT));
 		
 		logger.info("reprice request posting to HotelBeds done ---->");
 		return (CheckRateRS) post(bean, target, CheckRateRS.class);
@@ -169,7 +149,8 @@ public class HBClient {
 	 */
 	private static MultivaluedMap<String, Object> getHeaders() {
 		headers.putSingle(HBProperties.SIGNATURE_HEADER_NAME, 
-				DigestUtils.sha256Hex(HBProperties.API_KEY + HBProperties.SHARED_SECRET + System.currentTimeMillis() / 1000));
+				DigestUtils.sha256Hex(HBUtility.getProperty(HBProperties.API_KEY) 
+						+ HBUtility.getProperty(HBProperties.SHARED_SECRET) + System.currentTimeMillis() / 1000));
 		return headers;
 	}
 	
@@ -193,6 +174,33 @@ public class HBClient {
 			headerStr = headerStr.substring(0, headerStr.lastIndexOf(COMMA));
 			logger.debug(headerStr);
 		}
+	}
+	
+	private static final Client getOrInitializeHBClient() {
+		if (hbRsClient == null) {
+			try {
+				hbRsClient = ClientBuilder.newClient();
+				hbRsClient.register(GZipEncoder.class);
+				hbRsClient.register(EncodingFilter.class);
+				/* Request headers */
+				headers.putSingle(HBProperties.API_KEY_HEADER_NAME, HBUtility.getProperty(HBProperties.API_KEY));
+				headers.putSingle(HttpHeaders.USER_AGENT, HBProperties.USER_AGENT);
+				headers.putSingle(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML);
+				
+				/* Response headers */
+				headers.putSingle(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML);
+				headers.putSingle(HttpHeaders.ACCEPT_ENCODING, HBProperties.ENCODING);
+				headers.putSingle(HttpHeaders.CONTENT_ENCODING, HBProperties.ENCODING);
+			} catch (Exception exception) {
+				/* try closing the client */
+				if (hbRsClient != null) {
+					hbRsClient.close();
+				}
+				throw exception;
+			}
+			return hbRsClient;
+		}
+		return hbRsClient;
 	}
 	
 }
