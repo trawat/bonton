@@ -10,6 +10,10 @@ public interface DesiaProperties {
 	public static String DPASSWORD = "test@789";
 	public static final String DPROPERTYID = "1300001211";
 	public static final String CURRENCY = "INR";
+	public static final String SRCH_CHE_LVL = "Live";
+	public static final String SRCH_HTL_PRMTN_TYPE = "HOTEL";
+	public static final String SRCH_HTL_PRMTN_NAME = "AllPromotions";
+	public static final String RATE_TYPE = "BOOKABLE";
 	
     /** Used in Desia Search operations */
     public static final String TILDA = "~";

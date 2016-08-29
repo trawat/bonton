@@ -3,6 +3,7 @@ package com.desia.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -35,6 +36,9 @@ public class DesiaDBConnection {
 	private static final String activitySql = 
 			"insert into activitytracking(FUNCTION, BTN_RQ, DESIA_RQ, DESIA_RS, BTN_RS, SUPPLIER) "
 			+ "values (?, ?, ?, ?, ?, ?)";
+	
+	private static final String destinationCodeSql = 
+			"SELECT CITY_NAME FROM BONTON_HOTEL_SUPPLIER_CITY_MAPPING WHERE GTA_CITY_CODE=?";
 	
 	static {
 		try {
@@ -74,6 +78,26 @@ public class DesiaDBConnection {
 			logger.error("Exception occured while inserting the request and responses {}", e);
 		}
 		logger.info("desia RQ-RS logging for {} operation completed --->", opr);
+	}
+	
+	public static String getDestinationCode(String destinationName) {
+		try (PreparedStatement ps = getConnection().prepareStatement(destinationCodeSql)) {
+			ps.setString(1, destinationName);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			String destinationCode = null;
+			if (rs.next()) {
+				destinationCode = rs.getString(1);
+			}
+			 
+			if (destinationCode != null) {
+				return destinationCode;
+			}
+		} catch (SQLException e) {
+			logger.error("Exception occured while getting the destination code {}", e);
+		}
+		return DesiaProperties.EMPTY;
 	}
 	
 	private static Connection getConnection() {

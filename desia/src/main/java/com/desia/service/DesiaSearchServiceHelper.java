@@ -66,6 +66,9 @@ public class DesiaSearchServiceHelper {
 	/** Holds unique uuid and generated request-response list as key-value. */
 	private static final Map<String, List<? super Object>> reqResMap = new HashMap<>();
 	
+	/** For storing destination name and code */
+	private static final Map<String, String> destNameCdMap = new HashMap<>();
+	
 	private static final String DFLTHOLDVALUE = "15";
 	private static final String DFLTRCMNDVALUE = "0";
 	private static final String DFLTCTRYVALUE = "India";
@@ -98,6 +101,8 @@ public class DesiaSearchServiceHelper {
 		
 		OTAHotelAvailRQ otaHotelAvailRQ = new OTAHotelAvailRQ();
 		otaHotelAvailRQ.setRequestedCurrency(DesiaProperties.CURRENCY);//Hard coding the currrency
+		/** To fetch cancellation detail text **/
+		otaHotelAvailRQ.setSearchCacheLevel(DesiaProperties.SRCH_CHE_LVL);
 
 		/** Bonton city or hotel search detail node */
 		BTNSearchRequest.RequestDetails.SearchHotelPriceRequest btnHotelDetailRQNode =  btnSearchRQ.getRequestDetails().getSearchHotelPriceRequest();
@@ -133,9 +138,9 @@ public class DesiaSearchServiceHelper {
 		 * and on the contrary HB API returns ZERO hotels in search result. */
 		BTNSearchRequest.RequestDetails.SearchHotelPriceRequest.ItemDestination btnItemDestination = btnHotelDetailRQNode.getItemDestination();
 		if (btnItemDestination != null 
-				&& !DesiaProperties.EMPTY.equals(btnItemDestination.getDestinationCode().trim())) {
+				&& !DesiaProperties.EMPTY.equals(getDestinationName(btnItemDestination.getDestinationCode().trim()))) {
 			Address address = new Address();
-			address.setCityName(btnItemDestination.getDestinationCode());
+			address.setCityName(getDestinationName(btnItemDestination.getDestinationCode()));
 
 			CountryNameType otaCountryNameType = new CountryNameType();
 			/** we need to have this always set to India */
@@ -254,6 +259,12 @@ public class DesiaSearchServiceHelper {
 		Pagination otaPagination = new Pagination();
 		otaPagination.setEnabled(false);
 		
+		/** To fetch discount details and other promotional values **/
+		TPAExtensionsType.Promotion otaPromotion = new TPAExtensionsType.Promotion();
+		otaPromotion.setType(DesiaProperties.SRCH_HTL_PRMTN_TYPE);
+		otaPromotion.setName(DesiaProperties.SRCH_HTL_PRMTN_NAME);
+		
+		otaTPAExtensionsType.setPromotion(otaPromotion);
 		otaTPAExtensionsType.setPagination(otaPagination);
 		otaCriterion.setTPAExtensions(otaTPAExtensionsType);
 		otaCriterion.setStayDateRange(otaDateTimeSpanType);
@@ -583,6 +594,8 @@ public class DesiaSearchServiceHelper {
 		
 		OTAHotelAvailRQ otaHotelAvailRQ = new OTAHotelAvailRQ();
 		otaHotelAvailRQ.setRequestedCurrency(DesiaProperties.CURRENCY);
+		/** To fetch cancellation detail text **/
+		otaHotelAvailRQ.setSearchCacheLevel(DesiaProperties.SRCH_CHE_LVL);
 
 		/** Rate key decompsition */
 		List<BTNRepriceRequest.Rooms.Room> btnRoomLst = btnRepriceRQ.getRooms().getRoom();
@@ -667,6 +680,13 @@ public class DesiaSearchServiceHelper {
 		userAuth.setPassword(DesiaProperties.DPASSWORD);
 		userAuth.setPropertyId(DesiaProperties.DPROPERTYID);
 		otaTPAExtensionsType.setUserAuthentication(userAuth);
+		
+		/** To fetch discount details and other promotional values **/
+		TPAExtensionsType.Promotion otaPromotion = new TPAExtensionsType.Promotion();
+		otaPromotion.setType(DesiaProperties.SRCH_HTL_PRMTN_TYPE);
+		otaPromotion.setName(DesiaProperties.SRCH_HTL_PRMTN_NAME);
+		
+		otaTPAExtensionsType.setPromotion(otaPromotion);
 		
 		otaCriterion.setTPAExtensions(otaTPAExtensionsType);
 		otaCriterion.setStayDateRange(otaDateTimeSpanType);
@@ -821,7 +841,7 @@ public class DesiaSearchServiceHelper {
 					
 					btnRate.setNetRate(amountAfterTax);
 					btnRate.setPackaging(Boolean.toString(false));
-					btnRate.setRateType("BOOKABLE");
+					btnRate.setRateType(DesiaProperties.RATE_TYPE);
 					btnRate.setRateComments(DesiaProperties.EMPTY);
 					btnRate.setCategory(DesiaProperties.EMPTY);
 					btnRate.setRoomCount(1);
@@ -930,6 +950,20 @@ public class DesiaSearchServiceHelper {
 				reqResMap.remove(uuid);
 				
 			}});
+	}
+	
+	private static final String getDestinationName(String destinationCode) {
+		destinationCode = destinationCode.toUpperCase();
+		String destinationName = destNameCdMap.get(destinationCode);
+		if (destinationName == null) {
+			destinationName = DesiaDBConnection.getDestinationCode(destinationCode);
+			if (!DesiaProperties.EMPTY.equals(destinationName)) {
+				destNameCdMap.put(destinationCode, destinationName);
+			}
+			
+			return destinationName;
+		}
+		return destinationName;
 	}
 	
 	private static final String getFormattedDate(String plainDateStr) {
