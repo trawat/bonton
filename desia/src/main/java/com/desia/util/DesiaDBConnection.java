@@ -38,7 +38,7 @@ public class DesiaDBConnection {
 			+ "values (?, ?, ?, ?, ?, ?)";
 	
 	private static final String destinationCodeSql = 
-			"SELECT CITY_NAME FROM BONTON_HOTEL_SUPPLIER_CITY_MAPPING WHERE GTA_CITY_CODE=?";
+			"select city_name from bonton_hotel_supplier_city_mapping WHERE gta_city_code=?";
 	
 	static {
 		try {
